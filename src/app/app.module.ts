@@ -16,7 +16,6 @@ import { BrowserModule, HammerModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { RouterModule } from '@angular/router';
-import { LookingComponent } from './pages/host-user/host-user-edit/looking/looking.component';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatStepperModule } from '@angular/material/stepper';
@@ -56,18 +55,17 @@ import { RentalAgreementComponent } from './components/agreements/rental-agreeme
 import { ConfirmActionsComponent } from './components/agreements/confirm-actions/confirm-actions.component';
 import { AppRoutingModule } from './app-routing.module';
 import { SharedModule } from './shared/shared.module';
-import { UserModule } from './pages/host-user/user.module';
 import { HouseModule } from './pages/host-house/house.module';
 import { AuthModule } from './pages/host-auth/auth.module';
 import { SearchModule } from './pages/host-search/search.module';
 import { ProjectContactsComponent } from './pages/host/project-contacts/project-contacts.component';
+import { UserModule } from './pages/host-user/user.module';
 
 @NgModule({
   declarations: [
     AppComponent,
     OurTeamComponent,
     UserLicenceComponent,
-    LookingComponent,
     FeedbackComponent,
     AboutProjectComponent,
     ReportsComponent,

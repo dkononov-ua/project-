@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import * as ServerConfig from 'src/app/config/path-config';
-import { UserInfo } from '../../../interface/info';
-import { UsereSearchConfig } from '../../../interface/param-config';
+import { UserInfo, UserInfoSearch} from '../../../interface/info';
+import { UserConfig, UsereSearchConfig,  } from '../../../interface/param-config';
 import { StatusDataService } from 'src/app/services/status-data.service';
 import { animations } from '../../../interface/animation';
 
@@ -24,8 +24,8 @@ export class StatusDataComponent implements OnInit, OnDestroy {
   path_logo = ServerConfig.pathLogo;
   serverPath!: string;
   // ***
-  userInfo: UserInfo = UsereSearchConfig;
-  userSearchInfo: UserInfo = UsereSearchConfig;
+  userInfo: UserInfo = UserConfig;
+  userSearchInfo: UserInfoSearch = UsereSearchConfig;
   statusUserData: any;
 
   openStatus: boolean = false;

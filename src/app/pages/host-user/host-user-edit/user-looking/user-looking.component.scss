@@ -3,22 +3,54 @@
 @use "../../../../style/shared.scss" as *;
 @use "../../../../style/radio.scss";
 
+.gif-box {
+  position: relative;
+  .home-img {
+    width: 100%;
+    background-color: $color-accent;
+    height: auto;
+    border-radius: 0px 0px 20px 20px;
+    overflow: hidden;
+    filter: drop-shadow(2px 2px 8px $color-dark);
+    object-fit: cover;
+  }
+}
+
 .info-card {
   display: flex;
-  padding: 10px;
   position: relative;
   justify-content: flex-start;
-  flex-direction: column;
-  background-color: $color-white;
-  padding-bottom: 70px;
-  @include box-shadow;
   @include s3-s6-max {
-    overflow: auto;
     height: calc(100vh - 80px);
   }
   @include s1-s3 {
     height: auto;
+    flex-direction: column;
   }
+}
+
+.form-wrapper {
+  &::-webkit-scrollbar {
+    display: none;
+  }
+  display: flex;
+  position: relative;
+  justify-content: flex-start;
+  flex-direction: column;
+  background-color: $color-white;
+  @include box-shadow;
+  @include s3-s6-max {
+    border-radius: 20px;
+    overflow: auto;
+    height: calc(100vh - 80px);
+  }
+  @include s1-s3 {
+    overflow: hidden;
+    border-radius: 0px 0px 20px 20px;
+    padding-bottom: 70px;
+    height: auto;
+  }
+
 }
 
 // вікно додаткової інформації
@@ -169,16 +201,13 @@ mat-label {
 
 .btn-group {
   @include flex-box-center;
-  width: 100%;
+  padding: 10px;
+  bottom: 0;
   @include s3-s6-max {
-    padding: 10px 10px 20px 10px;
     position: sticky;
-    bottom: 0;
   }
   @include s1-s3 {
     position: fixed !important;
-    bottom: 0;
-    padding: 10px;
   }
   .btn {
     @include flex-box-center;
@@ -187,8 +216,7 @@ mat-label {
     background-color: $color-accent;
     width: 250px;
     @include s1-s3 {
-      width: auto;
-      flex: 1;
+      // flex: 1;
     }
   }
 }

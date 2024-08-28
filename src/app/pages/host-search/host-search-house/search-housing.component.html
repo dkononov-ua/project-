@@ -51,8 +51,8 @@
     </div>
 
     <div class="switch-btn-group" *ngIf="!isMobile">
-      <button [disabled]="counterFound < 2 || !blockBtnStatus" class="btn" mat-button [matMenuTriggerFor]="menu">
-        <div *ngIf="this.filterValue === ''">
+      <button [disabled]="counterFound < 2 || blockBtnStatus" class="btn" mat-button [matMenuTriggerFor]="menu">
+        <div *ngIf="this.filterValue === '0' || this.filterValue === ''">
           <i class="fa-solid fa-shuffle"></i>
           <div class="t-min bold">Сортування Довільно</div>
         </div>
@@ -74,7 +74,7 @@
       </button>
 
       <mat-menu #menu="matMenu">
-        <button mat-menu-item (click)="onSortSelected('')"><i class="fa-solid fa-shuffle"></i>Довільно</button>
+        <button mat-menu-item (click)="onSortSelected('0')"><i class="fa-solid fa-shuffle"></i>Довільно</button>
         <button mat-menu-item (click)="onSortSelected('1')"><i class="fa-solid fa-arrow-down-short-wide"></i>
           Дешевші</button>
         <button mat-menu-item (click)="onSortSelected('2')"><i class="fa-solid fa-arrow-down-wide-short"></i>
@@ -121,7 +121,7 @@
         <div class="t-med bold white">Налаштувати фільтри</div>
         <i class="fa-solid fa-filter pl-2"></i>
       </button> -->
-      <button class="b-primary" [disabled]="counterFound < 2" mat-button [matMenuTriggerFor]="menu">
+      <button class="b-primary" [disabled]="counterFound === 0" mat-button [matMenuTriggerFor]="menu">
         <div *ngIf="this.filterValue === ''">
           <i class="fa-solid fa-shuffle"></i>
           <div class="t-min white bold">Сортування Довільно</div>

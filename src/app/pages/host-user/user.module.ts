@@ -19,7 +19,6 @@ import { RouterModule } from '@angular/router';
 import { UserContactsComponent } from 'src/app/pages/host-user/host-user-edit/user-contacts/user-contacts.component';
 import { UserDeleteComponent } from 'src/app/pages/host-user/host-user-edit/user-delete/user-delete.component';
 import { UserLookingComponent } from 'src/app/pages/host-user/host-user-edit/user-looking/user-looking.component';
-import { UserParametersComponent } from 'src/app/pages/host-user/host-user-edit/user-parameterscomponent';
 import { UserPersonComponent } from 'src/app/pages/host-user/host-user-edit/user-person/user-person.component';
 import { UserStatusComponent } from 'src/app/pages/host-user/host-user-edit/user-status/user-status.component';
 import { SharedModule } from 'src/app/shared/shared.module';
@@ -33,12 +32,12 @@ import { UserDiscussPageComponent } from './host-user-discus/user-discuss-page/u
 import { HostUserPageComponent } from './host-user-page/host-user-page.component';
 import { UserTenantStepComponent } from './host-user-tenants-profile/user-tenant-step/user-tenant-step.component';
 import { UserTenantComponent } from './host-user-tenants-profile/user-tenant/user-tenant.component';
-import { UserRoutingModule } from './user-routing.module';
 import { UserComponent } from './user.component';
 import { HostUserTenantsProfileComponent } from './host-user-tenants-profile/host-user-tenants-profile.component';
 import { SubscribersUserComponent } from './host-user-discus/subscribers/subscribers-user.component';
 import { SubscribersDiscusComponent } from './host-user-discus/discus/subscribers-discus.component';
 import { SubscriptionsUserComponent } from './host-user-discus/subscriptions/subscriptions-user.component';
+import { UserParametersComponent } from './host-user-edit/user-parameters.component';
 
 @NgModule({
   declarations: [

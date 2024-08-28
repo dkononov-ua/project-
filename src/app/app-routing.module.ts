@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { CanActivateGuard } from './services/auth.guard';
-import { LookingComponent } from './pages/host-user/host-user-edit/looking/looking.component';
 import { AboutProjectComponent } from './pages/host/about-project/about-project.component';
 import { AppComponent } from './app.component';
 import { FeedbackComponent } from './pages/host/feedback/feedback.component';
@@ -37,10 +36,6 @@ const routes: Routes = [
   {
     path: 'search',
     loadChildren: () => import('./pages/host-search/search-routing.module').then(m => m.SearchRoutingModule),
-  },
-  {
-    path: 'looking',
-    component: LookingComponent,
   },
   {
     path: 'feedback',

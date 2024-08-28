@@ -13,18 +13,7 @@ import { CardsDataHouseService } from 'src/app/services/house-components/cards-d
   selector: 'app-search-tenant',
   templateUrl: './search-tenant.component.html',
   styleUrls: ['./../../../style/search/search.term.scss'],
-  animations: [
-    animations.right2,
-    animations.left,
-    animations.left1,
-    animations.left2,
-    animations.left3,
-    animations.left4,
-    animations.left5,
-    animations.swichCard,
-    animations.top,
-    animations.appearance,
-  ],
+  animations: [animations.appearance],
 })
 
 export class SearchTenantComponent implements OnInit, OnDestroy {

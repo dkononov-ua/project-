@@ -10,7 +10,8 @@
         <div class="link-icon w-20"><i class="fa-solid fa-broom pl-2"></i></div>
       </button>
 
-      <button *ngIf="myDataExist" class="link-menu" (click)="loadDataUserSearch()" [ngClass]="{ 'active': myData == true}">
+      <button *ngIf="myDataExist" class="link-menu" (click)="loadDataUserSearch()"
+        [ngClass]="{ 'active': myData == true}">
         <div class="flex-column w-80">
           <p class="link-menu-t1">Дані</p>
           <p class="link-menu-t2">Орендаря</p>
@@ -19,29 +20,73 @@
       </button>
 
       <mat-form-field class="item-select" appearance="outline">
-        <input name="flatInfo.region" (ngModelChange)="onSubmitWithDelay()" matInput [(ngModel)]="userInfo.region"
-          placeholder="Оберіть область" (ngModelChange)="loadCities()" [matAutocomplete]="autoRegion"
-          (click)="loadCities()">
+        <mat-label for="country">Країна</mat-label>
+        <input disabled name="userInfo.country" id="country" matInput [(ngModel)]="userInfo.country"
+          placeholder="Виберіть або введіть мікрорайон">
+        <mat-icon matSuffix><i class="fa-solid fa-flag gray"></i></mat-icon>
+        <mat-hint align="end" class="t-min gray">В розробці</mat-hint>
+      </mat-form-field>
+
+      <mat-form-field class="item-select" appearance="outline">
+        <mat-label for="city">Місто</mat-label>
+        <input #cityInput name="userInfo.city" id="city" matInput [(ngModel)]="userInfo.city"
+          placeholder="Виберіть або введіть місто" (ngModelChange)="onCityInputChange(userInfo.city)"
+          [matAutocomplete]="autoCity">
+        <mat-autocomplete #autoCity="matAutocomplete">
+          <mat-option *ngFor="let city of filteredCities" [value]="city.cityUa"
+            (onSelectionChange)="ifSelectedCity(city)">
+            {{ city.shortCityTypeUa }} {{ city.cityUa }}, <span *ngIf="city.districtUa"> р-н {{ city.districtUa
+              }},</span>
+            обл.{{ city.regionUa }}
+          </mat-option>
+        </mat-autocomplete>
+        <mat-icon matSuffix><i class="fa-solid fa-city"></i></mat-icon>
+      </mat-form-field>
+
+      <mat-form-field [@top1] class="item-select" appearance="outline"
+        *ngIf="cityData || userInfo.city || userInfo.region">
+        <mat-label for="city">Область</mat-label>
+        <input #regionInput name="userInfo.region" id="region" matInput placeholder="Почніть вводити область"
+          [(ngModel)]="userInfo.region" (ngModelChange)="onRegionsInputChange(userInfo.region)"
+          [matAutocomplete]="autoRegion">
         <mat-autocomplete #autoRegion="matAutocomplete">
           <mat-option *ngFor="let region of filteredRegions" [value]="region.name">
             {{ region.name }}
           </mat-option>
         </mat-autocomplete>
         <mat-icon matSuffix><i class="fa-solid fa-earth-europe"></i></mat-icon>
-        <mat-hint align="start">Область</mat-hint>
       </mat-form-field>
 
-      <mat-form-field class="item-select" appearance="outline">
-        <input [disabled]="!userInfo.region" name="flatInfo.city" (ngModelChange)="onSubmitWithDelay()"
-          placeholder="Оберіть місто" matInput [(ngModel)]="userInfo.city" (ngModelChange)="loadRegion()"
-          [matAutocomplete]="autoCity" (click)="loadRegion()">
-        <mat-autocomplete #autoCity="matAutocomplete">
-          <mat-option *ngFor="let city of filteredCities" [value]="city.name">
-            {{ city.name }}
+      <mat-form-field [@top1] class="item-select" appearance="outline">
+        <mat-label for="district">Район</mat-label>
+        <input disabled name="userInfo.district" id="district" matInput [(ngModel)]="userInfo.district"
+          placeholder="Виберіть або введіть район">
+        <mat-icon matSuffix><i class="fa-solid fa-mountain-city gray"></i></mat-icon>
+        <mat-hint align="end" class="t-min gray">В розробці</mat-hint>
+      </mat-form-field>
+
+      <mat-form-field [@top1] class="item-select" appearance="outline"
+        *ngIf="cityData || userInfo.city ||  userInfo.street">
+        <mat-label for="city">Вулиця</mat-label>
+        <input disabled name="userInfo.street" id="street" matInput [(ngModel)]="userInfo.street"
+          placeholder="Введіть вулицю" (ngModelChange)="onStreetInputChange(userInfo.street)"
+          [matAutocomplete]="autoStreet">
+        <mat-autocomplete #autoStreet="matAutocomplete">
+          <mat-option *ngFor="let street of filteredStreets" [value]="street.streetUa"
+            (onSelectionChange)="ifSelectedStreet(street)">
+            {{ street.streetUa }} {{ street.cityUa }}
           </mat-option>
         </mat-autocomplete>
-        <mat-icon matSuffix><i class="fa-solid fa-city"></i></mat-icon>
-        <mat-hint align="start">Місто</mat-hint>
+        <mat-icon matSuffix><i class="fa-solid fa-road gray"></i></mat-icon>
+        <mat-hint align="end" class="t-min">В розробці</mat-hint>
+      </mat-form-field>
+
+      <mat-form-field [@top1] class="item-select" appearance="outline">
+        <mat-label for="micro_district">Мікрорайон</mat-label>
+        <input disabled name="userInfo.micro_district" id="micro_district" matInput
+          [(ngModel)]="userInfo.micro_district" placeholder="Введіть мікрорайон">
+        <mat-icon matSuffix><i class="fa-solid fa-building-flag gray"></i></mat-icon>
+        <mat-hint align="end" class="t-min gray">В розробці</mat-hint>
       </mat-form-field>
 
       <mat-label align="start">Тип оренди</mat-label>
@@ -82,8 +127,8 @@
       <div class="w-100 flex-box">
         <mat-radio-group aria-label="Select an option" [(ngModel)]="userInfo.option_flat"
           (ngModelChange)="onSubmitWithDelay()">
-          <mat-radio-button color="warn" value="1">Будинок </mat-radio-button>
-          <mat-radio-button color="warn" value="2">Квартира </mat-radio-button>
+          <mat-radio-button color="warn" [value]="1">Будинок </mat-radio-button>
+          <mat-radio-button color="warn" [value]="2">Квартира </mat-radio-button>
         </mat-radio-group>
 
         <section class="checkbox-section">
@@ -91,6 +136,15 @@
             [(ngModel)]="userInfo.room">Кімната</mat-checkbox>
         </section>
       </div>
+
+      <section class="checkbox-section" *ngIf="userInfo.room">
+        <mat-checkbox color="warn" class="example-margin" (ngModelChange)="onSubmitWithDelay()"
+          [(ngModel)]="userInfo.looking_woman"><i class="fa-solid fa-person-dress pr-2"></i>Сусід жінка
+        </mat-checkbox>
+        <mat-checkbox color="warn" class="example-margin" (ngModelChange)="onSubmitWithDelay()"
+          [(ngModel)]="userInfo.looking_man"><i class="fa-solid fa-person pr-2"></i>Сусід чоловік
+        </mat-checkbox>
+      </section>
 
       <mat-form-field class="item-select" appearance="outline">
         <mat-select [(ngModel)]="userInfo.area_of" name="area_of" (ngModelChange)="onSubmitWithDelay()"
@@ -159,11 +213,11 @@
         <mat-select [(ngModel)]="userInfo.rooms_of" name="rooms_of" (ngModelChange)="onSubmitWithDelay()"
           placeholder="від">
           <mat-option [disabled]=""><span class="item-disabled">Очистити</span></mat-option>
-          <mat-option value="1">1</mat-option>
-          <mat-option value="2">2</mat-option>
-          <mat-option value="3">3</mat-option>
-          <mat-option value="4">4</mat-option>
-          <mat-option value="5">5+</mat-option>
+          <mat-option [value]="1">1</mat-option>
+          <mat-option [value]="2">2</mat-option>
+          <mat-option [value]="3">3</mat-option>
+          <mat-option [value]="4">4</mat-option>
+          <mat-option [value]="5">5+</mat-option>
         </mat-select>
         <mat-hint align="start">Кімнат від</mat-hint>
       </mat-form-field>
@@ -172,11 +226,11 @@
         <mat-select [(ngModel)]="userInfo.rooms_to" name="rooms_to" (ngModelChange)="onSubmitWithDelay()"
           placeholder="до">
           <mat-option [disabled]=""><span class="item-disabled">Очистити</span></mat-option>
-          <mat-option value="1">1</mat-option>
-          <mat-option value="2">2</mat-option>
-          <mat-option value="3">3</mat-option>
-          <mat-option value="4">4</mat-option>
-          <mat-option value="5">5+</mat-option>
+          <mat-option [value]="1">1</mat-option>
+          <mat-option [value]="2">2</mat-option>
+          <mat-option [value]="3">3</mat-option>
+          <mat-option [value]="4">4</mat-option>
+          <mat-option [value]="5">5+</mat-option>
         </mat-select>
         <mat-icon matSuffix><i class="fa-solid fa-hotel"></i></mat-icon>
         <mat-hint align="start">Кімнат до</mat-hint>
@@ -224,10 +278,10 @@
         <mat-select (ngModelChange)="onSubmitWithDelay()" placeholder="Парк" [(ngModel)]="userInfo.distance_green"
           name="distance_green">
           <mat-option [disabled]=""><span class="item-disabled">Очистити</span></mat-option>
-          <mat-option value="100">до 100м</mat-option>
-          <mat-option value="300">до 300м</mat-option>
-          <mat-option value="500">до 500м</mat-option>
-          <mat-option value="1000">до 1км</mat-option>
+          <mat-option [value]="100">до 100м</mat-option>
+          <mat-option [value]="300">до 300м</mat-option>
+          <mat-option [value]="500">до 500м</mat-option>
+          <mat-option [value]="1000">до 1км</mat-option>
         </mat-select>
         <mat-icon matSuffix><i class="fa-solid fa-tree"></i></mat-icon>
         <mat-hint align="start">Парк</mat-hint>
@@ -237,10 +291,10 @@
         <mat-select (ngModelChange)="onSubmitWithDelay()" placeholder="Маркет" [(ngModel)]="userInfo.distance_shop"
           name="distance_shop">
           <mat-option [disabled]=""><span class="item-disabled">Очистити</span></mat-option>
-          <mat-option value="100">до 100м</mat-option>
-          <mat-option value="300">до 300м</mat-option>
-          <mat-option value="500">до 500м</mat-option>
-          <mat-option value="1000">до 1км</mat-option>
+          <mat-option [value]="100">до 100м</mat-option>
+          <mat-option [value]="300">до 300м</mat-option>
+          <mat-option [value]="500">до 500м</mat-option>
+          <mat-option [value]="1000">до 1км</mat-option>
         </mat-select>
         <mat-icon matSuffix><i class="fa-solid fa-basket-shopping"></i></mat-icon>
         <mat-hint align="start">Маркет</mat-hint>
@@ -250,11 +304,11 @@
         <mat-select (ngModelChange)="onSubmitWithDelay()" placeholder="Паркінг" [(ngModel)]="userInfo.distance_parking"
           name="distance_parking">
           <mat-option [disabled]=""><span class="item-disabled">Очистити</span></mat-option>
-          <mat-option value="1">на території</mat-option>
-          <mat-option value="100">до 100м</mat-option>
-          <mat-option value="300">до 300м</mat-option>
-          <mat-option value="500">до 500м</mat-option>
-          <mat-option value="1000">до 1км</mat-option>
+          <mat-option [value]="1">на території</mat-option>
+          <mat-option [value]="100">до 100м</mat-option>
+          <mat-option [value]="300">до 300м</mat-option>
+          <mat-option [value]="500">до 500м</mat-option>
+          <mat-option [value]="1000">до 1км</mat-option>
         </mat-select>
         <mat-icon matSuffix><i class="fa-solid fa-car-side"></i></mat-icon>
         <mat-hint align="start">Паркінг</mat-hint>
@@ -264,10 +318,10 @@
         <mat-select (ngModelChange)="onSubmitWithDelay()" placeholder="Зупинки" [(ngModel)]="userInfo.distance_stop"
           name="distance_stop">
           <mat-option [disabled]=""><span class="item-disabled">Очистити</span></mat-option>
-          <mat-option value="100">до 100м</mat-option>
-          <mat-option value="300">до 300м</mat-option>
-          <mat-option value="500">до 500м</mat-option>
-          <mat-option value="1000">до 1км</mat-option>
+          <mat-option [value]="100">до 100м</mat-option>
+          <mat-option [value]="300">до 300м</mat-option>
+          <mat-option [value]="500">до 500м</mat-option>
+          <mat-option [value]="1000">до 1км</mat-option>
         </mat-select>
         <mat-icon matSuffix><i class="fa-solid fa-bus"></i></mat-icon>
         <mat-hint align="start">Зупинки</mat-hint>
@@ -278,15 +332,15 @@
         <mat-select (ngModelChange)="onSubmitWithDelay()" placeholder="Метро" [(ngModel)]="userInfo.distance_metro"
           name="distance_metro">
           <mat-option [disabled]=""><span class="item-disabled">Очистити</span></mat-option>
-          <mat-option value="100">до 100м</mat-option>
-          <mat-option value="300">до 300м</mat-option>
-          <mat-option value="500">до 500м</mat-option>
-          <mat-option value="1000">до 1км</mat-option>
-          <mat-option value="2000">до 2км</mat-option>
+          <mat-option [value]="100">до 100м</mat-option>
+          <mat-option [value]="300">до 300м</mat-option>
+          <mat-option [value]="500">до 500м</mat-option>
+          <mat-option [value]="1000">до 1км</mat-option>
+          <mat-option [value]="2000">до 2км</mat-option>
+          <mat-option [value]="5000">до 5км</mat-option>
         </mat-select>
         <mat-icon matSuffix><i class="fa-solid fa-train"></i></mat-icon>
         <mat-hint align="start">Метро</mat-hint>
-
       </mat-form-field>
 
       <mat-form-field class="item-select pb-10" appearance="outline">

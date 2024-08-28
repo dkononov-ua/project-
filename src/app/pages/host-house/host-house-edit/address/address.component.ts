@@ -232,6 +232,9 @@ export class AddressComponent implements OnInit, OnDestroy {
       this.flatInfo.region = cityData.regionUa;
       this.flatInfo.city = cityData.cityUa;
       this.flatInfo.district = cityData.districtUa;
+      if (this.flatInfo.city === 'Київ') {
+        this.flatInfo.region = 'Київська'
+      }
       this.flatInfo.micro_district = '';
       this.flatInfo.street = '';
       this.flatInfo.houseNumber = '';

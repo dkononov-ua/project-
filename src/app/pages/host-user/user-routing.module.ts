@@ -1,9 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { CanActivateGuard } from 'src/app/services/auth.guard';
-import { LookingComponent } from 'src/app/pages/host-user/host-user-edit/looking/looking.component';
 import { UserComponent } from './user.component';
-import { UserParametersComponent } from 'src/app/pages/host-user/host-user-edit/user-parameterscomponent';
 import { UserContactsComponent } from 'src/app/pages/host-user/host-user-edit/user-contacts/user-contacts.component';
 import { UserPersonComponent } from 'src/app/pages/host-user/host-user-edit/user-person/user-person.component';
 import { UserStatusComponent } from 'src/app/pages/host-user/host-user-edit/user-status/user-status.component';
@@ -27,6 +25,7 @@ import { SubscribersDiscusComponent } from './host-user-discus/discus/subscriber
 import { SubscribersUserComponent } from './host-user-discus/subscribers/subscribers-user.component';
 import { SubscriptionsUserComponent } from './host-user-discus/subscriptions/subscriptions-user.component';
 import { ChatHostComponent } from './host-user-chat/chat-host.component';
+import { UserParametersComponent } from './host-user-edit/user-parameters.component';
 
 
 const routes: Routes = [
@@ -80,13 +79,12 @@ const routes: Routes = [
           { path: 'contacts', component: UserContactsComponent, canActivate: [CanActivateGuard] },
           { path: 'person', component: UserPersonComponent, canActivate: [CanActivateGuard] },
           { path: 'status', component: UserStatusComponent, canActivate: [CanActivateGuard] },
-          { path: 'looking', component: UserLookingComponent, canActivate: [CanActivateGuard] },
+          { path: 'looking', component: UserLookingComponent },
           { path: 'delete', component: UserDeleteComponent, canActivate: [CanActivateGuard] },
         ],
       },
     ],
   },
-  { path: 'looking', component: LookingComponent, data: { title: 'Профіль орендаря', description: 'Розмістити оголошення про пошук оселі' }, canActivate: [CanActivateGuard] },
   { path: '404', component: NotFoundComponent },
   // { path: '**', redirectTo: '/404' },
 ];

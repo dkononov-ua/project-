@@ -6,11 +6,12 @@ import { FilterUserService } from '../../../../services/search/filter-user.servi
 import { SelectedFlatService } from 'src/app/services/selected-flat.service';
 import * as ServerConfig from 'src/app/config/path-config';
 import { PaginationConfig } from 'src/app/config/paginator';
-import { UserConfig } from '../../../../interface/param-config'
+import { UsereSearchConfig } from '../../../../interface/param-config'
 import { UserInfoSearch } from '../../../../interface/info'
 import { animations } from '../../../../interface/animation';
 import { Router } from '@angular/router';
 import { SharedService } from 'src/app/services/shared.service';
+import { CityDataService } from 'src/app/services/data/cityData.service';
 @Component({
   selector: 'app-search-term-tenants',
   templateUrl: './search-term-tenants.component.html',
@@ -27,6 +28,7 @@ import { SharedService } from 'src/app/services/shared.service';
     animations.swichCard,
     animations.top,
     animations.top3,
+    animations.top1,
   ],
 })
 
@@ -47,7 +49,7 @@ export class SearchTermTenantsComponent implements OnInit, OnDestroy {
   totalPages = PaginationConfig.totalPages;
   pageEvent = PaginationConfig.pageEvent;
 
-  userInfo: UserInfoSearch = UserConfig;
+  userInfo: UserInfoSearch = UsereSearchConfig;
 
   filteredCities: any[] | undefined;
   filteredRegions: any[] | undefined;
@@ -90,6 +92,10 @@ export class SearchTermTenantsComponent implements OnInit, OnDestroy {
   startX = 0;
   myDataExist: boolean = false;
   addСardsToArray: boolean = false;
+  debounceTimer: any;
+  streetData: any;
+  cityData: any;
+  filteredStreets: any;
 
   filterSwitchNext() {
     if (this.filter_group < 4) {
@@ -134,6 +140,7 @@ export class SearchTermTenantsComponent implements OnInit, OnDestroy {
     private selectedFlatService: SelectedFlatService,
     private router: Router,
     private sharedService: SharedService,
+    private cityDataService: CityDataService,
   ) { }
 
   async ngOnInit(): Promise<void> {
@@ -230,12 +237,11 @@ export class SearchTermTenantsComponent implements OnInit, OnDestroy {
       this.indexPage = 1;
       this.loading = false;
     }, 500);
+    this.userInfo.country = '';
     this.indexPage = 0;
     this.searchQuery = '';
     this.userInfo.room = undefined;
     this.userInfo.price = undefined;
-    this.userInfo.region = '';
-    this.userInfo.city = '';
     this.userInfo.rooms = undefined;
     this.userInfo.area = undefined;
     this.userInfo.repair_status = '';
@@ -247,15 +253,15 @@ export class SearchTermTenantsComponent implements OnInit, OnDestroy {
     this.userInfo.distance_green = '';
     this.userInfo.distance_shop = '';
     this.userInfo.distance_parking = '';
-    this.userInfo.option_pay = 0;
+    this.userInfo.option_pay = undefined;
     this.userInfo.purpose_rent = '';
-    this.userInfo.looking_woman = undefined;
-    this.userInfo.looking_man = undefined;
-    this.userInfo.students = 1;
+    this.userInfo.looking_woman = false;
+    this.userInfo.looking_man = false;
+    this.userInfo.students = undefined;
     this.userInfo.limit = 0;
-    this.userInfo.woman = 1;
-    this.userInfo.man = 1;
-    this.userInfo.family = 1;
+    this.userInfo.woman = undefined;
+    this.userInfo.man = undefined;
+    this.userInfo.family = undefined;
     this.userInfo.days = undefined;
     this.userInfo.weeks = undefined;
     this.userInfo.months = undefined;
@@ -264,6 +270,13 @@ export class SearchTermTenantsComponent implements OnInit, OnDestroy {
     this.userInfo.house = undefined;
     this.userInfo.flat = undefined;
     this.userInfo.kitchen_area = undefined;
+    this.userInfo.room = undefined;
+    this.userInfo.city = '';
+    this.userInfo.region = '';
+    this.userInfo.district = '';
+    this.userInfo.street = '';
+    this.userInfo.micro_district = '';
+
     this.onSubmitWithDelay();
   }
 
@@ -384,35 +397,6 @@ export class SearchTermTenantsComponent implements OnInit, OnDestroy {
     this.filterUserService.updateFilter(filteredFlats, optionsFound);
   }
 
-  // завантаження бази міст
-  loadCities() {
-    const searchTerm = this.userInfo.region!.toLowerCase();
-    this.filteredRegions = this.regions.filter(region =>
-      region.name.toLowerCase().includes(searchTerm)
-    );
-    const selectedRegionObj = this.filteredRegions.find(region =>
-      region.name === this.userInfo.region
-    );
-    this.filteredCities = selectedRegionObj ? selectedRegionObj.cities : [];
-    this.userInfo.city = '';
-  }
-
-  // завантаження бази областей
-  loadRegions() {
-    const searchTerm = this.userInfo.city!.toLowerCase();
-    const selectedRegionObj = this.regions.find(region =>
-      region.name === this.userInfo.region
-    );
-    this.filteredCities = selectedRegionObj
-      ? selectedRegionObj.cities.filter(city =>
-        city.name.toLowerCase().includes(searchTerm)
-      )
-      : [];
-    const selectedCityObj = this.filteredCities.find(city =>
-      city.name === this.userInfo.city
-    );
-  }
-
   // наступна сторінка
   incrementOffset() {
     // console.log('Incrementing offset');
@@ -463,16 +447,80 @@ export class SearchTermTenantsComponent implements OnInit, OnDestroy {
     return `показано ${startIndex} - ${endIndex} з ${this.optionsFound} знайдених`;
   }
 
-  // onSortSelected(value: string) {
-  //   this.filterValue = value;
-  //   this.router.navigate(['/search-house/all-cards']);
-  //   this.filterUserService.sortTenants(value)
-  // }
+  ifSelectedCity(cityData: any) {
+    this.cityDataService.ifSelectedCity(cityData);
+    this.cityData = cityData;
+    // console.log(this.cityData)
+    if (this.cityData) {
+      this.userInfo.region = cityData.regionUa;
+      this.userInfo.city = cityData.cityUa;
+      if (this.userInfo.city === 'Київ') {
+        this.userInfo.region = 'Київська'
+      }
+      // this.userInfo.district = cityData.districtUa;
+      // this.userInfo.micro_district = '';
+      // this.userInfo.street = '';
+      this.onSubmitWithDelay()
+    }
+  }
+
+  ifSelectedStreet(streetData: any) {
+    this.cityDataService.ifSelectedStreet(streetData);
+    this.streetData = streetData;
+    // console.log(this.streetData)
+    if (this.streetData) {
+      this.userInfo.street = streetData.streetUa;
+      this.userInfo.micro_district = '';
+      this.onSubmitWithDelay()
+    }
+  }
+
+  // завантаження бази областей
+  async onRegionsInputChange(regions: string) {
+    this.filteredRegions = this.cityDataService.loadRegionsFromOwnDB(regions);
+    this.onSubmitWithDelay()
+  }
+  // завантаження бази міст областей районів
+  async onCityInputChange(city: string) {
+    if (this.debounceTimer) {
+      clearTimeout(this.debounceTimer);
+    }
+    if (city && city.length >= 3) {
+      const existingCity = this.filteredCities?.find((c: { cityUa: string; }) => c.cityUa === city);
+      if (existingCity) {
+        return;
+      }
+      this.debounceTimer = setTimeout(async () => {
+        this.filteredCities = await this.cityDataService.onCityInputChange(city);
+        if (!this.filteredCities || this.filteredCities.length === 0) {
+          // якщо апі не відповідає або нічого не знайшло я шукаю у власній БД міст
+          this.filteredCities = await this.cityDataService.loadCitiesFromOwnDB(city);
+        }
+      }, 1000);
+    }
+  }
+  // завантаження бази вулиць
+  async onStreetInputChange(street: string) {
+    if (this.debounceTimer) {
+      clearTimeout(this.debounceTimer);
+    }
+
+    if (street && street.length >= 2) {
+      const existingStreet = this.filteredStreets?.find((s: { streetUa: string; }) => s.streetUa === street);
+      if (existingStreet) {
+        return; // Виходимо, щоб уникнути повторного запиту
+      }
+
+      this.debounceTimer = setTimeout(async () => {
+        this.filteredStreets = await this.cityDataService.onStreetInputChange(street);
+        console.log(this.filteredStreets);
+      }, 500);
+    }
+  }
 
   ngOnDestroy() {
     this.subscriptions.forEach(subscription => subscription.unsubscribe());
   }
-
 
 }
 

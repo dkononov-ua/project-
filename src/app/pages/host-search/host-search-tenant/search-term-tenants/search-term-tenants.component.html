@@ -21,30 +21,74 @@
         <div class="link-icon w-20"><i class="fa-solid fa-house-circle-check"></i></div>
       </button>
 
+      <mat-form-field class="item-select" appearance="outline" *ngIf="userInfo.country">
+        <mat-label for="country">Країна</mat-label>
+        <input disabled name="userInfo.country" id="country" matInput [(ngModel)]="userInfo.country"
+          placeholder="Виберіть або введіть мікрорайон">
+        <mat-icon matSuffix><i class="fa-solid fa-flag gray"></i></mat-icon>
+        <mat-hint align="end" class="t-min gray">В розробці</mat-hint>
+      </mat-form-field>
+
       <mat-form-field class="item-select" appearance="outline">
-        <input name="flatInfo.region" (click)="loadCities()" matInput (ngModelChange)="onSubmitWithDelay()"
-          placeholder="Область" [(ngModel)]="userInfo.region" placeholder="Виберіть область"
-          (ngModelChange)="loadCities()" [matAutocomplete]="autoRegion">
+        <mat-label for="city">Місто</mat-label>
+        <input #cityInput name="userInfo.city" id="city" matInput [(ngModel)]="userInfo.city"
+          placeholder="Виберіть або введіть місто" (ngModelChange)="onCityInputChange(userInfo.city)"
+          [matAutocomplete]="autoCity">
+        <mat-autocomplete #autoCity="matAutocomplete">
+          <mat-option *ngFor="let city of filteredCities" [value]="city.cityUa"
+            (onSelectionChange)="ifSelectedCity(city)">
+            {{ city.shortCityTypeUa }} {{ city.cityUa }}, <span *ngIf="city.districtUa"> р-н {{ city.districtUa
+              }},</span>
+            обл.{{ city.regionUa }}
+          </mat-option>
+        </mat-autocomplete>
+        <mat-icon matSuffix><i class="fa-solid fa-city"></i></mat-icon>
+      </mat-form-field>
+
+      <mat-form-field [@top1] class="item-select" appearance="outline"
+        *ngIf="cityData || userInfo.city || userInfo.region">
+        <mat-label for="city">Область</mat-label>
+        <input #regionInput name="userInfo.region" id="region" matInput placeholder="Почніть вводити область"
+          [(ngModel)]="userInfo.region" (ngModelChange)="onRegionsInputChange(userInfo.region)"
+          [matAutocomplete]="autoRegion">
         <mat-autocomplete #autoRegion="matAutocomplete">
           <mat-option *ngFor="let region of filteredRegions" [value]="region.name">
             {{ region.name }}
           </mat-option>
         </mat-autocomplete>
         <mat-icon matSuffix><i class="fa-solid fa-earth-europe"></i></mat-icon>
-        <mat-hint align="start">Область</mat-hint>
       </mat-form-field>
 
-      <mat-form-field class="item-select" appearance="outline">
-        <input [disabled]="!userInfo.region" name="flatInfo.city" matInput (ngModelChange)="onSubmitWithDelay()"
-          placeholder="Місто" [(ngModel)]="userInfo.city" placeholder="Виберіть місто" (ngModelChange)="loadRegions()"
-          [matAutocomplete]="autoCity" (click)="loadRegions()">
-        <mat-autocomplete #autoCity="matAutocomplete">
-          <mat-option *ngFor="let city of filteredCities" [value]="city.name">
-            {{ city.name }}
+      <mat-form-field [@top1] class="item-select" appearance="outline">
+        <mat-label for="district">Район</mat-label>
+        <input disabled name="userInfo.district" id="district" matInput [(ngModel)]="userInfo.district"
+          placeholder="Виберіть або введіть район">
+        <mat-icon matSuffix><i class="fa-solid fa-mountain-city gray"></i></mat-icon>
+        <mat-hint align="end" class="t-min gray">В розробці</mat-hint>
+      </mat-form-field>
+
+      <mat-form-field [@top1] class="item-select" appearance="outline"
+        *ngIf="cityData || userInfo.city ||  userInfo.street">
+        <mat-label for="city">Вулиця</mat-label>
+        <input disabled name="userInfo.street" id="street" matInput [(ngModel)]="userInfo.street"
+          placeholder="Введіть вулицю" (ngModelChange)="onStreetInputChange(userInfo.street)"
+          [matAutocomplete]="autoStreet">
+        <mat-autocomplete #autoStreet="matAutocomplete">
+          <mat-option *ngFor="let street of filteredStreets" [value]="street.streetUa"
+            (onSelectionChange)="ifSelectedStreet(street)">
+            {{ street.streetUa }} {{ street.cityUa }}
           </mat-option>
         </mat-autocomplete>
-        <mat-icon matSuffix><i class="fa-solid fa-city"></i></mat-icon>
-        <mat-hint align="start">Місто</mat-hint>
+        <mat-icon matSuffix><i class="fa-solid fa-road gray"></i></mat-icon>
+        <mat-hint align="end" class="t-min">В розробці</mat-hint>
+      </mat-form-field>
+
+      <mat-form-field [@top1] class="item-select" appearance="outline">
+        <mat-label for="micro_district">Мікрорайон</mat-label>
+        <input disabled name="userInfo.micro_district" id="micro_district" matInput
+          [(ngModel)]="userInfo.micro_district" placeholder="Введіть мікрорайон">
+        <mat-icon matSuffix><i class="fa-solid fa-building-flag gray"></i></mat-icon>
+        <mat-hint align="end" class="t-min gray">В розробці</mat-hint>
       </mat-form-field>
 
       <mat-label align="start">Варінти оплати</mat-label>

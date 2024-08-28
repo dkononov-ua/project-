@@ -7,7 +7,7 @@ import { ActionComponent } from '../card/card-user-components/action/action.comp
 import { DataService } from './data.service';
 import { LoaderService } from './loader.service';
 import { UserInfo } from 'src/app/interface/info';
-import { UsereSearchConfig } from 'src/app/interface/param-config';
+import { UserConfig } from 'src/app/interface/param-config';
 
 @Injectable({
   providedIn: 'root'
@@ -15,7 +15,7 @@ import { UsereSearchConfig } from 'src/app/interface/param-config';
 export class StorageUserDataService implements OnDestroy {
   serverPath: string = '';
   userFeaturesData: any;
-  userInfo: UserInfo = UsereSearchConfig;
+  userInfo: UserInfo = UserConfig;
   subscriptions: any[] = [];
 
   constructor(
@@ -66,6 +66,7 @@ export class StorageUserDataService implements OnDestroy {
 
   // Запитую чи треба активувати оголошення
   async activateTenantProfile(userInfo: any): Promise<void> {
+    // console.log('activateTenantProfile')
     const userJson = localStorage.getItem('user');
     const dialogRef = this.dialog.open(ActionComponent, {
       data: {
@@ -75,9 +76,9 @@ export class StorageUserDataService implements OnDestroy {
     });
     dialogRef.afterClosed().subscribe(async (result: any) => {
       if (result === true && userJson) {
-        this.saveUserInfo(userInfo, 1);
+        this.saveUserInfo(userInfo, true);
       } else {
-        this.saveUserInfo(userInfo, 0);
+        this.saveUserInfo(userInfo, false);
       }
     });
   }
@@ -95,13 +96,14 @@ export class StorageUserDataService implements OnDestroy {
       });
       dialogRef.afterClosed().subscribe(async (result: any) => {
         if (result === true && userJson) {
-          this.saveUserInfo(this.userFeaturesData, 0);
+          this.saveUserInfo(this.userFeaturesData, false);
         }
       });
     }
   }
 
-  async saveUserInfo(userData: any, agree: number): Promise<void> {
+  async saveUserInfo(userData: any, agree: boolean): Promise<void> {
+    // console.log(agree)
     const userJson = localStorage.getItem('user');
     if (userJson) {
       try {
@@ -111,7 +113,7 @@ export class StorageUserDataService implements OnDestroy {
         }
         const data = {
           agree_search: agree,
-          country: userData.country,
+          country: userData.country || 'Україна',
           price_of: userData.price_of.toString(),
           price_to: userData.price_to.toString(),
           region: userData.region,
@@ -130,7 +132,7 @@ export class StorageUserDataService implements OnDestroy {
           distance_shop: userData.distance_shop || 0,
           distance_parking: userData.distance_parking || 0,
           option_pay: userData.option_pay,
-          day_counts: userData.day_counts,
+          day_counts: userData.day_counts || 0,
           purpose_rent: userData.purpose_rent,
           house: userData.house,
           flat: userData.flat,
@@ -149,6 +151,7 @@ export class StorageUserDataService implements OnDestroy {
           metro: userData.metro,
         };
         const response: any = await this.http.post(this.serverPath + '/features/add', { auth: JSON.parse(userJson), new: data }).toPromise();
+        // console.log(response)
         this.loaderService.setLoading(true);
         if (response.status === true) {
           if (agree) {

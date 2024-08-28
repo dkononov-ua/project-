@@ -74,6 +74,8 @@ export class FilterService {
       }));
       this.cardsDataService.setCardsData(allCards);
       // console.log(allCards)
+    } else {
+      this.cardsDataService.setCardsData(undefined);
     }
   }
 

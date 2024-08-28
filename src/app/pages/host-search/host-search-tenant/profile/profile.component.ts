@@ -1,19 +1,14 @@
 import { animate, style, transition, trigger } from '@angular/animations';
 import { HttpClient } from '@angular/common/http';
 import { Component, LOCALE_ID, OnDestroy, OnInit } from '@angular/core';
-import { FilterUserService } from '../../../../services/search/filter-user.service';
 import { SelectedFlatService } from 'src/app/services/selected-flat.service';
 import { SharedService } from 'src/app/services/shared.service';
 // власні імпорти інформації
 import * as ServerConfig from 'src/app/config/path-config';
-import { purpose, aboutDistance, option_pay, animals } from 'src/app/data/search-param';
 import { UserInfo } from 'src/app/interface/info';
-import { GestureService } from 'src/app/services/gesture.service';
 import { CounterService } from 'src/app/services/counter.service';
-import { StatusDataService } from 'src/app/services/status-data.service';
 import { ChoseSubscribersService } from 'src/app/services/chose-subscribers.service';
 import { CardsDataHouseService } from 'src/app/services/house-components/cards-data-house.service';
-import { CardsDataService } from 'src/app/services/user-components/cards-data.service';
 import { animations } from '../../../../interface/animation';
 import { StatusMessageService } from 'src/app/services/status-message.service';
 import { Router } from '@angular/router';
@@ -89,15 +84,12 @@ export class ProfileComponent implements OnInit, OnDestroy {
   btnDisabled: boolean = false;
 
   constructor(
-    private filterService: FilterUserService,
     private http: HttpClient,
     private selectedFlatService: SelectedFlatService,
     private sharedService: SharedService,
     private counterService: CounterService,
-    private statusDataService: StatusDataService,
     private choseSubscribersService: ChoseSubscribersService,
     private cardsDataHouseService: CardsDataHouseService,
-    private cardsDataService: CardsDataService,
     private statusMessageService: StatusMessageService,
     private router: Router,
   ) { }

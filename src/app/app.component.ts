@@ -134,27 +134,10 @@ export class AppComponent implements OnInit, OnDestroy {
     this.subscriptions.push(
       this.sharedService.statusServer$.subscribe((status: string) => {
         this.statusServer = status;
-        // console.log(this.statusServer);
-        if (this.statusServer === 'Перемикаємось на резервний інтернет') {
-          this.sharedService.setStatusMessage('Зачекайте');
-          this.loading = true;
-          setTimeout(() => {
-            this.sharedService.setStatusMessage('Перемикаємось на резервний інтернет');
-          }, 1000);
-        } else if (this.statusServer === 'Перемикаємось на основний інтернет') {
-          this.loading = true;
-          this.sharedService.setStatusMessage('Зачекайте');
-          setTimeout(() => {
-            this.sharedService.setStatusMessage('Перемикаємось на основний інтернет');
-          }, 1000);
-        } else {
-          this.loading = false;
-          if (this.statusMessage) {
-            this.sharedService.setStatusMessage('');
-          }
+        if (this.statusServer) {
+          this.statusMessageService.setStatusMessage(this.statusServer);
         }
-      })
-    );
+      }))
   }
 
   // підписка на шлях до серверу

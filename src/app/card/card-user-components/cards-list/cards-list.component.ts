@@ -122,6 +122,7 @@ export class CardsListComponent implements OnInit, OnDestroy {
   private getCardsData(): void {
     this.subscriptions.push(
       this.cardsDataService.cardsData$.subscribe(data => {
+        // console.log(data)
         this.allCards = data;
       })
     );

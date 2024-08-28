@@ -8,12 +8,13 @@ import { animations } from '../../../../interface/animation';
 import { Router } from '@angular/router';
 import { SharedService } from 'src/app/services/shared.service';
 import { FilterService } from 'src/app/services/search/filter.service';
+import { CityDataService } from 'src/app/services/data/cityData.service';
 
 interface UserInfo {
   price_of: string | undefined;
   price_to: string | undefined;
-  region: string | undefined;
-  city: string | undefined;
+  region: string;
+  city: string;
   rooms_of: string | undefined;
   rooms_to: string | undefined;
   area_of: string;
@@ -47,12 +48,12 @@ interface UserInfo {
   option_flat: string | undefined;
   country: string | undefined;
   kitchen_area: string | undefined;
-  filterData: string | undefined;
+  filterData: any;
+  street: string;
+  district: string;
+  micro_district: string;
 }
 
-interface SearchParams {
-  [key: string]: any;
-}
 @Component({
   selector: 'app-search-term-house',
   templateUrl: './search-term-house.component.html',
@@ -67,6 +68,7 @@ interface SearchParams {
     animations.left5,
     animations.swichCard,
     animations.top,
+    animations.top1,
   ],
 })
 
@@ -128,6 +130,9 @@ export class SearchTermHouseComponent implements OnInit, OnDestroy {
     flat: undefined,
     limit: 0,
     filterData: '',
+    street: '',
+    district: '',
+    micro_district: '',
   };
 
   filteredCities: any[] | undefined;
@@ -161,6 +166,11 @@ export class SearchTermHouseComponent implements OnInit, OnDestroy {
   addСardsToArray: boolean = false;
   subscriptions: any[] = [];
 
+  debounceTimer: any;
+  streetData: any;
+  cityData: any;
+  filteredStreets: any;
+
   filterSwitchNext() {
     if (this.filter_group < 3) {
       this.filter_group++;
@@ -182,6 +192,8 @@ export class SearchTermHouseComponent implements OnInit, OnDestroy {
     private http: HttpClient,
     private router: Router,
     private sharedService: SharedService,
+    private cityDataService: CityDataService,
+
   ) { }
 
   ngOnInit() {
@@ -209,10 +221,14 @@ export class SearchTermHouseComponent implements OnInit, OnDestroy {
   getSortValue() {
     // console.log('getSortValue')
     this.filterService.sortValue$.subscribe(sortValue => {
-      if (sortValue !== '') {
+      if (sortValue) {
         this.limit = 0;
         this.filteredFlats = [];
-        this.userInfo.filterData = sortValue;
+        if (sortValue === '0') {
+          this.userInfo.filterData = '';
+        } else {
+          this.userInfo.filterData = sortValue;
+        }
         this.onSubmitWithDelay()
       }
     });
@@ -256,8 +272,10 @@ export class SearchTermHouseComponent implements OnInit, OnDestroy {
     if (searchInfoUserData !== null) {
       this.myDataExist = true;
       this.userInfoSearch = JSON.parse(searchInfoUserData);
-      this.userInfo.region = this.userInfoSearch.region;
-      this.userInfo.city = this.userInfoSearch.city;
+      // console.log(this.userInfoSearch)
+      this.userInfo.region = this.userInfoSearch.region || '';
+      this.userInfo.city = this.userInfoSearch.city || '';
+      this.userInfo.country = this.userInfoSearch.country || '';
 
       this.userInfo.area_of = this.userInfoSearch.area_of === '0.00' ? '' : this.userInfoSearch.area_of;
       this.userInfo.area_to = this.userInfoSearch.area_to === '100000.00' ? '' : this.userInfoSearch.area_to;
@@ -266,26 +284,34 @@ export class SearchTermHouseComponent implements OnInit, OnDestroy {
       this.userInfo.price_of = this.userInfoSearch.price_of;
       this.userInfo.price_to = this.userInfoSearch.price_to;
 
-      this.userInfo.rooms_of = this.userInfoSearch.rooms_of === 0 ? '' : this.userInfoSearch.rooms_of;
-      this.userInfo.rooms_to = this.userInfoSearch.rooms_to === 6 ? '' : this.userInfoSearch.rooms_to;
+      this.userInfo.rooms_of = this.userInfoSearch.rooms_of;
+      this.userInfo.rooms_to = this.userInfoSearch.rooms_to;
 
       this.userInfo.animals = this.userInfoSearch.animals === 'Неважливо' ? '' : this.userInfoSearch.animals;
       this.userInfo.repair_status = this.userInfoSearch.repair_status === 'Неважливо' ? '' : this.userInfoSearch.repair_status;
       this.userInfo.balcony = this.userInfoSearch.balcony === 'Неважливо' ? '' : this.userInfoSearch.balcony;
       this.userInfo.bunker = this.userInfoSearch.bunker === 'Неважливо' ? '' : this.userInfoSearch.bunker;
 
-      this.userInfo.distance_metro = this.userInfoSearch.distance_metro === 0 ? '' : this.userInfoSearch.distance_stop;
-      this.userInfo.distance_stop = this.userInfoSearch.distance_stop === 0 ? '' : this.userInfoSearch.distance_stop;
-      this.userInfo.distance_green = this.userInfoSearch.distance_green === 0 ? '' : this.userInfoSearch.distance_green;
-      this.userInfo.distance_shop = this.userInfoSearch.distance_shop === 0 ? '' : this.userInfoSearch.distance_shop;
-      this.userInfo.distance_parking = this.userInfoSearch.distance_parking === 0 ? '' : this.userInfoSearch.distance_parking;
+      this.userInfo.distance_metro = this.userInfoSearch.distance_metro;
+      this.userInfo.distance_stop = this.userInfoSearch.distance_stop;
+      this.userInfo.distance_green = this.userInfoSearch.distance_green;
+      this.userInfo.distance_shop = this.userInfoSearch.distance_shop;
+      this.userInfo.distance_parking = this.userInfoSearch.distance_parking;
 
       this.userInfo.students = this.userInfoSearch.students;
       this.userInfo.woman = this.userInfoSearch.woman;
       this.userInfo.man = this.userInfoSearch.man;
       this.userInfo.family = this.userInfoSearch.family;
 
-      this.userInfo.option_flat = this.userInfoSearch.house === 1 ? '1' : (this.userInfoSearch.flat === 1 ? '2' : '');
+
+      if (this.userInfoSearch.flat === 1 && this.userInfoSearch.house !== 1) {
+        this.userInfo.option_flat = '2';
+      } else if (this.userInfoSearch.flat !== 1 && this.userInfoSearch.house === 1) {
+        this.userInfo.option_flat = '1';
+      } else if (this.userInfoSearch.flat !== 1 && this.userInfoSearch.house === 1) {
+        this.userInfo.option_flat = ''
+      }
+
       this.userInfo.room = this.userInfoSearch.room;
       this.userInfo.looking_woman = this.userInfoSearch.looking_woman;
       this.userInfo.looking_man = this.userInfoSearch.looking_man;
@@ -345,42 +371,15 @@ export class SearchTermHouseComponent implements OnInit, OnDestroy {
       flat: undefined,
       limit: 0,
       filterData: '',
+      street: '',
+      district: '',
+      micro_district: '',
     };
     this.onSubmitWithDelay();
   }
 
-  // завантаження бази міст
-  loadCities() {
-    if (this.userInfo.region || this.userInfo.region === '') {
-      const searchTerm = this.userInfo.region.toLowerCase();
-      this.filteredRegions = this.regions.filter(region =>
-        region.name.toLowerCase().includes(searchTerm)
-      );
-      const selectedRegionObj = this.filteredRegions.find(region =>
-        region.name === this.userInfo.region
-      );
-      this.filteredCities = selectedRegionObj ? selectedRegionObj.cities : [];
-      this.userInfo.city = '';
-    }
-  }
-
-  // завантаження бази областей
-  loadRegion() {
-    if (this.userInfo.city) {
-      const searchTerm = this.userInfo.city.toLowerCase();
-      const selectedRegionObj = this.regions.find(region =>
-        region.name === this.userInfo.region
-      );
-      this.filteredCities = selectedRegionObj ? selectedRegionObj.cities.filter(city =>
-        city.name.toLowerCase().includes(searchTerm)) : [];
-      const selectedCityObj = this.filteredCities.find(city =>
-        city.name === this.userInfo.city
-      );
-    }
-  }
-
   // додавання затримки на відправку запиту
-  onSubmitWithDelay() {
+  async onSubmitWithDelay() {
     this.filterService.blockBtn(true);
     this.passInformationToService([], 0);
     if (this.searchTimer) {
@@ -413,10 +412,17 @@ export class SearchTermHouseComponent implements OnInit, OnDestroy {
 
   // збір пошукових параметрів
   async searchFilter() {
+
+    if (!this.userInfo.room) {
+      this.userInfo.looking_woman = '';
+      this.userInfo.looking_man = '';
+    }
+
     const params: UserInfo = {
       price_of: this.userInfo.price_of || '',
       price_to: this.userInfo.price_to || '',
       region: this.userInfo.region || '',
+      day_counts: this.userInfo.day_counts || '',
       city: this.userInfo.city || '',
       rooms_of: this.userInfo.rooms_of || '',
       rooms_to: this.userInfo.rooms_to || '',
@@ -430,29 +436,36 @@ export class SearchTermHouseComponent implements OnInit, OnDestroy {
       distance_green: this.userInfo.distance_green || '',
       distance_shop: this.userInfo.distance_shop || '',
       distance_parking: this.userInfo.distance_parking || '',
-      country: '',
+      country: this.userInfo.country || '',
+
       students: this.userInfo.students ? '1' : '',
       woman: this.userInfo.woman ? '1' : '',
       man: this.userInfo.man ? '1' : '',
       family: this.userInfo.family ? '1' : '',
+
+
       balcony: this.userInfo.balcony || '',
       bunker: this.userInfo.bunker || '',
-      option_flat: this.userInfo.option_flat,
-      room: this.userInfo.room ? '1' : '0',
+      option_flat: this.userInfo.option_flat || '',
+      room: this.userInfo.room ? '1' : '',
+
       option_pay: this.userInfo.option_pay || '0',
-      limit: this.limit,
-      looking_woman: this.userInfo.looking_woman ? '1' : '0',
-      looking_man: this.userInfo.looking_man ? '1' : '0',
+      limit: this.limit || 0,
+      looking_woman: this.userInfo.looking_woman ? '1' : '',
+      looking_man: this.userInfo.looking_man ? '1' : '',
       filterData: this.userInfo.filterData || '',
-      purpose_rent: undefined,
-      days: undefined,
-      weeks: undefined,
-      months: undefined,
-      years: undefined,
-      day_counts: undefined,
-      house: undefined,
-      flat: undefined
+      purpose_rent: this.userInfo.purpose_rent || '',
+      days: this.userInfo.days || 0,
+      weeks: this.userInfo.weeks || 0,
+      months: this.userInfo.months || 0,
+      years: this.userInfo.years || 0,
+      house: this.userInfo.house || 0,
+      flat: this.userInfo.flat || 0,
+      street: this.userInfo.street || '',
+      district: this.userInfo.district || '',
+      micro_district: this.userInfo.micro_district || '',
     };
+    // console.log(params)
     const url = this.buildSearchURL(params);
     setTimeout(async () => {
       await this.getSearchData(url);
@@ -500,6 +513,7 @@ export class SearchTermHouseComponent implements OnInit, OnDestroy {
   // передача отриманих даних до сервісу а потім виведення на картки карток
   passInformationToService(filteredFlats: any, optionsFound: number) {
     if (filteredFlats && optionsFound) {
+      // console.log(filteredFlats)
       this.filterService.updateFilter(filteredFlats, optionsFound);
       this.loading = false;
     } else {
@@ -553,6 +567,83 @@ export class SearchTermHouseComponent implements OnInit, OnDestroy {
     // console.log(this.shownCard);
     this.filterService.showedCards(this.shownCard)
     return `показано ${startIndex} - ${endIndex} з ${this.optionsFound} знайдених`;
+  }
+
+  ifSelectedCity(cityData: any) {
+    this.cityDataService.ifSelectedCity(cityData);
+    this.cityData = cityData;
+    // console.log(this.cityData)
+    if (this.cityData) {
+      this.userInfo.region = cityData.regionUa;
+      this.userInfo.city = cityData.cityUa;
+      if (this.userInfo.city === 'Київ') {
+        this.userInfo.region = 'Київська'
+      }
+      // this.userInfo.district = cityData.districtUa;
+      // this.userInfo.micro_district = '';
+      // this.userInfo.street = '';
+      this.onSubmitWithDelay()
+    }
+  }
+
+  ifSelectedStreet(streetData: any) {
+    this.cityDataService.ifSelectedStreet(streetData);
+    this.streetData = streetData;
+    // console.log(this.streetData)
+    if (this.streetData) {
+      this.userInfo.street = streetData.streetUa;
+      this.userInfo.micro_district = '';
+      this.onSubmitWithDelay()
+
+    }
+  }
+
+  // завантаження бази областей
+  async onRegionsInputChange(regions: string) {
+    this.filteredRegions = this.cityDataService.loadRegionsFromOwnDB(regions);
+    this.onSubmitWithDelay()
+  }
+  // завантаження бази міст областей районів
+  async onCityInputChange(city: string) {
+
+    if (city === '') {
+      this.onSubmitWithDelay()
+    }
+
+    if (this.debounceTimer) {
+      clearTimeout(this.debounceTimer);
+    }
+    if (city && city.length >= 3) {
+      const existingCity = this.filteredCities?.find((c: { cityUa: string; }) => c.cityUa === city);
+      if (existingCity) {
+        return;
+      }
+      this.debounceTimer = setTimeout(async () => {
+        this.filteredCities = await this.cityDataService.onCityInputChange(city);
+        if (!this.filteredCities || this.filteredCities.length === 0) {
+          // якщо апі не відповідає або нічого не знайшло я шукаю у власній БД міст
+          this.filteredCities = await this.cityDataService.loadCitiesFromOwnDB(city);
+        }
+      }, 1000);
+    }
+  }
+  // завантаження бази вулиць
+  async onStreetInputChange(street: string) {
+    if (this.debounceTimer) {
+      clearTimeout(this.debounceTimer);
+    }
+
+    if (street && street.length >= 2) {
+      const existingStreet = this.filteredStreets?.find((s: { streetUa: string; }) => s.streetUa === street);
+      if (existingStreet) {
+        return; // Виходимо, щоб уникнути повторного запиту
+      }
+
+      this.debounceTimer = setTimeout(async () => {
+        this.filteredStreets = await this.cityDataService.onStreetInputChange(street);
+        console.log(this.filteredStreets);
+      }, 500);
+    }
   }
 
   ngOnDestroy() {

@@ -1,58 +1,57 @@
 // параметри користувача
 export interface UserInfo {
-  about: string | undefined;
-  agree_search: number | undefined;
-  animals: string | undefined;
-  area_of: string | undefined;
-  area_to: string | undefined;
-  balcony: string | undefined;
-  bunker: string | undefined;
-  checked: number | 0;
+  about: string;
+  agree_search: number;
+  animals: string;
+  area_of: string;
+  area_to: string;
+  balcony: string;
+  bunker: string;
+  checked: number;
   city: string;
   country: string;
   date: any;
   day_counts: any;
-  days: number | undefined;
-  distance_green: number;
-  distance_metro: number;
-  distance_parking: number;
-  distance_shop: number;
-  distance_stop: number;
+  days: number;
+  distance_green: string;
+  distance_metro: string;
+  distance_parking: string;
+  distance_shop: string;
+  distance_stop: string;
   dob: any;
   facebook: string;
-  family: number | undefined;
-  firstName: string | undefined;
-  flat: number | undefined;
-  house: number | undefined;
-  img: string | undefined;
+  family: number;
+  firstName: string;
+  flat: number | undefined;  // Додано можливість undefined
+  house: number | undefined; // Додано можливість undefined
+  img: string;
   instagram: string;
-  lastName: string | undefined;
-  looking_man: boolean;
-  looking_woman: boolean;
+  lastName: string;
+  looking_man: boolean | undefined;
+  looking_woman: boolean | undefined;
   mail: any;
-  man: number | undefined;
+  man: number;
   metro: string;
   mounths: number | undefined;
-  option_pay: number | undefined;
-  price_of: number | undefined;
-  price_to: number | undefined;
+  option_pay: number;
+  price_of: number;
+  price_to: number;
   purpose_rent: any;
   realll: number | 0;
   region: string;
-  repair_status: string | undefined;
-  room: number | undefined;
-  rooms_of: number | undefined;
-  rooms_to: number | undefined;
-  students: number | undefined;
+  repair_status: string;
+  room: number | undefined;  // Додано можливість undefined
+  rooms_of: number;
+  rooms_to: number;
+  students: number;
   surName: string;
   telegram: string;
   tell: any;
   user_id: string;
   viber: string;
   weeks: number | undefined;
-  woman: number | undefined;
+  woman: number;
   years: number | undefined;
-
   street: string;
   district: string;
   micro_district: string;
@@ -62,7 +61,7 @@ export interface UserInfoSearch {
   area: string | undefined;
   balcony: string | undefined;
   bunker: string | undefined;
-  city: string | undefined;
+  city: string;
   day_counts: string | undefined;
   days: number | undefined;
   distance_green: string | undefined;
@@ -82,7 +81,6 @@ export interface UserInfoSearch {
   option_pay: any;
   price: number | undefined;
   purpose_rent: string | undefined;
-  region: string | undefined;
   repair_status: string | undefined;
   room: boolean | undefined;
   rooms: number | undefined;
@@ -90,6 +88,37 @@ export interface UserInfoSearch {
   weeks: number | undefined;
   woman: number | undefined;
   years: number | undefined;
+  about: string | undefined;
+  agree_search: number | undefined;
+  area_of: string | undefined;
+  area_to: string | undefined;
+  checked: number | 0;
+  country: string;
+  date: any;
+  dob: any;
+  facebook: string;
+  firstName: string | undefined;
+  img: string | undefined;
+  instagram: string;
+  lastName: string | undefined;
+  mail: any;
+  metro: string;
+  mounths: number | undefined;
+  price_of: number | undefined;
+  price_to: number | undefined;
+  realll: number | 0;
+  rooms_of: number | undefined;
+  rooms_to: number | undefined;
+  surName: string;
+  telegram: string;
+  tell: any;
+  user_id: string;
+  viber: string;
+
+  region: string;
+  street: string;
+  district: string;
+  micro_district: string;
 }
 export interface HouseInfo {
   about: string;
@@ -140,6 +169,60 @@ export interface HouseInfo {
   students: any;
   woman: any;
 };
+
+export interface HouseInfoSearch {
+  price_of: string | undefined;
+  price_to: string | undefined;
+  region: string | undefined;
+  city: string | undefined;
+  rooms_of: string | undefined;
+  rooms_to: string | undefined;
+  area_of: string;
+  area_to: string;
+  repair_status: string | undefined;
+  bunker: string | undefined;
+  balcony: string | undefined;
+  animals: string | undefined;
+  distance_metro: string | undefined;
+  distance_stop: string | undefined;
+  distance_green: string | undefined;
+  distance_shop: string | undefined;
+  distance_parking: string | undefined;
+  option_pay: string | undefined;
+  purpose_rent: string | undefined;
+  looking_woman: string | undefined;
+  looking_man: string | undefined;
+  students: string | undefined;
+  woman: string | undefined;
+  man: string | undefined;
+  family: string | undefined;
+  days: number | undefined;
+  weeks: number | undefined;
+  months: number | undefined;
+  years: number | undefined;
+  day_counts: string | undefined;
+  room: string | undefined;
+  house: number | undefined;
+  flat: number | undefined;
+  limit: number;
+  option_flat: string | undefined;
+  country: string | undefined;
+  kitchen_area: string | undefined;
+  filterData: string | undefined;
+
+  about: string | undefined;
+  checked: number | 0;
+  date: any | undefined;
+  metro: string;
+  mounths: number | undefined;
+
+  street: string | undefined;
+  district: string | undefined;
+  micro_district: string | undefined;
+  rooms: number | undefined;
+  private: number | 0;
+  rent: number | 0;
+}
 
 export interface Chat {
   user_id: string;

@@ -3,13 +3,11 @@ import { MatDialog } from '@angular/material/dialog';
 import { HttpClient } from '@angular/common/http';
 import { ReportsComponent } from '../components/reports/reports.component';
 import { SelectedFlatService } from './selected-flat.service';
-import { BehaviorSubject, Observable, Subject } from 'rxjs';
+import { BehaviorSubject, Subject } from 'rxjs';
 import { Location } from '@angular/common';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
-import { map } from 'rxjs/operators';
 import { Router } from '@angular/router';
-import { CheckBackendService } from './check-backend.service';
-import { UsereSearchConfig } from '../interface/param-config';
+import { UserConfig } from '../interface/param-config';
 import { UserInfo } from '../interface/info';
 import * as ServerConfig from 'src/app/config/path-config';
 import { StatusMessageService } from './status-message.service';
@@ -22,7 +20,7 @@ import { LoaderService } from './loader.service';
 
 export class SharedService {
 
-  userInfo: UserInfo = UsereSearchConfig;
+  userInfo: UserInfo = UserConfig;
   numberOfReviewsTenant: any;
   numberOfReviewsOwner: any;
   ratingOwner: number | undefined;

@@ -56,9 +56,9 @@ export class DataService {
         const response: any = await this.http.post(this.serverPath + '/features/get', { auth: JSON.parse(userJson) }).toPromise();
         // console.log(response)
         if (response.status === true) {
-          localStorage.setItem('userFeaturesData', JSON.stringify(response.inf));
+          localStorage.setItem('searchInfoUserData', JSON.stringify(response.inf));
         } else {
-          localStorage.removeItem('userFeaturesData');
+          localStorage.removeItem('searchInfoUserData');
         }
       } catch (error) {
         console.log(error);
