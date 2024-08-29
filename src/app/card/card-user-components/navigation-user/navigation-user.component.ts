@@ -152,10 +152,11 @@ export class NavigationUserComponent implements OnInit, OnDestroy {
 
   // Беру інформацію користувача
   async getInfoFeaturesUser() {
-    const userFeaturesData = localStorage.getItem('userFeaturesData');
+    const userFeaturesData = localStorage.getItem('searchInfoUserData');
     if (userFeaturesData) {
       const userObject = JSON.parse(userFeaturesData);
-      this.userFeaturesData = userObject;
+      this.userFeaturesData = userObject.inf;
+      // console.log(this.userFeaturesData)
     }
   }
 
@@ -221,6 +222,13 @@ export class NavigationUserComponent implements OnInit, OnDestroy {
         }
       })
     );
+  }
+
+
+
+  activateTenantProfile() {
+    this.storageUserDataService.activateTenantProfile(this.userFeaturesData);
+    this.closeToogleMenu(3)
   }
 
   deactivateTenantProfile() {

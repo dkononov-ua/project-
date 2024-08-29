@@ -10,6 +10,7 @@ import { LyDialog } from '@alyle/ui/dialog';
 import { CropImgComponent } from 'src/app/components/crop-img/crop-img.component';
 import { SharedService } from 'src/app/services/shared.service';
 import { DataService } from 'src/app/services/data.service';
+import { MissingParamsService } from '../missing-params.service';
 @Component({
   selector: 'app-photo',
   templateUrl: './photo.component.html',
@@ -76,6 +77,8 @@ export class PhotoComponent implements OnInit, OnDestroy {
     private elementRef: ElementRef,
     private dataService: DataService,
     private sharedService: SharedService,
+    private missingParamsService: MissingParamsService,
+
   ) { }
 
   async ngOnInit(): Promise<void> {
@@ -272,6 +275,10 @@ export class PhotoComponent implements OnInit, OnDestroy {
         setTimeout(() => { location.reload }, 2000);
       }
     }
+  }
+
+  async saveInfo(): Promise<void> {
+    this.missingParamsService.checkResponse(true);
   }
 
   ngOnDestroy() {

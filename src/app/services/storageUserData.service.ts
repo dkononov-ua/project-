@@ -57,12 +57,14 @@ export class StorageUserDataService implements OnDestroy {
 
   // Беру інформацію користувача
   async getInfoFeaturesUser() {
-    const userFeaturesData = localStorage.getItem('userFeaturesData');
+    const userFeaturesData = localStorage.getItem('searchInfoUserData');
     if (userFeaturesData) {
       const userObject = JSON.parse(userFeaturesData);
-      this.userFeaturesData = userObject;
+      this.userFeaturesData = userObject.inf;
+      // console.log(this.userFeaturesData)
     }
   }
+
 
   // Запитую чи треба активувати оголошення
   async activateTenantProfile(userInfo: any): Promise<void> {
@@ -161,27 +163,16 @@ export class StorageUserDataService implements OnDestroy {
               if (storageUserLooking) {
                 this.sharedService.setStatusMessage('Додайте фото та контактні дані');
                 localStorage.removeItem('storageUserLooking');
+                this.updateUserFeaturesInfo();
               } else {
-                this.sharedService.setStatusMessage('Оновлюємо інформацію...');
-                localStorage.removeItem('userFeaturesData');
-                this.dataService.getFeaturesInfo();
+                this.updateUserFeaturesInfo();
               }
-              setTimeout(() => {
-                this.sharedService.setStatusMessage('');
-                location.reload();
-              }, 2000);
             }, 2000);
           } else {
             this.sharedService.setStatusMessage('Збережено!');
-            localStorage.removeItem('userFeaturesData');
             localStorage.removeItem('storageUserLooking');
             setTimeout(() => {
-              this.dataService.getFeaturesInfo();
-              this.sharedService.setStatusMessage('Оновлюємо інформацію...');
-              setTimeout(() => {
-                this.sharedService.setStatusMessage('');
-                location.reload();
-              }, 1500);
+              this.updateUserFeaturesInfo();
             }, 1500);
           }
         } else {
@@ -199,6 +190,25 @@ export class StorageUserDataService implements OnDestroy {
       }
     } else {
       console.log('Авторизуйтесь');
+    }
+  }
+
+  // Оновлюю дані по оселі
+  updateUserFeaturesInfo() {
+    const userJson = localStorage.getItem('user');
+    if (userJson) {
+      this.dataService.getFeaturesInfo().subscribe((response: any) => {
+        if (response) {
+          localStorage.removeItem('searchInfoUserData');
+          localStorage.setItem('searchInfoUserData', JSON.stringify(response));
+          this.sharedService.setStatusMessage('Оновлюємо інформацію...');
+          setTimeout(() => {
+            location.reload();
+          }, 1500);
+        } else {
+          console.log('Помилка')
+        }
+      });
     }
   }
 

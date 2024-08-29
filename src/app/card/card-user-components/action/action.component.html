@@ -1,26 +1,67 @@
 <div class="message-box">
   <mat-dialog-content>
 
-    <div *ngIf="data.actionName === 'tenantProfile'">
-      <p class="text1">Активувати профіль орендаря?</p>
+    <div *ngIf="data.actionName === 'tenantProfile' || data.actionName === 'tenantProfileDeactivate'">
+      <p class="text1" *ngIf="data.actionName === 'tenantProfile'">Активувати профіль орендаря?</p>
+      <p class="text1" *ngIf="data.actionName === 'tenantProfileDeactivate'">Деактивувати профіль орендаря?</p>
       <p class="t-lar mt-2">Область: <span class="accent">{{data.data.region }}</span></p>
       <p class="t-lar mb-2">Місто: <span class="accent">{{data.data.city}}</span> </p>
       <p class="text"><span class="description">Активувати або деактивувати оголошення ви завжди зможете в налаштуваннях
           профілю орендаря</span></p>
     </div>
 
-    <div *ngIf="data.actionName === 'tenantProfileDeactivate'">
-      <p class="text1">Деактивувати профіль орендаря?</p>
-      <p class="t-lar mt-2">Область: <span class="accent">{{data.data.region }}</span></p>
-      <p class="t-lar mb-2">Місто: <span class="accent">{{data.data.city}}</span> </p>
+    <div *ngIf="data.actionName === 'houseProfile' || data.actionName === 'houseProfileDeactivate'">
+      <p class="text1" *ngIf="data.actionName === 'houseProfile'">Активувати профіль оселі?</p>
+      <p class="text1" *ngIf="data.actionName === 'houseProfileDeactivate'">Деактивувати профіль оселі?</p>
+
+      <p class="t-lar mt-2">ID Оселі: <span class="accent">{{data.data.flat_id }}</span></p>
+      <p class="t-lar mb-2">Оплата: <span class="accent">{{ option_pay[data.data.option_pay] }}</span> </p>
+      <div class="item-box m-1" *ngIf="data.data.option_pay === 0">
+        <div mat-raised-button class="param-g flex-column">
+          <div class="bg-g t-lar-xx bold">
+            <i class="fa-solid fa-sack-dollar"></i>{{ data.data.price_m | number:'1.0-0' }}
+          </div>
+          <div class="t-min bg-w">Ціна ₴/міс</div>
+        </div>
+      </div>
+
+      <div class="item-box m-1" *ngIf="data.data.option_pay === 1">
+        <div mat-raised-button class="param-g flex-column">
+          <div class="bg-g t-lar-xx bold">
+            <i class="fa-solid fa-sack-dollar"></i>{{ data.data.price_d | number:'1.0-0' }}
+          </div>
+          <div class="t-min bg-w">Ціна ₴/добу</div>
+        </div>
+      </div>
+
+      <div class="item-box m-1" *ngIf="data.data.option_pay === 2">
+        <div mat-raised-button class="param-g flex-column">
+          <div class="bg-g t-lar-xx bold"> <i class="fa-solid fa-sack-dollar"></i>0 </div>
+          <div class="t-min bg-w">Безкоштовно</div>
+        </div>
+      </div>
+
+      <div class="item-box m-1" *ngIf="data.data.option_pay === 3">
+        <div mat-raised-button class="param-g flex-column">
+          <div class="bg-g t-lar-xx bold">
+            <i class="fa-solid fa-sack-dollar"></i>{{ data.data.price_d | number:'1.0-0' }}
+          </div>
+          <div class="t-min bg-w">Продаж ₴</div>
+        </div>
+      </div>
+
       <p class="text"><span class="description">Активувати або деактивувати оголошення ви завжди зможете в налаштуваннях
-          профілю орендаря</span></p>
+          профілю оселі</span></p>
     </div>
 
   </mat-dialog-content>
+
   <mat-dialog-actions class="box" align="end">
     <button class="btn m-2" mat-button mat-dialog-close>Ні</button>
-    <button class="btn m-2" mat-button [mat-dialog-close]="true" *ngIf="data.actionName === 'tenantProfile'">Активувати</button>
-    <button class="btn m-2" mat-button [mat-dialog-close]="true" *ngIf="data.actionName === 'tenantProfileDeactivate'">Деактивувати</button>
+    <button class="btn m-2" mat-button [mat-dialog-close]="true"
+      *ngIf="data.actionName === 'tenantProfile' || data.actionName === 'houseProfile'">Активувати</button>
+    <button class="btn m-2" mat-button [mat-dialog-close]="true"
+      *ngIf="data.actionName === 'tenantProfileDeactivate' || data.actionName === 'houseProfileDeactivate'">Деактивувати</button>
   </mat-dialog-actions>
+
 </div>

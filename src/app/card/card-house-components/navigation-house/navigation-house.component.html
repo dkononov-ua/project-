@@ -19,9 +19,15 @@
     <div class="category">
       <a [@cardAnimation]="{value: '', params: { delay: animationDelay(1) }}" class="link-item"
         [routerLinkActive]="'active'" [routerLink]="'/house/info'" (click)="closeToogleMenu(2)">
-        <i class="fa-regular fa-circle-user"></i>
+
+        <i *ngIf="!authorization || !houseData" class="fa-solid fa-house-user custom-badge"></i>
+
+        <i *ngIf="authorization && houseData" class="fa-solid fa-house-user custom-badge" matBadge="a"
+          [matBadgeHidden]="houseData && houseData.about.rent !== 1">
+        </i>
+
         <div class="item-description pl-2">
-          <p class="t-med">Дії аккаунту</p>
+          <p class="t-med">Профіль оселі</p>
           <p class="t-min">Інфо оселі</p>
         </div>
       </a>
@@ -66,6 +72,24 @@
         <div class="item-description pl-2">
           <p class="t-med">Вийти</p>
           <p class="t-min">З оселі</p>
+        </div>
+      </button>
+
+      <button (click)="activateHouseProfile()" [@cardAnimation]="{value: '', params: { delay: animationDelay(2) }}"
+        class="link-item subcategory" *ngIf="houseData && houseData.about.rent === 0">
+        <i class="fa-solid fa-toggle-on"></i>
+        <div class="item-description pl-2">
+          <p class="t-med">Активувати</p>
+          <p class="t-min">Профіль орендаря</p>
+        </div>
+      </button>
+
+      <button (click)="deactivateHouseProfile()" [@cardAnimation]="{value: '', params: { delay: animationDelay(2) }}"
+        class="link-item subcategory" *ngIf="houseData && houseData.about.rent === 1">
+        <i class="fa-solid fa-power-off"></i>
+        <div class="item-description pl-2">
+          <p class="t-med">Деактивувати</p>
+          <p class="t-min">Профіль оселі</p>
         </div>
       </button>
 

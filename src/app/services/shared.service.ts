@@ -265,6 +265,7 @@ export class SharedService {
       this.statusMessageService.setStatusMessage('Очищуємо дані');
       setTimeout(() => {
         this.router.navigate(['/house/control/selection']);
+        location.reload();
         this.statusMessageService.setStatusMessage('');
       }, 1500);
     }, 2500);

@@ -32,6 +32,7 @@ export class InfoHouseComponent implements OnInit, OnDestroy {
   detail: boolean = false;
   additional: boolean = false;
   currentLocation: string = '';
+  hideParam: boolean = false;
   toogleOpen() {
     if (this.authorization) {
       this.detail = !this.detail;
@@ -110,6 +111,9 @@ export class InfoHouseComponent implements OnInit, OnDestroy {
 
   // перевірка де я знаходжусь
   async checkLocation() {
+    if (this.currentLocation === '/search/house') {
+      this.hideParam = true;
+    }
     if (this.currentLocation === '/house/info') {
       this.getMyFlatData();
     } else {

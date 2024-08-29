@@ -149,7 +149,7 @@ export class AboutComponent implements OnInit, OnDestroy {
     }
   }
 
-  async saveInfo(rent: any): Promise<void> {
+  async saveInfo(): Promise<void> {
     const userJson = localStorage.getItem('user');
     if (userJson && this.selectedFlatId !== undefined) {
       if (this.flatInfo.option_pay === 2) {
@@ -169,10 +169,10 @@ export class AboutComponent implements OnInit, OnDestroy {
         price_s: this.flatInfo.price_s || undefined,
         about: this.flatInfo.about || undefined,
         private: this.flatInfo.private || false,
-        rent: rent,
+        rent: false,
         room: this.flatInfo.room || 0,
       }
-      console.log(data)
+      // console.log(data)
       try {
         const response: any = await this.http.post(this.serverPath + '/flatinfo/add/about', {
           auth: JSON.parse(userJson),
@@ -180,44 +180,17 @@ export class AboutComponent implements OnInit, OnDestroy {
           flat_id: this.selectedFlatId,
         }).toPromise();
         // console.log(response)
-        if (response && response.status === 'Параметри успішно додані' && this.flatInfo.rent === 1) {
-          this.missingParamsService.checkResponse(response);
+        if (response && response.status === 'Параметри успішно додані') {
+          this.sharedService.setStatusMessage('Параметри успішно збережено');
           setTimeout(() => {
-            this.updateFlatInfo();
-          }, 2000);
-          // якщо ми хочемо активувати але в нас не заповненні обов'язкові параметри
-          if (response && response.rent) {
-            this.flatInfo.rent = 0;
-          } else {
-            // якщо ми хочемо активувати і є всі параметри
-            this.sharedService.setStatusMessage('Оголошення розміщено');
-            setTimeout(() => {
-              this.sharedService.setStatusMessage('Оновлюємо інформацію');
-              setTimeout(() => {
-                this.router.navigate(['/house/edit/about']);
-                this.sharedService.setStatusMessage('');
-              }, 1000);
-            }, 1500);
-          }
-        } else if (response && response.status === 'Параметри успішно додані' && this.flatInfo.rent === 0) {
-          this.updateFlatInfo();
-          setTimeout(() => {
-            this.sharedService.setStatusMessage('Параметри успішно збережені');
-            setTimeout(() => {
-              this.sharedService.setStatusMessage('Оновлюємо інформацію');
-              setTimeout(() => {
-                this.router.navigate(['/house/edit/about']);
-                this.sharedService.setStatusMessage('');
-                location.reload();
-              }, 1000);
-            }, 1500);
-          }, 500);
+            this.sharedService.setStatusMessage('');
+            this.missingParamsService.checkResponse(response);
+          }, 1500);
         } else {
           setTimeout(() => {
             this.sharedService.setStatusMessage('Помилка збереження');
             setTimeout(() => {
-              this.sharedService.setStatusMessage('');
-              // location.reload();
+              location.reload();
             }, 1500);
           }, 500);
         }

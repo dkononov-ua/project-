@@ -38,7 +38,7 @@
             </div>
           </div>
 
-          <div class="item-box" *ngIf="house.apartment">
+          <div class="item-box" *ngIf="house.apartment && !hideParam">
             <div mat-raised-button class="flex-column p-1">
               <div class="t-lar bold border-bottom">{{ house.apartment }}</div>
               <div class="t-min">Кв. <i class="fa-solid fa-door-closed"></i></div>
@@ -212,11 +212,11 @@
             Вулиця:<span class="param-value"><i class="fa-solid fa-road"></i>{{ house.street }}</span>
           </div>
 
-          <div class="param-field" *ngIf="house.houseNumber">
+          <div class="param-field" *ngIf="house.houseNumber && !hideParam">
             Будинок:<span class="param-value"><i class="fa-solid fa-house-flag"></i>{{ house.houseNumber }}</span>
           </div>
 
-          <div class="param-field" *ngIf="house.apartment">
+          <div class="param-field" *ngIf="house.apartment && !hideParam">
             Квартира:<span class="param-value"><i class="fa-solid fa-door-closed"></i>{{ house.apartment }}</span>
           </div>
         </div>

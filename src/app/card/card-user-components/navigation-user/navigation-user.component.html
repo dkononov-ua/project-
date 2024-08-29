@@ -125,6 +125,15 @@
         </div>
       </a>
 
+      <button (click)="activateTenantProfile()" [@cardAnimation]="{value: '', params: { delay: animationDelay(2) }}"
+        class="link-item subcategory" *ngIf="userFeaturesData && userFeaturesData.agree_search === 0">
+        <i class="fa-solid fa-toggle-on"></i>
+        <div class="item-description pl-2">
+          <p class="t-med">Активувати</p>
+          <p class="t-min">Профіль орендаря</p>
+        </div>
+      </button>
+
       <button (click)="deactivateTenantProfile()" [@cardAnimation]="{value: '', params: { delay: animationDelay(2) }}"
         class="link-item subcategory" *ngIf="userFeaturesData && userFeaturesData.agree_search === 1">
         <i class="fa-solid fa-power-off"></i>

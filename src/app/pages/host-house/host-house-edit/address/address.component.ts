@@ -69,7 +69,7 @@ export class AddressComponent implements OnInit, OnDestroy {
     private missingParamsService: MissingParamsService,
     private locationHouseService: LocationHouseService,
     private cityDataService: CityDataService,
-  ) {   }
+  ) { }
 
   async ngOnInit(): Promise<void> {
     await this.getCheckDevice();
@@ -189,26 +189,12 @@ export class AddressComponent implements OnInit, OnDestroy {
           new: data,
           flat_id: this.selectedFlatId,
         }).toPromise();
-        // console.log(response)
         if (response && response.status === 'Параметри успішно додані') {
-          if (response && response.rent) {
-            this.sharedService.setStatusMessage('Параметри успішно збережено');
-            setTimeout(() => {
-              this.missingParamsService.checkResponse(response);
-              setTimeout(() => {
-                // this.updateFlatInfo();
-              }, 2000);
-            }, 1000);
-          } else {
-            this.sharedService.setStatusMessage('Параметри успішно збережено');
-            setTimeout(() => {
-              this.sharedService.setStatusMessage('Оголошення можна активувати!');
-              setTimeout(() => {
-                this.router.navigate(['/house/edit/about']);
-                this.sharedService.setStatusMessage('');
-              }, 1000);
-            }, 1500);
-          }
+          this.sharedService.setStatusMessage('Параметри успішно збережено');
+          setTimeout(() => {
+            this.sharedService.setStatusMessage('');
+            this.missingParamsService.checkResponse(response);
+          }, 1500);
         } else {
           setTimeout(() => {
             this.sharedService.setStatusMessage('Помилка збереження');

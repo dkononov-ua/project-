@@ -91,7 +91,7 @@ const routes: Routes = [
       {
         path: 'control', component: HouseControlComponent,
         children: [
-          { path: '', redirectTo: 'about', pathMatch: 'full' },
+          { path: '', redirectTo: 'add', pathMatch: 'full' },
           { path: 'about', component: HouseControlAboutComponent },
           { path: 'add', component: HouseControlPageComponent },
         ],

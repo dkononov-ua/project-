@@ -52,6 +52,9 @@
     color: $color-white;
     background-color: $color-gray;
   }
+  &::-webkit-scrollbar {
+    display: none;
+  }
 }
 
 // пагінатор

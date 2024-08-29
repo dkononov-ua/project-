@@ -241,8 +241,11 @@ export class HouseControlPageComponent implements OnInit, OnDestroy {
       } else if (action === 2) {
         this.sharedService.setStatusMessage(`Переходимо до профілю ${flatInfo.flat_name}`);
         this.scheduleAction(() => {
-          this.loaderService.setLoading(false);
+          this.sharedService.setStatusMessage(`Оновлюємо інформацію...`);
           this.router.navigate(['/house/info']);
+          setTimeout(() => {
+            location.reload();
+          }, 100);
         }, 1500);
       }
     } else {

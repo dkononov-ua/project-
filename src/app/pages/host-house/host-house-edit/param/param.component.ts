@@ -186,25 +186,19 @@ export class ParamComponent implements OnInit, OnDestroy {
           new: data,
           flat_id: this.selectedFlatId,
         }).toPromise();
-        if (response.status == 'Параметри успішно додані') {
-          if (response && response.rent) {
-            this.sharedService.setStatusMessage('Параметри успішно збережено');
+        if (response && response.status === 'Параметри успішно додані') {
+          this.sharedService.setStatusMessage('Параметри успішно збережено');
+          setTimeout(() => {
+            this.sharedService.setStatusMessage('');
+            this.missingParamsService.checkResponse(response);
+          }, 1500);
+        } else {
+          setTimeout(() => {
+            this.sharedService.setStatusMessage('Помилка збереження');
             setTimeout(() => {
-              this.missingParamsService.checkResponse(response);
-              setTimeout(() => {
-                this.updateFlatInfo();
-              }, 2000);
-            }, 1000);
-          } else {
-            this.sharedService.setStatusMessage('Параметри успішно збережено');
-            setTimeout(() => {
-              this.sharedService.setStatusMessage('Оголошення можна активувати!');
-              setTimeout(() => {
-                this.router.navigate(['/house/edit/about']);
-                this.sharedService.setStatusMessage('');
-              }, 1000);
+              location.reload();
             }, 1500);
-          }
+          }, 500);
         }
       } catch (error) {
         this.loading = false;

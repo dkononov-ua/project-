@@ -257,21 +257,8 @@
   </div>
 
   <div class="btn-group mt-2">
-
-    <button class="btn" (click)="saveInfo(flatInfo.rent = 0)">
-      <i class="fa-regular fa-circle-check pr-2"></i> Зберегти
-    </button>
-
-    <button class="btn" (click)="saveInfo(flatInfo.rent = 1)" *ngIf="flatInfo.rent === 0">
-      <i class="fa-solid fa-sign-hanging pr-2"></i>
-      Активувати
-    </button>
-
-    <button class="btn" (click)="saveInfo(flatInfo.rent = 0)" *ngIf="flatInfo.rent === 1">
-      <i class="fa-solid fa-power-off pr-2"></i>
-      Деактивувати
-    </button>
-
+    <button class="btn flex-box" (click)="saveInfo()">ЗБЕРЕГТИ<i
+        class="icon fa-regular fa-circle-check ml-2"></i></button>
   </div>
 
 </div>

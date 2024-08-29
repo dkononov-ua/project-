@@ -10,6 +10,7 @@ import { MenuService } from 'src/app/services/menu.service';
 import { filter } from 'rxjs';
 import { Location } from '@angular/common';
 import { DataService } from 'src/app/services/data.service';
+import { MissingParamsService } from 'src/app/pages/host-house/host-house-edit/missing-params.service';
 
 @Component({
   selector: 'app-navigation-house',
@@ -102,7 +103,7 @@ export class NavigationHouseComponent implements OnInit, OnDestroy {
   selectedFlatId!: string | null;
   authorization: boolean = false;
   authorizationHouse: boolean = false;
-  section: boolean[] = [false, false, false, false, false, false, false, false, false, false, false ];
+  section: boolean[] = [false, false, false, false, false, false, false, false, false, false, false];
   currentLocation: string = '';
   imgFlat: string = '';
   // відкриття меню через сервіс
@@ -122,6 +123,7 @@ export class NavigationHouseComponent implements OnInit, OnDestroy {
     private menuService: MenuService,
     private location: Location,
     private dataService: DataService,
+    private missingParamsService: MissingParamsService,
   ) { }
 
   async ngOnInit(): Promise<void> {
@@ -317,6 +319,16 @@ export class NavigationHouseComponent implements OnInit, OnDestroy {
     );
   }
 
+  activateHouseProfile() {
+    this.missingParamsService.askActivateHouseProfile();
+    this.closeToogleMenu(3)
+  }
+
+  deactivateHouseProfile() {
+    this.missingParamsService.askDeactivateHouseProfile();
+    this.closeToogleMenu(3)
+  }
+
   ngOnDestroy() {
     this.subscriptions.forEach(subscription => subscription.unsubscribe());
   }
@@ -324,6 +336,8 @@ export class NavigationHouseComponent implements OnInit, OnDestroy {
   logoutHouse() {
     this.sharedService.logoutHouse();
   }
+
+  
 }
 
 

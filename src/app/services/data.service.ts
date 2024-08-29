@@ -49,20 +49,23 @@ export class DataService {
   }
 
   // Пошукові параметри користувача
-  async getFeaturesInfo(): Promise<any> {
+  getFeaturesInfo(): Observable<any> {
     const userJson = localStorage.getItem('user');
     if (userJson) {
-      try {
-        const response: any = await this.http.post(this.serverPath + '/features/get', { auth: JSON.parse(userJson) }).toPromise();
-        // console.log(response)
-        if (response.status === true) {
-          localStorage.setItem('searchInfoUserData', JSON.stringify(response.inf));
-        } else {
-          localStorage.removeItem('searchInfoUserData');
-        }
-      } catch (error) {
-        console.log(error);
-      }
+      // console.log('getInfoFlat')
+      return this.http.post(this.serverPath + '/features/get', { auth: JSON.parse(userJson) })
+        .pipe(
+          tap((response: any) => {
+            // console.log(response)
+            localStorage.setItem('searchInfoUserData', JSON.stringify(response));
+          }),
+          catchError((error: any) => {
+            localStorage.removeItem('searchInfoUserData');
+            return throwError('user data not found');
+          })
+        );
+    } else {
+      return throwError('user not found');
     }
   }
 

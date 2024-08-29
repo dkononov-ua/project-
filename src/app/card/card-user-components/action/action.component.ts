@@ -1,5 +1,6 @@
 import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { Purpose, Distance, OptionPay, Animals } from '../../../interface/name';
 
 @Component({
   selector: 'app-action',
@@ -9,6 +10,7 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 export class ActionComponent {
   serverPath: string = '';
+  option_pay = OptionPay;
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
