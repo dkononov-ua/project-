@@ -151,6 +151,13 @@ export class MenuComponent implements OnInit, OnDestroy {
     }
   }
 
+  setToogleMenu(close: number, open: number) {
+    this.menuService.toogleMenu(false, close);
+    setTimeout(() => {
+      this.menuService.toogleMenu(true, open);
+    }, 100);
+  }
+
   isMobile: boolean = false;
 
   constructor(

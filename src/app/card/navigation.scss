@@ -2,6 +2,16 @@
 @use "../style/mixins/" as *;
 @use "../style/shared.scss";
 
+.message {
+  @include flex-box-center;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background-color: $color-white;
+  border: 1px solid $color-light-gray;
+  @include box-shadow;
+}
+
 .custom-badge .mat-badge-content {
   background-color: $color-accent;
   color: $color-white;
@@ -25,7 +35,7 @@
 
   @include s1-s3 {
     padding: 20px 0px 60px 20px;
-    height: 80vh;
+    height: 90vh;
   }
 }
 
@@ -46,22 +56,23 @@
   @include s1-s3 {
     @include box-shadow;
     width: 250px;
-    background-color: $color-accent;
-    justify-content: flex-start;
+    background-color: $color-white;
+    justify-content: space-between;
+    border: 1px solid $color-light-gray;
   }
   .userName {
     display: flex;
     flex-direction: column;
     .t-lar {
-      border-bottom: 1px solid $color-gray;
+      border-bottom: 1px solid $color-light-gray;
     }
     @include s1-s3 {
       .t-lar,
       .t-min {
-        color: $color-white;
+        color: $color-text;
       }
       .t-lar {
-        border-bottom: 1px solid $color-white;
+        border-bottom: 1px solid $color-text;
       }
     }
   }

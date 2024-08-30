@@ -8,7 +8,7 @@
   @include s1-s3 {
     @include box-shadow;
     border-radius: 0px 0px 20px 20px;
-    background-color: $color-accent;
+    @include blurred-background($color-accent);
     .t-lar-xx,
     .t-lar-x {
       color: $color-white;

@@ -1,22 +1,24 @@
 <div class="menu-container">
-
-  <div class="menu-content" [ngClass]="{'active': menu[1]}" (click)="closeToogleMenu(1)" *ngIf="menu[1]">
+  <div class="menu-content" [ngClass]="{'active': menu[1]}" *ngIf="menu[1]">
     <div appClickOutside (clickOutside)="onClickedOutside(1)" class="bg-menu" [ngClass]="{'active': bgMenu === true}">
 
-      <div class="w-100">
+      <div class="w-100" (click)="closeToogleMenu(1)">
         <app-project-navigation></app-project-navigation>
       </div>
 
       <div [@appearance] class="btn-group">
-        <button class="btn" (click)="closeToogleMenu(2)">
+        <button class="btn w-25" (click)="setToogleMenu(1,3)"><i
+            class="fa-solid fa-circle-chevron-left white"></i></button>
+        <button class="btn w-50" (click)="closeToogleMenu(1)">
           <i class="fa-solid fa-circle-chevron-up white pr-2"></i>
-          <div class="t-med white">ЗГОРНУТИ</div>
+          <div class="t-med white">Меню Discussio</div>
         </button>
+        <button class="btn w-25" (click)="setToogleMenu(1,2)"><i
+            class="fa-solid fa-circle-chevron-right white"></i></button>
       </div>
 
     </div>
   </div>
-
   <div class="menu-content" [ngClass]="{'active': menu[2]}" *ngIf="menu[2]">
 
     <div appClickOutside (clickOutside)="onClickedOutside(2)" class="bg-menu" [ngClass]="{'active': bgMenu === true}">
@@ -26,10 +28,14 @@
       </div>
 
       <div [@appearance] class="btn-group">
-        <button class="btn" (click)="closeToogleMenu(2)">
+        <button class="btn w-25" (click)="setToogleMenu(2,1)"><i
+            class="fa-solid fa-circle-chevron-left white"></i></button>
+        <button class="btn w-50" (click)="closeToogleMenu(2)">
           <i class="fa-solid fa-circle-chevron-up white pr-2"></i>
-          <div class="t-med white">ЗГОРНУТИ</div>
+          <div class="t-med white">Меню Користувача</div>
         </button>
+        <button class="btn w-25" (click)="setToogleMenu(2,3)"><i
+            class="fa-solid fa-circle-chevron-right white"></i></button>
       </div>
 
     </div>
@@ -43,10 +49,14 @@
       </div>
 
       <div [@appearance] class="btn-group">
-        <button class="btn" (click)="closeToogleMenu(3)">
+        <button class="btn w-25" (click)="setToogleMenu(3,2)"><i
+            class="fa-solid fa-circle-chevron-left white"></i></button>
+        <button class="btn w-50" (click)="closeToogleMenu(3)">
           <i class="fa-solid fa-circle-chevron-up white pr-2"></i>
-          <div class="t-med white">ЗГОРНУТИ</div>
+          <div class="t-med white">Меню Оселі</div>
         </button>
+        <button class="btn w-25" (click)="setToogleMenu(3,1)"><i
+            class="fa-solid fa-circle-chevron-right white"></i></button>
       </div>
 
     </div>

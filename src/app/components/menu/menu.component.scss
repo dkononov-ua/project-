@@ -137,11 +137,13 @@
   align-items: flex-end;
   justify-content: flex-start;
   // padding: 20px 0.5rem 0rem 0.5rem;
-  height: 80vh;
+  height: 90vh;
   width: 100%;
   z-index: 1;
   border-radius: 0 0 20px 20px;
-  background-color: $color-accent;
+  // background-color: $color-accent;
+  @include blurred-background($color-accent);
+
   box-shadow: 10px 10px 200px 100px rgba(56, 56, 56, 0.947);
   transform: translateY(-100%);
   transition: 0.6s;
@@ -181,9 +183,11 @@
   background-color: transparent;
   bottom: 0;
   z-index: 120;
-  padding: 10px;
+  // padding: 10px;
+  border-radius: 20px !important;
+  overflow: hidden;
   .btn {
-    border-radius: 20px !important;
+    border-radius: 0px !important;
     width: 200px;
     flex: none;
   }

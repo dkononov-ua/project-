@@ -69,6 +69,13 @@ export class NavigationUserComponent implements OnInit, OnDestroy {
   section: boolean[] = [false, false, false, false, false, false, false, false, false];
   currentLocation: string = '';
 
+  setToogleMenu(close: number, open: number) {
+    this.menuService.toogleMenu(false, close);
+    setTimeout(() => {
+      this.menuService.toogleMenu(true, open);
+    }, 100);
+  }
+  
   // відкриття меню через сервіс
   async closeToogleMenu(index: number) {
     this.menuService.indexMenu(index);

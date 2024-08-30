@@ -1,19 +1,21 @@
 <div class="menu">
 
+
   <div [@cardAnimation]="{value: '', params: { delay: animationDelay(0) }}" class="wrapper-img mb-2" *ngIf="userData"
     (click)="closeToogleMenu(2)">
     <img *ngIf="userData.img && userData.img[0].img !== 'user_default.svg'" class="img-fluid"
-      [src]="serverPath + pathPhotoUser + userData.img[0].img" alt="img">
+      [src]="serverPath + pathPhotoUser + userData.img[0].img" alt="img" [routerLink]="'/user/info'">
     <img *ngIf="!userData.img || userData.img[0].img === 'user_default.svg'" class="img-fluid"
-      src="../../../assets/user_default.svg" alt="img">
-    <div class="userName pl-2" *ngIf="userData">
+      src="../../../assets/user_default.svg" alt="img" [routerLink]="'/user/info'">
+    <div class="userName pl-2 pr-2" *ngIf="userData" [routerLink]="'/user/info'">
       <p class="t-lar bold">{{userData.inf.firstName}}</p>
       <p class="t-min">{{userData.inf.lastName}} ID : {{userData.inf.user_id}}</p>
     </div>
-  </div>
-
-  <div *ngIf="isMobile" [@cardAnimation]="{value: '', params: { delay: animationDelay(1) }}" class="menu_title">
-    Меню Користувача<i class="fa-regular fa-compass pl-2"></i>
+    <a [@cardAnimation]="{value: '', params: { delay: animationDelay(5) }}" class="message"
+      [routerLinkActive]="'active'" [routerLink]="'/user/chat'" (click)="closeToogleMenu(2)">
+      <i class="fa-solid fa-message custom-badge" matBadge="{{counterUserNewMessage}}"
+        [matBadgeHidden]="counterUserNewMessage === 0"></i>
+    </a>
   </div>
 
   <div class="category-container">
@@ -281,7 +283,7 @@
     </div>
   </div>
 
-  <div class="category-container">
+  <!-- <div class="category-container">
     <div class="category">
       <a [@cardAnimation]="{value: '', params: { delay: animationDelay(5) }}" class="link-item"
         [routerLinkActive]="'active'" [routerLink]="'/user/chat'" (click)="closeToogleMenu(2)">
@@ -292,14 +294,14 @@
           <p class="t-min">Чати користувача</p>
         </div>
       </a>
-      <!-- <button *ngIf="!section[5]" [@appearance] [ngClass]="{'active': section[5]}" class="link-btn"
+      <button *ngIf="!section[5]" [@appearance] [ngClass]="{'active': section[5]}" class="link-btn"
         (click)="setSection(5)">
         <i [ngClass]="section[5] ? 'fa-solid fa-circle-chevron-up' : 'fa-solid fa-circle-chevron-down'"></i>
-      </button> -->
+      </button>
     </div>
-    <!-- <div class="subcategory-container" *ngIf="section[5]">
-    </div> -->
-  </div>
+    <div class="subcategory-container" *ngIf="section[5]">
+    </div>
+  </div> -->
 
   <div class="category-container">
     <div class="category">

@@ -1,6 +1,12 @@
 @use "../presets" as *;
 @use "../mixins/mixins-media";
 
+@mixin blurred-background($color, $alpha: 0.831, $blur: 10px) {
+  background-color: rgba($color, $alpha); // Додаємо прозорість
+  backdrop-filter: blur($blur); // Застосовуємо розмиття
+  -webkit-backdrop-filter: blur($blur); // Підтримка для Safari
+}
+
 @mixin container {
   max-width: $ul;
   margin: auto;
@@ -52,7 +58,9 @@
   &:hover {
     transition: 1s;
     // background-color: $color-accent;
-    .fa-solid, .fa-regular, .t-min {
+    .fa-solid,
+    .fa-regular,
+    .t-min {
       transform: scale(1.05);
       color: $color-accent;
       box-shadow: -3px 3px 20px -10px ($color-accent, 40%);

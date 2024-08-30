@@ -56,8 +56,8 @@ export class NavbarComponent implements OnInit, OnDestroy {
   goBack(): void {
     this.location.back();
   }
-  page_title: string = 'Discussio';
-  page_description: string = '';
+  page_title: string = 'discussio';
+  page_description: string = 'все про оренду';
   isHomePage = false;
   currentLocation: string = '';
 
@@ -81,12 +81,12 @@ export class NavbarComponent implements OnInit, OnDestroy {
   ) { }
 
   async ngOnInit(): Promise<void> {
-    await this.checkUrl();
     this.checkRouter();
     this.getCheckDevice();
     this.getServerPath();
     this.checkUserAuthorization();
     this.getStatusMenu();
+    await this.checkUrl();
   }
 
   async checkUrl(): Promise<void> {
@@ -151,7 +151,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
       this.page_title = 'Угоди'
       this.page_description = 'Ухвалені'
     } else {
-      this.page_title = 'Discussio'
+      this.page_title = 'discussio'
     }
   }
 

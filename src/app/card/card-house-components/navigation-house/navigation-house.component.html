@@ -1,18 +1,19 @@
 <div class="menu">
 
-  <a [routerLinkActive]="'active'" [routerLink]="'/house/info'"
-    [@cardAnimation]="{value: '', params: { delay: animationDelay(0) }}" class="wrapper-img mb-2" *ngIf="houseData">
+  <div [routerLinkActive]="'active'"
+    [@cardAnimation]="{value: '', params: { delay: animationDelay(0) }}" class="wrapper-img mb-2" *ngIf="houseData" (click)="closeToogleMenu(2)">
     <img class="img-fluid"
       [src]="imgFlat ? (serverPath + pathPhotoFlat + imgFlat) : './../../../../assets/housing_default.svg'"
-      alt="img mini house">
-    <div class="userName pl-2" *ngIf="houseData">
+      alt="img mini house" [routerLink]="'/house/info'">
+    <a class="userName pl-2" *ngIf="houseData" [routerLink]="'/house/info'">
       <p class="t-lar bold">{{houseData.flat.flat_name}}</p>
       <p class="t-min">{{houseData.flat.region }} ID : {{houseData.flat.flat_id}}</p>
-    </div>
-  </a>
-
-  <div *ngIf="isMobile" [@cardAnimation]="{value: '', params: { delay: animationDelay(1) }}" class="menu_title">
-    Меню Оселі<i class="fa-regular fa-compass pl-2"></i>
+    </a>
+    <a [@cardAnimation]="{value: '', params: { delay: animationDelay(5) }}" class="message"
+      [routerLinkActive]="'active'" [routerLink]="'/house/chat'">
+      <i class="fa-solid fa-message custom-badge" matBadge="{{counterHouseNewMessage}}"
+        [matBadgeHidden]="counterHouseNewMessage === 0"></i>
+    </a>
   </div>
 
   <div class="category-container">
@@ -266,7 +267,7 @@
     </div>
   </div>
 
-  <div class="category-container">
+  <!-- <div class="category-container">
     <div class="category">
       <a [@cardAnimation]="{value: '', params: { delay: animationDelay(5) }}" class="link-item"
         [routerLinkActive]="'active'" [routerLink]="'/house/chat'" (click)="closeToogleMenu(2)">
@@ -277,14 +278,14 @@
           <p class="t-min">Чати оселі</p>
         </div>
       </a>
-      <!-- <button *ngIf="!section[5]" [@appearance] [ngClass]="{'active': section[5]}" class="link-btn"
+      <button *ngIf="!section[5]" [@appearance] [ngClass]="{'active': section[5]}" class="link-btn"
         (click)="setSection(5)">
         <i [ngClass]="section[5] ? 'fa-solid fa-circle-chevron-up' : 'fa-solid fa-circle-chevron-down'"></i>
-      </button> -->
+      </button>
     </div>
-    <!-- <div class="subcategory-container" *ngIf="section[5]">
-    </div> -->
-  </div>
+    <div class="subcategory-container" *ngIf="section[5]">
+    </div>
+  </div> -->
 
   <div class="category-container">
     <div class="category">

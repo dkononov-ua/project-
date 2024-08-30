@@ -1,10 +1,8 @@
 <nav class="navigation-container">
 
-  <div class="item-group" (click)="toggleAllMenu(1)" *ngIf="isMobile">
-    <div class="lobo-box">
-      <img class="logo-img" src="./../../assets/logo/discussio.png" alt="">
-      <div class="logo-icon"><i class="fa-solid fa-ellipsis"></i></div>
-    </div>
+  <div class="lobo-box pl-1" (click)="toggleAllMenu(1)" *ngIf="isMobile">
+    <img class="logo-img" src="./../../assets/logo/discussio.png" alt="discussio_logo_mini">
+    <!-- <div class="logo-icon"><i class="fa-solid fa-ellipsis"></i></div> -->
   </div>
 
   <div class="item-group" *ngIf="!isMobile">

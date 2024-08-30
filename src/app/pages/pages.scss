@@ -162,7 +162,8 @@
   justify-content: flex-start;
   position: relative;
   justify-content: space-around !important;
-  background-color: $color-accent;
+  // background-color: $color-accent;
+  @include blurred-background($color-accent);
 
   .switch-btn-group {
     @include flex-box-column;

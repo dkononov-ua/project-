@@ -5,13 +5,13 @@
 
 .gif-box {
   position: relative;
+  @include blurred-background($color-accent);
+  border-radius: 0px 0px 20px 20px;
   .home-img {
-    width: 100%;
-    background-color: $color-accent;
-    height: auto;
-    border-radius: 0px 0px 20px 20px;
     overflow: hidden;
-    filter: drop-shadow(2px 2px 8px $color-dark);
+    // filter: drop-shadow(2px 2px 8px $color-dark);
+    width: 100%;
+    height: auto;
     object-fit: cover;
   }
 }
