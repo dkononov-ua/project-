@@ -1,7 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { SharedService } from 'src/app/services/shared.service';
 import { animations } from '../../../../interface/animation';
-import { UpdateMetaTagsService } from 'src/app/services/updateMetaTags.service';
 
 @Component({
   selector: 'app-house-control-about',
@@ -23,24 +22,12 @@ export class HouseControlAboutComponent implements OnInit, OnDestroy {
 
   constructor(
     private sharedService: SharedService,
-    private updateMetaTagsService: UpdateMetaTagsService,
   ) { }
 
   async ngOnInit(): Promise<void> {
-    this.updateMetaTagsInService();
     this.getCheckDevice();
   }
 
-  private updateMetaTagsInService(): void {
-    const data = {
-      title: 'Профіль оселі',
-      description: 'В Діскусіо ви можете створювати профілі осель для їх керування.',
-      keywords: 'профіль оселі, керування оселями, створення профілю оселі, обрати профіль оселі, вибір оселі, додати оселю, створити багато оселей, зручне керування оселями, керування житлом',
-      // image: '/assets/blog/blog.png',
-      // url: 'https://discussio.site/blog',
-    }
-    this.updateMetaTagsService.updateMetaTags(data)
-  }
   // підписка на шлях до серверу
   async getCheckDevice() {
     this.subscriptions.push(

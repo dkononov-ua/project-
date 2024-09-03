@@ -1,18 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { FirebaseDataService } from 'src/app/config/firebaseData.service';
 import { formatDate } from '@angular/common';
 import { SharedService } from 'src/app/services/shared.service';
 import { Router } from '@angular/router';
 import { animations } from '../../../../interface/animation';
-import { Meta, Title } from '@angular/platform-browser';
-import { UpdateMetaTagsService } from 'src/app/services/updateMetaTags.service';
 import { PostService } from 'src/app/services/post.service';
 
 @Component({
   selector: 'app-posts',
   templateUrl: './posts.component.html',
-  styleUrls: ['./posts.component.scss'],
+  styleUrls: ['./../posts.component.scss'],
   animations: [
     animations.bot,
     animations.bot3,
@@ -68,10 +65,8 @@ export class PostsComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private firebaseDataService: FirebaseDataService,
     private sharedService: SharedService,
     private router: Router,
-    private updateMetaTagsService: UpdateMetaTagsService,
     private postService: PostService,
   ) {
     this.postForm = this.fb.group({
@@ -85,19 +80,7 @@ export class PostsComponent implements OnInit {
 
   ngOnInit(): void {
     this.getCheckDevice();
-    this.updateMetaTagsInService();
     this.loadPosts();
-  }
-
-  private updateMetaTagsInService(): void {
-    const data = {
-      title: 'Блог про оренду нерухомості та запуск нових функцій Discussio.',
-      description: 'Ми ділимось з вами нашим розвитком та становленням! Підтримайте наш проект та підписуйтесь на наші оновлення!',
-      keywords: 'блог, оренда нерухомості, новини, Discussio',
-      image: '/assets/blog/blog.png',
-      url: 'https://discussio.site/blog',
-    }
-    this.updateMetaTagsService.updateMetaTags(data)
   }
 
   // Перевірка на пристрій

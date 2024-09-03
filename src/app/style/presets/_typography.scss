@@ -48,6 +48,10 @@ textarea::-webkit-scrollbar {
   display: none;
 }
 
+.italic {
+  font-style: italic !important;
+}
+
 .bg-accent {
   background-color: $color-accent !important;
 }

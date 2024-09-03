@@ -6,7 +6,11 @@ import { NavigationEnd, Router } from '@angular/router';
 import { SharedService } from '../../services/shared.service';
 import { MenuService } from '../../services/menu.service';
 import { Location } from '@angular/common';
-import { filter } from 'rxjs';
+import { filter, Subscription } from 'rxjs';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
+import { pageConfig } from 'src/app/data/page-config';
+import { UpdateMetaTagsService } from 'src/app/services/updateMetaTags.service';
 
 interface MenuStatus {
   status: boolean;
@@ -37,7 +41,7 @@ interface MenuStatus {
   ],
 })
 export class NavbarComponent implements OnInit, OnDestroy {
-
+  private unsubscribe$ = new Subject<void>();
   // імпорт шляхів до медіа
   pathPhotoUser = ServerConfig.pathPhotoUser;
   pathPhotoFlat = ServerConfig.pathPhotoFlat;
@@ -45,13 +49,16 @@ export class NavbarComponent implements OnInit, OnDestroy {
   path_logo = ServerConfig.pathLogo;
   serverPath: string = '';
   // ***
-
+  pageConfig = pageConfig;
   authorization: boolean = false;
   authorizationHouse: boolean = false;
   selectedFlatId!: number | null;
   houseData: any;
+  userData: any;
   isMobile: boolean = false;
   subscriptions: any[] = [];
+  metaTitleName: string = '';
+  metaImage: any;
 
   goBack(): void {
     this.location.back();
@@ -65,7 +72,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
   menuIndex: number = 0;
   disabledBtn: boolean = false;
   user_router: boolean = false;
-
+  private routerSubscription: Subscription | undefined;
   toggleAllMenu(index: number) {
     this.menuStatus = !this.menuStatus
     this.menuService.toogleMenu(this.menuStatus, index)
@@ -78,80 +85,96 @@ export class NavbarComponent implements OnInit, OnDestroy {
     private sharedService: SharedService,
     private menuService: MenuService,
     private location: Location,
+    private updateMetaTagsService: UpdateMetaTagsService,
   ) { }
 
   async ngOnInit(): Promise<void> {
+    this.getServerPath();
     this.checkRouter();
     this.getCheckDevice();
-    this.getServerPath();
     this.checkUserAuthorization();
     this.getStatusMenu();
-    await this.checkUrl();
+    this.checkUrl();
   }
 
-  async checkUrl(): Promise<void> {
+  checkUrl() {
     this.router.events.pipe(
-      filter(event => event instanceof NavigationEnd)
+      filter(event => event instanceof NavigationEnd),
+      takeUntil(this.unsubscribe$)
     ).subscribe((event: NavigationEnd) => {
       this.currentLocation = event.urlAfterRedirects;
       this.checkLocation();
     });
   }
 
+  // Перевіряю роутер та підписуюсь на його оновлення якщо роутер міняється відписуюсь від попереднього роутера
   async checkRouter(): Promise<void> {
-    if (this.currentLocation.includes('/user')) {
+    this.currentLocation = this.router.url; // Отримуємо поточний URL
+    this.checkLocation(); // Викликаємо метод для перевірки локації
+    if (this.currentLocation === ('/user')) {
       this.user_router = true;
     } else {
       this.user_router = false;
     }
   }
 
+  // Перевіряю шляхи в роутері та виводжу назву та опис меню з конфігу data/page-config
   async checkLocation(): Promise<void> {
-    // console.log(this.currentLocation)
-    if (this.currentLocation.includes('/discussio-search')) {
-      this.page_title = 'Пошук'
-      this.page_description = 'Осель & Орендарів'
-    } else if (this.currentLocation.includes('/user/info')) {
-      this.page_title = 'Профіль'
-      this.page_description = 'Користувача'
-    } else if (this.currentLocation.includes('/home')) {
-      this.page_title = 'Головна'
-      this.page_description = 'Сторінка'
-    } else if (this.currentLocation.includes('/house')) {
-      this.page_title = 'Профіль'
-      this.page_description = 'Оселі'
-    } else if (this.currentLocation.includes('/user/edit/person')) {
-      this.page_title = 'Редагування'
-      this.page_description = 'Персона'
-    } else if (this.currentLocation.includes('/user/edit/contacts')) {
-      this.page_title = 'Редагування'
-      this.page_description = 'Контакти'
-    } else if (this.currentLocation.includes('/user/edit/status')) {
-      this.page_title = 'Редагування'
-      this.page_description = 'Статуси'
-    } else if (this.currentLocation.includes('/user/edit/looking')) {
-      this.page_title = 'Редагування'
-      this.page_description = 'Орендаря'
-    } else if (this.currentLocation.includes('/user/edit/delete')) {
-      this.page_title = 'Видалення'
-      this.page_description = 'Аккаунту'
-    } else if (this.currentLocation.includes('/user/tenant')) {
-      this.page_title = 'Профіль'
-      this.page_description = 'Орендаря'
-    } else if (this.currentLocation.includes('/user/agree/menu')) {
-      this.page_title = 'Угоди'
-      this.page_description = 'Меню'
-    } else if (this.currentLocation.includes('/user/agree/step')) {
-      this.page_title = 'Угоди'
-      this.page_description = 'Пояснення'
-    } else if (this.currentLocation.includes('/user/agree/rewiew')) {
-      this.page_title = 'Угоди'
-      this.page_description = 'Запропоновані'
-    } else if (this.currentLocation.includes('/user/agree/concluded')) {
-      this.page_title = 'Угоди'
-      this.page_description = 'Ухвалені'
+    type PagePaths = keyof typeof pageConfig;
+    const currentLocation = this.currentLocation as PagePaths;
+    const config = pageConfig[currentLocation];
+    if (config) {
+      this.page_title = config.title;
+      this.page_description = config.description;
+      this.updateMetaTagsInService(config)
     } else {
-      this.page_title = 'discussio'
+      this.page_title = 'discussio';
+      this.page_description = '';
+    }
+  }
+
+  // Оновлюю метатеги в залежності від локації з конфігу data/page-config
+  private updateMetaTagsInService(config: any): void {
+    this.getUserData();
+    // console.log(config)
+    if (this.userData && this.currentLocation === '/user/info') {
+      const data = {
+        title: this.metaTitleName,
+        description: config.metaDescription,
+        keywords: config.metaKeywords,
+        image: this.metaImage,
+        robots: config.metaRobots,
+        author: config.metaAuthor,
+        canonical: config.metaCanonical,
+        themeColor: config.metaThemeColor,
+        url: 'https://discussio.site' + this.currentLocation,
+      }
+      this.updateMetaTagsService.updateMetaTags(data)
+    } else {
+      const data = {
+        title: config.metaTitle,
+        description: config.metaDescription,
+        keywords: config.metaKeywords,
+        image: config.metaImg,
+        robots: config.metaRobots,
+        author: config.metaAuthor,
+        canonical: config.metaCanonical,
+        themeColor: config.metaThemeColor,
+        url: 'https://discussio.site' + this.currentLocation,
+      }
+      this.updateMetaTagsService.updateMetaTags(data)
+    }
+  }
+
+  getUserData() {
+    const userData = localStorage.getItem('userData');
+    if (userData) {
+      this.userData = JSON.parse(userData);
+      // console.log(this.userData)
+      if (this.userData && this.userData.inf) {
+        this.metaTitleName = `Профіль ${this.userData.inf.firstName} ${this.userData.inf.lastName}`;
+        this.metaImage = this.serverPath + '/img/users/' + this.userData.img[0].img
+      }
     }
   }
 
@@ -226,6 +249,8 @@ export class NavbarComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.subscriptions.forEach(subscription => subscription.unsubscribe());
+    this.unsubscribe$.next();
+    this.unsubscribe$.complete();
   }
 
 }

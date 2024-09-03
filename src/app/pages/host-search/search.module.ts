@@ -28,20 +28,16 @@ import { ProfileComponent } from './host-search-tenant/profile/profile.component
 import { GestureService } from '../../services/gesture.service';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { SearchTermTenantsComponent } from './host-search-tenant/search-term-tenants/search-term-tenants.component';
 import { MatStepperModule } from '@angular/material/stepper';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SearchHousingComponent } from './host-search-house/search-housing.component';
 import { HouseComponent } from './host-search-house/house/house.component';
-import { SearchTermHouseComponent } from './host-search-house/search-term-house/search-term-house.component';
 @NgModule({
   declarations: [
     SearchTenantComponent,
     ProfileComponent,
     SearchHousingComponent,
     HouseComponent,
-    SearchTermTenantsComponent,
-    SearchTermHouseComponent,
   ],
   imports: [
     BrowserAnimationsModule,

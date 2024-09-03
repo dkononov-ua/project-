@@ -27,15 +27,18 @@
 .menu {
   overflow: auto;
   position: relative;
-  height: calc(100vh - 80px);
-  padding: 0px 0px 0px 0px;
+  @include s3-s6-max {
+    height: calc(100vh - 70px);
+    padding: 0px 0px 20px 0px;
+  }
   &::-webkit-scrollbar {
     display: none;
   }
 
   @include s1-s3 {
+    height: auto;
     padding: 20px 0px 60px 20px;
-    height: 90vh;
+    // height: 85vh;
   }
 }
 

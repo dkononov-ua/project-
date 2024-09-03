@@ -14,6 +14,7 @@ import { ActTransferComponent } from './components/agreements/act-transfer/act-t
 import { HomeComponent } from './pages/host/home/home.component';
 import { NotFoundComponent } from './pages/host/not-found/not-found.component';
 import { ProjectContactsComponent } from './pages/host/project-contacts/project-contacts.component';
+import { FaqComponent } from './pages/host/faq/faq.component';
 
 const routes: Routes = [
   {
@@ -76,6 +77,10 @@ const routes: Routes = [
   {
     path: 'our-team',
     component: OurTeamComponent
+  },
+  {
+    path: 'faq',
+    component: FaqComponent
   },
   {
     path: 'user-licence',

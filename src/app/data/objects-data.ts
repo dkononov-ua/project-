@@ -92,7 +92,7 @@ export const objects = [
       { id: 1, name: "Холодна вода", iconUrl: defaultUrl + "humidity_high.png"},
       { id: 2, name: 'Водовідведення', iconUrl: defaultUrl + "valve.png"},
       { id: 3, name: 'Газ', iconUrl: defaultUrl + "gas_meter.png"},
-      { id: 3, name: 'Гаряча вода', iconUrl: defaultUrl + "gas_meter.png"},
+      { id: 4, name: 'Гаряча вода', iconUrl: defaultUrl + "gas_meter.png"},
     ]
   },
 ]

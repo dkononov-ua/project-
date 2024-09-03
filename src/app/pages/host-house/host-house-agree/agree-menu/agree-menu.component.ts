@@ -4,7 +4,6 @@ import { SelectedFlatService } from 'src/app/services/selected-flat.service';
 import * as ServerConfig from 'src/app/config/path-config';
 import { animations } from '../../../../interface/animation';
 import { SharedService } from 'src/app/services/shared.service';
-import { UpdateMetaTagsService } from 'src/app/services/updateMetaTags.service';
 
 @Component({
   selector: 'app-agree-menu',
@@ -68,25 +67,12 @@ export class AgreeMenuComponent implements OnInit, OnDestroy {
     private router: Router,
     private selectedFlatIdService: SelectedFlatService,
     private sharedService: SharedService,
-    private updateMetaTagsService: UpdateMetaTagsService,
   ) { }
 
   async ngOnInit(): Promise<void> {
-    this.updateMetaTagsInService();
     this.getCheckDevice();
     this.getServerPath();
     this.checkUserAuthorization();
-  }
-
-  private updateMetaTagsInService(): void {
-    const data = {
-      title: 'Створення угод оренди житла',
-      description: 'Наша платформа дозволяє легко та швидко створювати угоди між орендарем та орендодавцем всього за кілька кліків.',
-      keywords: 'угода, оренда, укласти угоду, сформувати угоду, завантажити угоду оренди, надрукувати угоду',
-      // image: '/assets/blog/blog.png',
-      // url: 'https://discussio.site/blog',
-    }
-    this.updateMetaTagsService.updateMetaTags(data)
   }
 
   // Перевірка на авторизацію користувача

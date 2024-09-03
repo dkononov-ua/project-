@@ -5,7 +5,7 @@ import { animations } from '../../../interface/animation';
 @Component({
   selector: 'app-status-data-house',
   templateUrl: './status-data-house.component.html',
-  styleUrls: ['./status-data-house.component.scss'],
+  styleUrls: ['./../../status.scss'],
   animations: [
     animations.fadeIn,
     animations.top4,

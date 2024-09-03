@@ -8,7 +8,7 @@ import { animations } from '../../../interface/animation';
 @Component({
   selector: 'app-status-data',
   templateUrl: './status-data.component.html',
-  styleUrls: ['./status-data.component.scss'],
+  styleUrls: ['./../../status.scss'],
   animations: [
     animations.fadeIn,
     animations.top4,

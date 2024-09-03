@@ -1,0 +1,125 @@
+@use "../../../style/presets/" as *;
+@use "../../../style/mixins/" as *;
+@use "../../../style/shared.scss";
+
+.status {
+  top: 12px;
+  right: 12px;
+  width: auto;
+  border-radius: 5px;
+  padding: 5px;
+  .fa-solid {
+    font-size: 16px;
+  }
+}
+.faq_item {
+  position: relative;
+  background-color: rgba(255, 255, 255, 0.395);
+  border-radius: 10px;
+  padding: 10px;
+}
+
+.faq-container {
+  display: flex;
+  justify-content: flex-start;
+  flex-direction: column;
+  align-items: stretch;
+  width: 100%;
+  height: 100%;
+}
+
+.content-component {
+  @include flex-box;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+  align-items: stretch;
+  justify-content: flex-start;
+  padding-top: 80px;
+
+  @include s3-s6-max {
+    height: 100vh;
+  }
+  @include s1-s3 {
+    padding-top: 60px;
+    height: auto;
+  }
+
+  .container-content {
+    height: 100%;
+    position: relative;
+    display: flex;
+    align-items: flex-start;
+    width: 100%;
+    justify-content: flex-start;
+    overflow: auto;
+    flex-wrap: wrap;
+    align-content: flex-start;
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+}
+
+.links-box {
+  @include flex-box-center;
+  justify-content: flex-start;
+  padding: 5px;
+  .fa-solid,
+  .fa-brands {
+    font-size: 16px;
+    padding-left: 5px;
+  }
+}
+
+.categories-box {
+  @include flex-box-center;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background-color: $color-primary;
+  justify-content: flex-start;
+  width: 100%;
+  flex-direction: column;
+  @include s1-s3 {
+    background-color: $color-white;
+  }
+  .categories-faq {
+    @include flex-box-center;
+    flex-wrap: wrap;
+  }
+
+  .categories {
+    padding: 3px;
+    margin: 1px 2px 0 0;
+    // background-color: $color-white;
+    @include box-shadow;
+    border-radius: 5px;
+    .fa-regular,
+    .fa-solid {
+      font-size: 16px;
+      color: $color-gray;
+    }
+    &.selected {
+      background-color: $color-accent;
+      color: $color-white;
+      .fa-regular,
+      .fa-solid {
+        font-size: 16px;
+        color: $color-white;
+      }
+    }
+  }
+}
+
+.footer {
+  position: sticky;
+  bottom: 0;
+  padding-bottom: 20px;
+  background-image: linear-gradient(to bottom, transparent 0%, $color-primary 40%) !important;
+  @include s1-s3 {
+    bottom: 0;
+    background-image: linear-gradient(to bottom, transparent 0%, $color-white 40%) !important;
+    padding-bottom: 0px;
+  }
+}

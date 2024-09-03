@@ -17,6 +17,7 @@ const routes = [
   '/support-us',
   '/user-licence',
   '/our-team',
+  '/faq',
 
   '/auth/login',
   '/auth/registration',
@@ -56,7 +57,7 @@ Readable.from(urls).pipe(stream);
 
 // Перетворення потоку у строку та збереження
 streamToPromise(stream).then(sm => {
-  fs.outputFile(path.join(__dirname, 'dist/project', 'sitemap.xml'), sm, err => {
+  fs.outputFile(path.join(__dirname, 'dist/project/browser', 'sitemap.xml'), sm, err => {
     if (err) {
       console.error('Помилка створення карти сайту:', err);
     } else {

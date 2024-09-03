@@ -1,0 +1,30 @@
+User-agent: *
+Disallow: /
+
+Allow: /$
+Allow: /home
+Allow: /about-project
+Allow: /blog
+Allow: /support-us
+Allow: /user-licence
+Allow: /our-team
+Allow: /faq
+Allow: /auth/login
+Allow: /auth/registration
+Allow: /user/search/house
+Allow: /user/agree/about
+Allow: /user/discus/about
+Allow: /user/tenant/about
+Allow: /user/agree/step
+Allow: /user/edit/looking
+Allow: /house/agree/about
+Allow: /house/agree/step
+Allow: /house/objects/about
+Allow: /house/residents/about
+Allow: /house/control/about
+Allow: /house/discus/about
+Allow: /house/search/tenant
+Allow: /house/search/neighbor
+
+Sitemap: https://discussio.site/sitemap.xml
+

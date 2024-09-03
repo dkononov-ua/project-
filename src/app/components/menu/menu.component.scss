@@ -23,7 +23,7 @@
 .menu-container {
   width: 100%;
   position: fixed;
-  height: 90vh;
+  height: 85vh;
   top: 0;
   left: 0;
   z-index: 2000;
@@ -137,7 +137,7 @@
   align-items: flex-end;
   justify-content: flex-start;
   // padding: 20px 0.5rem 0rem 0.5rem;
-  height: 90vh;
+  height: auto;
   width: 100%;
   z-index: 1;
   border-radius: 0 0 20px 20px;

@@ -19,6 +19,9 @@
   height: 100vh;
   width: 100%;
   overflow: hidden;
+  &.home {
+    background-color: $color-white;
+  }
   @include s1-s3 {
     height: auto;
   }

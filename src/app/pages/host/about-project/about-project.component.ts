@@ -1,9 +1,7 @@
 import { Component, ElementRef, OnInit } from '@angular/core';
 import * as ServerConfig from 'src/app/config/path-config';
 import { animations } from '../../../interface/animation';
-import { ViewportScroller } from '@angular/common';
 import { SharedService } from 'src/app/services/shared.service';
-import { UpdateMetaTagsService } from 'src/app/services/updateMetaTags.service';
 import { AuthGoogleService } from '../../host-auth/auth-google.service';
 
 @Component({
@@ -78,14 +76,11 @@ export class AboutProjectComponent implements OnInit {
 
   constructor(
     private el: ElementRef,
-    private viewportScroller: ViewportScroller,
     private sharedService: SharedService,
     private authGoogleService: AuthGoogleService,
-    private updateMetaTagsService: UpdateMetaTagsService,
   ) { }
 
   ngOnInit() {
-    this.updateMetaTagsInService();
     this.getCheckDevice();
     this.changeText();
     const userJson = localStorage.getItem('user');
@@ -95,16 +90,6 @@ export class AboutProjectComponent implements OnInit {
       this.authorization = false;
     }
     this.scrollToAnchor(0);
-  }
-
-  private updateMetaTagsInService(): void {
-    const data = {
-      title: 'Що таке - Discussio™. Інформація про проект та наші функції',
-      description: 'Тут ви дізнаєтесь про наші плани та функції Діскусіо. Діскусіо орієнтований на полегшення процесу оренди, та надання нових послуг у цій сфері',
-      keywords: 'Discussio, проект, функції, інформація, оренда, орендарі',
-      image: '',
-    }
-    this.updateMetaTagsService.updateMetaTags(data)
   }
 
   // Перевірка на пристрій

@@ -82,6 +82,11 @@ import { AgreeDetailsComponent } from '../card/card-user-components/agree-detail
 import { MatBadgeModule } from '@angular/material/badge';
 import { HouseResidentProgressComponent } from '../card/card-house-components/house-resident-progress/house-resident-progress.component';
 import { AutoResizeTextareaDirective } from '../directive/auto-resize-textarea.directive';
+import { SearchTermTenantsComponent } from '../pages/host-search/host-search-tenant/search-term-tenants/search-term-tenants.component';
+import { SearchTermHouseComponent } from '../pages/host-search/host-search-house/search-term-house/search-term-house.component';
+import { CarouselUserComponent } from '../pages/host/carousel-user/carousel-user.component';
+import { PostsLastComponent } from '../pages/host/blog/posts-last/posts-last.component';
+import { FaqComponent } from '../pages/host/faq/faq.component';
 
 @NgModule({
   declarations: [
@@ -132,6 +137,11 @@ import { AutoResizeTextareaDirective } from '../directive/auto-resize-textarea.d
 
     ClickOutsideDirective,
     AutoResizeTextareaDirective,
+    SearchTermTenantsComponent,
+    SearchTermHouseComponent,
+    CarouselUserComponent,
+    PostsLastComponent,
+    FaqComponent,
   ],
   exports: [
     FooterComponent,
@@ -177,6 +187,12 @@ import { AutoResizeTextareaDirective } from '../directive/auto-resize-textarea.d
 
     ClickOutsideDirective,
     AutoResizeTextareaDirective,
+    SearchTermTenantsComponent,
+    SearchTermHouseComponent,
+    CarouselUserComponent,
+    PostsLastComponent,
+    FaqComponent,
+
   ],
   providers: [
     UpdateComponentService,

@@ -9,7 +9,6 @@ import { animations } from '../app/interface/animation';
 import { NavigationEnd, Router } from '@angular/router';
 import { LoaderService } from './services/loader.service';
 import { filter } from 'rxjs';
-import { UpdateMetaTagsService } from './services/updateMetaTags.service';
 import { MenuService } from './services/menu.service';
 
 interface MenuStatus {
@@ -98,7 +97,6 @@ export class AppComponent implements OnInit, OnDestroy {
     private statusMessageService: StatusMessageService,
     private router: Router,
     private loaderService: LoaderService,
-    private updateMetaTagsService: UpdateMetaTagsService,
     private menuService: MenuService,
   ) { }
 
@@ -106,9 +104,10 @@ export class AppComponent implements OnInit, OnDestroy {
     this.router.events.pipe(
       filter(event => event instanceof NavigationEnd)
     ).subscribe(() => {
-      this.isHomePage = this.location.path() === '';
+      const currentPath = this.location.path();
+      this.isHomePage = currentPath === '' || currentPath === '/home';
     });
-    this.updateMetaTagsInService();
+
     await this.getStatusLoader();
     this.checkBackendService.startCheckServer();
     this.currentLocation = this.location.path();
@@ -117,16 +116,6 @@ export class AppComponent implements OnInit, OnDestroy {
     this.getServerPath();
     this.getStatusMessage();
     this.getStatusMenu();
-  }
-
-  private updateMetaTagsInService(): void {
-    const data = {
-      title: 'Діскусіо - розміщення оголошень. Здача осель в оренду. Активація профілів орендарів для пошуку житла.',
-      description: 'Платформа для управління нерухомістю. Потрібно орендувати оселю? Пошук оселі та пошук орендарів. Знайдемо оселю та орендаря. Сформуємо угоду.',
-      keywords: 'нерухомість, пошук орендаря, оренда, пошук оселі, управління нерухомістю, Діскусіо, діскусіо, діскус',
-      image: '',
-    }
-    this.updateMetaTagsService.updateMetaTags(data)
   }
 
   // підписка на оновлення шляху серверу

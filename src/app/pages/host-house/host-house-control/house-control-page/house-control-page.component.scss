@@ -1,7 +1,7 @@
 @use "../../../../style/presets/" as *;
 @use "../../../../style/mixins/" as *;
 @use "../../../../style/shared.scss";
-@use "../../../../card/card-house-components/status-data-house/status-data-house.component.scss";
+@use "../../../../card/status.scss";
 
 .content-child {
   // height: calc(100vh - 100px - 1rem);

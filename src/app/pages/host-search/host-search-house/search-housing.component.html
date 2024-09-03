@@ -1,5 +1,7 @@
+<app-navbar></app-navbar>
+
 <div class="content-component">
-  <div class="switch-container">
+  <div class="switch-container" *ngIf="isMobile">
 
     <div class="switch-btn-group">
       <button class="btn" (click)="goBack()">
@@ -8,10 +10,10 @@
       </button>
     </div>
 
-    <div class="menu-box">
+    <!-- <div class="menu-box">
       <h1 class="menu-lable">Пошук</h1>
       <h2 class="menu-name">Оселі <i class="fa-solid fa-magnifying-glass pl-2"></i></h2>
-    </div>
+    </div> -->
 
     <div class="switch-btn-group">
       <button [disabled]="!authorization" class="btn" [routerLink]="'/user/discus/subscriptions'">

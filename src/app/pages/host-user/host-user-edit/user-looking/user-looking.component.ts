@@ -12,7 +12,6 @@ import { CityDataService } from 'src/app/services/data/cityData.service';
 import { UserInfo } from 'src/app/interface/info';
 import { UserConfig } from 'src/app/interface/param-config';
 import { StatusMessageService } from 'src/app/services/status-message.service';
-import { UpdateMetaTagsService } from 'src/app/services/updateMetaTags.service';
 
 @Component({
   selector: 'app-user-looking',
@@ -153,12 +152,10 @@ export class UserLookingComponent implements OnInit, OnDestroy {
     private storageUserDataService: StorageUserDataService,
     private cityDataService: CityDataService,
     private statusMessageService: StatusMessageService,
-    private updateMetaTagsService: UpdateMetaTagsService,
 
   ) { }
 
   async ngOnInit(): Promise<void> {
-    this.updateMetaTagsInService();
     this.getCheckDevice();
     this.getServerPath();
     this.checkUserAuthorization();
@@ -197,17 +194,6 @@ export class UserLookingComponent implements OnInit, OnDestroy {
     } else {
       this.authorization = false;
     }
-  }
-
-  private updateMetaTagsInService(): void {
-    const data = {
-      title: 'Профіль орендаря',
-      description: 'Форма для розміщення оголошення про пошук житла',
-      keywords: 'розмістити оголошення, шукаю оселю, шукаю житло, орендарь, хочу знайти оселю, шукаю кімнату, шукаю будинок, пошук квартир',
-      // image: '/assets/blog/blog.png',
-      // url: 'https://discussio.site/blog',
-    }
-    this.updateMetaTagsService.updateMetaTags(data)
   }
 
   checkRooms() {

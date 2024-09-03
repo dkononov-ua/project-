@@ -37,6 +37,7 @@ export class CardsDataHouseService {
   choseUserId: any | null;
   additionalHouseInfo: any;
   iResident: string = '';
+  private reverseOrder: boolean = true; // Змінна для зберігання стану напряму
 
   constructor(
     private http: HttpClient,
@@ -142,7 +143,17 @@ export class CardsDataHouseService {
 
   setCardsData(data: any): void {
     this.cardsDataSubject.next(data);
-    this.allCards = data;
+    if (this.currentLocation === '/home') {
+      if (this.reverseOrder) {
+        this.allCards = data.reverse(); // Перевертаємо масив
+      } else {
+        this.allCards = data; // Залишаємо масив як є
+      }
+      // Змінюємо стан напряму
+      this.reverseOrder = !this.reverseOrder;
+    } else {
+      this.allCards = data;
+    }
     this.selectCard();
   }
 

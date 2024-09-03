@@ -1,0 +1,74 @@
+<app-navbar></app-navbar>
+<div class="content-component">
+  <div class="container-content t-c">
+
+    <div class="categories-box p-1 w-100">
+
+      <div class="categories-faq p-1 w-100">
+        <button [ngClass]="{ 'selected': selectedCategory === null  }" class="btn categories t-med"
+          (click)="filterFaqCategory('')">Всі
+        </button>
+        <button [ngClass]="{ 'selected': selectedCategory === null  }" class="btn categories t-med"
+          (click)="filterFaqCategory(category.category)" *ngFor="let category of faq">{{category.category}}
+        </button>
+      </div>
+
+      <!-- <mat-form-field appearance="outline" class="w-100">
+        <mat-label>Пошук по тегам</mat-label>
+        <input matInput placeholder="Введіть тег для пошуку" [(ngModel)]="searchTerm"
+          (ngModelChange)="onSearchChange()">
+        <mat-icon matSuffix><i class="fa-solid fa-magnifying-glass"></i></mat-icon>
+        <mat-hint class="red" align="end"></mat-hint>
+      </mat-form-field> -->
+
+
+    </div>
+
+    <div class="faq-container">
+
+      <div [@top4] class="card-body p-3" *ngFor="let item of filteredFaq">
+        <p class="t-lar bold border-bottom t-s">{{ item.id}}. {{item.category}}</p>
+        <div class="faq_item t-s mt-2 border-bottom" *ngFor="let item of item.items">
+          <p class=" bold">{{ item.id}}. {{ item.question}}
+            <span class="t-med gray thin italic">
+              Оновлено {{ item.lastUpdated | date:'dd/MM/yy' }}
+              <ng-container *ngIf="isNewlyUpdated(item.lastUpdated)">
+                <span class="status new">Оновлення<i class="fa-solid fa-bolt-lightning white pl-2"></i></span> <!-- Статус оновлення -->
+              </ng-container>
+            </span>
+          </p>
+          <details>
+            <summary class="t-med italic bold">{{item.summary}}
+              <span class="thin accent"> детальніше... </span>
+            </summary>
+            <p class="t-med italic">{{item.answer}}</p>
+          </details>
+
+          <div class="links-box t-s">
+            <div *ngFor="let item of item.links">
+              <a href="{{item.link}}" class="t-med italic p-1" *ngIf="item.link">
+                {{item.link_name}}<i class="fa-solid fa-square-up-right"></i>
+              </a>
+            </div>
+
+            <a target="_blank" href="{{item.video_link}}" class="t-med italic p-1" *ngIf="item.video_link">
+              Відео<i class="fa-brands fa-youtube"></i>
+            </a>
+          </div>
+
+
+
+
+
+          <!-- <p class="t-min gray">Теги: {{item.tags}}</p> -->
+        </div>
+      </div>
+
+      <div class="footer w-100">
+        <app-footer></app-footer>
+      </div>
+
+    </div>
+
+  </div>
+</div>

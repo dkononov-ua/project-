@@ -1,4 +1,4 @@
-<div class="body-container">
+<div class="body-container" [ngClass]="{'home': isHomePage === true}">
   <div [@fadeIn] class="bg" *ngIf="nextBG && !isMobile">
     <img class="bg-img" [src]="currentImage">
   </div>

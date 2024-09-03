@@ -48,7 +48,8 @@
     }
   }
   @include s1-s3 {
-    height: calc(100vh - 50px - 100px - 1rem);
+    min-height: 650px;
+    height: auto;
   }
   .card-mini.selected {
     transition: 1s;

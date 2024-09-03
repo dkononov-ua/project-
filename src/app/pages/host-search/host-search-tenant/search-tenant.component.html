@@ -1,5 +1,6 @@
-<div class="content-component" *ngIf="authorization">
-  <div class="switch-container">
+<app-navbar></app-navbar>
+<div class="content-component">
+  <div class="switch-container" *ngIf="isMobile">
 
     <div class="switch-btn-group">
       <button class="btn" (click)="goBack()">
@@ -8,10 +9,10 @@
       </button>
     </div>
 
-    <div class="menu-box">
+    <!-- <div class="menu-box">
       <h1 class="menu-lable">Пошук</h1>
       <h2 class="menu-name">Орендаря <i class="fa-solid fa-magnifying-glass pl-2"></i></h2>
-    </div>
+    </div> -->
 
     <div class="switch-btn-group hide-mobile" *ngIf="!authorizationHouse">
       <button class="btn" [routerLinkActive]="'active'" [routerLink]="'/house/control/add'">

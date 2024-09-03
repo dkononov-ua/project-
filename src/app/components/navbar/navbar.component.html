@@ -5,17 +5,16 @@
     <!-- <div class="logo-icon"><i class="fa-solid fa-ellipsis"></i></div> -->
   </div>
 
-  <div class="item-group" *ngIf="!isMobile">
+  <div class="item-group" *ngIf="!isMobile" [routerLink]="'/home'">
     <div class="lobo-box">
       <img class="logo-img" src="./../../assets/logo/discussio.png" alt="">
-      <div class="logo-icon"><i class="fa-solid fa-ellipsis"></i></div>
     </div>
   </div>
 
-  <a class="menu-box t-s" [routerLink]="'/home'">
+  <div class="menu-box t-s pl-2">
     <div class="t-lar bold">{{page_title}}</div>
     <div class="t-med">{{page_description}}</div>
-  </a>
+  </div>
 
   <div class="item-group" *ngIf="!authorization">
     <a class="nav-link" [routerLinkActive]="'active'" [routerLink]="'/auth/login'">
@@ -32,7 +31,7 @@
   </div>
 
   <div class="item-group" *ngIf="!isMobile">
-    <a class="nav-link" [routerLink]="'/user/info'">
+    <a class="nav-link" [routerLinkActive]="'active'" [routerLink]="'/user/info'">
       <i class="fa-regular fa-circle-user"></i>
       <div class="t-min">Профіль</div>
     </a>
@@ -53,7 +52,7 @@
   </div>
 
   <div class="item-group" *ngIf="!isMobile">
-    <a class="nav-link" [routerLink]="'/house/info'">
+    <a class="nav-link" [routerLinkActive]="'active'" [routerLink]="'/house/info'">
       <i class="fa-solid fa-house"></i>
       <div class="t-min">Оселя</div>
     </a>
@@ -66,7 +65,39 @@
     </a>
   </div>
 
-  <div class="item-group" *ngIf="!isMobile">
+  <div class="item-group" *ngIf="isMobile" [matMenuTriggerFor]="menu">
+    <div class="nav-link">
+      <i class="fa-solid fa-magnifying-glass"></i>
+      <div class="t-min">Пошук</div>
+    </div>
+  </div>
+
+  <button *ngIf="!isMobile" mat-button class="search-term mr-2" [matMenuTriggerFor]="menu">
+    <div class="menu">
+      <span>Пошук</span>
+      <span *ngIf="currentLocation === '/search/tenant'" class="pl-2 bold"> Орендарів</span>
+      <span *ngIf="currentLocation === '/search/house'" class="pl-2 bold">Оселі</span>
+      <i class="fa-solid fa-magnifying-glass pl-1"></i>
+    </div>
+  </button>
+
+  <mat-menu #menu="matMenu" class="mt-2 mr-2">
+    <p class="t-lar t-c p-2">Що шукаємо?</p>
+    <div class="matMenu">
+      <a class="menu-item" [routerLinkActive]="'active'" [routerLink]="'/search/tenant/'">
+        <div>Орендарів</div>
+        <i class="fa-solid fa-person pl-2"></i>
+      </a>
+      <a class="menu-item mt-2" [routerLinkActive]="'active'" [routerLink]="'/search/house'">
+        <div>Оселі</div>
+        <i class="fa-solid fa-house-chimney-user pl-2"></i>
+      </a>
+    </div>
+  </mat-menu>
+
+
+
+  <!-- <div class="item-group" *ngIf="!isMobile">
     <a class="nav-link" [routerLinkActive]="'active'" [routerLink]="'/search/tenant/'">
       <div class="icon-box">
         <i class="fa-solid fa-person"></i>
@@ -84,6 +115,6 @@
       </div>
       <div class="t-min">Оселі</div>
     </a>
-  </div>
+  </div> -->
 
 </nav>

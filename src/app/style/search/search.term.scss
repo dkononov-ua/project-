@@ -4,16 +4,93 @@
 
 .content-component {
   overflow: auto;
+  padding-top: 60px;
+  @include s1-s3 {
+    height: auto;
+  }
 }
 
 .pb-10 {
   padding-bottom: 120px;
 }
+
 .switch-container {
+  @include flex-box;
   height: auto !important;
+  width: 100%;
+  justify-content: flex-start;
+  position: relative;
+  margin: 0 !important;
+  z-index: 16 !important;
   @include s1-s3 {
     justify-content: space-around !important;
-    background-image: linear-gradient(to top, transparent 0%, rgba(255, 255, 255, 0.791) 40%);
+    @include blurred-background($color-accent);
+  }
+
+  .switch-btn-group {
+    @include flex-box-column;
+    margin: 0;
+    padding: 0;
+    position: relative;
+    width: 40px;
+  }
+
+  .btn-menu {
+    @include flex-box-column;
+    flex: 1;
+  }
+
+  .btn {
+    @include flex-box-column;
+    position: relative;
+    justify-content: center;
+    color: $color-white;
+    height: 40px;
+    width: 40px;
+    background-color: transparent;
+    border: none;
+    transition: 1s;
+    &:hover {
+      transform: scale(1.1);
+      .fa-solid,
+      .fa-regular {
+        color: $color-accent;
+        font-size: 36px;
+      }
+      .t-min {
+        color: $color-accent;
+      }
+    }
+    @include s1-s3 {
+      flex: 1;
+      width: 50px;
+    }
+    &.active {
+      .fa-solid,
+      .fa-regular {
+        color: $color-dark !important;
+        font-size: 36px;
+      }
+      .t-min {
+        color: $color-dark !important;
+      }
+      font-weight: bold;
+      filter: drop-shadow(0px 0px 2px $color-accent);
+    }
+    &:disabled {
+      .fa-regular,
+      .fa-solid {
+        color: $color-gray !important;
+      }
+    }
+    .fa-solid,
+    .fa-regular {
+      font-size: 30px;
+      color: $color-white !important;
+    }
+    .t-min {
+      color: $color-white;
+    }
   }
 }
 
@@ -22,11 +99,15 @@
 }
 
 .status {
-  right: 10px !important;
+  top: 14px !important;
+  right: 5px !important;
 }
 
 .card-wrapper {
   border-radius: 0px !important;
+  @include s1-s3 {
+    height: auto !important;
+  }
 }
 
 .main-container {
@@ -35,6 +116,13 @@
   align-items: stretch;
   flex-direction: column;
   position: relative;
+  justify-content: center;
+  @include s3-s6-max {
+    height: 100% !important;
+  }
+  @include s1-s3 {
+    height: auto !important;
+  }
 }
 
 .card-group {

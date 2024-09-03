@@ -1,10 +1,7 @@
 import 'zone.js/node';
-
 import { ngExpressEngine } from '@nguniversal/express-engine';
-import { provideModuleMap } from '@nguniversal/module-map-ngfactory-loader';
 import express from 'express';
 import { join } from 'path';
-
 import { APP_BASE_HREF } from '@angular/common';
 import { enableProdMode } from '@angular/core';
 
@@ -21,9 +18,6 @@ const DIST_FOLDER = join(process.cwd(), 'dist/project/browser');
 
 app.engine('html', ngExpressEngine({
   bootstrap: AppServerModule,
-  providers: [
-    provideModuleMap({})  // пустий об'єкт, як тимчасове рішення, можна налаштувати при необхідності
-  ]
 }));
 
 app.set('view engine', 'html');

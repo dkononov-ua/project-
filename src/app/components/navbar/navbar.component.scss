@@ -1,6 +1,71 @@
 @use "../../style/presets/" as *;
 @use "../../style/mixins/" as *;
 
+.menu-item {
+  @include flex-box-center;
+  justify-content: space-between;
+  width: 250px;
+  @include s1-s3 {
+    width: auto;
+  }
+}
+
+.menu {
+  @include flex-box-center;
+  min-width: 200px;
+  width: 100%;
+  font-family: $font-main;
+  @include s1-s3 {
+    min-width: 30px;
+  }
+}
+
+.t-lar {
+  font-family: $font-main;
+  font-weight: bold;
+}
+
+.matMenu {
+  width: 100%;
+  padding: 10px;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+  a {
+    color: $color-dark;
+    height: 50px;
+    padding: 10px;
+    border-radius: 20px;
+    &:hover {
+      @include box-shadow-i;
+      transform: scale(1) !important;
+    }
+    &.active {
+      color: $color-accent;
+      @include box-shadow-i;
+    }
+  }
+}
+
+.search-term {
+  @include flex-box-center;
+  justify-content: space-between;
+  border-radius: 20px;
+  width: auto;
+  position: relative;
+
+  border: 1px solid $color-light-gray;
+  background-color: $color-white;
+  @include box-shadow;
+  padding: 10px;
+}
+
+.search-group {
+  @include flex-box-center;
+  background-color: $color-white;
+  border-radius: 0 0 20px 20px;
+}
+
 .navigation-container {
   @include flex-box;
   height: 60px;
@@ -10,7 +75,7 @@
   position: fixed;
   top: 0;
   padding-top: 1rem;
-  background-image: linear-gradient(to top, transparent 0%, $color-primary 40%) !important;
+  // background-image: linear-gradient(to top, transparent 0%, $color-primary 40%) !important;
 
   @include s1-s3 {
     // @include box-shadow;
@@ -52,6 +117,11 @@
 
   .lobo-box {
     position: relative;
+    transition: 1s;
+    cursor: pointer;
+    &:hover {
+      transform: scale(1.1);
+    }
     .logo-img {
       height: 50px;
       width: 50px;
@@ -61,7 +131,11 @@
       @include s1-s3 {
         box-shadow: none;
       }
+      &:hover {
+        @include box-shadow-a;
+      }
     }
+
     .logo-icon {
       @include flex-box-center;
       position: absolute;

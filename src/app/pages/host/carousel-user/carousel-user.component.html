@@ -1,0 +1,141 @@
+<app-search-term-tenants hidden></app-search-term-tenants>
+
+<div [@bot3] class="container-box flex-column" *ngIf="allCards">
+  <h2 class="t-c bold">Орендарі які вже активували профіль орендаря</h2>
+</div>
+
+<section [@bot5] class="container-box" *ngIf="allCards">
+
+  <div class="gif-box t-c col-lg-4 col-md-4 col-sm-12 col-12">
+    <img class="home-img" src="./../../../../assets/gif/tenantsActiv.gif" alt="discussio gif tenants">
+  </div>
+
+
+  <div class="carousel-container col-lg-8 col-md-8 col-sm-12 col-12">
+    <div (mouseenter)="pauseScroll($event)" (mouseleave)="resumeScroll()" #carousel class="carousel"
+      [ngClass]="{'paused': isScrolling === false}">
+      <div [routerLink]="'/search/tenant'" class="card" style="width: 18rem;" *ngFor="let subscriber of allCards"
+        (click)="onSelect(subscriber.user_id)">
+        <div class="card-mini-img-container">
+          <!-- якщо фото немає -->
+          <img class="card-mini-img" src="../../../../assets/user_default.svg" alt="img"
+            *ngIf="!subscriber.img || subscriber.img === 'user_default.svg'">
+          <!-- якщо фото користувача є чекаємо його завантаження і показуємо спінер -->
+          <div class="card-mini-img" *ngIf="subscriber.img && subscriber.img !== 'user_default.svg' && !isLoadingImg">
+            <div class="container-loader-mini">
+              <mat-spinner color="warn"></mat-spinner>
+              <img class="card-mini-img" [src]="serverPath + pathPhotoUser + subscriber.img" alt="img"
+                (load)="isLoadingImg = true" hidden>
+              <div class="t-min gray mt-2">Завантаження фото</div>
+            </div>
+          </div>
+          <!-- якщо фото користувача завантажилось показуємо фото -->
+          <img class="card-mini-img" [src]="serverPath + pathPhotoUser + subscriber.img" alt="img"
+            *ngIf="subscriber.img && subscriber.img !== 'user_default.svg' && isLoadingImg">
+        </div>
+
+        <button class="status-content">
+          <button class="status-box m-2">
+            <div class="status-value" *ngIf="subscriber.checked === 0"><i
+                class="fa-solid fa-person-circle-exclamation"></i></div>
+            <div class="status-value" *ngIf="subscriber.checked === 1"><i class="fa-solid fa-person-circle-check"></i>
+            </div>
+            <div class="status-value" *ngIf="subscriber.realll === 1"><i class="fa-solid fa-coins"></i></div>
+            <div class="status-value" *ngIf="subscriber.agree_search === 1">
+              <i class="fa-solid fa-person-hiking"></i>
+            </div>
+            <div class="status-value" *ngIf="!subscriber.agree_search || subscriber.agree_search === 0">
+              <i class="fa-solid fa-person-hiking"></i>
+            </div>
+            <div class="status-value" *ngIf="subscriber.house === 1 && subscriber.agree_search === 1"><i
+                class="fa-solid fa-house-chimney-window"></i></div>
+            <div class="status-value" *ngIf="subscriber.flat === 1 && subscriber.agree_search === 1"><i
+                class="fa-solid fa-building-circle-arrow-right"></i></div>
+            <div class="status-value" *ngIf="subscriber.room === 1 && subscriber.agree_search === 1"><i
+                class="fa-solid fa-cube"></i></div>
+            <div class="status-value" *ngIf="subscriber.woman === 1"><i class="fa-solid fa-person-dress"></i></div>
+            <div class="status-value" *ngIf="subscriber.man === 1"><i class="fa-solid fa-person"></i></div>
+            <div class="status-value" *ngIf="subscriber.students === 1"><i class="fa-solid fa-graduation-cap"></i></div>
+            <div class="status-value" *ngIf="subscriber.family === 1"><i class="fa-solid fa-children"></i></div>
+          </button>
+        </button>
+
+        <div class="card-body p-1">
+          <div class="t-lar bold accent t-c w-100">ID: {{ subscriber.user_id }}</div>
+          <div class="t-lar bold t-c w-100">{{ subscriber.lastName }} {{ subscriber.firstName }}</div>
+          <div class="t-med thin t-c w-100">Шукаю оселю в</div>
+          <div class="t-lar bold t-c w-100">{{ subscriber.city }}</div>
+        </div>
+
+        <div class="ribbon" *ngIf="subscriber.checked === 1">Перевірений орендар<i
+            class="fa-solid fa-person-circle-check white pl-2"></i></div>
+      </div>
+      <div [routerLink]="'/search/tenant'" class="card" style="width: 18rem;" *ngFor="let subscriber of allCards"
+        (click)="onSelect(subscriber.user_id)">
+        <div class="card-mini-img-container">
+          <!-- якщо фото немає -->
+          <img class="card-mini-img" src="../../../../assets/user_default.svg" alt="img"
+            *ngIf="!subscriber.img || subscriber.img === 'user_default.svg'">
+          <!-- якщо фото користувача є чекаємо його завантаження і показуємо спінер -->
+          <div class="card-mini-img" *ngIf="subscriber.img && subscriber.img !== 'user_default.svg' && !isLoadingImg">
+            <div class="container-loader-mini">
+              <mat-spinner color="warn"></mat-spinner>
+              <img class="card-mini-img" [src]="serverPath + pathPhotoUser + subscriber.img" alt="img"
+                (load)="isLoadingImg = true" hidden>
+              <div class="t-min gray mt-2">Завантаження фото</div>
+            </div>
+          </div>
+          <!-- якщо фото користувача завантажилось показуємо фото -->
+          <img class="card-mini-img" [src]="serverPath + pathPhotoUser + subscriber.img" alt="img"
+            *ngIf="subscriber.img && subscriber.img !== 'user_default.svg' && isLoadingImg">
+        </div>
+
+        <button class="status-content">
+          <button class="status-box m-2">
+            <div class="status-value" *ngIf="subscriber.checked === 0"><i
+                class="fa-solid fa-person-circle-exclamation"></i></div>
+            <div class="status-value" *ngIf="subscriber.checked === 1"><i class="fa-solid fa-person-circle-check"></i>
+            </div>
+            <div class="status-value" *ngIf="subscriber.realll === 1"><i class="fa-solid fa-coins"></i></div>
+            <div class="status-value" *ngIf="subscriber.agree_search === 1">
+              <i class="fa-solid fa-person-hiking"></i>
+            </div>
+            <div class="status-value" *ngIf="!subscriber.agree_search || subscriber.agree_search === 0">
+              <i class="fa-solid fa-person-hiking"></i>
+            </div>
+            <div class="status-value" *ngIf="subscriber.house === 1 && subscriber.agree_search === 1"><i
+                class="fa-solid fa-house-chimney-window"></i></div>
+            <div class="status-value" *ngIf="subscriber.flat === 1 && subscriber.agree_search === 1"><i
+                class="fa-solid fa-building-circle-arrow-right"></i></div>
+            <div class="status-value" *ngIf="subscriber.room === 1 && subscriber.agree_search === 1"><i
+                class="fa-solid fa-cube"></i></div>
+            <div class="status-value" *ngIf="subscriber.woman === 1"><i class="fa-solid fa-person-dress"></i></div>
+            <div class="status-value" *ngIf="subscriber.man === 1"><i class="fa-solid fa-person"></i></div>
+            <div class="status-value" *ngIf="subscriber.students === 1"><i class="fa-solid fa-graduation-cap"></i></div>
+            <div class="status-value" *ngIf="subscriber.family === 1"><i class="fa-solid fa-children"></i></div>
+          </button>
+        </button>
+
+        <div class="card-body p-1">
+          <div class="t-lar bold accent t-c w-100">ID: {{ subscriber.user_id }}</div>
+          <div class="t-lar bold t-c w-100">{{ subscriber.lastName }} {{ subscriber.firstName }}</div>
+          <div class="t-med thin t-c w-100">Шукаю оселю в</div>
+          <div class="t-lar bold t-c w-100">{{ subscriber.city }}</div>
+        </div>
+
+        <div class="ribbon" *ngIf="subscriber.checked === 1">Перевірений орендар <i
+            class="fa-solid fa-person-circle-check white pl-2"></i></div>
+      </div>
+    </div>
+    <div class="bg-blure" *ngIf="!isMobile"></div>
+  </div>
+</section>
+
+<div [@bot3] class="container-box flex-column">
+  <p class="t-med t-c">Спробуй і ти <strong>розмістити оголошення</strong>, це <strong>швидко безпечно та
+      безкоштовно</strong></p>
+  <a class="b-primary m-2 bold" [routerLink]="'/user/edit/looking'">
+    Шукаю житло
+    <i class="fa-solid fa-bullhorn pl-2"></i>
+  </a>
+</div>

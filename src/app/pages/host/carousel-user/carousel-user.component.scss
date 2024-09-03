@@ -1,0 +1,100 @@
+@use "../../../style/presets/" as *;
+@use "../../../style/mixins/" as *;
+@use "./../../../card/status.scss" as *;
+@use "./../../info_page.scss" as *;
+
+.carousel-container {
+  overflow-x: hidden;
+  overflow-y: hidden;
+  white-space: nowrap;
+  position: relative;
+  width: 100%;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+.bg-blure {
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 100px;
+  background-image: linear-gradient(to right, $color-white 0%, transparent 100%);
+}
+
+.carousel {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 1rem;
+  padding: 2rem;
+  animation: scroll 30s linear infinite;
+  scroll-behavior: smooth;
+  &.paused {
+    animation-play-state: paused;
+  }
+
+  .card {
+    display: inline-block;
+    cursor: pointer;
+    flex: 0 0 auto;
+    transition: transform 0.3s ease;
+    position: relative;
+    overflow: hidden;
+  }
+}
+
+.card-mini-img-container {
+  position: relative;
+  width: 100%;
+  height: auto;
+}
+
+.container-loader-mini {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100px;
+}
+
+.card-mini-img {
+  width: 100%;
+  height: auto;
+  border-radius: 20px 20px 0px 0px;
+}
+
+.card-body {
+  @include flex-box-center;
+  flex-direction: column;
+  overflow: hidden;
+  align-items: flex-start;
+  height: auto;
+  position: relative;
+  padding: 1rem;
+
+}
+
+.ribbon {
+  @include flex-box-center;
+  position: absolute;
+  bottom: 100px; /* Відступ від нижнього краю картки */
+  right: 0; /* Відступ від правого краю, щоб стрічка виступала за межі */
+  background-color: $color-accent; /* Колір стрічки */
+  color: white; /* Колір тексту */
+  padding: 5px 40px; /* Відступи для тексту */
+  // transform: rotate(-45deg); /* Нахил стрічки */
+  font-size: 12px; /* Розмір тексту */
+  font-weight: bold; /* Товщина тексту */
+  z-index: 10; /* Щоб стрічка знаходилась над іншими елементами */
+  pointer-events: none; /* Щоб стрічка не блокувала взаємодію з елементами під нею */
+  border-radius: 10px 0 0 10px;
+}
+
+@keyframes scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-500%); /* Прокручує на ширину всіх карток */
+  }
+}

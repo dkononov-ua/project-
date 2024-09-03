@@ -1,54 +1,53 @@
 <div class="card-wrapper">
-  <div class="card-animation" [@cardSwipe]="cardSwipeState" *ngIf="selectedFlat">
-    <div class="card-content" (panstart)="onPanStart($event)" (panend)="onPanEnd($event)">
+  <div class="card-content" (panstart)="onPanStart($event)" (panend)="onPanEnd($event)" [@cardSwipe]="cardSwipeState"
+    *ngIf="selectedFlat">
 
-      <div class="btn-close-container m-2">
-        <div class="btn-close-box">
-          <button class="btn-close" (click)="closeCard()"></button>
-        </div>
+    <div class="btn-close-container m-2">
+      <div class="btn-close-box">
+        <button class="btn-close" (click)="closeCard()"></button>
+      </div>
+    </div>
+
+    <app-img-house></app-img-house>
+
+    <div class="status-subscription-wrapper">
+      <div [@appearance] class="status-subscription" *ngIf="subscriptionStatus === 1 || subscriptionStatus === 2">
+        <div class="status-text p-2" *ngIf="subscriptionStatus === 1">Вподобано</div>
+        <div class="status-text p-2" *ngIf="subscriptionStatus === 2">Дискусія</div>
+      </div>
+    </div>
+
+    <div class="card-btn-container w-100">
+
+      <div class="item-box">
+        <button [disabled]="btnDisabled" *ngIf="!subscriptionStatus || subscriptionStatus === 0" class="btn"
+          (click)="getSubscribe()">
+          <i class="fa-regular fa-heart"></i>
+        </button>
+        <button [disabled]="btnDisabled" *ngIf="subscriptionStatus === 1" class="btn" (click)="getSubscribe()">
+          <i class="fa-solid fa-heart orange"></i>
+        </button>
+        <a [routerLink]="'/subscribers-discuss'" class="btn bg-accent" *ngIf="subscriptionStatus === 2">
+          <i class="fa-solid fa-d"></i>
+        </a>
       </div>
 
-      <app-img-house></app-img-house>
-
-      <div class="status-subscription-wrapper">
-        <div [@appearance] class="status-subscription" *ngIf="subscriptionStatus === 1 || subscriptionStatus === 2">
-          <div class="status-text p-2" *ngIf="subscriptionStatus === 1">Вподобано</div>
-          <div class="status-text p-2" *ngIf="subscriptionStatus === 2">Дискусія</div>
-        </div>
+      <div class="item-box m-1">
+        <button mat-raised-button class="btn link" (click)="onSwiped('right')">
+          <i class="fa-solid fa-chevron-left"></i>
+        </button>
       </div>
 
-      <div class="card-btn-container w-100">
-
-        <div class="item-box">
-          <button [disabled]="btnDisabled" *ngIf="!subscriptionStatus || subscriptionStatus === 0" class="btn"
-            (click)="getSubscribe()">
-            <i class="fa-regular fa-heart"></i>
-          </button>
-          <button [disabled]="btnDisabled" *ngIf="subscriptionStatus === 1" class="btn" (click)="getSubscribe()">
-            <i class="fa-solid fa-heart orange"></i>
-          </button>
-          <a [routerLink]="'/subscribers-discuss'" class="btn bg-accent" *ngIf="subscriptionStatus === 2">
-            <i class="fa-solid fa-d"></i>
-          </a>
-        </div>
-
-        <div class="item-box m-1">
-          <button mat-raised-button class="btn link" (click)="onSwiped('right')">
-            <i class="fa-solid fa-chevron-left"></i>
-          </button>
-        </div>
-
-        <div class="item-box m-1">
-          <button mat-raised-button class="btn link" (click)="onSwiped('left')">
-            <i class="fa-solid fa-chevron-right"></i>
-          </button>
-        </div>
-
+      <div class="item-box m-1">
+        <button mat-raised-button class="btn link" (click)="onSwiped('left')">
+          <i class="fa-solid fa-chevron-right"></i>
+        </button>
       </div>
-
-      <app-info-house></app-info-house>
 
     </div>
+
+    <app-info-house></app-info-house>
+
   </div>
 
   <div class="status-subscription-wrapper h-100" *ngIf="isSelectedFlatId">
