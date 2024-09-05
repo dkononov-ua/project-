@@ -89,6 +89,7 @@ import { SelectMonthComponent } from './host-house-comun/select-month/select-mon
 import { SelectYearComponent } from './host-house-comun/select-year/select-year.component';
 import { MatTableModule } from '@angular/material/table';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatBadgeModule } from '@angular/material/badge';
 
 @NgModule({
   declarations: [
@@ -188,6 +189,7 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
     BrowserAnimationsModule,
     NgbModule,
     DragDropModule,
+    MatBadgeModule,
 
     LyImageCropperModule,
     LySliderModule,

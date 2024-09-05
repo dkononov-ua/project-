@@ -38,6 +38,7 @@ import { SubscribersUserComponent } from './host-user-discus/subscribers/subscri
 import { SubscribersDiscusComponent } from './host-user-discus/discus/subscribers-discus.component';
 import { SubscriptionsUserComponent } from './host-user-discus/subscriptions/subscriptions-user.component';
 import { UserParametersComponent } from './host-user-edit/user-parameters.component';
+import { MatBadgeModule } from '@angular/material/badge';
 
 @NgModule({
   declarations: [
@@ -86,6 +87,7 @@ import { UserParametersComponent } from './host-user-edit/user-parameters.compon
     MatNativeDateModule,
     RouterModule,
     MatProgressSpinnerModule,
+    MatBadgeModule,
   ]
 })
 

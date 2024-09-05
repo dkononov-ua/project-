@@ -25,6 +25,12 @@ Allow: /house/control/about
 Allow: /house/discus/about
 Allow: /house/search/tenant
 Allow: /house/search/neighbor
+Allow: /house/communal/about
+
+Allow: /assets/**/*.js
+Allow: /static/**/*.js
+Allow: /styles/**/*.css
+Allow: /assets/**/*.css
 
 Sitemap: https://discussio.site/sitemap.xml
 

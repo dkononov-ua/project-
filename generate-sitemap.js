@@ -26,7 +26,8 @@ const routes = [
   '/user/agree/about',
   '/user/discus/about',
   '/user/tenant/about',
-  '/user/agree/step',
+  '/user/tenant/about',
+  '/user/tenant/step',
   '/user/edit/looking',
 
   '/house/agree/about',
@@ -37,6 +38,10 @@ const routes = [
   '/house/discus/about',
   '/house/search/tenant',
   '/house/search/neighbor',
+  '/house/communal/about',
+
+  '/search/tenant',
+  '/search/house',
 
 ];
 

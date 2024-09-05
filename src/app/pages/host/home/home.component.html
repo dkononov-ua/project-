@@ -5,23 +5,12 @@
     <h1 class="t-lar-xx"><strong>Пошук житла та оренда, пошук орендарів або сусідів.</strong></h1>
     <h2 class="t-lar-x">Все це ми хочемо зробити комфортним для Вас!</h2>
     <div class="btn-group">
-
-      <!-- <a class="b-primary m-2 jc-se" [routerLink]="'/user/edit/looking'" *ngIf="!authorization">
-        <i class="fa-solid fa-bullhorn"></i>
-        <div class="flex-column pl-2 t-e">
-          <p class="t-med">Шукаю житло</p>
-          <p class="t-min">Розмістити оголошення</p>
-        </div>
-      </a> -->
-
       <a class="b-primary m-2" [routerLink]="'/about-project'">
         Про Discussio
         <i class="fa-regular fa-circle-right pl-2"></i>
       </a>
-
     </div>
   </header>
-
   <div [@bot3] class="section-conteiner">
     <section class="section-gif col-lg-6 col-md-6 col-sm-12 col-12">
       <img class="gif" src="./../../../../assets/gif/home.gif" alt="Discussio gif">
@@ -83,17 +72,9 @@
 
     </section>
   </div>
-
-  <div class="">
-    <app-carousel-user></app-carousel-user>
-    <!-- <app-search-term-house hidden></app-search-term-house>
-      <app-cards-list [routerLink]="'/search/house'"></app-cards-list> -->
-  </div>
-
+  <app-carousel-user></app-carousel-user>
   <div class="section-footer">
     <app-posts-last></app-posts-last>
   </div>
-
   <app-footer class="p-2"></app-footer>
-
 </main>

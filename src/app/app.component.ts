@@ -90,32 +90,41 @@ export class AppComponent implements OnInit, OnDestroy {
   isHomePage = false;
 
   constructor(
-    private http: HttpClient,
     private location: Location,
     private sharedService: SharedService,
     private checkBackendService: CheckBackendService,
     private statusMessageService: StatusMessageService,
-    private router: Router,
     private loaderService: LoaderService,
     private menuService: MenuService,
+    private router: Router,
   ) { }
 
   async ngOnInit(): Promise<void> {
+    this.checkBackendService.startCheckServer();
+    this.setSubscriptions();
+  }
+
+  setSubscriptions() {
+    this.getCheckDevice();
+    if (!this.isMobile) {
+      this.checkLocation();
+    }
+    this.getServerPath();
+    this.getStatusMessage();
+    this.getStatusMenu();
+    this.getStatusLoader();
+    this.getStatusServer();
+  }
+
+  // підписка на локацію для зміни фону
+  checkLocation() {
     this.router.events.pipe(
       filter(event => event instanceof NavigationEnd)
     ).subscribe(() => {
       const currentPath = this.location.path();
       this.isHomePage = currentPath === '' || currentPath === '/home';
     });
-
-    await this.getStatusLoader();
-    this.checkBackendService.startCheckServer();
     this.currentLocation = this.location.path();
-    this.getStatusServer();
-    this.getCheckDevice();
-    this.getServerPath();
-    this.getStatusMessage();
-    this.getStatusMenu();
   }
 
   // підписка на оновлення шляху серверу
@@ -131,8 +140,10 @@ export class AppComponent implements OnInit, OnDestroy {
 
   // підписка на шлях до серверу
   async getCheckDevice() {
+    // console.log('getCheckDevice')
     this.subscriptions.push(
       this.sharedService.isMobile$.subscribe((status: boolean) => {
+        // console.log(status)
         this.isMobile = status;
         if (!this.isMobile) {
           this.changeBG();
@@ -143,6 +154,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
   // підписка на статус для показу користувачу
   async getStatusMessage() {
+    // console.log('getStatusMessage')
     this.subscriptions.push(
       this.statusMessageService.statusMessage$.subscribe((message: string) => {
         // console.log(message);
@@ -153,11 +165,12 @@ export class AppComponent implements OnInit, OnDestroy {
 
   // підписка на шлях до серверу
   async getServerPath() {
+    // console.log('getServerPath')
     this.subscriptions.push(
       this.sharedService.serverPath$.subscribe(async (serverPath: string) => {
-        this.serverPath = serverPath;
-        if (this.serverPath) {
-          await this.getUserInfo();
+        if (this.serverPath !== serverPath) {
+          this.serverPath = serverPath;
+          // console.log(serverPath)
         }
       })
     );
@@ -165,50 +178,32 @@ export class AppComponent implements OnInit, OnDestroy {
 
   // Отримання статусу лоадера
   async getStatusLoader() {
+    // console.log('getStatusLoader')
     this.subscriptions.push(
       this.loaderService.loading$.subscribe((status: boolean) => {
         // console.log(status)
-        this.loading = status;
+        setTimeout(() => {
+          if (status) {
+            this.loading = status;
+          } else {
+            this.loading = false;
+          }
+        }, 100);
       })
     );
   }
 
   // підписка на статус меню
   async getStatusMenu() {
-    this.menuService.toogleMenu$.subscribe((menuStatus: MenuStatus) => {
-      this.menu = menuStatus.status;
+    // console.log('getStatusMenu')
+    this.menuService.toogleMenu$.subscribe((status: boolean) => {
+      this.menu = status;
+      // console.log(this.menu)
     });
-  }
-
-  // відкриття меню через сервіс
-  async toogleMenu() {
-    // this.menu = !this.menu
-    // this.menuService.toogleMenu(this.menu)
   }
 
   ngOnDestroy() {
     this.subscriptions.forEach(subscription => subscription.unsubscribe());
   }
-
-  // перевірка користувача на авторизацію, виконується кожен раз при перезавантаженні сторінки
-  async getUserInfo() {
-    const userJson = localStorage.getItem('user');
-    if (userJson) {
-      try {
-        const response: any = await this.http.post(this.serverPath + '/auth', JSON.parse(userJson)).toPromise();
-        // console.log(response)
-        if (response.status === true) {
-          this.authorization = true;
-        } else {
-          this.authorization = false;
-          this.sharedService.logout();
-        }
-      } catch (error) {
-        this.authorization = false;
-        this.sharedService.logout();
-      }
-    }
-  }
-
 
 }

@@ -1,15 +1,23 @@
 <div class="menu">
 
-  <div [routerLinkActive]="'active'"
-    [@cardAnimation]="{value: '', params: { delay: animationDelay(0) }}" class="wrapper-img mb-2" *ngIf="houseData" (click)="closeToogleMenu(2)">
-    <img class="img-fluid"
+  <div [routerLinkActive]="'active'" [@cardAnimation]="{value: '', params: { delay: animationDelay(5) }}"
+    class="wrapper-img mb-2" (click)="closeToogleMenu()">
+    <img *ngIf="houseData" class="img-fluid"
       [src]="imgFlat ? (serverPath + pathPhotoFlat + imgFlat) : './../../../../assets/housing_default.svg'"
       alt="img mini house" [routerLink]="'/house/info'">
+    <img *ngIf="!houseData" class="img-fluid" [src]="'./../../../../assets/housing_default.svg'" alt="img mini house"
+      [routerLink]="'/house/info'">
+
+    <a class="userName pl-2" *ngIf="!houseData" [routerLink]="'/house/info'">
+      <p class="t-lar bold">Меню Оселі</p>
+      <p class="t-min">House Name House ID</p>
+    </a>
+
     <a class="userName pl-2" *ngIf="houseData" [routerLink]="'/house/info'">
       <p class="t-lar bold">{{houseData.flat.flat_name}}</p>
       <p class="t-min">{{houseData.flat.region }} ID : {{houseData.flat.flat_id}}</p>
     </a>
-    <a [@cardAnimation]="{value: '', params: { delay: animationDelay(5) }}" class="message"
+    <a *ngIf="houseData" [@cardAnimation]="{value: '', params: { delay: animationDelay(5) }}" class="message"
       [routerLinkActive]="'active'" [routerLink]="'/house/chat'">
       <i class="fa-solid fa-message custom-badge" matBadge="{{counterHouseNewMessage}}"
         [matBadgeHidden]="counterHouseNewMessage === 0"></i>
@@ -18,79 +26,74 @@
 
   <div class="category-container">
     <div class="category">
-      <a [@cardAnimation]="{value: '', params: { delay: animationDelay(1) }}" class="link-item"
-        [routerLinkActive]="'active'" [routerLink]="'/house/info'" (click)="closeToogleMenu(2)">
-
-        <i *ngIf="!authorization || !houseData" class="fa-solid fa-house-user custom-badge"></i>
-
-        <i *ngIf="authorization && houseData" class="fa-solid fa-house-user custom-badge" matBadge="a"
+      <a [@cardAnimation]="{value: '', params: { delay: animationDelay(8) }}" class="link-item"
+        [routerLinkActive]="'active'" [routerLink]="'/house/info'" (click)="closeToogleMenu()">
+        <i class="fa-solid fa-house-user custom-badge"></i>
+        <div class="item-description">
+          <p class="t-med bold">Профіль</p>
+          <p class="t-min">Оселі</p>
+        </div>
+        <i *ngIf="authorization && houseData" class="fa-solid fa-toggle-on custom-badge pl-1" matBadge="a"
           [matBadgeHidden]="houseData && houseData.about.rent !== 1">
         </i>
-
-        <div class="item-description pl-2">
-          <p class="t-med">Профіль оселі</p>
-          <p class="t-min">Інфо оселі</p>
-        </div>
       </a>
-      <button *ngIf="!section[1]" [@appearance] [ngClass]="{'active': section[1]}" class="link-btn"
-        (click)="setSection(1)">
+      <button [@appearance] [ngClass]="{'active': section[1]}" class="link-btn" (click)="setSection(1)">
         <i [ngClass]="section[1] ? 'fa-solid fa-circle-chevron-up' : 'fa-solid fa-circle-chevron-down'"></i>
       </button>
     </div>
     <div class="subcategory-container" *ngIf="section[1]">
-
-      <a [@cardAnimation]="{value: '', params: { delay: animationDelay(1) }}" class="link-item subcategory"
-        [routerLinkActive]="'active'" [routerLink]="'/house/info'" (click)="closeToogleMenu(2)">
+      <a [@cardAnimation]="{value: '', params: { delay: animationDelay(1) }}" class="subcategory"
+        [routerLinkActive]="'active'" [routerLink]="'/house/info'" (click)="closeToogleMenu()">
         <i class="fa-solid fa-id-badge"></i>
-        <div class="item-description pl-2">
-          <p class="t-med">Профіль</p>
+        <div class="item-description">
+          <p class="t-min">Профіль</p>
           <p class="t-min">Оселі</p>
         </div>
       </a>
 
-      <a [@cardAnimation]="{value: '', params: { delay: animationDelay(1) }}" class="link-item subcategory"
+      <a [@cardAnimation]="{value: '', params: { delay: animationDelay(1) }}" class="subcategory"
         [routerLinkActive]="'active'" [routerLink]="'/house/control/add'" *ngIf="!houseData"
-        (click)="closeToogleMenu(2)">
+        (click)="closeToogleMenu()">
         <i class="fa-solid fa-arrow-right-from-bracket"></i>
-        <div class="item-description pl-2">
-          <p class="t-med">Вхід</p>
-          <p class="t-min">Увійти в профіль</p>
+        <div class="item-description">
+          <p class="t-min">Вхід</p>
+          <p class="t-min">В профіль</p>
         </div>
       </a>
 
-      <a [@cardAnimation]="{value: '', params: { delay: animationDelay(2) }}" class="link-item subcategory"
-        [routerLinkActive]="'active'" [routerLink]="'/house/edit'" (click)="closeToogleMenu(2)">
+      <a [@cardAnimation]="{value: '', params: { delay: animationDelay(2) }}" class="subcategory"
+        [routerLinkActive]="'active'" [routerLink]="'/house/edit'" (click)="closeToogleMenu()">
         <i class="fa-solid fa-gears"></i>
-        <div class="item-description pl-2">
-          <p class="t-med">Редагувати</p>
+        <div class="item-description">
+          <p class="t-min">Редагув.</p>
           <p class="t-min">Оселю</p>
         </div>
       </a>
 
-      <button *ngIf="houseData" [@cardAnimation]="{value: '', params: { delay: animationDelay(3) }}"
-        class="link-item subcategory" (click)="logoutHouse()">
+      <button [@cardAnimation]="{value: '', params: { delay: animationDelay(5) }}" class="subcategory"
+        (click)="logoutHouse()">
         <i class="fa-solid fa-door-open"></i>
-        <div class="item-description pl-2">
-          <p class="t-med">Вийти</p>
+        <div class="item-description">
+          <p class="t-min">Вийти</p>
           <p class="t-min">З оселі</p>
         </div>
       </button>
 
       <button (click)="activateHouseProfile()" [@cardAnimation]="{value: '', params: { delay: animationDelay(2) }}"
-        class="link-item subcategory" *ngIf="houseData && houseData.about.rent === 0">
+        class="subcategory" *ngIf="houseData && houseData.about.rent === 0">
         <i class="fa-solid fa-toggle-on"></i>
-        <div class="item-description pl-2">
-          <p class="t-med">Активувати</p>
-          <p class="t-min">Профіль орендаря</p>
+        <div class="item-description">
+          <p class="t-min">Активув.</p>
+          <p class="t-min">Профіль</p>
         </div>
       </button>
 
       <button (click)="deactivateHouseProfile()" [@cardAnimation]="{value: '', params: { delay: animationDelay(2) }}"
-        class="link-item subcategory" *ngIf="houseData && houseData.about.rent === 1">
+        class="subcategory" *ngIf="houseData && houseData.about.rent === 1">
         <i class="fa-solid fa-power-off"></i>
-        <div class="item-description pl-2">
-          <p class="t-med">Деактивувати</p>
-          <p class="t-min">Профіль оселі</p>
+        <div class="item-description">
+          <p class="t-min">Деактиву.</p>
+          <p class="t-min">Профіль</p>
         </div>
       </button>
 
@@ -100,35 +103,33 @@
   <div class="category-container">
     <div class="category">
       <a [@cardAnimation]="{value: '', params: { delay: animationDelay(1) }}" class="link-item"
-        [routerLinkActive]="'active'" [routerLink]="'/house/control'" (click)="closeToogleMenu(3)">
+        [routerLinkActive]="'active'" [routerLink]="'/house/control'" (click)="closeToogleMenu()">
         <i class="fa-solid fa-timeline"></i>
-        <div class="item-description pl-2">
-          <p class="t-med">Керування</p>
+        <div class="item-description">
+          <p class="t-med bold">Керування</p>
           <p class="t-min">Оселями</p>
         </div>
       </a>
-      <button *ngIf="!section[3]" [@appearance] [ngClass]="{'active': section[3]}" class="link-btn"
-        (click)="setSection(3)">
+      <button [@appearance] [ngClass]="{'active': section[3]}" class="link-btn" (click)="setSection(3)">
         <i [ngClass]="section[3] ? 'fa-solid fa-circle-chevron-up' : 'fa-solid fa-circle-chevron-down'"></i>
       </button>
     </div>
     <div class="subcategory-container" *ngIf="section[3]">
 
-      <a [@cardAnimation]="{value: '', params: { delay: animationDelay(1) }}" class="link-item subcategory"
-        [routerLinkActive]="'active'" [routerLink]="'/house/control/about'" (click)="closeToogleMenu(8)">
+      <a [@cardAnimation]="{value: '', params: { delay: animationDelay(1) }}" class="subcategory"
+        [routerLinkActive]="'active'" [routerLink]="'/house/control/about'" (click)="closeToogleMenu()">
         <i class="fa-regular fa-circle-question"></i>
-        <div class="item-description pl-2">
-          <p class="t-med">Що це?</p>
-          <p class="t-min">Профіль оселі</p>
+        <div class="item-description">
+          <p class="t-min">Що це?</p>
         </div>
       </a>
 
-      <a [@cardAnimation]="{value: '', params: { delay: animationDelay(2) }}" class="link-item subcategory"
-        [routerLinkActive]="'active'" [routerLink]="'/house/control/add'" (click)="closeToogleMenu(3)">
+      <a [@cardAnimation]="{value: '', params: { delay: animationDelay(2) }}" class="subcategory"
+        [routerLinkActive]="'active'" [routerLink]="'/house/control/add'" (click)="closeToogleMenu()">
         <i class="fa-solid fa-house-chimney-medical"></i>
-        <div class="item-description pl-2">
-          <p class="t-med">Створити | Обрати</p>
-          <p class="t-min">Видалити оселю</p>
+        <div class="item-description">
+          <p class="t-min">Створити</p>
+          <p class="t-min">Обрати</p>
         </div>
       </a>
 
@@ -138,17 +139,17 @@
   <div class="category-container">
     <div class="category">
       <a [@cardAnimation]="{value: '', params: { delay: animationDelay(4) }}" class="link-item"
-        [routerLinkActive]="'active'" [routerLink]="'/house/discus'" (click)="closeToogleMenu(2)">
+        [routerLinkActive]="'active'" [routerLink]="'/house/discus'" (click)="closeToogleMenu()">
 
         <i class="fa-solid fa-signs-post"></i>
 
-        <div class="item-description pl-2">
-          <p class="t-med">Підписки</p>
+        <div class="item-description">
+          <p class="t-med bold">Підписки</p>
           <p class="t-min">Та Дискусії</p>
         </div>
 
-        <div *ngIf="!section[4]">
-          <i *ngIf="counterHouseSubscriptions !== 0" class="fa-solid fa-people-pulling custom-badge"
+        <div *ngIf="!section[4] && houseData">
+          <i *ngIf="counterHouseSubscriptions !== 0" class="fa-solid fa-people-pulling custom-badge pl-1"
             matBadge="{{counterHouseSubscriptions}}"></i>
           <i *ngIf="counterHouseSubscribers !== 0" class="fa-solid fa-child-reaching custom-badge pl-2"
             matBadge="{{counterHouseSubscribers}}"></i>
@@ -157,46 +158,44 @@
         </div>
 
       </a>
-      <button *ngIf="!section[4]" [@appearance] [ngClass]="{'active': section[4]}" class="link-btn"
-        (click)="setSection(4)">
+      <button [@appearance] [ngClass]="{'active': section[4]}" class="link-btn" (click)="setSection(4)">
         <i [ngClass]="section[4] ? 'fa-solid fa-circle-chevron-up' : 'fa-solid fa-circle-chevron-down'"></i>
       </button>
     </div>
     <div class="subcategory-container" *ngIf="section[4]">
 
-      <a [@cardAnimation]="{value: '', params: { delay: animationDelay(1) }}" class="link-item subcategory"
-        [routerLinkActive]="'active'" [routerLink]="'/house/discus/about'" (click)="closeToogleMenu(2)">
+      <a [@cardAnimation]="{value: '', params: { delay: animationDelay(1) }}" class="subcategory"
+        [routerLinkActive]="'active'" [routerLink]="'/house/discus/about'" (click)="closeToogleMenu()">
         <i class="fa-regular fa-circle-question"></i>
-        <div class="item-description pl-2">
-          <p class="t-med">Що це таке?</p>
-          <p class="t-min">Про систему</p>
+        <div class="item-description">
+          <p class="t-min">Що це?</p>
         </div>
       </a>
 
-      <a [@cardAnimation]="{value: '', params: { delay: animationDelay(2) }}" class="link-item subcategory"
-        [routerLinkActive]="'active'" [routerLink]="'/house/discus/subscriptions'" (click)="closeToogleMenu(2)">
+      <a [@cardAnimation]="{value: '', params: { delay: animationDelay(2) }}" class="subcategory"
+        [routerLinkActive]="'active'" [routerLink]="'/house/discus/subscriptions'" (click)="closeToogleMenu()">
         <i class="fa-solid fa-people-pulling custom-badge" matBadge="{{counterHouseSubscriptions}}"></i>
-        <div class="item-description pl-2">
-          <p class="t-med">Підписки</p>
-          <p class="t-min">Мої підписки</p>
+        <div class="item-description">
+          <p class="t-min">Підписки</p>
+          <p class="t-min">Оселі</p>
         </div>
       </a>
 
-      <a [@cardAnimation]="{value: '', params: { delay: animationDelay(3) }}" class="link-item subcategory"
-        [routerLinkActive]="'active'" [routerLink]="'/house/discus/subscribers'" (click)="closeToogleMenu(2)">
+      <a [@cardAnimation]="{value: '', params: { delay: animationDelay(3) }}" class="subcategory"
+        [routerLinkActive]="'active'" [routerLink]="'/house/discus/subscribers'" (click)="closeToogleMenu()">
         <i class="fa-solid fa-child-reaching custom-badge" matBadge="{{counterHouseSubscribers}}"></i>
-        <div class="item-description pl-2">
-          <p class="t-med">Підписники</p>
-          <p class="t-min">Вбодобали оселю</p>
+        <div class="item-description">
+          <p class="t-min">Підписники</p>
+          <p class="t-min">Оселі</p>
         </div>
       </a>
 
-      <a [@cardAnimation]="{value: '', params: { delay: animationDelay(4) }}" class="link-item subcategory"
-        [routerLinkActive]="'active'" [routerLink]="'/house/discus/discussion'" (click)="closeToogleMenu(2)">
+      <a [@cardAnimation]="{value: '', params: { delay: animationDelay(4) }}" class="subcategory"
+        [routerLinkActive]="'active'" [routerLink]="'/house/discus/discussion'" (click)="closeToogleMenu()">
         <i class="fa-solid fa-person-walking-luggage custom-badge" matBadge="{{counterHouseDiscussio}}"></i>
-        <div class="item-description pl-2">
-          <p class="t-med">Дискусії</p>
-          <p class="t-min">Дискусії оселі</p>
+        <div class="item-description">
+          <p class="t-min">Дискусії</p>
+          <p class="t-min">Оселі</p>
         </div>
       </a>
     </div>
@@ -205,61 +204,59 @@
   <div class="category-container">
     <div class="category">
       <a [@cardAnimation]="{value: '', params: { delay: animationDelay(2) }}" class="link-item"
-        [routerLinkActive]="'active'" [routerLink]="'/house/agree'" (click)="closeToogleMenu(2)">
+        [routerLinkActive]="'active'" [routerLink]="'/house/agree'" (click)="closeToogleMenu()">
         <i class="fa-solid fa-envelope-open-text"></i>
-        <div class="item-description pl-2">
-          <p class="t-med">Угоди</p>
+        <div class="item-description">
+          <p class="t-med bold">Угоди</p>
           <p class="t-min">Оселі</p>
         </div>
       </a>
-      <button *ngIf="!section[2]" [@appearance] [ngClass]="{'active': section[2]}" class="link-btn"
-        (click)="setSection(2)">
+      <button [@appearance] [ngClass]="{'active': section[2]}" class="link-btn" (click)="setSection(2)">
         <i [ngClass]="section[2] ? 'fa-solid fa-circle-chevron-up' : 'fa-solid fa-circle-chevron-down'"></i>
       </button>
     </div>
     <div class="subcategory-container" *ngIf="section[2]">
 
-      <a [@cardAnimation]="{value: '', params: { delay: animationDelay(1) }}" class="link-item subcategory"
-        [routerLinkActive]="'active'" [routerLink]="'/house/agree/about'" (click)="closeToogleMenu(2)">
+      <a [@cardAnimation]="{value: '', params: { delay: animationDelay(1) }}" class="subcategory"
+        [routerLinkActive]="'active'" [routerLink]="'/house/agree/about'" (click)="closeToogleMenu()">
         <i class="fa-regular fa-circle-question"></i>
-        <div class="item-description pl-2">
-          <p class="t-med">Що це таке?</p>
-          <p class="t-min">Про функцію</p>
+        <div class="item-description">
+          <p class="t-min">Що це?</p>
         </div>
       </a>
 
-      <a [@cardAnimation]="{value: '', params: { delay: animationDelay(2) }}" class="link-item subcategory"
-        [routerLinkActive]="'active'" [routerLink]="'/house/agree/step'" (click)="closeToogleMenu(2)">
+      <a [@cardAnimation]="{value: '', params: { delay: animationDelay(2) }}" class="subcategory"
+        [routerLinkActive]="'active'" [routerLink]="'/house/agree/step'" (click)="closeToogleMenu()">
         <i class="fa-solid fa-shoe-prints"></i>
-        <div class="item-description pl-2">
-          <p class="t-med">Як створити?</p>
-          <p class="t-min">Пояснення</p>
+        <div class="item-description">
+          <p class="t-min">Як</p>
+          <p class="t-min">створити?</p>
         </div>
       </a>
 
-      <a [@cardAnimation]="{value: '', params: { delay: animationDelay(2) }}" class="link-item subcategory"
-        [routerLinkActive]="'active'" [routerLink]="'/house/agree/create'" (click)="closeToogleMenu(2)">
+      <a [@cardAnimation]="{value: '', params: { delay: animationDelay(2) }}" class="subcategory"
+        [routerLinkActive]="'active'" [routerLink]="'/house/agree/create'" (click)="closeToogleMenu()">
         <i class="fa-solid fa-feather-pointed"></i>
-        <div class="item-description pl-2">
-          <p class="t-med">Створити</p>
+        <div class="item-description">
+          <p class="t-min">Створити</p>
           <p class="t-min">Угоду</p>
         </div>
       </a>
 
-      <a [@cardAnimation]="{value: '', params: { delay: animationDelay(3) }}" class="link-item subcategory"
-        [routerLinkActive]="'active'" [routerLink]="'/house/agree/review'" (click)="closeToogleMenu(2)">
+      <a [@cardAnimation]="{value: '', params: { delay: animationDelay(3) }}" class="subcategory"
+        [routerLinkActive]="'active'" [routerLink]="'/house/agree/review'" (click)="closeToogleMenu()">
         <i class="fa-solid fa-hourglass-half"></i>
-        <div class="item-description pl-2">
-          <p class="t-med">Запропоновані</p>
+        <div class="item-description">
+          <p class="t-min">Запроп.</p>
           <p class="t-min">Угоди</p>
         </div>
       </a>
 
-      <a [@cardAnimation]="{value: '', params: { delay: animationDelay(4) }}" class="link-item subcategory"
-        [routerLinkActive]="'active'" [routerLink]="'/house/agree/concluded'" (click)="closeToogleMenu(2)">
+      <a [@cardAnimation]="{value: '', params: { delay: animationDelay(4) }}" class="subcategory"
+        [routerLinkActive]="'active'" [routerLink]="'/house/agree/concluded'" (click)="closeToogleMenu()">
         <i class="fa-solid fa-file-circle-check"></i>
-        <div class="item-description pl-2">
-          <p class="t-med">Ухвалені </p>
+        <div class="item-description">
+          <p class="t-min">Ухвалені</p>
           <p class="t-min">Угоди</p>
         </div>
       </a>
@@ -267,58 +264,37 @@
     </div>
   </div>
 
-  <!-- <div class="category-container">
-    <div class="category">
-      <a [@cardAnimation]="{value: '', params: { delay: animationDelay(5) }}" class="link-item"
-        [routerLinkActive]="'active'" [routerLink]="'/house/chat'" (click)="closeToogleMenu(2)">
-        <i class="fa-solid fa-message custom-badge" matBadge="{{counterHouseNewMessage}}"
-          [matBadgeHidden]="counterHouseNewMessage === 0"></i>
-        <div class="item-description pl-2">
-          <p class="t-med">Повідомлення</p>
-          <p class="t-min">Чати оселі</p>
-        </div>
-      </a>
-      <button *ngIf="!section[5]" [@appearance] [ngClass]="{'active': section[5]}" class="link-btn"
-        (click)="setSection(5)">
-        <i [ngClass]="section[5] ? 'fa-solid fa-circle-chevron-up' : 'fa-solid fa-circle-chevron-down'"></i>
-      </button>
-    </div>
-    <div class="subcategory-container" *ngIf="section[5]">
-    </div>
-  </div> -->
-
   <div class="category-container">
     <div class="category">
       <a [@cardAnimation]="{value: '', params: { delay: animationDelay(4) }}" class="link-item"
-        [routerLinkActive]="'active'" [routerLink]="'/search/tenant'" (click)="closeToogleMenu(7)">
+        [routerLinkActive]="'active'" [routerLink]="'/search/tenant'" (click)="closeToogleMenu()">
         <i class="fa-solid fa-magnifying-glass"></i>
-        <div class="item-description pl-2">
-          <p class="t-med">Пошук</p>
+        <div class="item-description">
+          <p class="t-med bold">Пошук</p>
           <p class="t-min">Орендаря</p>
         </div>
       </a>
-      <button *ngIf="!section[7]" [@appearance] [ngClass]="{'active': section[7]}" class="link-btn"
-        (click)="setSection(7)">
+      <button [@appearance] [ngClass]="{'active': section[7]}" class="link-btn" (click)="setSection(7)">
         <i [ngClass]="section[7] ? 'fa-solid fa-circle-chevron-up' : 'fa-solid fa-circle-chevron-down'"></i>
       </button>
     </div>
 
     <div class="subcategory-container" *ngIf="section[7]">
 
-      <a [@cardAnimation]="{value: '', params: { delay: animationDelay(2) }}" class="link-item subcategory"
-        [routerLinkActive]="'active'" [routerLink]="'/house/search/tenant'" (click)="closeToogleMenu(2)">
+      <a [@cardAnimation]="{value: '', params: { delay: animationDelay(2) }}" class="subcategory"
+        [routerLinkActive]="'active'" [routerLink]="'/house/search/tenant'" (click)="closeToogleMenu()">
         <i class="fa-solid fa-child-reaching"></i>
-        <div class="item-description pl-2">
-          <p class="t-med">Пошук</p>
+        <div class="item-description">
+          <p class="t-min">Пошук</p>
           <p class="t-min">Орендаря</p>
         </div>
       </a>
 
-      <a [@cardAnimation]="{value: '', params: { delay: animationDelay(3) }}" class="link-item subcategory"
-        [routerLinkActive]="'active'" [routerLink]="'/house/search/neighbor'" (click)="closeToogleMenu(2)">
+      <a [@cardAnimation]="{value: '', params: { delay: animationDelay(3) }}" class="subcategory"
+        [routerLinkActive]="'active'" [routerLink]="'/house/search/neighbor'" (click)="closeToogleMenu()">
         <i class="fa-solid fa-restroom"></i>
-        <div class="item-description pl-2">
-          <p class="t-med">Пошук</p>
+        <div class="item-description">
+          <p class="t-min">Пошук</p>
           <p class="t-min">Сусіда</p>
         </div>
       </a>
@@ -329,44 +305,42 @@
   <div class="category-container">
     <div class="category">
       <a [@cardAnimation]="{value: '', params: { delay: animationDelay(4) }}" class="link-item"
-        [routerLinkActive]="'active'" [routerLink]="'/house/objects'" (click)="closeToogleMenu(8)">
+        [routerLinkActive]="'active'" [routerLink]="'/house/objects'" (click)="closeToogleMenu()">
         <i class="fa-solid fa-boxes-packing"></i>
-        <div class="item-description pl-2">
-          <p class="t-med">Наповнення</p>
+        <div class="item-description">
+          <p class="t-med bold">Наповнення</p>
           <p class="t-min">Предмети оселі</p>
         </div>
       </a>
-      <button *ngIf="!section[8]" [@appearance] [ngClass]="{'active': section[8]}" class="link-btn"
-        (click)="setSection(8)">
+      <button [@appearance] [ngClass]="{'active': section[8]}" class="link-btn" (click)="setSection(8)">
         <i [ngClass]="section[8] ? 'fa-solid fa-circle-chevron-up' : 'fa-solid fa-circle-chevron-down'"></i>
       </button>
     </div>
     <div class="subcategory-container" *ngIf="section[8]">
 
-      <a [@cardAnimation]="{value: '', params: { delay: animationDelay(1) }}" class="link-item subcategory"
-        [routerLinkActive]="'active'" [routerLink]="'/house/objects/about'" (click)="closeToogleMenu(8)">
+      <a [@cardAnimation]="{value: '', params: { delay: animationDelay(1) }}" class="subcategory"
+        [routerLinkActive]="'active'" [routerLink]="'/house/objects/about'" (click)="closeToogleMenu()">
         <i class="fa-regular fa-circle-question"></i>
-        <div class="item-description pl-2">
-          <p class="t-med">Що це таке?</p>
-          <p class="t-min">Про функцію</p>
+        <div class="item-description">
+          <p class="t-min">Що це?</p>
         </div>
       </a>
 
-      <a [@cardAnimation]="{value: '', params: { delay: animationDelay(5) }}" class="link-item subcategory"
-        [routerLinkActive]="'active'" [routerLink]="'/house/objects/add'" (click)="closeToogleMenu(8)">
+      <a [@cardAnimation]="{value: '', params: { delay: animationDelay(5) }}" class="subcategory"
+        [routerLinkActive]="'active'" [routerLink]="'/house/objects/add'" (click)="closeToogleMenu()">
         <i class="fa-solid fa-boxes-stacked"></i>
-        <div class="item-description pl-2">
-          <p class="t-med">Додати</p>
-          <p class="t-min">Наповнення</p>
+        <div class="item-description">
+          <p class="t-min">Додати</p>
+          <p class="t-min">Наповн.</p>
         </div>
       </a>
 
-      <a [@cardAnimation]="{value: '', params: { delay: animationDelay(5) }}" class="link-item subcategory"
-        [routerLinkActive]="'active'" [routerLink]="'/house/objects/control'" (click)="closeToogleMenu(8)">
+      <a [@cardAnimation]="{value: '', params: { delay: animationDelay(5) }}" class="subcategory"
+        [routerLinkActive]="'active'" [routerLink]="'/house/objects/control'" (click)="closeToogleMenu()">
         <i class="fa-solid fa-dolly"></i>
-        <div class="item-description pl-2">
-          <p class="t-med">Керування</p>
-          <p class="t-min">Наповненням</p>
+        <div class="item-description">
+          <p class="t-min">Керування</p>
+          <p class="t-min">Наповн.</p>
         </div>
       </a>
 
@@ -377,63 +351,57 @@
   <div class="category-container">
     <div class="category">
       <a [@cardAnimation]="{value: '', params: { delay: animationDelay(1) }}" class="link-item"
-        [routerLinkActive]="'active'" [routerLink]="'/house/edit'" (click)="closeToogleMenu(2)">
+        [routerLinkActive]="'active'" [routerLink]="'/house/edit'" (click)="closeToogleMenu()">
         <i class="fa-solid fa-gears"></i>
-        <div class="item-description pl-2">
-          <p class="t-med">Редагування</p>
+        <div class="item-description">
+          <p class="t-med bold">Редагування</p>
           <p class="t-min">Всі налаштування</p>
         </div>
       </a>
-      <button *ngIf="!section[6]" [@appearance] [ngClass]="{'active': section[6]}" class="link-btn"
-        (click)="setSection(6)">
+      <button [@appearance] [ngClass]="{'active': section[6]}" class="link-btn" (click)="setSection(6)">
         <i [ngClass]="section[6] ? 'fa-solid fa-circle-chevron-up' : 'fa-solid fa-circle-chevron-down'"></i>
       </button>
     </div>
 
     <div class="subcategory-container" *ngIf="section[6]">
 
-      <a [@cardAnimation]="{value: '', params: { delay: animationDelay(1) }}" class="link-item subcategory"
-        [routerLinkActive]="'active'" [routerLink]="'/house/edit/address'" (click)="closeToogleMenu(2)">
+      <a [@cardAnimation]="{value: '', params: { delay: animationDelay(1) }}" class="subcategory"
+        [routerLinkActive]="'active'" [routerLink]="'/house/edit/address'" (click)="closeToogleMenu()">
         <i class="fa-solid fa-location-dot"></i>
-        <div class="item-description pl-2">
-          <p class="t-med">Розташування</p>
-          <p class="t-min">Локація оселі</p>
+        <div class="item-description">
+          <p class="t-min">Локація</p>
         </div>
       </a>
 
-      <a [@cardAnimation]="{value: '', params: { delay: animationDelay(2) }}" class="link-item subcategory"
-        [routerLinkActive]="'active'" [routerLink]="'/house/edit/param'" (click)="closeToogleMenu(2)">
+      <a [@cardAnimation]="{value: '', params: { delay: animationDelay(2) }}" class="subcategory"
+        [routerLinkActive]="'active'" [routerLink]="'/house/edit/param'" (click)="closeToogleMenu()">
         <i class="fa-solid fa-trowel-bricks"></i>
-        <div class="item-description pl-2">
-          <p class="t-med">Параметри</p>
-          <p class="t-min">Характеристики</p>
+        <div class="item-description">
+          <p class="t-min">Параметри</p>
         </div>
       </a>
 
-      <a [@cardAnimation]="{value: '', params: { delay: animationDelay(4) }}" class="link-item subcategory"
-        [routerLinkActive]="'active'" [routerLink]="'/house/edit/about'" (click)="closeToogleMenu(2)">
+      <a [@cardAnimation]="{value: '', params: { delay: animationDelay(4) }}" class="subcategory"
+        [routerLinkActive]="'active'" [routerLink]="'/house/edit/about'" (click)="closeToogleMenu()">
         <i class="fa-solid fa-users-gear"></i>
-        <div class="item-description pl-2">
-          <p class="t-med">Особливості</p>
-          <p class="t-min">Про оселю</p>
+        <div class="item-description">
+          <p class="t-min">Особлив.</p>
         </div>
       </a>
 
-      <a [@cardAnimation]="{value: '', params: { delay: animationDelay(3) }}" class="link-item subcategory"
-        [routerLinkActive]="'active'" [routerLink]="'/house/edit/photo'" (click)="closeToogleMenu(2)">
+      <a [@cardAnimation]="{value: '', params: { delay: animationDelay(3) }}" class="subcategory"
+        [routerLinkActive]="'active'" [routerLink]="'/house/edit/photo'" (click)="closeToogleMenu()">
         <i class="fa-solid fa-images"></i>
-        <div class="item-description pl-2">
-          <p class="t-med">Фото</p>
-          <p class="t-min">Додати фото</p>
+        <div class="item-description">
+          <p class="t-min">Фото</p>
         </div>
       </a>
 
-      <a [@cardAnimation]="{value: '', params: { delay: animationDelay(5) }}" class="link-item subcategory"
-        [routerLinkActive]="'active'" [routerLink]="'/house/edit/additionally'" (click)="closeToogleMenu(2)">
+      <a [@cardAnimation]="{value: '', params: { delay: animationDelay(5) }}" class="subcategory"
+        [routerLinkActive]="'active'" [routerLink]="'/house/edit/additionally'" (click)="closeToogleMenu()">
         <i class="fa-regular fa-address-book"></i>
-        <div class="item-description pl-2">
-          <p class="t-med">Додаткова</p>
-          <p class="t-min">Для мешканців</p>
+        <div class="item-description">
+          <p class="t-min">Додатк.</p>
         </div>
       </a>
 
@@ -443,53 +411,48 @@
   <div class="category-container">
     <div class="category">
       <a [@cardAnimation]="{value: '', params: { delay: animationDelay(4) }}" class="link-item"
-        [routerLinkActive]="'active'" [routerLink]="'/house/communal'" (click)="closeToogleMenu(2)">
+        [routerLinkActive]="'active'" [routerLink]="'/house/communal'" (click)="closeToogleMenu()">
         <i class="fa-solid fa-chart-pie"></i>
-        <div class="item-description pl-2">
-          <p class="t-med">Статистика</p>
+        <div class="item-description">
+          <p class="t-med bold">Статистика</p>
           <p class="t-min">Комунальні</p>
         </div>
       </a>
-      <button *ngIf="!section[10]" [@appearance] [ngClass]="{'active': section[10]}" class="link-btn"
-        (click)="setSection(10)">
+      <button [@appearance] [ngClass]="{'active': section[10]}" class="link-btn" (click)="setSection(10)">
         <i [ngClass]="section[10] ? 'fa-solid fa-circle-chevron-up' : 'fa-solid fa-circle-chevron-down'"></i>
       </button>
     </div>
     <div class="subcategory-container" *ngIf="section[10]">
 
-      <a [@cardAnimation]="{value: '', params: { delay: animationDelay(1) }}" class="link-item subcategory"
-        [routerLinkActive]="'active'" [routerLink]="'/house/communal/about'" (click)="closeToogleMenu(2)">
+      <a [@cardAnimation]="{value: '', params: { delay: animationDelay(1) }}" class="subcategory"
+        [routerLinkActive]="'active'" [routerLink]="'/house/communal/about'" (click)="closeToogleMenu()">
         <i class="fa-regular fa-circle-question"></i>
-        <div class="item-description pl-2">
-          <p class="t-med">Що це таке?</p>
-          <p class="t-min">Про функцію</p>
+        <div class="item-description">
+          <p class="t-min">Що це?</p>
         </div>
       </a>
 
-      <a [@cardAnimation]="{value: '', params: { delay: animationDelay(5) }}" class="link-item subcategory"
-        [routerLinkActive]="'active'" [routerLink]="'/house/communal/add'" (click)="closeToogleMenu(2)">
+      <a [@cardAnimation]="{value: '', params: { delay: animationDelay(5) }}" class="subcategory"
+        [routerLinkActive]="'active'" [routerLink]="'/house/communal/add'" (click)="closeToogleMenu()">
         <i class="fa-solid fa-sliders"></i>
-        <div class="item-description pl-2">
-          <p class="t-med">Керування</p>
-          <p class="t-min">Статистикою</p>
+        <div class="item-description">
+          <p class="t-min">Керув.</p>
         </div>
       </a>
 
-      <a [@cardAnimation]="{value: '', params: { delay: animationDelay(5) }}" class="link-item subcategory"
-        [routerLinkActive]="'active'" [routerLink]="'/house/communal/stat-month'" (click)="closeToogleMenu(2)">
+      <a [@cardAnimation]="{value: '', params: { delay: animationDelay(5) }}" class="subcategory"
+        [routerLinkActive]="'active'" [routerLink]="'/house/communal/stat-month'" (click)="closeToogleMenu()">
         <i class="fa-solid fa-calendar-day"></i>
-        <div class="item-description pl-2">
-          <p class="t-med">Місяць</p>
-          <p class="t-min">Звіт</p>
+        <div class="item-description">
+          <p class="t-min">Місяць</p>
         </div>
       </a>
 
-      <a [@cardAnimation]="{value: '', params: { delay: animationDelay(5) }}" class="link-item subcategory"
-        [routerLinkActive]="'active'" [routerLink]="'/house/communal/stat-year'" (click)="closeToogleMenu(2)">
+      <a [@cardAnimation]="{value: '', params: { delay: animationDelay(5) }}" class="subcategory"
+        [routerLinkActive]="'active'" [routerLink]="'/house/communal/stat-year'" (click)="closeToogleMenu()">
         <i class="fa-solid fa-chart-pie"></i>
-        <div class="item-description pl-2">
-          <p class="t-med">Рік</p>
-          <p class="t-min">Звіт</p>
+        <div class="item-description">
+          <p class="t-min">Рік</p>
         </div>
       </a>
 
@@ -500,53 +463,48 @@
   <div class="category-container">
     <div class="category">
       <a [@cardAnimation]="{value: '', params: { delay: animationDelay(4) }}" class="link-item"
-        [routerLinkActive]="'active'" [routerLink]="'/house/residents'" (click)="closeToogleMenu(2)">
+        [routerLinkActive]="'active'" [routerLink]="'/house/residents'" (click)="closeToogleMenu()">
         <i class="fa-solid fa-people-roof"></i>
-        <div class="item-description pl-2">
-          <p class="t-med">Мешканці</p>
+        <div class="item-description">
+          <p class="t-med bold">Мешканці</p>
           <p class="t-min">Доступ, відгуки</p>
         </div>
       </a>
-      <button *ngIf="!section[9]" [@appearance] [ngClass]="{'active': section[9]}" class="link-btn"
-        (click)="setSection(9)">
+      <button [@appearance] [ngClass]="{'active': section[9]}" class="link-btn" (click)="setSection(9)">
         <i [ngClass]="section[9] ? 'fa-solid fa-circle-chevron-up' : 'fa-solid fa-circle-chevron-down'"></i>
       </button>
     </div>
     <div class="subcategory-container" *ngIf="section[9]">
 
-      <a [@cardAnimation]="{value: '', params: { delay: animationDelay(1) }}" class="link-item subcategory"
-        [routerLinkActive]="'active'" [routerLink]="'/house/residents/about'" (click)="closeToogleMenu(2)">
+      <a [@cardAnimation]="{value: '', params: { delay: animationDelay(1) }}" class="subcategory"
+        [routerLinkActive]="'active'" [routerLink]="'/house/residents/about'" (click)="closeToogleMenu()">
         <i class="fa-regular fa-circle-question"></i>
-        <div class="item-description pl-2">
-          <p class="t-med">Що це таке?</p>
-          <p class="t-min">Про функцію</p>
+        <div class="item-description">
+          <p class="t-min">Що це?</p>
         </div>
       </a>
 
-      <a [@cardAnimation]="{value: '', params: { delay: animationDelay(1) }}" class="link-item subcategory"
-        [routerLinkActive]="'active'" [routerLink]="'/house/residents/resident'" (click)="closeToogleMenu(2)">
+      <a [@cardAnimation]="{value: '', params: { delay: animationDelay(1) }}" class="subcategory"
+        [routerLinkActive]="'active'" [routerLink]="'/house/residents/resident'" (click)="closeToogleMenu()">
         <i class="fa-solid fa-person-shelter"></i>
-        <div class="item-description pl-2">
-          <p class="t-med">Мешканці</p>
-          <p class="t-min">Список</p>
+        <div class="item-description">
+          <p class="t-min">Мешканці</p>
         </div>
       </a>
 
-      <a [@cardAnimation]="{value: '', params: { delay: animationDelay(5) }}" class="link-item subcategory"
-        [routerLinkActive]="'active'" [routerLink]="'/house/residents/add'" (click)="closeToogleMenu(2)">
+      <a [@cardAnimation]="{value: '', params: { delay: animationDelay(5) }}" class="subcategory"
+        [routerLinkActive]="'active'" [routerLink]="'/house/residents/add'" (click)="closeToogleMenu()">
         <i class="fa-solid fa-user-plus"></i>
-        <div class="item-description pl-2">
-          <p class="t-med">Додати</p>
-          <p class="t-min">Мешканця</p>
+        <div class="item-description">
+          <p class="t-min">Додати</p>
         </div>
       </a>
 
-      <a [@cardAnimation]="{value: '', params: { delay: animationDelay(5) }}" class="link-item subcategory"
-        [routerLinkActive]="'active'" [routerLink]="'/house/residents/owner'" (click)="closeToogleMenu(2)">
+      <a [@cardAnimation]="{value: '', params: { delay: animationDelay(5) }}" class="subcategory"
+        [routerLinkActive]="'active'" [routerLink]="'/house/residents/owner'" (click)="closeToogleMenu()">
         <i class="fa-solid fa-id-card-clip"></i>
-        <div class="item-description pl-2">
-          <p class="t-med">Власник</p>
-          <p class="t-min">Інформація Контакти</p>
+        <div class="item-description">
+          <p class="t-min">Власник</p>
         </div>
       </a>
 

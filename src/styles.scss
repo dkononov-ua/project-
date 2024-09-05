@@ -65,6 +65,9 @@ a {
   color: $color-icon;
   font-size: 25px;
   transition: transform 1s;
+  @include s1-s3 {
+    font-size: 20px;
+  }
 }
 
 @media print {

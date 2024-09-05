@@ -8,6 +8,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { CounterService } from '../../services/counter.service';
 import * as ServerConfig from 'src/app/config/path-config';
 import { StatusMessageService } from '../../services/status-message.service';
+import { LoaderService } from 'src/app/services/loader.service';
+import { StatusDataService } from 'src/app/services/status-data.service';
 
 @Injectable({
   providedIn: 'root'
@@ -30,6 +32,8 @@ export class AuthGoogleService {
     private counterService: CounterService,
     private router: Router,
     private statusMessageService: StatusMessageService,
+    private loaderService: LoaderService,
+    private statusDataService: StatusDataService,
   ) {
     this.sharedService.serverPath$.subscribe(async (serverPath: string) => {
       this.serverPath = serverPath;
@@ -37,6 +41,8 @@ export class AuthGoogleService {
   }
 
   async singAuthGoogle(param: string) {
+    this.loaderService.setLoading(true);
+
     const provider = new GoogleAuthProvider();
     const user: any = await signInWithPopup(auth, provider);
     // console.log(user);
@@ -66,22 +72,35 @@ export class AuthGoogleService {
               this.statusMessageService.setStatusMessage('Переходимо до налаштування профілю!');
               localStorage.setItem('user', JSON.stringify(response));
               setTimeout(() => {
-                  this.router.navigate(['/user/edit/person']);
-                  this.statusMessageService.setStatusMessage('');
+                this.router.navigate(['/user/edit/person']);
+                this.statusMessageService.setStatusMessage('');
               }, 2000);
             }, 1000);
           } else if (response.status === true && param === 'login') {
             localStorage.removeItem('storageUserLooking');
-            this.sharedService.clearCache();
-            this.statusMessageService.setStatusMessage('З поверненням в Discussio!');
+            this.sharedService.setStatusMessage('З поверненням!');
+            localStorage.setItem('user', JSON.stringify(response));
             setTimeout(() => {
-              this.statusMessageService.setStatusMessage('Переходимо до профілю!');
-              localStorage.setItem('user', JSON.stringify(response));
-              setTimeout(() => {
-                this.statusMessageService.setStatusMessage('');
-                this.router.navigate(['/user/info']);
-              }, 2000);
-            }, 1000);
+              this.sharedService.setStatusMessage('Оновлюємо дані');
+              this.dataService.getInfoUser().subscribe((response: any) => {
+                setTimeout(() => {
+                  if (response.status === true) {
+                    this.sharedService.setStatusMessage('Оновлено');
+                    this.statusDataService.setUserData(response.cont, 0);
+                    setTimeout(() => {
+                      this.router.navigate(['/user']);
+                      this.sharedService.setStatusMessage('');
+                      this.loaderService.setLoading(false);
+                    }, 1500);
+                  } else {
+                    this.sharedService.setStatusMessage('Помилка оновлення даних');
+                    setTimeout(() => {
+                      location.reload();
+                    }, 1500);
+                  }
+                }, 1500);
+              })
+            }, 1500);
           } else {
             this.statusMessageService.setStatusMessage('Помилка входу');
             setTimeout(() => {

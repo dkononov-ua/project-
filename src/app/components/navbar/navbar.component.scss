@@ -75,15 +75,23 @@
   position: fixed;
   top: 0;
   padding-top: 1rem;
-  // background-image: linear-gradient(to top, transparent 0%, $color-primary 40%) !important;
+
+  &.home {
+    @include blurred-background($color-white, 0.5);
+    @include s1-s3 {
+      @include blurred-background($color-accent);
+      .fa-magnifying-glass {
+        color: $color-white !important;
+      }
+    }
+  }
 
   @include s1-s3 {
-    // @include box-shadow;
+    @include blurred-background($color-white, 0.5);
     z-index: 20;
     padding-top: 0rem !important;
     justify-content: space-between;
     background-image: none !important;
-    @include blurred-background($color-accent);
   }
 
   .icon-box {
@@ -102,12 +110,28 @@
   }
 
   .menu-box {
+    display: flex;
+    justify-content: flex-start;
+    flex-direction: column;
     width: 40%;
     max-width: 200px;
+
     @include s1-s3 {
+      &.home {
+        .t-lar-x,
+        .t-lar,
+        .t-med {
+          color: $color-white;
+        }
+      }
+
+      width: 100%;
+      max-width: 100%;
+
+      .t-lar-x,
       .t-lar,
       .t-med {
-        color: $color-white;
+        color: $color-dark;
       }
       .menu-box {
         border: none;
@@ -165,17 +189,24 @@
     }
 
     @include s1-s3 {
+      &.home {
+        .fa-solid,
+        .fa-regular,
+        .t-min {
+          color: $color-white;
+        }
+      }
       flex: 1;
-      width: 50px;
+      width: 60px;
       .fa-solid,
       .fa-regular,
       .t-min {
-        color: $color-white;
+        color: $color-dark;
       }
     }
 
     &:hover {
-      transform: scale(1.1);
+      transform: scale(1.02);
       .fa-solid,
       .fa-regular {
         color: $color-accent;
@@ -190,7 +221,7 @@
       .fa-solid,
       .fa-regular {
         color: $color-accent;
-        font-size: 36px;
+        font-size: 30px;
       }
       .t-min {
         color: $color-accent;

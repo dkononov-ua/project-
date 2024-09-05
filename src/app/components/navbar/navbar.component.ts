@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import * as ServerConfig from 'src/app/config/path-config';
 import { animations } from '../../interface/animation';
 import { SelectedFlatService } from '../../services/selected-flat.service';
@@ -6,16 +6,12 @@ import { NavigationEnd, Router } from '@angular/router';
 import { SharedService } from '../../services/shared.service';
 import { MenuService } from '../../services/menu.service';
 import { Location } from '@angular/common';
-import { filter, Subscription } from 'rxjs';
+import { filter } from 'rxjs';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { pageConfig } from 'src/app/data/page-config';
 import { UpdateMetaTagsService } from 'src/app/services/updateMetaTags.service';
 
-interface MenuStatus {
-  status: boolean;
-  index: number;
-}
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
@@ -59,6 +55,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
   subscriptions: any[] = [];
   metaTitleName: string = '';
   metaImage: any;
+  homePage: boolean = false;
 
   goBack(): void {
     this.location.back();
@@ -72,14 +69,14 @@ export class NavbarComponent implements OnInit, OnDestroy {
   menuIndex: number = 0;
   disabledBtn: boolean = false;
   user_router: boolean = false;
-  private routerSubscription: Subscription | undefined;
-  toggleAllMenu(index: number) {
-    this.menuStatus = !this.menuStatus
-    this.menuService.toogleMenu(this.menuStatus, index)
+
+  // відкриття меню через сервіс
+  async openToogleMenu() {
+    // console.log('openToogleMenu')
+    this.menuService.toogleMenu(true);
   }
 
   constructor(
-    private el: ElementRef,
     private selectedFlatService: SelectedFlatService,
     private router: Router,
     private sharedService: SharedService,
@@ -122,6 +119,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
   async checkLocation(): Promise<void> {
     type PagePaths = keyof typeof pageConfig;
     const currentLocation = this.currentLocation as PagePaths;
+    this.checkHomePage(currentLocation);
     const config = pageConfig[currentLocation];
     if (config) {
       this.page_title = config.title;
@@ -129,18 +127,26 @@ export class NavbarComponent implements OnInit, OnDestroy {
       this.updateMetaTagsInService(config)
     } else {
       this.page_title = 'discussio';
-      this.page_description = '';
+      this.page_description = 'все про оренду';
+    }
+  }
+
+  checkHomePage(location: string) {
+    // console.log(location)
+    if (location === '/' || location === '/home') {
+      this.homePage = true;
+    } else {
+      this.homePage = false;
     }
   }
 
   // Оновлюю метатеги в залежності від локації з конфігу data/page-config
   private updateMetaTagsInService(config: any): void {
     this.getUserData();
-    // console.log(config)
     if (this.userData && this.currentLocation === '/user/info') {
       const data = {
         title: this.metaTitleName,
-        description: config.metaDescription,
+        description: config.metaDescriptions,
         keywords: config.metaKeywords,
         image: this.metaImage,
         robots: config.metaRobots,
@@ -153,7 +159,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
     } else {
       const data = {
         title: config.metaTitle,
-        description: config.metaDescription,
+        description: config.metaDescriptions,
         keywords: config.metaKeywords,
         image: config.metaImg,
         robots: config.metaRobots,
@@ -238,14 +244,10 @@ export class NavbarComponent implements OnInit, OnDestroy {
 
   // підписка на статус меню
   async getStatusMenu() {
-    this.menuService.toogleMenu$.subscribe((menuStatus: MenuStatus) => {
-      this.menuStatus = menuStatus.status;
-      this.menuIndex = menuStatus.index;
+    this.menuService.toogleMenu$.subscribe((status: boolean) => {
+      this.menuStatus = status;
     });
   }
-
-
-
 
   ngOnDestroy() {
     this.subscriptions.forEach(subscription => subscription.unsubscribe());

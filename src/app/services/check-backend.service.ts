@@ -74,7 +74,7 @@ export class CheckBackendService {
               throw new Error('Third path check failed');
             }
           } catch {
-            this.sharedService.setStatusServer('Відсутня електроенергія, жоден сервер не відповідає. Спробуйте пізніше! Актуальна інформація в групі телеграм.');
+            this.sharedService.setStatusServer('Відсутня електроенергія. Спробуйте пізніше!');
           }
         }
       }

@@ -1,117 +1,114 @@
-<div class="menu home">
+<div class="menu">
 
-  <a [routerLinkActive]="'active'" [routerLink]="'/house/info'"
-    [@cardAnimation]="{value: '', params: { delay: animationDelay(0) }}" class="wrapper-img mb-2">
+  <a [routerLinkActive]="'active'" [routerLink]="'/home'"
+    [@cardAnimation]="{value: '', params: { delay: animationDelay(9) }}" class="wrapper-img mb-2">
     <img class="img-fluid" src="./../../assets/logo/discussio.png" alt="logo discussio">
     <div class="userName pl-2">
       <p class="t-lar bold">Discussio</p>
-      <p class="t-min">Соціальна платформа для нерухомості</p>
+      <p class="t-min">Платформа для нерухомості</p>
     </div>
   </a>
 
-  <div class="category-container">
-    <div class="category">
-      <a [@cardAnimation]="{value: '', params: { delay: animationDelay(1) }}" class="link-item"
-        [routerLinkActive]="'active'" [routerLink]="'/home'" (click)="closeToogleMenu(2)">
+  <div class="menu-home p-2">
+    <div class="category_home">
+      <a [@cardAnimation]="{value: '', params: { delay: animationDelay(3) }}" class="item-home"
+        [routerLinkActive]="'active'" [routerLink]="'/home'" (click)="closeToogleMenu()">
         <img class="logo-img" src="./../../assets/logo/discussio.png" alt="logo discussio">
-        <div class="item-description pl-2">
-          <p class="t-med">Головна сторінка</p>
-          <p class="t-min">Домашня сторінка Discussio</p>
+        <div class="item-description">
+          <p class="t-min">Головна</p>
         </div>
       </a>
     </div>
-  </div>
 
-  <div class="category-container">
-    <div class="category">
-      <a [@cardAnimation]="{value: '', params: { delay: animationDelay(1) }}" class="link-item"
-        [routerLinkActive]="'active'" [routerLink]="'/about-project'" (click)="closeToogleMenu(3)">
+
+    <div class="category_home">
+      <a [@cardAnimation]="{value: '', params: { delay: animationDelay(5) }}" class="item-home"
+        [routerLinkActive]="'active'" [routerLink]="'/about-project'" (click)="closeToogleMenu()">
         <i class="fa-solid fa-barcode"></i>
-        <div class="item-description pl-2">
-          <p class="t-med">Про Проект</p>
-          <p class="t-min">Інформація про Discussio</p>
+        <div class="item-description">
+          <p class="t-min">Проект</p>
         </div>
       </a>
     </div>
-  </div>
 
-  <div class="category-container">
-    <div class="category">
-      <a [@cardAnimation]="{value: '', params: { delay: animationDelay(4) }}" class="link-item"
-        [routerLinkActive]="'active'" [routerLink]="'/user-licence'" (click)="closeToogleMenu(2)">
+
+    <div class="category_home">
+      <a [@cardAnimation]="{value: '', params: { delay: animationDelay(12) }}" class="item-home"
+        [routerLinkActive]="'active'" [routerLink]="'/user-licence'" (click)="closeToogleMenu()">
         <i class="fa-solid fa-book-open-reader"></i>
-        <div class="item-description pl-2">
-          <p class="t-med">Угода користувача</p>
-          <p class="t-min">Правила користування сайтом</p>
+        <div class="item-description">
+          <p class="t-min">Оферта</p>
         </div>
       </a>
     </div>
-  </div>
 
-  <div class="category-container">
-    <div class="category">
-      <a [@cardAnimation]="{value: '', params: { delay: animationDelay(2) }}" class="link-item"
-        [routerLinkActive]="'active'" [routerLink]="'/support-us'" (click)="closeToogleMenu(2)">
+
+    <div class="category_home">
+      <a [@cardAnimation]="{value: '', params: { delay: animationDelay(4) }}" class="item-home"
+        [routerLinkActive]="'active'" [routerLink]="'/support-us'" (click)="closeToogleMenu()">
         <i class="fa-solid fa-hands-holding-child"></i>
-        <div class="item-description pl-2">
-          <p class="t-med">Підтримати</p>
-          <p class="t-min">Підтримати наш проект</p>
+        <div class="item-description">
+          <p class="t-min">Підтрим.</p>
         </div>
       </a>
     </div>
-  </div>
 
-  <div class="category-container">
-    <div class="category">
-      <a [@cardAnimation]="{value: '', params: { delay: animationDelay(5) }}" class="link-item"
-        [routerLinkActive]="'active'" [routerLink]="'/our-team'" (click)="closeToogleMenu(2)">
+
+    <div class="category_home">
+      <a [@cardAnimation]="{value: '', params: { delay: animationDelay(5) }}" class="item-home"
+        [routerLinkActive]="'active'" [routerLink]="'/our-team'" (click)="closeToogleMenu()">
         <i class="fa-solid fa-hand-fist"></i>
-        <div class="item-description pl-2">
-          <p class="t-med">Команда</p>
-          <p class="t-min">Люди які займаються проектом</p>
+        <div class="item-description">
+          <p class="t-min">Команда</p>
         </div>
       </a>
     </div>
-  </div>
 
-  <div class="category-container">
-    <div class="category">
-      <a [@cardAnimation]="{value: '', params: { delay: animationDelay(4) }}" class="link-item"
-        [routerLinkActive]="'active'" [routerLink]="'/blog'" (click)="closeToogleMenu(7)">
+
+    <div class="category_home">
+      <a [@cardAnimation]="{value: '', params: { delay: animationDelay(9) }}" class="item-home"
+        [routerLinkActive]="'active'" [routerLink]="'/blog'" (click)="closeToogleMenu()">
         <i class="fa-solid fa-blog"></i>
-        <div class="item-description pl-2">
-          <p class="t-med">Блог</p>
-          <p class="t-min">Корисні поради та оновлення</p>
+        <div class="item-description">
+          <p class="t-min">Блог</p>
         </div>
       </a>
     </div>
-  </div>
 
-  <div class="category-container">
-    <div class="category">
-      <a [@cardAnimation]="{value: '', params: { delay: animationDelay(4) }}" class="link-item"
-        [routerLinkActive]="'active'" [routerLink]="'/auth/registration'" (click)="closeToogleMenu(8)">
+
+    <div class="category_home">
+      <a [@cardAnimation]="{value: '', params: { delay: animationDelay(7) }}" class="item-home"
+        [routerLinkActive]="'active'" [routerLink]="'/auth/registration'" (click)="closeToogleMenu()">
         <i class="fa-solid fa-person-walking-dashed-line-arrow-right"></i>
-        <div class="item-description pl-2">
-          <p class="t-med">Реєстрація</p>
-          <p class="t-min">Зареєструвати новий аккаунт</p>
+        <div class="item-description">
+          <p class="t-min">Реєстр.</p>
         </div>
       </a>
     </div>
-  </div>
 
-  <div class="category-container">
-    <div class="category">
-      <a [@cardAnimation]="{value: '', params: { delay: animationDelay(1) }}" class="link-item"
-        [routerLinkActive]="'active'" [routerLink]="'/contacts'" (click)="closeToogleMenu(2)">
+
+    <div class="category_home">
+      <a [@cardAnimation]="{value: '', params: { delay: animationDelay(8) }}" class="item-home"
+        [routerLinkActive]="'active'" [routerLink]="'/contacts'" (click)="closeToogleMenu()">
         <i class="fa-solid fa-briefcase"></i>
-        <div class="item-description pl-2">
-          <p class="t-med">Співпраця</p>
-          <p class="t-min">Та наші контакти</p>
+        <div class="item-description">
+          <p class="t-min">Співпраця</p>
         </div>
       </a>
     </div>
+
+    <div class="category_home">
+      <a [@cardAnimation]="{value: '', params: { delay: animationDelay(5) }}" class="item-home"
+        [routerLinkActive]="'active'" [routerLink]="'/faq'" (click)="closeToogleMenu()">
+        <i class="fa-regular fa-circle-question"></i>
+        <div class="item-description">
+          <p class="t-min">F.A.Q</p>
+        </div>
+      </a>
+    </div>
+
+
+
+
   </div>
-
-
 </div>

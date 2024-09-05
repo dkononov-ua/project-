@@ -240,6 +240,7 @@ export class SharedService {
     setTimeout(() => {
       this.router.navigate(['/auth/login']);
       this.statusMessageService.setStatusMessage('');
+      this.loaderService.setLoading(false)
     }, 1500);
   }
 

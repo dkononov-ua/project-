@@ -16,12 +16,12 @@ import { MenuService } from 'src/app/services/menu.service';
   animations: [
     trigger('cardAnimation', [
       transition('void => *', [
-        style({ transform: 'translateX(100%)' }),
+        style({ transform: 'translateX(-100%)' }),
         animate('{{delay}}ms ease-in-out', style({ transform: 'translateX(0)' }))
       ]),
       transition('* => void', [
         style({ transform: 'translateX(0%)' }),
-        animate('600ms ease-in-out', style({ transform: 'translateX(100%)' }))
+        animate('600ms ease-in-out', style({ transform: 'translateX(-100%)' }))
       ]),
     ]),
     trigger('cardAnimationUp', [
@@ -69,16 +69,10 @@ export class NavigationUserComponent implements OnInit, OnDestroy {
   section: boolean[] = [false, false, false, false, false, false, false, false, false];
   currentLocation: string = '';
 
-  setToogleMenu(close: number, open: number) {
-    this.menuService.toogleMenu(false, close);
-    setTimeout(() => {
-      this.menuService.toogleMenu(true, open);
-    }, 100);
-  }
-  
-  // відкриття меню через сервіс
-  async closeToogleMenu(index: number) {
-    this.menuService.indexMenu(index);
+
+  closeToogleMenu() {
+    // console.log('closeToogleMenu')
+    this.menuService.toogleMenu(false);
   }
 
   constructor(
@@ -141,8 +135,14 @@ export class NavigationUserComponent implements OnInit, OnDestroy {
   }
 
   setSection(index: number) {
-    this.section = this.section.map((_, i) => i === index);
+    this.section = this.section.map((isOpen, i) => {
+      if (i === index) {
+        return !isOpen;
+      }
+      return false;
+    });
   }
+
 
   // Беру інформацію користувача
   async getInfoUser() {
@@ -235,12 +235,12 @@ export class NavigationUserComponent implements OnInit, OnDestroy {
 
   activateTenantProfile() {
     this.storageUserDataService.activateTenantProfile(this.userFeaturesData);
-    this.closeToogleMenu(3)
+    this.closeToogleMenu()
   }
 
   deactivateTenantProfile() {
     this.storageUserDataService.deactivateTenantProfile();
-    this.closeToogleMenu(3)
+    this.closeToogleMenu()
   }
 
   logout() {

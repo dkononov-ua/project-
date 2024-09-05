@@ -12,12 +12,12 @@ import { MenuService } from 'src/app/services/menu.service';
   animations: [
     trigger('cardAnimation', [
       transition('void => *', [
-        style({ transform: 'translateX(100%)' }),
+        style({ transform: 'translateX(-100%)' }),
         animate('{{delay}}ms ease-in-out', style({ transform: 'translateX(0)' }))
       ]),
       transition('* => void', [
         style({ transform: 'translateX(0%)' }),
-        animate('600ms ease-in-out', style({ transform: 'translateX(100%)' }))
+        animate('600ms ease-in-out', style({ transform: 'translateX(-100%)' }))
       ]),
     ]),
     trigger('cardAnimationUp', [
@@ -58,11 +58,9 @@ export class ProjectNavigationComponent implements OnInit, OnDestroy {
     }
   }
 
-  setToogleMenu(close: number, open: number) {
-    this.menuService.toogleMenu(false, close);
-    setTimeout(() => {
-      this.menuService.toogleMenu(true, open);
-    }, 100);
+  closeToogleMenu() {
+    // console.log('closeToogleMenu')
+    this.menuService.toogleMenu(false);
   }
 
   // імпорт шляхів
@@ -80,11 +78,6 @@ export class ProjectNavigationComponent implements OnInit, OnDestroy {
   authorization: boolean = false;
   authorizationHouse: boolean = false;
   section: boolean[] = [false, false, false, false, false, false, false, false, false];
-
-  // відкриття меню через сервіс
-  async closeToogleMenu(index: number) {
-    this.menuService.indexMenu(index);
-  }
 
   setSection(index: number) {
     this.section = this.section.map((_, i) => i === index);

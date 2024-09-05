@@ -1,31 +1,21 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 
-interface MenuStatus {
-  status: boolean;
-  index: number;
-}
-
 @Injectable({
   providedIn: 'root'
 })
 
 export class MenuService {
 
-  private toogleMenuSubject = new BehaviorSubject<MenuStatus>({ status: false, index: 0 });
+  private toogleMenuSubject = new BehaviorSubject<boolean>(false);
   public toogleMenu$ = this.toogleMenuSubject.asObservable();
-  private indexMenuSubject = new BehaviorSubject<number>(0);
-  public indexMenu$ = this.indexMenuSubject.asObservable();
 
   constructor() { }
 
-  toogleMenu(status: boolean, index: number) {
-    this.toogleMenuSubject.next({ status, index });
+  toogleMenu(status: boolean) {
+    // console.log('toogleMenu called with status:', status);
+    // console.trace();  // Додає трасування стека викликів
+    this.toogleMenuSubject.next(status);
   }
-
-  indexMenu(index: number) {
-    this.indexMenuSubject.next(index);
-  }
-
 
 }

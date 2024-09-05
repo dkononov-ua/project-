@@ -163,7 +163,7 @@
   position: relative;
   justify-content: space-around !important;
   // background-color: $color-accent;
-  @include blurred-background($color-accent);
+  @include blurred-background($color-white);
 
   .switch-btn-group {
     @include flex-box-column;
@@ -182,7 +182,7 @@
     @include flex-box-column;
     position: relative;
     justify-content: center;
-    color: $color-white;
+    color: $color-dark;
     height: 40px;
     width: 40px;
     background-color: transparent;
@@ -206,11 +206,11 @@
     &.active {
       .fa-solid,
       .fa-regular {
-        color: $color-dark;
+        color: $color-accent;
         font-size: 36px;
       }
       .t-min {
-        color: $color-dark;
+        color: $color-accent;
       }
       font-weight: bold;
       filter: drop-shadow(0px 0px 2px $color-accent);
@@ -224,10 +224,10 @@
     .fa-solid,
     .fa-regular {
       font-size: 30px;
-      color: $color-white;
+      color: $color-dark;
     }
     .t-min {
-      color: $color-white;
+      color: $color-dark;
     }
   }
 }

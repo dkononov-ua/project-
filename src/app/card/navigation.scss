@@ -2,6 +2,22 @@
 @use "../style/mixins/" as *;
 @use "../style/shared.scss";
 
+.menu-home {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  overflow-x: auto;
+  overflow-y: hidden;
+  max-height: calc(2 * 100px);
+  white-space: nowrap;
+  flex-direction: column;
+  .category_home {
+    flex: 1 1 calc(50% - 10px);
+    max-width: 50%;
+  }
+}
+
+
 .message {
   @include flex-box-center;
   width: 50px;
@@ -25,7 +41,6 @@
 }
 
 .menu {
-  overflow: auto;
   position: relative;
   @include s3-s6-max {
     height: calc(100vh - 70px);
@@ -37,13 +52,13 @@
 
   @include s1-s3 {
     height: auto;
-    padding: 20px 0px 60px 20px;
+    padding: 20px 0px 0px 0px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
     // height: 85vh;
   }
-}
-
-.home {
-  padding: 20px 20px 60px 20px !important;
 }
 
 .wrapper-img {
@@ -60,8 +75,8 @@
     @include box-shadow;
     width: 250px;
     background-color: $color-white;
-    justify-content: space-between;
-    border: 1px solid $color-light-gray;
+    justify-content: flex-start;
+    // border: 1px solid $color-light-gray;
   }
   .userName {
     display: flex;
@@ -73,9 +88,6 @@
       .t-lar,
       .t-min {
         color: $color-text;
-      }
-      .t-lar {
-        border-bottom: 1px solid $color-text;
       }
     }
   }
@@ -133,15 +145,63 @@
     flex-wrap: wrap;
     width: 100%;
     .subcategory {
-      height: auto;
-      width: auto;
-      padding: 3px;
-      margin: 0px 3px 5px 0px;
+      @include flex-box-center;
+      @include box-shadow;
+      width: 60px;
+      height: 60px;
+      background-color: $color-white;
+      border-radius: 20px;
+      flex-direction: column;
+      padding: 2px;
+      margin: 3px;
       &.active {
-        border-radius: 20px
+        border-radius: 20px;
+      }
+      .item-description {
+        align-items: center;
+      }
+      &:hover {
+        transform: none;
+        background-color: $color-gray;
+        @include box-shadow-i;
+        .fa-solid,
+        .fa-regular,
+        .t-med,
+        .t-min {
+          color: $color-white;
+        }
+      }
+
+      &:disabled {
+        background-color: $color-gray;
+        box-shadow: 2px 2px 2px 4px $color-gray;
+        .fa-solid,
+        .fa-regular,
+        .t-med,
+        .t-min {
+          color: $color-light-gray;
+        }
+      }
+
+      &.active {
+        background-color: $color-dark;
+        @include box-shadow;
+        &:hover {
+          transform: none;
+        }
+        .fa-solid,
+        .fa-regular,
+        .t-med,
+        .t-min {
+          color: $color-white;
+        }
       }
     }
   }
+}
+
+.category_home {
+  width: auto;
 }
 
 .link-item {
@@ -157,12 +217,17 @@
   width: 100%;
   border-radius: 20px;
   background-color: $color-white;
-  padding: 5px 10px 5px 10px;
+  padding: 10px 10px 5px 10px;
   .fa-solid,
   .fa-regular,
   .t-med {
     color: $color-dark;
     font-weight: 600;
+  }
+
+  .fa-solid,
+  .fa-regular {
+    padding-right: 10px;
   }
 
   .t-min {
@@ -213,32 +278,52 @@
     }
   }
   @include s1-s3 {
-    height: auto;
+    margin: 0px 0px 2px 10px;
+    &.active {
+      border-radius: 20px;
+      margin: 5px;
+    }
   }
+}
+
+.item-home {
+  @include flex-box-center;
+  width: 60px;
+  height: 60px;
+  flex-direction: column;
+  background-color: $color-white;
+  border-radius: 20px;
+  margin: 3px;
+  padding: 2px;
 }
 
 .item-description {
   display: flex;
   justify-content: center;
   flex-direction: column;
-  align-items: flex-start
+  align-items: flex-start;
 }
 
 .link-btn {
   width: 60px;
   background-color: transparent;
+
   .fa-solid,
   .fa-regular,
   .t-med,
   .t-min {
+    @include box-shadow;
     color: $color-white;
+    @include s1-s3 {
+      color: $color-dark;
+    }
   }
   &:hover {
     .fa-solid,
     .fa-regular,
     .t-med,
     .t-min {
-      color: $color-dark;
+      color: $color-accent;
     }
   }
   &.active {

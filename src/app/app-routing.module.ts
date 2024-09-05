@@ -17,79 +17,23 @@ import { ProjectContactsComponent } from './pages/host/project-contacts/project-
 import { FaqComponent } from './pages/host/faq/faq.component';
 
 const routes: Routes = [
-  {
-    path: '',
-    component: AppComponent,
-  },
-  { path: '', redirectTo: 'home', pathMatch: 'full' },
-  {
-    path: 'auth',
-    loadChildren: () => import('./pages/host-auth/auth-routing.module').then(m => m.AuthRoutingModule)
-  },
-  {
-    path: 'user',
-    loadChildren: () => import('./pages/host-user/user-routing.module').then(m => m.UserRoutingModule),
-  },
-  {
-    path: 'house',
-    loadChildren: () => import('./pages/host-house/house-routing.module').then(m => m.HouseRoutingModule),
-  },
-  {
-    path: 'search',
-    loadChildren: () => import('./pages/host-search/search-routing.module').then(m => m.SearchRoutingModule),
-  },
-  {
-    path: 'feedback',
-    component: FeedbackComponent,
-    canActivate: [CanActivateGuard]
-  },
-  {
-    path: 'rental-agree',
-    component: RentalAgreementComponent,
-    canActivate: [CanActivateGuard]
-  },
-  {
-    path: 'act-transfer',
-    component: ActTransferComponent,
-    canActivate: [CanActivateGuard]
-  },
-
-  {
-    path: 'home',
-    component: HomeComponent
-  },
-  {
-    path: 'blog',
-    component: PostsComponent
-  },
-  {
-    path: 'contacts',
-    component: ProjectContactsComponent
-  },
-  {
-    path: 'support-us',
-    component: SupportUsComponent
-  },
-  {
-    path: 'about-project',
-    component: AboutProjectComponent
-  },
-  {
-    path: 'our-team',
-    component: OurTeamComponent
-  },
-  {
-    path: 'faq',
-    component: FaqComponent
-  },
-  {
-    path: 'user-licence',
-    component: UserLicenceComponent
-  },
-  {
-    path: 'blog/:title',
-    component: PostDetailComponent
-  },
+  { path: '', component: HomeComponent, },
+  { path: 'home', component: HomeComponent },
+  { path: 'auth', loadChildren: () => import('./pages/host-auth/auth-routing.module').then(m => m.AuthRoutingModule) },
+  { path: 'user', loadChildren: () => import('./pages/host-user/user-routing.module').then(m => m.UserRoutingModule), },
+  { path: 'house', loadChildren: () => import('./pages/host-house/house-routing.module').then(m => m.HouseRoutingModule), },
+  { path: 'search', loadChildren: () => import('./pages/host-search/search-routing.module').then(m => m.SearchRoutingModule), },
+  { path: 'feedback', component: FeedbackComponent, canActivate: [CanActivateGuard] },
+  { path: 'rental-agree', component: RentalAgreementComponent, canActivate: [CanActivateGuard] },
+  { path: 'act-transfer', component: ActTransferComponent, canActivate: [CanActivateGuard] },
+  { path: 'blog', component: PostsComponent },
+  { path: 'contacts', component: ProjectContactsComponent },
+  { path: 'support-us', component: SupportUsComponent },
+  { path: 'about-project', component: AboutProjectComponent },
+  { path: 'our-team', component: OurTeamComponent },
+  { path: 'faq', component: FaqComponent },
+  { path: 'user-licence', component: UserLicenceComponent },
+  { path: 'blog/:title', component: PostDetailComponent },
   { path: '404', component: NotFoundComponent },
   { path: '**', redirectTo: '/404' },
 ];

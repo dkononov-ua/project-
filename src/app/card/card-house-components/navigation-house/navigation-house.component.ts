@@ -19,12 +19,12 @@ import { MissingParamsService } from 'src/app/pages/host-house/host-house-edit/m
   animations: [
     trigger('cardAnimation', [
       transition('void => *', [
-        style({ transform: 'translateX(100%)' }),
+        style({ transform: 'translateX(-100%)' }),
         animate('{{delay}}ms ease-in-out', style({ transform: 'translateX(0)' }))
       ]),
       transition('* => void', [
         style({ transform: 'translateX(0%)' }),
-        animate('600ms ease-in-out', style({ transform: 'translateX(100%)' }))
+        animate('600ms ease-in-out', style({ transform: 'translateX(-100%)' }))
       ]),
     ]),
     trigger('cardAnimationUp', [
@@ -107,21 +107,18 @@ export class NavigationHouseComponent implements OnInit, OnDestroy {
   currentLocation: string = '';
   imgFlat: string = '';
 
-
-  // відкриття меню через сервіс
-  async closeToogleMenu(index: number) {
-    this.menuService.indexMenu(index);
-  }
-
-  setToogleMenu(close: number, open: number) {
-    this.menuService.toogleMenu(false, close);
-    setTimeout(() => {
-      this.menuService.toogleMenu(true, open);
-    }, 100);
+  closeToogleMenu() {
+    // console.log('closeToogleMenu')
+    this.menuService.toogleMenu(false);
   }
 
   setSection(index: number) {
-    this.section = this.section.map((_, i) => i === index);
+    this.section = this.section.map((isOpen, i) => {
+      if (i === index) {
+        return !isOpen;
+      }
+      return false;
+    });
   }
 
   constructor(
@@ -330,12 +327,12 @@ export class NavigationHouseComponent implements OnInit, OnDestroy {
 
   activateHouseProfile() {
     this.missingParamsService.askActivateHouseProfile();
-    this.closeToogleMenu(3)
+    this.closeToogleMenu()
   }
 
   deactivateHouseProfile() {
     this.missingParamsService.askDeactivateHouseProfile();
-    this.closeToogleMenu(3)
+    this.closeToogleMenu()
   }
 
   ngOnDestroy() {

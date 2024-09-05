@@ -16,16 +16,15 @@
 
 .switch-container {
   @include flex-box;
-  height: auto !important;
+  height: 60px !important;
+  margin: 0px !important;
+  z-index: 15 !important;
   width: 100%;
   justify-content: flex-start;
   position: relative;
-  margin: 0 !important;
-  z-index: 16 !important;
-  @include s1-s3 {
-    justify-content: space-around !important;
-    @include blurred-background($color-accent);
-  }
+  justify-content: space-around !important;
+  // background-color: $color-accent;
+  @include blurred-background($color-white);
 
   .switch-btn-group {
     @include flex-box-column;
@@ -44,7 +43,7 @@
     @include flex-box-column;
     position: relative;
     justify-content: center;
-    color: $color-white;
+    color: $color-dark;
     height: 40px;
     width: 40px;
     background-color: transparent;
@@ -68,11 +67,11 @@
     &.active {
       .fa-solid,
       .fa-regular {
-        color: $color-dark !important;
+        color: $color-accent;
         font-size: 36px;
       }
       .t-min {
-        color: $color-dark !important;
+        color: $color-accent;
       }
       font-weight: bold;
       filter: drop-shadow(0px 0px 2px $color-accent);
@@ -80,19 +79,20 @@
     &:disabled {
       .fa-regular,
       .fa-solid {
-        color: $color-gray !important;
+        color: $color-gray;
       }
     }
     .fa-solid,
     .fa-regular {
       font-size: 30px;
-      color: $color-white !important;
+      color: $color-dark;
     }
     .t-min {
-      color: $color-white;
+      color: $color-dark;
     }
   }
 }
+
 
 .flex-box {
   flex-wrap: wrap;

@@ -9,6 +9,7 @@ import { Router } from '@angular/router';
 import { StatusDataService } from 'src/app/services/status-data.service';
 import { StatusMessageService } from 'src/app/services/status-message.service';
 import { UpdateMetaTagsService } from 'src/app/services/updateMetaTags.service';
+import { MissingParamsService } from '../host-house-edit/missing-params.service';
 
 @Component({
   selector: 'app-host-house-page',
@@ -18,6 +19,8 @@ import { UpdateMetaTagsService } from 'src/app/services/updateMetaTags.service';
     animations.left1,
     animations.right1,
     animations.appearance,
+    animations.top1,
+    animations.bot,
   ],
 })
 
@@ -71,6 +74,7 @@ export class HostHousePageComponent implements OnInit, OnDestroy {
     private statusDataService: StatusDataService,
     private statusMessageService: StatusMessageService,
     private updateMetaTagsService: UpdateMetaTagsService,
+    private missingParamsService: MissingParamsService,
   ) { }
 
   async ngOnInit(): Promise<void> {
@@ -179,6 +183,7 @@ export class HostHousePageComponent implements OnInit, OnDestroy {
       this.acces_subs = this.houseData.acces.acces_subs;
       if (this.acces_discuss === 1) {
         await this.getHouseDiscussioCount();
+        await this.getHouseNewMessage();
       }
       if (this.acces_subs === 1) {
         await this.getHouseSubscribersCount();
@@ -188,6 +193,7 @@ export class HostHousePageComponent implements OnInit, OnDestroy {
       await this.getHouseDiscussioCount();
       await this.getHouseSubscribersCount();
       await this.getHouseSubscriptionsCount();
+      await this.getHouseNewMessage();
     }
   }
 
@@ -288,6 +294,31 @@ export class HostHousePageComponent implements OnInit, OnDestroy {
     //     this.counterHouseDiscussio = Number(data);
     //   })
     // );
+  }
+
+  // перевірка на нові повідомлення оселі
+  async getHouseNewMessage() {
+    await this.counterService.getHouseNewMessage(this.selectedFlatId);
+
+    this.subscriptions.push(
+      this.counterService.counterHouseNewMessage$.subscribe(data => {
+        const counterHouseNewMessage: any = data
+        // console.log(data)
+        if (counterHouseNewMessage.status !== false) {
+          this.counterHouseNewMessage = Number(counterHouseNewMessage.status)
+        } else {
+          this.counterHouseNewMessage = 0;
+        }
+      })
+    );
+  }
+
+  activateHouseProfile() {
+    this.missingParamsService.askActivateHouseProfile();
+  }
+
+  deactivateHouseProfile() {
+    this.missingParamsService.askDeactivateHouseProfile();
   }
 
   ngOnDestroy() {
