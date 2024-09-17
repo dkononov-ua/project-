@@ -8,15 +8,11 @@
   justify-content: flex-start;
   overflow-x: auto;
   overflow-y: hidden;
-  max-height: calc(2 * 100px);
+  max-height: 180px;
   white-space: nowrap;
   flex-direction: column;
-  .category_home {
-    flex: 1 1 calc(50% - 10px);
-    max-width: 50%;
-  }
+  width: 100%;
 }
-
 
 .message {
   @include flex-box-center;
@@ -154,6 +150,12 @@
       flex-direction: column;
       padding: 2px;
       margin: 3px;
+
+      @include s3-s6-max {
+        width: 70px;
+        height: 70px;
+      }
+
       &.active {
         border-radius: 20px;
       }
@@ -263,7 +265,6 @@
   &.active {
     background-color: $color-dark;
     color: $color-accent;
-    border-radius: 20px 0px 0px 20px;
     @include box-shadow;
     &:hover {
       transform: none;

@@ -53,8 +53,11 @@ export interface UserInfo {
   woman: number;
   years: number | undefined;
   street: string;
+  floor: number;
   district: string;
   micro_district: string;
+  metrocolor: string;
+  metroname: string;
 }
 export interface UserInfoSearch {
   animals: string | undefined;
@@ -119,6 +122,11 @@ export interface UserInfoSearch {
   street: string;
   district: string;
   micro_district: string;
+  floor: number;
+
+  metrocolor: string;
+  metroname: string;
+
 }
 export interface HouseInfo {
   about: string;
@@ -168,6 +176,9 @@ export interface HouseInfo {
   street: string;
   students: any;
   woman: any;
+  metrocolor: string;
+  metroname: string;
+
 };
 
 export interface HouseInfoSearch {
@@ -222,6 +233,9 @@ export interface HouseInfoSearch {
   rooms: number | undefined;
   private: number | 0;
   rent: number | 0;
+  metrocolor: string;
+  metroname: string;
+
 }
 
 export interface Chat {

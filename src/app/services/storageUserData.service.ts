@@ -105,7 +105,6 @@ export class StorageUserDataService implements OnDestroy {
   }
 
   async saveUserInfo(userData: any, agree: boolean): Promise<void> {
-    // console.log(agree)
     const userJson = localStorage.getItem('user');
     if (userJson) {
       try {
@@ -150,10 +149,15 @@ export class StorageUserDataService implements OnDestroy {
           mounths: userData.mounths,
           years: userData.years,
           about: userData.about,
+
           metro: userData.metro,
+          district: userData.district,
+          micro_district: userData.micro_district,
+          metroname: userData.metroname,
+          metrocolor: userData.metrocolor,
+          floor: userData.floor,
         };
         const response: any = await this.http.post(this.serverPath + '/features/add', { auth: JSON.parse(userJson), new: data }).toPromise();
-        // console.log(response)
         this.loaderService.setLoading(true);
         if (response.status === true) {
           if (agree) {

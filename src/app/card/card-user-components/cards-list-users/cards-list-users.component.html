@@ -9,12 +9,12 @@
     <i class="fa-solid fa-chevron-right"></i></button>
 </div>
 <div #findCards [@top3] class="cards-container" (scroll)="onScroll($event)">
-  <div class="card-mini mb-3" *ngFor="let subscriber of allCards" (click)="onSelect(subscriber.user_id)"
+  <div class="card-mini m-1" *ngFor="let subscriber of allCards" (click)="onSelect(subscriber.user_id)"
     [ngClass]="{ 'selected': subscriber.user_id == choseUser }">
     <div class="card-mini-img-container">
       <!-- якщо фото немає -->
       <img class="card-mini-img" src="../../../../assets/user_default.svg" alt="img"
-        *ngIf="!subscriber.img || subscriber.img === 'user_default.svg'">
+        *ngIf="!subscriber.img || subscriber.img === 'user_default.svg'" loading="lazy">
       <!-- якщо фото користувача є чекаємо його завантаження і показуємо спінер -->
       <div class="card-mini-img" *ngIf="subscriber.img && subscriber.img !== 'user_default.svg' && !isLoadingImg">
         <div class="container-loader-mini">
@@ -26,7 +26,7 @@
       </div>
       <!-- якщо фото користувача завантажилось показуємо фото -->
       <img class="card-mini-img" [src]="serverPath + pathPhotoUser + subscriber.img" alt="img"
-        *ngIf="subscriber.img && subscriber.img !== 'user_default.svg' && isLoadingImg">
+        *ngIf="subscriber.img && subscriber.img !== 'user_default.svg' && isLoadingImg" loading="lazy">
     </div>
     <div class="card-body">
       <div class="p-1">

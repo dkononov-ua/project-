@@ -50,7 +50,7 @@
 .search-term {
   @include flex-box-center;
   justify-content: space-between;
-  border-radius: 20px;
+  border-radius: 10px;
   width: auto;
   position: relative;
 
@@ -58,6 +58,10 @@
   background-color: $color-white;
   @include box-shadow;
   padding: 10px;
+  &.active {
+    background-color: $color-accent;
+    color: $color-white;
+  }
 }
 
 .search-group {
@@ -141,35 +145,84 @@
 
   .lobo-box {
     position: relative;
-    transition: 1s;
+    display: inline-block;
     cursor: pointer;
+    background-color: transparent;
+
+    // Ефект збільшення всієї кнопки при наведенні
     &:hover {
       transform: scale(1.1);
     }
+
     .logo-img {
       height: 50px;
       width: 50px;
       border-radius: 50%;
-      // border: 2px solid $color-white;
-      @include box-shadow;
-      @include s1-s3 {
-        box-shadow: none;
-      }
-      &:hover {
-        @include box-shadow-a;
-      }
+      position: relative;
+      z-index: 1; // Щоб лого було зверху над анімованими бордерами
+
+      // Анімація логотипу синхронно з хвилями
+      animation: logoBounce 2s infinite ease-out;
     }
 
-    .logo-icon {
-      @include flex-box-center;
+    // Псевдоелементи для бордерів
+    &::before,
+    &::after {
+      content: "";
       position: absolute;
-      width: 100%;
-      bottom: -2px;
-      left: 0;
-      .fa-solid {
-        color: $color-white;
-        font-size: 20px;
-      }
+      top: 50%;
+      left: 50%;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      border: 2px solid $color-accent; // Початковий колір бордера
+      transform: translate(-50%, -50%);
+      opacity: 0;
+      pointer-events: none; // Щоб анімація не блокувала кліки
+      z-index: 0;
+    }
+
+    // Перший псевдоелемент (внутрішня хвиля)
+    &::before {
+      animation: rippleEffect 2s infinite ease-out;
+    }
+
+    // Другий псевдоелемент (зовнішня хвиля)
+    &::after {
+      animation: rippleEffect 2s infinite ease-out 0.5s; // Затримка для другого ефекту
+    }
+  }
+
+  // Анімація для псевдоелементів (хвиль)
+  @keyframes rippleEffect {
+    0% {
+      width: 40px;
+      height: 40px;
+      opacity: 0.8;
+      border-width: 2px;
+    }
+    50% {
+      width: 60px;
+      height: 60px;
+      opacity: 0.3;
+      border-width: 1px;
+    }
+    100% {
+      width: 80px;
+      height: 80px;
+      opacity: 0;
+      border-width: 1;
+    }
+  }
+
+  // Анімація логотипу (стиснення під час поштовху)
+  @keyframes logoBounce {
+    0%,
+    100% {
+      transform: scale(1); // Початковий розмір
+    }
+    50% {
+      transform: scale(0.95); // Логотип стискається до 90% розміру
     }
   }
 

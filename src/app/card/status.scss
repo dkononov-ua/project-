@@ -53,14 +53,17 @@
     }
   }
 
+  .status-metro {
+    width: auto !important;
+  }
+
   .status-hover {
     @include flex-box-center;
-    min-width: 320px;
+    min-width: 300px;
     flex-direction: column;
     position: absolute;
-    top: 170%;
+    top: 10%;
     left: 10px;
-    width: 100%;
     background-color: $color-dark;
     border-radius: 20px;
     padding: 8px;

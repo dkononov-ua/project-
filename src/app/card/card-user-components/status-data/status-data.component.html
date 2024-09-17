@@ -1,7 +1,8 @@
 <button class="status-content" *ngIf="userInfo">
   <button class="status-box m-2" (click)="toogleOpenStatus(true)">
     <div class="status-value" *ngIf="userInfo.checked === 0"><i class="fa-solid fa-person-circle-exclamation"></i></div>
-    <div class="status-value" *ngIf="userInfo.checked === 1"><i class="fa-solid fa-person-circle-check"></i></div>
+    <div class="status-value bg-green" *ngIf="userInfo.checked === 1"><i class="fa-solid fa-person-circle-check"></i>
+    </div>
     <div class="status-value" *ngIf="userInfo.realll === 1"><i class="fa-solid fa-coins"></i></div>
     <div class="status-value" *ngIf="userInfo.agree_search === 1">
       <i class="fa-solid fa-person-hiking"></i>
@@ -18,7 +19,20 @@
     <div class="status-value" *ngIf="userInfo.woman === 1"><i class="fa-solid fa-person-dress"></i></div>
     <div class="status-value" *ngIf="userInfo.man === 1"><i class="fa-solid fa-person"></i></div>
     <div class="status-value" *ngIf="userInfo.students === 1"><i class="fa-solid fa-graduation-cap"></i></div>
-    <div class="status-value" *ngIf="userInfo.family === 1"><i class="fa-solid fa-children"></i></div>
+    <div class="status-value" *ngIf="userInfo.family === 1"><i class="fa-solid fa-person-breastfeeding"></i></div>
+
+    <div class="status-value status-metro bg-red"
+      *ngIf="userInfo.metrocolor && userInfo.metrocolor === 'Червона лінія'"><i
+        class="fa-solid fa-m pr-2"></i>{{userInfo.metroname}}</div>
+
+    <div class="status-value status-metro bg-blue" *ngIf="userInfo.metrocolor && userInfo.metrocolor === 'Синя лінія'">
+      <i class="fa-solid fa-m pr-2"></i>{{userInfo.metroname}}
+    </div>
+
+    <div class="status-value status-metro bg-green"
+      *ngIf="userInfo.metrocolor && userInfo.metrocolor === 'Зелена лінія'"><i
+        class="fa-solid fa-m pr-2"></i>{{userInfo.metroname}}</div>
+
   </button>
   <div appClickOutside (clickOutside)="onClickedOutside()" [@appearance] class="status-hover" *ngIf="openStatus">
     <div class="status-hover-label border-bottom">Допомога</div>
@@ -27,7 +41,7 @@
       <div>
         <ul>Статуси аккаунту:
           <li *ngIf="userInfo.checked === 1" class="status-hover-li">
-            <div class="status-value"><i class="fa-solid fa-person-circle-check"></i></div>
+            <div class="status-value bg-green"><i class="fa-solid fa-person-circle-check"></i></div>
             - Підтверджений аккаунт
           </li>
           <li *ngIf="userInfo.checked === 0" class="status-hover-li">
@@ -66,7 +80,7 @@
             <div class="status-value"><i class="fa-solid fa-graduation-cap"></i></div> - Студента
           </li>
           <li *ngIf="userInfo.family === 1" class="status-hover-li">
-            <div class="status-value"><i class="fa-solid fa-children"></i></div> - Сім'ї
+            <div class="status-value"><i class="fa-solid fa-person-breastfeeding"></i></div> - Сім'ї, з дітьми
           </li>
         </ul>
 
@@ -82,6 +96,17 @@
             <div class="status-value"><i class="fa-solid fa-cube"></i></div> - Підійде кімната
           </li>
         </ul>
+
+        <ul *ngIf="userInfo.metrocolor || userInfo.metroname">
+          Метро:
+          <li *ngIf="userInfo.metrocolor" class="status-hover-li">
+            <div class="status-value"><i class="fa-solid fa-m pr-2"></i></div> - Колір лінії метро
+          </li>
+          <li *ngIf="userInfo.metroname" class="status-hover-li">
+            <div class="status-value status-metro">{{userInfo.metroname}}</div> - Станція
+          </li>
+        </ul>
+
 
       </div>
       <button class="btn-close bg-white p-2" (click)="toogleOpenStatus(false)"></button>

@@ -46,21 +46,32 @@ export class PostDetailComponent implements OnInit {
     await this.postService.getPosts();
     this.slug = this.route.snapshot.paramMap.get('title');
     this.post = await this.postService.getPostBySlug(this.slug);
-    // console.log(this.post)
-    this.updateMetaTagsInService();
+
+    // Видаляємо теги з заголовку
+    this.post.title = this.stripHtmlTags(this.post.title);
+
+    // Видаляємо теги з контенту перед обрізанням
+    const cleanedContent = this.stripHtmlTags(this.post.content);
+
+    this.updateMetaTagsInService(cleanedContent);
   }
 
-  private updateMetaTagsInService(): void {
-    if (this.post) {
-      const data = {
-        title: this.post.title,
-        description: this.truncateText(this.post.content, 170),
-        keywords: this.post.keywords || this.post.title,
-        image: this.post.image,
-        url: 'https://discussio.site/blog/' + this.post.slug,
-      }
-      this.updateMetaTagsService.updateMetaTags(data)
+  // Очищення тексту від HTML-тегів
+  private stripHtmlTags(text: string): string {
+    return text.replace(/<\/?[^>]+(>|$)/g, "");
+  }
+
+  // Оновлюю метатеги в залежності від локації з конфігу data/page-config
+  private updateMetaTagsInService(cleanedContent: string): void {
+    const data = {
+      title: this.post.title,
+      description: this.truncateText(cleanedContent, 170), // Використовуємо очищений контент
+      keywords: this.post.keywords || this.post.title,
+      image: this.post.image,
+      canonical: 'https://discussio.site/' + this.post.slug,
+      url: 'https://discussio.site/' + this.post.slug,
     }
+    this.updateMetaTagsService.updateMetaTags(data);
   }
 
   private truncateText(text: string, length: number): string {

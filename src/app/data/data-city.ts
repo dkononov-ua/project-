@@ -75,7 +75,22 @@ export const regions = [
       { id: 1, name: 'Верхівцеве', postalCode: '51660' },
       { id: 2, name: 'Верхньодніпровськ', postalCode: '51600' },
       { id: 3, name: 'Вільногірськ', postalCode: '51700' },
-      { id: 4, name: 'Дніпро', postalCode: '49000' },
+      {
+        id: 4,
+        name: 'Дніпро',
+        postalCode: '49000',
+        district: [
+          { id: 1, district: 'Амур-Нижньодніпровський' },
+          { id: 2, district: 'Бабушкінський' },
+          { id: 3, district: 'Верхньодніпровський' },
+          { id: 4, district: 'Індустріальний' },
+          { id: 5, district: 'Кіровський' },
+          { id: 6, district: 'Ленінський' },
+          { id: 7, district: 'Самарський' },
+          { id: 8, district: 'Центральний' },
+          { id: 9, district: 'Шевченківський' }
+        ]
+      },
       { id: 5, name: 'Жовті Води', postalCode: '52290' },
       { id: 6, name: 'Зеленодольськ', postalCode: '53860' },
       { id: 7, name: 'Кам’янське', postalCode: '51900' },
@@ -367,7 +382,19 @@ export const regions = [
       { id: 14, name: 'Золочів', postalCode: '80703' },
       { id: 15, name: 'Кам’янка-Бузька', postalCode: '80404' },
       { id: 16, name: 'Комарно', postalCode: '81563' },
-      { id: 17, name: 'Львів', postalCode: '79007' },
+      {
+        id: 17,
+        name: 'Львів',
+        postalCode: '79007',
+        district: [
+          { id: 1, district: 'Галицький' },
+          { id: 2, district: 'Залізничний' },
+          { id: 3, district: 'Личаківський' },
+          { id: 4, district: 'Шевченківський' },
+          { id: 5, district: 'Сихівський' },
+          { id: 6, district: 'Франківський' }
+        ]
+      },
       { id: 18, name: 'Миколаїв', postalCode: '81604' },
       { id: 19, name: 'Моршин', postalCode: '82482' },
       { id: 20, name: 'Мостиська', postalCode: '81300' },
@@ -426,7 +453,19 @@ export const regions = [
       { id: 8, name: 'Ізмаїл', postalCode: '68633' },
       { id: 9, name: 'Кілія', postalCode: '68309' },
       { id: 10, name: 'Кодима', postalCode: '66003' },
-      { id: 11, name: 'Одеса', postalCode: '65480' },
+      {
+        id: 11,
+        name: 'Одеса',
+        postalCode: '65480',
+        district: [
+          { id: 1, district: 'Малиновський' },
+          { id: 2, district: 'Приморський' },
+          { id: 3, district: 'Київський' },
+          { id: 4, district: 'Суворовський' },
+          { id: 5, district: 'Комінтернівський' },
+          { id: 6, district: 'Слобідський' }
+        ]
+      },
       { id: 12, name: 'Подільськ', postalCode: '66314' },
       { id: 13, name: 'Рені', postalCode: '68809' },
       { id: 14, name: 'Роздільна', postalCode: '67404' },
@@ -539,7 +578,22 @@ export const regions = [
       { id: 12, name: 'Мерефа', postalCode: '62477' },
       { id: 13, name: 'Первомайський', postalCode: '64109' },
       { id: 14, name: 'Південне', postalCode: '62464' },
-      { id: 15, name: 'Харків', postalCode: '61000' },
+      {
+        id: 15,
+        name: 'Харків',
+        postalCode: '61000',
+        district: [
+          { id: 1, district: 'Шевченківський' },
+          { id: 2, district: 'Київський' },
+          { id: 3, district: 'Московський' },
+          { id: 4, district: 'Індустріальний' },
+          { id: 5, district: "Основ'янський" },
+          { id: 6, district: 'Слобідський' },
+          { id: 7, district: 'Новобаварський' },
+          { id: 8, district: 'Холодногірський' },
+          { id: 9, district: 'Немишлянський' }
+        ]
+      },
       { id: 16, name: 'Чугуїв', postalCode: '63509' }
     ]
   },
@@ -641,36 +695,46 @@ export const regions = [
 ];
 
 export const cities = [
-  { id: 1, name: 'Вінниця', region: 'Вінницька область' },
-  { id: 2, name: 'Луцьк', region: 'Волинська область' },
-  { id: 3, name: 'Дніпро', region: 'Дніпропетровська область' },
-  { id: 4, name: 'Донецьк', region: 'Донецька область' },
-  { id: 5, name: 'Житомир', region: 'Житомирська область' },
-  { id: 6, name: 'Ужгород', region: 'Закарпатська область' },
-  { id: 7, name: 'Запоріжжя', region: 'Запорізька область' },
-  { id: 8, name: 'Івано-Франківськ', region: 'Івано-Франківська область' },
-  { id: 9, name: 'Київ', region: 'Київська область' },
-  { id: 10, name: 'Кропивницький', region: 'Кіровоградська область' },
-  { id: 11, name: 'Луганськ', region: 'Луганська область' },
-  { id: 12, name: 'Львів', region: 'Львівська область' },
-  { id: 13, name: 'Миколаїв', region: 'Миколаївська область' },
-  { id: 14, name: 'Одеса', region: 'Одеська область' },
-  { id: 15, name: 'Полтава', region: 'Полтавська область' },
-  { id: 16, name: 'Рівне', region: 'Рівненська область' },
-  { id: 17, name: 'Суми', region: 'Сумська область' },
-  { id: 18, name: 'Тернопіль', region: 'Тернопільська область' },
-  { id: 19, name: 'Харків', region: 'Харківська область' },
-  { id: 20, name: 'Херсон', region: 'Херсонська область' },
-  { id: 21, name: 'Хмельницьк', region: 'Хмельницька область' },
-  { id: 22, name: 'Черкаси', region: 'Черкаська область' },
-  { id: 23, name: 'Чернівці', region: 'Чернівецька область' },
-  { id: 24, name: 'Чернігів', region: 'Чернігівська область' },
-  { id: 25, name: 'Сімферополь', region: 'АР Крим' },
+  { id: 10, name: 'Київ', region: 'Київська', icon: 'assets/icon-city/1.svg', population: 2963000 },
+  { id: 20, name: 'Харків', region: 'Харківська', icon: 'assets/icon-city/2.svg', population: 1443000 },
+  { id: 15, name: 'Одеса', region: 'Одеська', icon: 'assets/icon-city/3.svg', population: 1013000 },
+  { id: 4, name: 'Дніпро', region: 'Дніпропетровська', icon: 'assets/icon-city/4.svg', population: 968500 },
+  { id: 5, name: 'Донецьк', region: 'Донецька', icon: 'assets/icon-city/5.svg', population: 929000 },
+  { id: 8, name: 'Запоріжжя', region: 'Запорізька', icon: 'assets/icon-city/6.svg', population: 722000 },
+  { id: 13, name: 'Львів', region: 'Львівська', icon: 'assets/icon-city/7.svg', population: 717800 },
+  { id: 26, name: 'Кривий Ріг', region: 'Дніпропетровська', icon: 'assets/icon-city/8.svg', population: 619278 },
+  { id: 14, name: 'Миколаїв', region: 'Миколаївська', icon: 'assets/icon-city/9.svg', population: 476200 },
+  { id: 1, name: 'Сімферополь', region: 'АР Крим', icon: 'assets/icon-city/10.svg', population: 341700 },
+  { id: 21, name: 'Херсон', region: 'Херсонська', icon: 'assets/icon-city/11.svg', population: 286958 },
+  { id: 25, name: 'Чернігів', region: 'Чернігівська', icon: 'assets/icon-city/12.svg', population: 286899 },
+  { id: 23, name: 'Черкаси', region: 'Черкаська', icon: 'assets/icon-city/13.svg', population: 276360 },
+  { id: 16, name: 'Полтава', region: 'Полтавська', icon: 'assets/icon-city/14.svg', population: 289800 },
+  { id: 24, name: 'Чернівці', region: 'Чернівецька', icon: 'assets/icon-city/15.svg', population: 267060 },
+  { id: 6, name: 'Житомир', region: 'Житомирська', icon: 'assets/icon-city/16.svg', population: 266936 },
+  { id: 18, name: 'Суми', region: 'Сумська', icon: 'assets/icon-city/17.svg', population: 265500 },
+  { id: 17, name: 'Рівне', region: 'Рівненська', icon: 'assets/icon-city/18.svg', population: 246003 },
+  { id: 11, name: 'Кропивницький', region: 'Кіровоградська', icon: 'assets/icon-city/19.svg', population: 232052 },
+  { id: 22, name: 'Хмельницьк', region: 'Хмельницька', icon: 'assets/icon-city/20.svg', population: 274582 },
+  { id: 9, name: 'Івано-Франківськ', region: 'Івано-Франківська', icon: 'assets/icon-city/21.svg', population: 238623 },
+  { id: 2, name: 'Вінниця', region: 'Вінницька', icon: 'assets/icon-city/22.svg', population: 372484 },
+  { id: 12, name: 'Луганськ', region: 'Луганська', icon: 'assets/icon-city/23.svg', population: 413300 },
+  { id: 3, name: 'Луцьк', region: 'Волинська', icon: 'assets/icon-city/24.svg', population: 213600 },
+  { id: 7, name: 'Ужгород', region: 'Закарпатська', icon: 'assets/icon-city/25.svg', population: 115800 },
+  { id: 19, name: 'Тернопіль', region: 'Тернопільська', icon: 'assets/icon-city/26.svg', population: 221820 },
 ];
 
 
-// Сортуємо міста за алфавітом
-cities.sort((a, b) => a.name.localeCompare(b.name));
+
+// // Сортуємо міста за алфавітом
+// cities.sort((a, b) => a.name.localeCompare(b.name));
+
+// // Переприсвоюємо id по порядку
+// cities.forEach((city, index) => {
+//   city.id = index + 1;
+// });
+
+// Сортуємо міста за кількістю населення у спадному порядку
+cities.sort((a, b) => b .population - a .population);
 
 // Переприсвоюємо id по порядку
 cities.forEach((city, index) => {

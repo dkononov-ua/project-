@@ -12,6 +12,11 @@ import { animations } from '../../../../interface/animation';
 import { Router } from '@angular/router';
 import { SharedService } from 'src/app/services/shared.service';
 import { CityDataService } from 'src/app/services/data/cityData.service';
+import { subway } from '../../../../data/subway';
+import { distance } from '../../../../data/distance-confiq';
+import * as select_options from 'src/app/data/select-options';
+import { ChoseSubscribersService } from 'src/app/services/chose-subscribers.service';
+
 @Component({
   selector: 'app-search-term-tenants',
   templateUrl: './search-term-tenants.component.html',
@@ -27,12 +32,60 @@ import { CityDataService } from 'src/app/services/data/cityData.service';
     animations.left5,
     animations.swichCard,
     animations.top,
-    animations.top3,
     animations.top1,
+    animations.top2,
+    animations.top3,
+    animations.appearance,
   ],
 })
 
 export class SearchTermTenantsComponent implements OnInit, OnDestroy {
+
+  collapseTime: boolean = false;
+  collapseFeatures: boolean = false;
+  collapseHouseParam: boolean = false;
+  collapseLocation: boolean = false;
+  toogleTime() {
+    this.collapseTime = !this.collapseTime;
+  }
+  toogleFeatures() {
+    this.collapseFeatures = !this.collapseFeatures;
+  }
+  toogleLocation() {
+    this.collapseLocation = !this.collapseLocation;
+  }
+  toogleHouseParam() {
+    this.collapseHouseParam = !this.collapseHouseParam;
+  }
+  toogleAll() {
+    this.collapseTime = false;
+    this.collapseFeatures = false;
+    this.collapseLocation = false;
+    this.collapseHouseParam = false;
+    this.choseSubscribersService.setIndexPage(2);
+  }
+
+  pickCity(item: any) {
+    this.chownCity = item;
+    this.userInfo.city = item.name;
+    this.userInfo.region = item.region;
+    this.checkIfCityHasMetro();
+    this.onDistrictInputChange();
+    this.onSubmitWithDelay();
+  }
+
+  chownCity: any;
+  subways = subway; // імпортовані дані про метро
+  metroLines: any[] = []; // для зберігання ліній метро обраного міста
+  stations: any[] = []; // для зберігання станцій метро обраної лінії
+  lines: any[] = []; // Лінії метро обраного міста
+  districts: any[] = []; // для зберігання районів міста Київ
+  filteredDistricts: any;
+  originalDistrictsList: any;
+  metroExists: boolean = false;
+  distanceConfiq = distance;
+  options_floor = select_options.floor;
+
 
   // імпорт шляхів до медіа
   pathPhotoUser = ServerConfig.pathPhotoUser;
@@ -141,6 +194,7 @@ export class SearchTermTenantsComponent implements OnInit, OnDestroy {
     private router: Router,
     private sharedService: SharedService,
     private cityDataService: CityDataService,
+    private choseSubscribersService: ChoseSubscribersService,
   ) { }
 
   async ngOnInit(): Promise<void> {
@@ -149,6 +203,7 @@ export class SearchTermTenantsComponent implements OnInit, OnDestroy {
     this.checkAuthorization();
     this.getSelectedFlat();
     this.getLoadCards();
+    this.checkChownCityData();
   }
 
   // перевірію чи авторизований я і чи є в мене дані про оселю
@@ -159,10 +214,10 @@ export class SearchTermTenantsComponent implements OnInit, OnDestroy {
       if (this.houseData) {
         this.myDataExist = true;
       } else {
-        this.myDataExist = true;
+        this.myDataExist = false;
       }
     } else {
-      this.myDataExist = true;
+      this.myDataExist = false;
     }
   }
 
@@ -197,37 +252,6 @@ export class SearchTermTenantsComponent implements OnInit, OnDestroy {
         }
       })
     );
-  }
-
-  // відправляю event початок свайпу
-  onPanStart(event: any): void {
-    this.startX = 0;
-  }
-
-  // Реалізація обробки завершення панорамування
-  onPanEnd(event: any): void {
-    const minDeltaX = 100;
-    if (Math.abs(event.deltaX) > minDeltaX) {
-      if (event.deltaX > 0) {
-        this.onSwiped('right');
-      } else {
-        this.onSwiped('left');
-      }
-    }
-  }
-  // оброблюю свайп
-  onSwiped(direction: string | undefined) {
-    if (direction === 'right' && this.indexPage === 1) {
-      if (this.filter_group !== 1) {
-        this.filter_group--;
-      } else {
-        this.router.navigate(['/house/house-info']);
-      }
-    } else {
-      if (this.filter_group <= 3 && this.indexPage === 1) {
-        this.filter_group++;
-      }
-    }
   }
 
   clearFilter() {
@@ -276,8 +300,14 @@ export class SearchTermTenantsComponent implements OnInit, OnDestroy {
     this.userInfo.district = '';
     this.userInfo.street = '';
     this.userInfo.micro_district = '';
+    this.userInfo.metroname = '';
+    this.userInfo.metrocolor = '';
 
-    this.onSubmitWithDelay();
+    this.chownCity = undefined;
+
+    setTimeout(() => {
+      this.onSubmitWithDelay();
+    }, 100);
   }
 
   async loadDataFlat(): Promise<void> {
@@ -309,6 +339,13 @@ export class SearchTermTenantsComponent implements OnInit, OnDestroy {
         this.userInfo.animals = parsedHouseData.about.animals || 'Неважливо';
         this.userInfo.price = parsedHouseData.about.price_m ? parsedHouseData.about.price_m : parsedHouseData.about.price_d;
         this.userInfo.bunker = parsedHouseData.about.bunker || 'Неважливо';
+
+        this.userInfo.district = parsedHouseData.about.district || '';
+        this.userInfo.micro_district = parsedHouseData.about.micro_district || '';
+
+        this.userInfo.metroname = parsedHouseData.about.metroname || '';
+        this.userInfo.metrocolor = parsedHouseData.about.metrocolor || '';
+
         if (parsedHouseData.param.option_flat === 1) {
           this.userInfo.house = 1;
           this.userInfo.flat = 0;
@@ -316,6 +353,7 @@ export class SearchTermTenantsComponent implements OnInit, OnDestroy {
           this.userInfo.house = 0;
           this.userInfo.flat = 1;
         }
+        this.checkIfCityHasMetro();
         this.onSubmitWithDelay();
       } else {
         console.log('Немає інформації про оселю')
@@ -447,20 +485,40 @@ export class SearchTermTenantsComponent implements OnInit, OnDestroy {
     return `показано ${startIndex} - ${endIndex} з ${this.optionsFound} знайдених`;
   }
 
-  ifSelectedCity(cityData: any) {
+  async ifSelectedCity(cityData: any) {
+    if (cityData.cityUa !== this.userInfo.city) {
+      this.filteredDistricts = [];
+      this.filteredRegions = [];
+      this.userInfo.micro_district = '';
+      this.userInfo.district = '';
+      this.userInfo.region = '';
+      this.userInfo.metrocolor = '';
+      this.userInfo.metroname = '';
+    }
     this.cityDataService.ifSelectedCity(cityData);
     this.cityData = cityData;
-    // console.log(this.cityData)
     if (this.cityData) {
       this.userInfo.region = cityData.regionUa;
       this.userInfo.city = cityData.cityUa;
       if (this.userInfo.city === 'Київ') {
         this.userInfo.region = 'Київська'
+      } else {
+        this.districts = [];
       }
-      // this.userInfo.district = cityData.districtUa;
-      // this.userInfo.micro_district = '';
-      // this.userInfo.street = '';
-      this.onSubmitWithDelay()
+      this.checkChownCityData();
+      this.onSubmitWithDelay();
+    }
+  }
+
+  // Шукаю інформацію за обраною областю для виведення картинки та інфи по ній
+  checkChownCityData() {
+    if (this.userInfo.region) {
+      const existingCity = this.cities.find((c: { region: string; }) => c.region === this.userInfo.region);
+      if (existingCity) {
+        this.chownCity = existingCity;
+        this.checkIfCityHasMetro();
+        this.onDistrictInputChange();
+      }
     }
   }
 
@@ -515,6 +573,47 @@ export class SearchTermTenantsComponent implements OnInit, OnDestroy {
         this.filteredStreets = await this.cityDataService.onStreetInputChange(street);
         console.log(this.filteredStreets);
       }, 500);
+    }
+  }
+
+  // Логіка для обробки змін в полі вибору району
+  async onDistrictInputChange() {
+    if (this.userInfo.city) {
+      this.filteredDistricts = [];
+      this.filteredDistricts = await this.cityDataService.loadDistrictFromOwnDB(this.userInfo.city);
+      this.onSubmitWithDelay()
+    }
+  }
+
+  checkIfCityHasMetro() {
+    if (this.userInfo.city === 'Київ' || this.userInfo.city === 'Харків' || this.userInfo.city === 'Дніпро') {
+      this.metroExists = true;
+      this.onCitySelect(this.userInfo.city);
+    } else {
+      this.metroExists = false;
+    }
+  }
+
+  // Обробка вибору міста для отримання ліній метро
+  onCitySelect(selected: string) {
+    if (this.userInfo.city !== selected) {
+      this.stations = []; // Скидаємо список станцій
+      this.userInfo.metrocolor = ''; // Очищуємо вибрану лінію метро
+    }
+    const selectedCity = this.subways.find(city => city.name === selected);
+    if (selectedCity) {
+      this.lines = selectedCity.lines;
+      if (this.userInfo.metrocolor) {
+        this.onLineSelect(this.userInfo.metrocolor);
+      }
+    }
+  }
+
+  // Обробка вибору лінії метро для отримання станцій метро
+  onLineSelect(selected: any) {
+    const selectedLine = this.lines.find(line => line.name === selected);
+    if (selectedLine) {
+      this.stations = selectedLine.stations;
     }
   }
 

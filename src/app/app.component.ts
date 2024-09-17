@@ -8,7 +8,7 @@ import { StatusMessageService } from './services/status-message.service';
 import { animations } from '../app/interface/animation';
 import { NavigationEnd, Router } from '@angular/router';
 import { LoaderService } from './services/loader.service';
-import { filter } from 'rxjs';
+import { filter, Subject, takeUntil } from 'rxjs';
 import { MenuService } from './services/menu.service';
 
 interface MenuStatus {
@@ -88,6 +88,7 @@ export class AppComponent implements OnInit, OnDestroy {
   subscriptions: any[] = [];
   menu: boolean = false;
   isHomePage = false;
+  private unsubscribe$ = new Subject<void>();
 
   constructor(
     private location: Location,
@@ -107,7 +108,7 @@ export class AppComponent implements OnInit, OnDestroy {
   setSubscriptions() {
     this.getCheckDevice();
     if (!this.isMobile) {
-      this.checkLocation();
+      this.checkUrl();
     }
     this.getServerPath();
     this.getStatusMessage();
@@ -116,16 +117,20 @@ export class AppComponent implements OnInit, OnDestroy {
     this.getStatusServer();
   }
 
-  // підписка на локацію для зміни фону
-  checkLocation() {
+  checkUrl() {
     this.router.events.pipe(
-      filter(event => event instanceof NavigationEnd)
-    ).subscribe(() => {
-      const currentPath = this.location.path();
-      this.isHomePage = currentPath === '' || currentPath === '/home';
+      filter(event => event instanceof NavigationEnd),
+      takeUntil(this.unsubscribe$)
+    ).subscribe((event: NavigationEnd) => {
+      this.currentLocation = event.urlAfterRedirects;
+      if (this.currentLocation === '/home' || this.currentLocation === '/') {
+        this.isHomePage = true;
+      } else {
+        this.isHomePage = false;
+      }
     });
-    this.currentLocation = this.location.path();
   }
+
 
   // підписка на оновлення шляху серверу
   async getStatusServer() {

@@ -50,35 +50,19 @@
 
   <div class="form-wrapper col-lg-7 col-md-7 col-sm-12 col-12">
 
-    <div class="gif-box">
+    <!-- <div class="gif-box">
       <img class="home-img" src="../../../../assets/gif/tenants.gif" alt="tenants_profile" loading="lazy">
-    </div>
+    </div> -->
 
     <div class="card-group t-c p-2">
 
       <mat-label class="t-med t-c accent bold">Шукаю оселю для*
         <button class="b-help" (click)="toggleHelp(1)"> <i class="fa-solid fa-question white"></i> </button>
       </mat-label>
-      <div class="t-med gray t-c">Не бажано обирати все, так вас складніше буде знайти. Оберіть лише той
-        варіант
-        який
-        вас більше всього характеризує. Можна комбінувати.</div>
+      <div class="t-med gray t-c">
+        Пріорітетні статуси. Оберіть лише той варіант який вас більше всього характеризує. Якщо дуже потрібно можна
+        комбінувати.</div>
 
-      <div class="inputbox-group pl-2">
-
-        <div class="content-group">
-          <label class="checkBox">
-            <input type="checkbox" id="students" name="students" [(ngModel)]="userInfo.students">
-            <div class="transition"></div>
-          </label>
-          <div class="content-group ml-2">
-            <div class="status-static" [ngClass]="{ 'active': userInfo.students}"><i
-                class="fa-solid fa-graduation-cap"></i></div>
-            <div class="ml-2">Студент <span class="gray checkBox-text" *ngIf="userInfo.students">(Я
-                студент/студентка)</span></div>
-          </div>
-        </div>
-      </div>
 
       <div class="inputbox-group pl-2">
         <div class="content-group">
@@ -89,8 +73,8 @@
           <div class="content-group ml-2">
             <div class="status-static" [ngClass]="{ 'active': userInfo.woman}"><i class="fa-solid fa-person-dress"></i>
             </div>
-            <div class="ml-2">Жінка <span class="gray checkBox-text" *ngIf="userInfo.woman">(Буде
-                проживати жінка)</span></div>
+            <div class="ml-2">Жінка <span class="gray checkBox-text" *ngIf="userInfo.woman">(Буде проживати
+                жінка)</span></div>
           </div>
         </div>
       </div>
@@ -104,8 +88,24 @@
           <div class="content-group ml-2">
             <div class="status-static" [ngClass]="{ 'active': userInfo.man}"><i class="fa-solid fa-person"></i>
             </div>
-            <div class="ml-2">Чоловік <span class="gray checkBox-text" *ngIf="userInfo.man">(Буде
-                проживати чоловік)</span></div>
+            <div class="ml-2">Чоловік <span class="gray checkBox-text" *ngIf="userInfo.man">(Буде проживати
+                чоловік)</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="inputbox-group pl-2">
+
+        <div class="content-group">
+          <label class="checkBox">
+            <input type="checkbox" id="students" name="students" [(ngModel)]="userInfo.students">
+            <div class="transition"></div>
+          </label>
+          <div class="content-group ml-2">
+            <div class="status-static" [ngClass]="{ 'active': userInfo.students}"><i
+                class="fa-solid fa-graduation-cap"></i></div>
+            <div class="ml-2">Студент <span class="gray checkBox-text" *ngIf="userInfo.students">(Потрібна оселя для
+                студента)</span></div>
           </div>
         </div>
       </div>
@@ -117,10 +117,12 @@
             <div class="transition"></div>
           </label>
           <div class="content-group ml-2">
-            <div class="status-static" [ngClass]="{ 'active': userInfo.family}"><i class="fa-solid fa-children"></i>
+            <div class="status-static" [ngClass]="{ 'active': userInfo.family}"><i
+                class="fa-solid fa-person-breastfeeding"></i>
             </div>
-            <div class="ml-2">Сім'я <span class="gray checkBox-text" *ngIf="userInfo.family">(Буде
-                проживати сім'я)</span></div>
+            <div class="ml-2">Сім'я/Діти <span class="gray checkBox-text" *ngIf="userInfo.family">(Проживання для сім'ї
+                або з дітьми)</span>
+            </div>
           </div>
         </div>
       </div>
@@ -166,36 +168,25 @@
         <mat-icon matSuffix><i class="fa-solid fa-earth-europe"></i></mat-icon>
       </mat-form-field>
 
-      <mat-form-field [@top1] class="item-select" appearance="outline">
+      <mat-form-field class="item-select" appearance="outline">
         <mat-label for="district">Район</mat-label>
-        <input disabled name="userInfo.district" id="district" matInput [(ngModel)]="userInfo.district"
-          placeholder="Виберіть або введіть район">
+        <input type="text" matInput [matAutocomplete]="auto" [(ngModel)]="userInfo.district"
+          (input)="onDistrictInputChange()" placeholder="Виберіть або введіть район" name="userInfo.district"
+          id="district">
         <mat-icon matSuffix><i class="fa-solid fa-mountain-city gray"></i></mat-icon>
-        <mat-hint align="end" class="t-min gray">В розробці</mat-hint>
-      </mat-form-field>
 
-      <mat-form-field [@top1] class="item-select" appearance="outline"
-        *ngIf="cityData || userInfo.city ||  userInfo.street">
-        <mat-label for="city">Вулиця</mat-label>
-        <input disabled name="userInfo.street" id="street" matInput [(ngModel)]="userInfo.street"
-          placeholder="Введіть вулицю" (ngModelChange)="onStreetInputChange(userInfo.street)"
-          [matAutocomplete]="autoStreet">
-        <mat-autocomplete #autoStreet="matAutocomplete">
-          <mat-option *ngFor="let street of filteredStreets" [value]="street.streetUa"
-            (onSelectionChange)="ifSelectedStreet(street)">
-            {{ street.streetUa }} {{ street.cityUa }}
+        <mat-autocomplete #auto="matAutocomplete">
+          <mat-option *ngFor="let district of filteredDistricts" [value]="district.district">
+            {{ district.district }}
           </mat-option>
         </mat-autocomplete>
-        <mat-icon matSuffix><i class="fa-solid fa-road gray"></i></mat-icon>
-        <mat-hint align="end" class="t-min">В розробці</mat-hint>
       </mat-form-field>
 
       <mat-form-field [@top1] class="item-select" appearance="outline">
         <mat-label for="micro_district">Мікрорайон</mat-label>
-        <input disabled name="userInfo.micro_district" id="micro_district" matInput
-          [(ngModel)]="userInfo.micro_district" placeholder="Введіть мікрорайон">
+        <input name="userInfo.micro_district" id="micro_district" matInput [(ngModel)]="userInfo.micro_district"
+          placeholder="Введіть мікрорайон">
         <mat-icon matSuffix><i class="fa-solid fa-building-flag gray"></i></mat-icon>
-        <mat-hint align="end" class="t-min gray">В розробці</mat-hint>
       </mat-form-field>
 
       <mat-label class="t-med t-c accent bold">Формат оселі* </mat-label>
@@ -415,6 +406,14 @@
           <mat-hint align="end">Стан оселі</mat-hint>
         </mat-form-field>
 
+        <mat-form-field class="item-select w-50" appearance="outline">
+          <mat-select placeholder="Поверхові параметри" [(ngModel)]="userInfo.floor" name="floor">
+            <mat-option *ngFor="let option of options_floor" [value]="option.value">{{ option.name }}</mat-option>
+          </mat-select>
+          <mat-icon matSuffix><i class="fa-solid fa-stairs"></i></mat-icon>
+          <mat-hint align="end">Поверх</mat-hint>
+        </mat-form-field>
+
       </div>
 
       <mat-label class="t-med t-c accent bold"> Інфраструктура </mat-label>
@@ -473,18 +472,7 @@
       </div>
 
       <div>
-        <mat-form-field class="item-select w-50 pr-2" appearance="outline">
-          <mat-select placeholder="Метро" [(ngModel)]="userInfo.distance_metro" name="distance_metro">
-            <mat-option [disabled]=""><span class="item-disabled">Очистити</span></mat-option>
-            <mat-option value="100">до 100м</mat-option>
-            <mat-option value="300">до 300м</mat-option>
-            <mat-option value="500">до 500м</mat-option>
-            <mat-option value="1000">до 1км</mat-option>
-            <mat-option value="2000">до 2км</mat-option>
-          </mat-select>
-          <mat-icon matSuffix><i class="fa-solid fa-train"></i></mat-icon>
-          <mat-hint align="end">Відстань до метро</mat-hint>
-        </mat-form-field>
+
 
         <mat-form-field class="item-select w-50 " appearance="outline">
           <mat-select placeholder="Укриття" [(ngModel)]="userInfo.bunker" name="bunker">
@@ -498,6 +486,40 @@
           <mat-hint align="end">Наявність укриття</mat-hint>
         </mat-form-field>
       </div>
+
+    </div>
+
+    <mat-label class="t-med t-c accent bold" *ngIf="metroExists"> Метро </mat-label>
+
+    <div class="p-2" *ngIf="metroExists">
+
+      <mat-form-field class="item-select" appearance="outline">
+        <mat-select placeholder="Виберіть лінію метро" [(ngModel)]="userInfo.metrocolor" name="metrocolor"
+          (selectionChange)="onLineSelect(userInfo.metrocolor)">
+          <mat-option *ngFor="let line of lines" [value]="line.name">
+            {{ line.name }}
+          </mat-option>
+        </mat-select>
+        <mat-hint align="end">Виберіть лінію метро</mat-hint>
+        <mat-icon matSuffix><i class="fa-solid fa-code-branch"></i></mat-icon>
+      </mat-form-field>
+
+      <mat-form-field class="item-select" appearance="outline">
+        <mat-select placeholder="Виберіть станцію метро" [(ngModel)]="userInfo.metroname" name="metroname">
+          <mat-option *ngFor="let station of stations" [value]="station.name">{{ station.name }}</mat-option>
+        </mat-select>
+        <mat-hint align="end">Виберіть станцію метро</mat-hint>
+
+        <mat-icon matSuffix><i class="fa-solid fa-archway"></i></mat-icon>
+      </mat-form-field>
+
+      <mat-form-field class="item-select" appearance="outline">
+        <mat-select placeholder="Відстань до метро" [(ngModel)]="userInfo.distance_metro" name="distance_metro">
+          <mat-option *ngFor="let distance of distanceConfiq" [value]="distance.value">{{ distance.name }}</mat-option>
+        </mat-select>
+        <mat-hint align="end">Відстань до метро</mat-hint>
+        <mat-icon matSuffix><i class="fa-solid fa-arrows-left-right-to-line"></i></mat-icon>
+      </mat-form-field>
 
     </div>
 
@@ -656,5 +678,3 @@
   </div>
 
 </div>
-
-

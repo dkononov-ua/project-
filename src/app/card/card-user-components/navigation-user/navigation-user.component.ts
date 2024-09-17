@@ -220,10 +220,12 @@ export class NavigationUserComponent implements OnInit, OnDestroy {
     await this.counterService.getUserNewMessage();
     this.subscriptions.push(
       this.counterService.counterUserNewMessage$.subscribe(data => {
+        // console.log(data)
         const counterUserNewMessage: any = data
-        if (counterUserNewMessage.status !== false) {
+        if (counterUserNewMessage) {
+          // console.log('Тип значення:', typeof counterUserNewMessage.status);
           this.counterUserNewMessage = Number(counterUserNewMessage.status)
-          // console.log(data)
+          // console.log(this.counterUserNewMessage)
         } else {
           this.counterUserNewMessage = 0;
         }

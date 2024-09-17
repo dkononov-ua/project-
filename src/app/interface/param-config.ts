@@ -54,6 +54,10 @@ export const UserConfig = {
   street: '',
   district: '',
   micro_district: '',
+  metrocolor: '',
+  floor: 0,
+  metroname: '',
+
 };
 
 
@@ -121,6 +125,11 @@ export const UsereSearchConfig = {
   months: undefined,
   price: undefined,
   rooms: undefined,
+  floor: 0,
+
+  metrocolor: '',
+  metroname: '',
+
 }
 
 export const HouseConfig = {
@@ -171,6 +180,9 @@ export const HouseConfig = {
   street: '',
   students: '',
   woman: '',
+  metrocolor: '',
+  metroname: '',
+
 }
 
 export const StatusConfig = {
@@ -241,4 +253,7 @@ export const HouseSearchConfig = {
   rooms: undefined,
   private: undefined,
   rent: undefined,
+  metrocolor: undefined,
+  metroname: undefined,
+
 };

@@ -18,12 +18,16 @@
     background-color: $color-white;
     position: relative;
     width: 96%;
+
+    max-width: 230px;
     height: 130px;
     overflow: hidden;
     transition: all 0.5s ease;
     border-radius: 20px;
     @include s1-s3 {
       border: 1px solid $color-gray;
+      max-width: 100%;
+
     }
     &:hover {
       transform: scale(1.05);

@@ -24,12 +24,20 @@ export const Distance: { [key: number]: string } = {
   500: '500м',
   1000: '1км',
   2000: '2км',
+  3000: '3км',
 }
 
 export const CheckBox: { [key: number]: string } = {
   0: 'Вибір не зроблено',
   1: 'Так',
   2: 'Ні',
+}
+
+export const Floor: { [key: number]: string } = {
+  '0': '',
+  '1': 'Не перший',
+  '2': 'Не останній',
+  '3': 'Не перший і не останній',
 }
 
 export const Animals: { [key: number]: string } = {

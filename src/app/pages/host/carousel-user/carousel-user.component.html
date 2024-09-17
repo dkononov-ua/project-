@@ -7,7 +7,7 @@
 <section [@bot5] class="container-box" *ngIf="allCards">
 
   <div class="gif-box t-c col-lg-4 col-md-4 col-sm-12 col-12">
-    <img class="home-img" src="./../../../../assets/gif/tenantsActiv.gif" alt="discussio gif tenants">
+    <img class="home-img" src="./../../../../assets/gif/tenantsActiv.gif" alt="discussio gif tenants" loading="lazy">
   </div>
 
 
@@ -19,7 +19,7 @@
         <div class="card-mini-img-container">
           <!-- якщо фото немає -->
           <img class="card-mini-img" src="../../../../assets/user_default.svg" alt="img"
-            *ngIf="!subscriber.img || subscriber.img === 'user_default.svg'">
+            *ngIf="!subscriber.img || subscriber.img === 'user_default.svg'" loading="lazy">
           <!-- якщо фото користувача є чекаємо його завантаження і показуємо спінер -->
           <div class="card-mini-img" *ngIf="subscriber.img && subscriber.img !== 'user_default.svg' && !isLoadingImg">
             <div class="container-loader-mini">
@@ -31,7 +31,7 @@
           </div>
           <!-- якщо фото користувача завантажилось показуємо фото -->
           <img class="card-mini-img" [src]="serverPath + pathPhotoUser + subscriber.img" alt="img"
-            *ngIf="subscriber.img && subscriber.img !== 'user_default.svg' && isLoadingImg">
+            *ngIf="subscriber.img && subscriber.img !== 'user_default.svg' && isLoadingImg" loading="lazy">
         </div>
 
         <button class="status-content">
@@ -75,7 +75,7 @@
         <div class="card-mini-img-container">
           <!-- якщо фото немає -->
           <img class="card-mini-img" src="../../../../assets/user_default.svg" alt="img"
-            *ngIf="!subscriber.img || subscriber.img === 'user_default.svg'">
+            *ngIf="!subscriber.img || subscriber.img === 'user_default.svg'" loading="lazy">
           <!-- якщо фото користувача є чекаємо його завантаження і показуємо спінер -->
           <div class="card-mini-img" *ngIf="subscriber.img && subscriber.img !== 'user_default.svg' && !isLoadingImg">
             <div class="container-loader-mini">
@@ -87,7 +87,7 @@
           </div>
           <!-- якщо фото користувача завантажилось показуємо фото -->
           <img class="card-mini-img" [src]="serverPath + pathPhotoUser + subscriber.img" alt="img"
-            *ngIf="subscriber.img && subscriber.img !== 'user_default.svg' && isLoadingImg">
+            *ngIf="subscriber.img && subscriber.img !== 'user_default.svg' && isLoadingImg" loading="lazy">
         </div>
 
         <button class="status-content">

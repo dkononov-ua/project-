@@ -2,7 +2,7 @@ import { Component, LOCALE_ID, OnDestroy, OnInit } from '@angular/core';
 import { SharedService } from 'src/app/services/shared.service';
 // власні імпорти інформації
 import * as ServerConfig from 'src/app/config/path-config';
-import { Purpose, Distance, OptionPay, Animals } from '../../../interface/name';
+import { Purpose, Distance, OptionPay, Animals, Floor } from '../../../interface/name';
 import { animations } from '../../../interface/animation';
 import { Location } from '@angular/common';
 import { CardsDataService } from 'src/app/services/user-components/cards-data.service';
@@ -50,6 +50,7 @@ export class InfoComponent implements OnInit, OnDestroy {
   aboutDistance = Distance;
   option_pay = OptionPay;
   animals = Animals;
+  floor = Floor;
   user: any;
   subscriptions: any[] = [];
   card_info: number = 0;
@@ -173,7 +174,6 @@ export class InfoComponent implements OnInit, OnDestroy {
       this.user = userObject.inf;
       try {
         const response: any = await this.http.post(this.serverPath + '/features/get', { auth: JSON.parse(userJson) }).toPromise();
-        // console.log(response)
         if (response.status === true) {
           const newData = response.inf;
           let existingData = JSON.parse(localStorage.getItem('userData') || '{}');

@@ -1,6 +1,8 @@
 import { regions } from '../../../../data/data-city';
 import { cities } from '../../../../data/data-city';
 import { subway } from '../../../../data/subway';
+import { distance } from '../../../../data/distance-confiq';
+import * as select_options from 'src/app/data/select-options';
 import { HttpClient } from '@angular/common/http';
 import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import * as ServerConfig from 'src/app/config/path-config';
@@ -36,6 +38,42 @@ import { StatusMessageService } from 'src/app/services/status-message.service';
 })
 
 export class UserLookingComponent implements OnInit, OnDestroy {
+
+
+  subways = subway; // імпортовані дані про метро
+  metroLines: any[] = []; // для зберігання ліній метро обраного міста
+  stations: any[] = []; // для зберігання станцій метро обраної лінії
+  lines: any[] = []; // Лінії метро обраного міста
+  districts: any[] = []; // для зберігання районів міста Київ
+  filteredDistricts: any;
+  originalDistrictsList: any;
+  metroExists: boolean = false;
+  distanceConfiq = distance;
+  options_floor = select_options.floor;
+
+  // Обробка вибору міста
+  onCitySelect(selected: string) {
+    if (this.userInfo.city !== selected) {
+      this.stations = []; // Скидаємо список станцій
+      this.userInfo.metrocolor = ''; // Очищуємо вибрану лінію метро
+    }
+    const selectedCity = this.subways.find(city => city.name === selected);
+    if (selectedCity) {
+      this.lines = selectedCity.lines;
+      if (this.userInfo.metrocolor) {
+        this.onLineSelect(this.userInfo.metrocolor);
+      }
+    }
+  }
+
+  // Обробка вибору лінії метро
+  onLineSelect(selected: any) {
+    const selectedLine = this.lines.find(line => line.name === selected);
+    if (selectedLine) {
+      this.stations = selectedLine.stations;
+    }
+  }
+
   // імпорт шляхів до медіа
   pathPhotoUser = ServerConfig.pathPhotoUser;
   pathPhotoFlat = ServerConfig.pathPhotoFlat;
@@ -56,7 +94,7 @@ export class UserLookingComponent implements OnInit, OnDestroy {
   selectedCity!: string | undefined;
   regions = regions;
   cities = cities;
-  subway = subway;
+
   minValue: number = 0;
   maxValue: number = 100000;
 
@@ -152,7 +190,6 @@ export class UserLookingComponent implements OnInit, OnDestroy {
     private storageUserDataService: StorageUserDataService,
     private cityDataService: CityDataService,
     private statusMessageService: StatusMessageService,
-
   ) { }
 
   async ngOnInit(): Promise<void> {
@@ -209,9 +246,14 @@ export class UserLookingComponent implements OnInit, OnDestroy {
     if (userJson) {
       try {
         const response: any = await this.http.post(this.serverPath + '/features/get', { auth: JSON.parse(userJson) }).toPromise();
+        // const response2: any = await this.http.post(this.serverPath + '/admin/get/countofuser', { auth: JSON.parse(userJson) }).toPromise();
+        // const response3: any = await this.http.post(this.serverPath + '/admin/get/countofflat', { auth: JSON.parse(userJson) }).toPromise();
+        // console.log(response3)
+        // console.log(response2)
         // console.log(response)
         if (response.status === true) {
           this.userInfo = response.inf;
+          this.checkIfCityHasMetro();
         }
       } catch (error) {
         console.error(error);
@@ -268,9 +310,15 @@ export class UserLookingComponent implements OnInit, OnDestroy {
       mounths: this.userInfo.mounths,
       years: this.userInfo.years,
       about: this.userInfo.about,
-      metro: this.userInfo.metro,
+
+      district: this.userInfo.district,
+      micro_district: this.userInfo.micro_district,
+
+      floor: this.userInfo.floor,
+
+      metroname: this.userInfo.metroname,
+      metrocolor: this.userInfo.metrocolor,
     };
-    // console.log(data)
     this.storageUserDataService.activateTenantProfile(data);
   }
 
@@ -324,7 +372,14 @@ export class UserLookingComponent implements OnInit, OnDestroy {
       mounths: this.userInfo.mounths,
       years: this.userInfo.years,
       about: this.userInfo.about,
-      metro: this.userInfo.metro,
+
+      district: this.userInfo.district,
+      micro_district: this.userInfo.micro_district,
+      floor: this.userInfo.floor,
+
+      metroname: this.userInfo.metroname,
+      metrocolor: this.userInfo.metrocolor,
+
     };
     localStorage.setItem('storageUserLooking', JSON.stringify(data));
     setTimeout(() => {
@@ -370,29 +425,45 @@ export class UserLookingComponent implements OnInit, OnDestroy {
     return this.activationUserSearch;
   }
 
-  ifSelectedCity(cityData: any) {
-    this.cityDataService.ifSelectedCity(cityData);
-    this.cityData = cityData;
-    // console.log(this.cityData)
-    if (this.cityData) {
-      this.userInfo.region = cityData.regionUa;
-      this.userInfo.city = cityData.cityUa;
-      if (this.userInfo.city === 'Київ') {
-        this.userInfo.region = 'Київська'
-      }
-      // this.userInfo.district = cityData.districtUa;
-      // this.userInfo.micro_district = '';
-      // this.userInfo.street = '';
+  checkIfCityHasMetro() {
+    if (this.userInfo.city === 'Київ' || this.userInfo.city === 'Харків' || this.userInfo.city === 'Дніпро') {
+      this.metroExists = true;
+      this.onCitySelect(this.userInfo.city);
+    } else {
+      this.metroExists = false;
     }
   }
 
-  ifSelectedStreet(streetData: any) {
-    this.cityDataService.ifSelectedStreet(streetData);
-    this.streetData = streetData;
-    // console.log(this.streetData)
-    if (this.streetData) {
-      this.userInfo.street = streetData.streetUa;
+  async ifSelectedCity(cityData: any) {
+    if (cityData.cityUa !== this.userInfo.city) {
+      this.filteredDistricts = [];
+      this.filteredRegions = [];
       this.userInfo.micro_district = '';
+      this.userInfo.district = '';
+      this.userInfo.region = '';
+      this.userInfo.metrocolor = '';
+      this.userInfo.metroname = '';
+    }
+    this.cityDataService.ifSelectedCity(cityData);
+    this.cityData = cityData;
+    if (this.cityData) {
+      this.userInfo.region = cityData.regionUa;
+      this.userInfo.city = cityData.cityUa;
+      this.checkIfCityHasMetro();
+      if (this.userInfo.city === 'Київ') {
+        this.userInfo.region = 'Київська'
+      } else {
+        this.districts = [];
+      }
+      this.onDistrictInputChange()
+    }
+  }
+
+  // Логіка для обробки змін в полі вибору району
+  async onDistrictInputChange() {
+    if (this.userInfo.city) {
+      this.filteredDistricts = [];
+      this.filteredDistricts = await this.cityDataService.loadDistrictFromOwnDB(this.userInfo.city);
     }
   }
 
@@ -410,6 +481,7 @@ export class UserLookingComponent implements OnInit, OnDestroy {
       if (existingCity) {
         return;
       }
+      this.filteredCities = [];
       this.debounceTimer = setTimeout(async () => {
         this.filteredCities = await this.cityDataService.onCityInputChange(city);
         if (!this.filteredCities || this.filteredCities.length === 0) {

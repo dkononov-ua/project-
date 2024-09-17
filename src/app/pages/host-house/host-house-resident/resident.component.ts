@@ -63,8 +63,6 @@ export class ResidentComponent implements OnInit, OnDestroy {
       this.selectedFlatIdService.selectedFlatId$.subscribe(async (flatId: string | null) => {
         if (flatId) {
           this.selectedFlatId = Number(flatId);
-        } else {
-          this.sharedService.logoutHouse();
         }
       })
     )

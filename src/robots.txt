@@ -1,5 +1,9 @@
 User-agent: *
-Disallow: /
+
+Disallow: /user/edit/person
+Disallow: /user/edit/contacts
+Disallow: /user/edit/status
+Disallow: /user/edit/delete
 
 Allow: /$
 Allow: /home
@@ -26,11 +30,8 @@ Allow: /house/discus/about
 Allow: /house/search/tenant
 Allow: /house/search/neighbor
 Allow: /house/communal/about
-
-Allow: /assets/**/*.js
-Allow: /static/**/*.js
-Allow: /styles/**/*.css
-Allow: /assets/**/*.css
+Allow: /search/tenant
+Allow: /search/house
 
 Sitemap: https://discussio.site/sitemap.xml
 

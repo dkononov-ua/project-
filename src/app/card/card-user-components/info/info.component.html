@@ -202,7 +202,7 @@
           </div>
 
           <div class="param-field" *ngIf="user.floor">
-            Поверх:<span class="param-value"><i class="fa-solid fa-stairs"></i>{{ user.floor }}</span>
+            Поверх:<span class="param-value"><i class="fa-solid fa-stairs"></i>{{ floor[user.floor] }}</span>
           </div>
 
           <div class="param-field" *ngIf="user.balcony">
@@ -216,14 +216,10 @@
       </div>
 
       <div class="param-box"
-        *ngIf="user.distance_metro || user.distance_stop || user.distance_shop || user.distance_green || user.distance_parking">
+        *ngIf="user.distance_stop || user.distance_shop || user.distance_green || user.distance_parking">
         <div class="param-label">Інфраструктура в доступності:</div>
         <div class="param-group">
-          <div class="param-field" *ngIf="user.distance_metro">
-            Метро до:<span class="param-value"><i class="fa-solid fa-train"></i>{{ aboutDistance[user.distance_metro]
-              }}</span>
-          </div>
-          <div class="param-field" *ngIf="user.distance_stop">
+           <div class="param-field" *ngIf="user.distance_stop">
             Зупинка до:<span class="param-value"><i class="fa-solid fa-bus"></i>{{ aboutDistance[user.distance_stop]
               }}</span>
           </div>
@@ -238,6 +234,22 @@
           <div class="param-field" *ngIf="user.distance_parking">
             Паркінг до:<span class="param-value"><i class="fa-solid fa-car-side"></i>{{
               aboutDistance[user.distance_parking] }}</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="param-box" *ngIf="user.metrocolor || user.metroname || user.distance_metro">
+        <div class="param-label">Метро:</div>
+        <div class="param-group">
+          <div class="param-field" *ngIf="user.metrocolor">
+            Лінія:<span class="param-value"><i class="fa-solid fa-code-branch"></i>{{ user.metrocolor }}</span>
+          </div>
+          <div class="param-field" *ngIf="user.metroname">
+            Станція:<span class="param-value"><i class="fa-solid fa-archway"></i>{{ user.metroname }}</span>
+          </div>
+          <div class="param-field" *ngIf="user.distance_metro">
+            Відстань до:<span class="param-value"><i class="fa-solid fa-arrows-left-right-to-line"></i>{{ aboutDistance[user.distance_metro]
+              }}</span>
           </div>
         </div>
       </div>

@@ -21,6 +21,7 @@ export class CityDataService {
   streetData: any;
   houseNumberData: any;
   flatInfo: any;
+  filteredDistricts: any;
 
   constructor(
     private http: HttpClient,
@@ -218,17 +219,16 @@ export class CityDataService {
   async loadCitiesFromOwnDB(city: string): Promise<any[]> {
     const searchCity = city.toLowerCase();
     this.filteredCities = [];
-
     for (const region of regions) {
       const matchedCities = region.cities.filter(cityItem =>
         cityItem.name.toLowerCase().includes(searchCity)
       );
-
       if (matchedCities.length) {
         this.filteredCities.push(...matchedCities.map(cityItem => ({
           cityUa: cityItem.name,
           postalCode: cityItem.postalCode,
-          regionUa: region.name
+          regionUa: region.name,
+          // district: cityItem.district,
         })));
       }
     }
@@ -246,5 +246,32 @@ export class CityDataService {
     }
     return this.filteredRegions;
   }
+
+  async loadDistrictFromOwnDB(city: string): Promise<any> {
+    // Очищення пошукового запиту
+    const cleanSearchCity = city.toLowerCase().replace(/[^a-zа-яё\s]/gi, '').trim();
+    this.filteredDistricts = [];
+
+    for (const region of regions) {
+      for (const cityItem of region.cities) {
+        // Очищення назв міст
+        const cleanCityName = cityItem.name.toLowerCase().replace(/[^a-zа-яё\s]/gi, '').trim();
+
+        // Перевірка на точний збіг
+        if (cleanCityName === cleanSearchCity) {
+          this.filteredDistricts.push({
+            cityUa: cityItem.name,
+            postalCode: cityItem.postalCode,
+            regionUa: region.name,
+            district: cityItem.district,
+          });
+        }
+      }
+    }
+    // Повернення першого району з знайдених результатів
+    return this.filteredDistricts.length > 0 ? this.filteredDistricts[0].district : null;
+  }
+
+
 
 }

@@ -228,6 +228,7 @@ export class HouseComponent implements OnInit, OnDestroy {
         }
       } catch (error) {
         console.error(error);
+        this.numConcludedAgree = 0;
         this.sharedService.setStatusMessage('У вас немає доступу до оселі ID ' + this.selectedFlatId + 'Можливо її було забанено');
         setTimeout(() => {
           this.sharedService.logoutHouse();
