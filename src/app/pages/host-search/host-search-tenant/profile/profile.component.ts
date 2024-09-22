@@ -16,7 +16,7 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
-  styleUrls: ['./profile.component.scss'],
+  styleUrls: ['./../../../../style/search/search.scss'],
   providers: [{ provide: LOCALE_ID, useValue: 'uk-UA' },],
   animations: [
     trigger('cardSwipe', [
@@ -99,6 +99,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
     this.getServerPath();
     this.getSelectedFlat();
     this.getAllCardsData();
+    this.getСhoseUserID();
   }
 
   // підписка на шлях до серверу
@@ -138,9 +139,6 @@ export class ProfileComponent implements OnInit, OnDestroy {
     this.subscriptions.push(
       this.cardsDataHouseService.cardsData$.subscribe(async (data: any) => {
         this.allCards = data;
-        if (this.allCards) {
-          this.getСhoseUserID();
-        }
       })
     );
   }
@@ -149,13 +147,13 @@ export class ProfileComponent implements OnInit, OnDestroy {
   async getСhoseUserID() {
     this.subscriptions.push(
       this.choseSubscribersService.selectedSubscriber$.subscribe(selectedSubscriber => {
-        this.selectedUserId = Number(selectedSubscriber);
-        // console.log(this.selectedUserId)
+        this.selectedUserId = selectedSubscriber;
         if (this.selectedUserId) {
-          this.isSelectedUserId = false;
+          this.isSelectedUserId = true;
           this.findUserCardIndex(this.selectedUserId);
         } else {
-          this.isSelectedUserId = true;
+          this.isSelectedUserId = false;
+          this.selectedUser = undefined;
         }
       })
     )
@@ -163,11 +161,13 @@ export class ProfileComponent implements OnInit, OnDestroy {
 
   // Шукаю номер юзера в масиві за його айді
   findUserCardIndex(cardId: number) {
-    const index = this.allCards?.findIndex(card => Number(card.user_id) === cardId);
-    if (index !== undefined && index !== -1) {
-      this.currentCardIndex = index;
-      // console.log(this.currentCardIndex)
-      this.autoSelectUser();
+    if (this.allCards) {
+      const index = this.allCards?.findIndex(card => Number(card.user_id) === cardId);
+      if (index !== undefined && index !== -1) {
+        this.currentCardIndex = index;
+        // console.log(this.currentCardIndex)
+        this.autoSelectUser();
+      }
     }
   }
 

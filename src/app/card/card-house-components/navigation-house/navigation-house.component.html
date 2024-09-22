@@ -2,11 +2,13 @@
 
   <div [routerLinkActive]="'active'" [@cardAnimation]="{value: '', params: { delay: animationDelay(5) }}"
     class="wrapper-img mb-2" (click)="closeToogleMenu()">
-    <img *ngIf="houseData" class="img-fluid"
-      [src]="imgFlat ? (serverPath + pathPhotoFlat + imgFlat) : './../../../../assets/housing_default.svg'"
-      alt="img mini house" [routerLink]="'/house/info'">
-    <img *ngIf="!houseData" class="img-fluid" [src]="'./../../../../assets/housing_default.svg'" alt="img mini house"
-      [routerLink]="'/house/info'">
+
+    <picture>
+      <img *ngIf="imgFlat" [ngSrc]="imgFlat" alt="img mini house" class="img-fluid" [routerLink]="'/house/info'"
+        width="50" height="50" priority>
+      <img *ngIf="!imgFlat" [src]="'./../../../../assets/housing_default.svg'" alt="img mini house" class="img-fluid"
+        [routerLink]="'/house/info'" width="50" height="50">
+    </picture>
 
     <a class="userName pl-2" *ngIf="!houseData" [routerLink]="'/house/info'">
       <p class="t-lar bold">Меню Оселі</p>

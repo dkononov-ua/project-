@@ -1,7 +1,7 @@
 export const pathPhotoUser = '/img/users/';
 export const pathPhotoFlat = '/img/flat/';
 export const pathPhotoComunal = '/img/comunal/';
-export const pathLogo = '../../../assets/logo/logo.svg';
+export const pathLogo = '../../../assets/logo/discussio.new.svg';
 
 // основні шляхи
 export const firstPath = 'https://backend.discussio.site:8000';

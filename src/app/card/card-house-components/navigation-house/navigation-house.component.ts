@@ -105,7 +105,7 @@ export class NavigationHouseComponent implements OnInit, OnDestroy {
   authorizationHouse: boolean = false;
   section: boolean[] = [false, false, false, false, false, false, false, false, false, false, false];
   currentLocation: string = '';
-  imgFlat: string = '';
+  imgFlat: any;
 
   closeToogleMenu() {
     // console.log('closeToogleMenu')
@@ -238,9 +238,9 @@ export class NavigationHouseComponent implements OnInit, OnDestroy {
       this.houseData = parsedHouseData;
       this.getHouseAcces();
       if (Array.isArray(this.houseData.imgs) && this.houseData.imgs.length > 0) {
-        this.imgFlat = this.houseData.imgs[0].img;
+        this.imgFlat = this.serverPath + this.pathPhotoFlat + this.houseData.imgs[0].img;
       } else {
-        this.imgFlat = '';
+        this.imgFlat = undefined;
       }
     } else {
       this.houseData = undefined;

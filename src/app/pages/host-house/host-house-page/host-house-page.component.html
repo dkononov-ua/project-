@@ -1,5 +1,6 @@
 <div class="content-wrapper">
-  <div class="width-param col-md-6 col-sm-12 col-12">
+  <div class="width-param col-lg-6 col-md-6 col-sm-12 col-12">
+
     <div [@bot] class="switch-container p-2" *ngIf="isMobile">
 
       <div class="switch-btn-group">
@@ -37,47 +38,41 @@
 
     <div [@appearance] class="component-wrapper">
       <app-img-house></app-img-house>
-      <app-house-rent-progress></app-house-rent-progress>
-      <div *ngIf="isMobile">
-        <app-info-house></app-info-house>
-        <app-footer></app-footer>
-      </div>
-    </div>
-  </div>
-  <div class="width-param col-lg-6 col-md-6 col-sm-12 col-12" *ngIf="!isMobile">
-    <div [@appearance] class="component-wrapper">
-      <div [@bot] class="switch-container bg-accent h-100 p-2">
-
-        <div class="switch-btn-group" *ngIf="houseData && houseData.about.rent === 0">
-          <button class="btn" (click)="activateHouseProfile()">
-            <i class="fa-solid fa-toggle-on white"></i>
-            <div class="t-min white">Активувати оселю</div>
-          </button>
-        </div>
-
-        <div class="switch-btn-group" *ngIf="houseData && houseData.about.rent === 1">
-          <button class="btn" (click)="deactivateHouseProfile()">
-            <i class="fa-solid fa-power-off white"></i>
-            <div class="t-min white">Деактивув. оселю</div>
-          </button>
-        </div>
-
-        <button class="menu-box t-s" [routerLinkActive]="'active'" [routerLink]="'/house/info'">
-          <div class="menu-name white">Ваш профіль оселі</div>
-          <div class="menu-lable white" *ngIf="houseData && houseData.about.rent === 1">Активовано</div>
-          <div class="menu-lable white" *ngIf="houseData && houseData.about.rent === 0">Деактивовано</div>
-        </button>
-
-        <div class="switch-btn-group">
-          <a class="btn" [routerLink]="'/house/control'">
-            <i class="fa-solid fa-timeline white"></i>
-            <div class="t-min white">Керування Оселями</div>
-          </a>
-        </div>
-
-      </div>
-
       <app-info-house></app-info-house>
     </div>
+  </div>
+
+  <div [@appearance] class="col-lg-6 col-md-6 col-sm-12 col-12" *ngIf="!isMobile">
+    <div [@bot] class="switch-container bg-accent h-100 p-2">
+
+      <div class="switch-btn-group" *ngIf="houseData && houseData.about.rent === 0">
+        <button class="btn" (click)="activateHouseProfile()">
+          <i class="fa-solid fa-toggle-on white"></i>
+          <div class="t-min white">Активувати оселю</div>
+        </button>
+      </div>
+
+      <div class="switch-btn-group" *ngIf="houseData && houseData.about.rent === 1">
+        <button class="btn" (click)="deactivateHouseProfile()">
+          <i class="fa-solid fa-power-off white"></i>
+          <div class="t-min white">Деактивув. оселю</div>
+        </button>
+      </div>
+
+      <button class="menu-box t-s" [routerLinkActive]="'active'" [routerLink]="'/house/info'">
+        <div class="menu-name white">Ваш профіль оселі</div>
+        <div class="menu-lable white" *ngIf="houseData && houseData.about.rent === 1">Активовано</div>
+        <div class="menu-lable white" *ngIf="houseData && houseData.about.rent === 0">Деактивовано</div>
+      </button>
+
+      <div class="switch-btn-group">
+        <a class="btn" [routerLink]="'/house/control'">
+          <i class="fa-solid fa-timeline white"></i>
+          <div class="t-min white">Керування Оселями</div>
+        </a>
+      </div>
+
+    </div>
+    <app-house-rent-progress></app-house-rent-progress>
   </div>
 </div>

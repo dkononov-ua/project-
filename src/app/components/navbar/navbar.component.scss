@@ -91,10 +91,11 @@
   }
 
   @include s1-s3 {
-    @include blurred-background($color-white, 0.5);
-    z-index: 20;
+    @include blurred-background(rgba(255, 255, 255, 0), 0.1);
+    background-blend-mode: multiply;
+    z-index: 30;
     padding-top: 0rem !important;
-    justify-content: space-between;
+    justify-content: flex-start;
     background-image: none !important;
   }
 
@@ -117,8 +118,8 @@
     display: flex;
     justify-content: flex-start;
     flex-direction: column;
-    width: 40%;
-    max-width: 200px;
+    width: 100%;
+    max-width: 300px;
 
     @include s1-s3 {
       &.home {
@@ -129,7 +130,7 @@
         }
       }
 
-      width: 100%;
+      // width: 100%;
       max-width: 100%;
 
       .t-lar-x,
@@ -159,9 +160,7 @@
       width: 50px;
       border-radius: 50%;
       position: relative;
-      z-index: 1; // Щоб лого було зверху над анімованими бордерами
-
-      // Анімація логотипу синхронно з хвилями
+      z-index: 1;
       animation: logoBounce 2s infinite ease-out;
     }
 

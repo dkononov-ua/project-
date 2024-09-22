@@ -8,28 +8,95 @@
   <button class="paginator-btn" (click)="incrementOffset()">
     <i class="fa-solid fa-chevron-right"></i></button>
 </div>
-<div #findCards [@right1] class="cards-container p-2" (scroll)="onScroll($event)">
-  <div class="card-mini mb-3" *ngFor="let card of allCards" (click)="onFlatSelect(card.flat.flat_id)"
-    [ngClass]="{ 'selected': choseFlatId == card.flat.flat_id  }">
-    <div class="card-mini-img-container">
-      <img class="card-mini-img"
-        [src]="card.img && card.img[0] ? serverPath + pathPhotoFlat + card.img[0] : serverPath + pathPhotoFlat + 'housing_default.svg'"
-        alt="img">
+
+<div #findCards class="cards-container" (scroll)="onScroll($event)">
+
+  <ng-container *ngIf="blockBtnStatus; else content">
+    <div class="container-loader-mini">
+      <mat-spinner color="warn"></mat-spinner>
+      <div class="t-med mt-2">Завантаження інформації</div>
     </div>
-    <div class="card-body">
-      <div class="p-1">
-        <div class="t-med accent bold">ID: {{ card.flat.flat_id }}</div>
-        <div class="t-min">Обл.: {{ card.flat.region}}</div>
-        <div class="t-min">м.: {{ card.flat.city}}</div>
+  </ng-container>
+
+  <ng-template #content>
+    <div class="card-mini m-1" *ngFor="let card of allCards" (click)="onFlatSelect(card.flat.flat_id)"
+      [ngClass]="{ 'selected': card.user_id == choseFlatId }">
+      <!-- якщо фото немає -->
+      <div class="img-wrapper">
+        <img class="card-mini-img" src="../../../../assets/housing_default.svg" alt="img"
+          *ngIf="!card.img || card.img[0] === 'housing_default.svg'" loading="lazy">
+        <!-- якщо фото користувача є чекаємо його завантаження і показуємо спінер -->
+        <div *ngIf="card.img && card.img[0] !== 'housing_default.svg' && !isLoadingImg">
+          <div class="container-loader-mini">
+            <mat-spinner color="warn"></mat-spinner>
+            <img class="card-mini-img" [src]="serverPath + pathPhotoFlat + card.img[0]" alt="img"
+              (load)="isLoadingImg = true" hidden>
+            <div class="t-min gray mt-2">Завантаження фото</div>
+          </div>
+        </div>
+        <!-- якщо фото користувача завантажилось показуємо фото -->
+        <img class="card-mini-img" [src]="serverPath + pathPhotoFlat + card.img[0]" alt="img"
+          *ngIf="card.img && card.img !== 'housing_default.svg' && isLoadingImg" loading="lazy">
+      </div>
+
+      <div class="card-body p-2">
+
+        <div class="t-med thin t-e">обл.{{ card.flat.region }}</div>
+        <div class="t-lar bold t-e white">{{ card.flat.city }}</div>
+
+
         <div class="flex-box" *ngIf="card.flat.option_pay === 0">
-          <div class="t-lar bold"> {{ card.flat.price_m | number:'1.0-0' }} </div>
-          <div class="t-min bold">₴/міс</div>
+          <div class="t-lar bold white"> {{ card.flat.price_m / 1000 | number:'1.0-0' }}k ₴/міс</div>
+          <div class="t-min bold white"></div>
         </div>
         <div class="flex-box" *ngIf="card.flat.option_pay !== 0">
-          <div class="t-lar bold"> {{ card.flat.price_d | number:'1.0-0' }} </div>
-          <div class="t-min bold">₴/добу</div>
+          <div class="t-lar bold white"> {{ card.flat.price_d | number:'1.0-0' }} ₴/добу</div>
+          <div class="t-min bold white">₴/добу</div>
         </div>
+
+        <div class="status-content" *ngIf="card">
+          <div class="status-box">
+
+            <div class="status-value bg-yellow" *ngIf="card.flat.checked === 0"><i
+                class="fa-solid fa-person-circle-exclamation"></i></div>
+            <div class="status-value bg-green" *ngIf="card.flat.checked === 1"><i
+                class="fa-solid fa-person-circle-check"></i>
+            </div>
+
+            <div class="status-value bg-yellow" *ngIf="card.flat.realll === 1"><i class="fa-solid fa-coins"></i></div>
+
+            <div class="status-value bg-gray" *ngIf="card.flat.house === 1"><i
+                class="fa-solid fa-house-chimney-window"></i></div>
+            <div class="status-value bg-gray" *ngIf="card.flat.flat === 1"><i
+                class="fa-solid fa-building-circle-arrow-right"></i></div>
+            <div class="status-value bg-gray" *ngIf="card.flat.room === 1"><i
+                class="fa-solid fa-cube"></i></div>
+
+            <div class="status-value" *ngIf="card.flat.woman === 1"><i class="fa-solid fa-person-dress"></i></div>
+            <div class="status-value" *ngIf="card.flat.man === 1"><i class="fa-solid fa-person"></i></div>
+            <div class="status-value" *ngIf="card.flat.students === 1"><i class="fa-solid fa-graduation-cap"></i></div>
+            <div class="status-value" *ngIf="card.flat.family === 1"><i class="fa-solid fa-person-breastfeeding"></i>
+            </div>
+
+            <div class="status-value" *ngIf="['1', '2', '3'].includes(card.animals)">
+              <i class="fa-solid fa-paw" *ngIf="card.flat.animals === '1'"></i>
+              <i class="fa-solid fa-cat" *ngIf="card.flat.animals === '2'"></i>
+              <i class="fa-solid fa-dog" *ngIf="card.flat.animals === '3'"></i>
+            </div>
+
+            <div class="status-value" *ngIf="card.flat.metrocolor" [ngClass]="{
+              'bg-red': card.flat.metrocolor === 'Червона',
+              'bg-blue': card.flat.metrocolor === 'Синя',
+              'bg-green': card.flat.metrocolor === 'Зелена'
+              }"><i class="fa-solid fa-train-subway"></i>
+            </div>
+
+          </div>
+        </div>
+
       </div>
     </div>
-  </div>
+    <p class="t-lar-xx" *ngIf="!existInfo">Нічого не знайдено...</p>
+  </ng-template>
+
 </div>

@@ -2,7 +2,7 @@ import { Component, LOCALE_ID, OnDestroy, OnInit } from '@angular/core';
 import { SharedService } from 'src/app/services/shared.service';
 // власні імпорти інформації
 import * as ServerConfig from 'src/app/config/path-config';
-import { Purpose, Distance, OptionPay, Animals, Floor } from '../../../interface/name';
+import { Purpose, Distance, OptionPay, Animals, Floor, Repair } from '../../../interface/name';
 import { animations } from '../../../interface/animation';
 import { Location } from '@angular/common';
 import { CardsDataService } from 'src/app/services/user-components/cards-data.service';
@@ -13,7 +13,7 @@ import { StatusDataService } from 'src/app/services/status-data.service';
 @Component({
   selector: 'app-info',
   templateUrl: './info.component.html',
-  styleUrls: ['./info.component.scss'],
+  styleUrls: ['./../../card-info.scss'],
   providers: [
     { provide: LOCALE_ID, useValue: 'uk-UA' },
   ],
@@ -51,7 +51,8 @@ export class InfoComponent implements OnInit, OnDestroy {
   option_pay = OptionPay;
   animals = Animals;
   floor = Floor;
-  user: any;
+  repair = Repair;
+  userInfo: any;
   subscriptions: any[] = [];
   card_info: number = 0;
   currentLocation: string = '';
@@ -150,7 +151,7 @@ export class InfoComponent implements OnInit, OnDestroy {
       this.cardsDataService.cardData$.subscribe(async (data: any) => {
         // console.log(data)
         if (data) {
-          this.user = data.owner;
+          this.userInfo = data.owner;
         }
       })
     );
@@ -160,7 +161,7 @@ export class InfoComponent implements OnInit, OnDestroy {
   subscriptionsDataHouseService() {
     this.cardsDataHouseService.cardData$.subscribe(async (data: any) => {
       if (data) {
-        this.user = data;
+        this.userInfo = data;
       }
     })
   }
@@ -171,7 +172,7 @@ export class InfoComponent implements OnInit, OnDestroy {
     const userData = localStorage.getItem('userData');
     if (userJson && userData) {
       const userObject = JSON.parse(userData);
-      this.user = userObject.inf;
+      this.userInfo = userObject.inf;
       try {
         const response: any = await this.http.post(this.serverPath + '/features/get', { auth: JSON.parse(userJson) }).toPromise();
         if (response.status === true) {
@@ -191,11 +192,11 @@ export class InfoComponent implements OnInit, OnDestroy {
           }
           // Зберігаємо оновлений об'єкт назад в localStorage
           localStorage.setItem('userData', JSON.stringify(existingData));
-          // Оновлюємо локальний this.user
-          this.user = { ...this.user, ...newData };
+          // Оновлюємо локальний this.userInfo
+          this.userInfo = { ...this.userInfo, ...newData };
           this.calculateTotalDays();
-          this.statusDataService.setStatusData(this.user);
-          // console.log(this.user);
+          this.statusDataService.setStatusData(this.userInfo);
+          // console.log(this.userInfo);
         } else {
           console.error("Response status is not true");
         }
@@ -210,11 +211,11 @@ export class InfoComponent implements OnInit, OnDestroy {
   }
 
   async calculateTotalDays(): Promise<number> {
-    if (this.user) {
-      const days = this.user.days || 0;
-      const weeks = this.user.weeks || 0;
-      const months = this.user.months || 0;
-      const years = this.user.years || 0;
+    if (this.userInfo) {
+      const days = this.userInfo.days || 0;
+      const weeks = this.userInfo.weeks || 0;
+      const months = this.userInfo.months || 0;
+      const years = this.userInfo.years || 0;
       const totalDays = days + weeks * 7 + months * 30 + years * 365;
       this.totalDays = totalDays / 29;
       return this.totalDays;

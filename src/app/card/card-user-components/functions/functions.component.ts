@@ -20,7 +20,7 @@ import { AddRatingComponent } from 'src/app/components/add-rating/add-rating.com
 @Component({
   selector: 'app-functions',
   templateUrl: './functions.component.html',
-  styleUrls: ['./functions.component.scss'],
+  styleUrls: ['./../../card-func.scss'],
   animations: [
     trigger('cardAnimation', [
       transition('void => *', [

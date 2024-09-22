@@ -14,7 +14,7 @@ import { MissingParamsService } from '../host-house-edit/missing-params.service'
 @Component({
   selector: 'app-host-house-page',
   templateUrl: './host-house-page.component.html',
-  styleUrls: ['./host-house-page.component.scss'],
+  styleUrls: ['./../../myPage.scss'],
   animations: [
     animations.left1,
     animations.right1,

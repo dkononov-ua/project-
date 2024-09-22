@@ -1,7 +1,7 @@
 import { AppComponent } from './app.component';
 import { SelectedFlatService } from './services/selected-flat.service';
 import { DragDropModule } from '@angular/cdk/drag-drop';
-import { CommonModule, DatePipe } from '@angular/common';
+import { CommonModule, DatePipe, NgOptimizedImage } from '@angular/common';
 import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -117,6 +117,7 @@ import { UserModule } from './pages/host-user/user.module';
     LyDialogModule,
     MatInputModule,
     MatFormFieldModule,
+    NgOptimizedImage,
 
     // модулі треба імпортувати а роутери імпортуються в AppRoutingModule
     AppRoutingModule,

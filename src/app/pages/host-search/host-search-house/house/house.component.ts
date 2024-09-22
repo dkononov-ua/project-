@@ -18,7 +18,7 @@ import { FilterService } from 'src/app/services/search/filter.service';
 @Component({
   selector: 'app-house',
   templateUrl: './house.component.html',
-  styleUrls: ['./house.component.scss'],
+  styleUrls: ['./../../../../style/search/search.scss'],
   providers: [
     { provide: LOCALE_ID, useValue: 'uk-UA' },
   ],

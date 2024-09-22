@@ -2,6 +2,20 @@
 @use "../style/mixins/" as *;
 @use "../style/shared.scss";
 
+.cards-height {
+  @include s3-s6-max {
+    border-radius: 20px;
+    height: calc(100vh - 80px);
+    overflow: auto;
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+  @include s1-s3 {
+    height: auto;
+  }
+}
+
 .main-container {
   display: flex;
   flex-wrap: wrap;
@@ -20,17 +34,6 @@
   background-color: $color-white;
   border-radius: 20px;
   z-index: 10;
-  &::-webkit-scrollbar {
-    display: none;
-  }
-  @include box-shadow;
-  @include s3-s6-max {
-    height: auto;
-    max-height: calc(100vh - 100px);
-    overflow: auto;
-  }
-  @include s1-s3 {
-    height: auto;
-  }
+  height: auto;
+  overflow: hidden;
 }
-

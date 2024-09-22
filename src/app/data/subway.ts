@@ -4,7 +4,7 @@ export const subway = [
     name: 'Київ',
     lines: [
       {
-        name: 'Червона лінія',
+        name: 'Червона',
         stations: [
           { id: 0, name: 'Академмістечко', district: 'Святошинський' },
           { id: 1, name: 'Житомирська', district: 'Святошинський' },
@@ -28,7 +28,7 @@ export const subway = [
       },
 
       {
-        name: 'Синя лінія',
+        name: 'Синя',
         stations: [
           { id: 0, name: 'Героїв Дніпра', district: 'Оболонський' },
           { id: 1, name: 'Мінська', district: 'Оболонський' },
@@ -52,7 +52,7 @@ export const subway = [
       },
 
       {
-        name: 'Зелена лінія',
+        name: 'Зелена',
         stations: [
           { id: 0, name: 'Сирець', district: 'Шевченківський' },
           { id: 1, name: 'Дорогожичі', district: 'Шевченківський' },
@@ -80,7 +80,7 @@ export const subway = [
     name: 'Харків',
     lines: [
       {
-        name: 'Червона лінія',
+        name: 'Червона',
         stations: [
           { id: 0, name: 'Холодна гора' },
           { id: 1, name: 'Південний вокзал' },
@@ -99,7 +99,7 @@ export const subway = [
       },
 
       {
-        name: 'Синя лінія',
+        name: 'Синя',
         stations: [
           { id: 0, name: 'Героїв праці' },
           { id: 1, name: 'Студентська' },
@@ -113,7 +113,7 @@ export const subway = [
       },
 
       {
-        name: 'Зелена лінія',
+        name: 'Зелена',
         stations: [
           { id: 0, name: 'Перемога' },
           { id: 1, name: 'Олексіївська' },
@@ -135,7 +135,7 @@ export const subway = [
     name: 'Дніпро',
     lines: [
       {
-        name: 'Червона лінія',
+        name: 'Червона',
         stations: [
           { id: 0, name: 'Покровська' },
           { id: 1, name: 'Проспект Свободи' },

@@ -2,6 +2,8 @@
 @use "../../../../style/mixins/" as *;
 @use "../../../../style/shared.scss" as *;
 @use "../../../../style/radio.scss";
+@use "../../../../style/input.scss";
+
 
 .gif-box {
   position: relative;

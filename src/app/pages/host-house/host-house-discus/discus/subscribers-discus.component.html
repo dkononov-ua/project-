@@ -1,6 +1,6 @@
 <div class="main-container">
 
-  <div class="width-param col-md-7 col-sm-12 col-12 p-1" *ngIf="!isMobile">
+  <div class="cards-height width-param col-md-7 col-sm-12 col-12 p-1" *ngIf="!isMobile">
     <div class="card-item" [@appearance] *ngIf="chosenUser">
       <div class="btn-close-container">
         <div class="btn-close-box">
@@ -17,7 +17,7 @@
     </div>
   </div>
 
-  <div class="width-param col-lg-5 col-md-5 col-sm-12 col-12 p-1" *ngIf="!isMobile">
+  <div class="cards-height width-param col-lg-5 col-md-5 col-sm-12 col-12 p-1" *ngIf="!isMobile">
     <app-cards-list-users></app-cards-list-users>
   </div>
 
@@ -26,7 +26,6 @@
     <!-- всі картки -->
     <div class="card-item" *ngIf="indexPage === 1">
       <app-cards-list-users></app-cards-list-users>
-
     </div>
 
     <div class="card-item" *ngIf="chosenUser && indexPage === 2">

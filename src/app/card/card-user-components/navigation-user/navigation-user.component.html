@@ -3,11 +3,12 @@
   <div [@cardAnimation]="{value: '', params: { delay: animationDelay(0) }}" class="wrapper-img mb-2"
     (click)="closeToogleMenu()">
 
-    <img *ngIf="!userData || userData && userData.img && userData.img[0].img === 'user_default.svg'" class="img-fluid"
-      src="../../../assets/user_default.svg" alt="img" [routerLink]="'/user/info'">
-
-    <img *ngIf="userData && userData.img && userData.img[0].img !== 'user_default.svg'" class="img-fluid"
-      [src]="serverPath + pathPhotoUser + userData.img[0].img" alt="img" [routerLink]="'/user/info'">
+    <picture>
+      <img [ngSrc]="userData?.img && userData.img[0].img !== 'user_default.svg'
+                  ? serverPath + pathPhotoUser + userData.img[0].img
+                  : '../../../assets/user_default.svg'" alt="img" class="img-fluid" width="50" height="50"
+        [routerLink]="'/user/info'" priority>
+    </picture>
 
     <div class="userName pl-2 pr-2" *ngIf="!userData" [routerLink]="'/user/info'">
       <p class="t-lar bold">Меню Користувача</p>
@@ -83,7 +84,7 @@
   <div class="category-container">
     <div class="category">
       <a [@cardAnimation]="{value: '', params: { delay: animationDelay(3) }}" class="link-item"
-        [routerLinkActive]="'active'" [routerLink]="'/user/tenant'" (click)="closeToogleMenu()">
+        [routerLinkActive]="'active'" [routerLink]="'/user/tenant/profile'" (click)="closeToogleMenu()">
 
         <i class="fa-solid fa-person-hiking custom-badge"></i>
         <div class="item-description">
@@ -137,14 +138,6 @@
         </div>
       </button>
 
-      <a [@cardAnimation]="{value: '', params: { delay: animationDelay(3) }}" class="subcategory"
-        [routerLinkActive]="'active'" [routerLink]="'/user/edit/looking'" (click)="closeToogleMenu()">
-        <i class="fa-solid fa-gears"></i>
-        <div class="item-description">
-          <p class="t-min">Налаш.</p>
-          <p class="t-min">Профілю</p>
-        </div>
-      </a>
     </div>
   </div>
 

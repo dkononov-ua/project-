@@ -13,11 +13,11 @@ export interface UserInfo {
   date: any;
   day_counts: any;
   days: number;
-  distance_green: string;
-  distance_metro: string;
-  distance_parking: string;
-  distance_shop: string;
-  distance_stop: string;
+  distance_green: number;
+  distance_metro: number;
+  distance_parking: number;
+  distance_shop: number;
+  distance_stop: number;
   dob: any;
   facebook: string;
   family: number;
@@ -39,7 +39,7 @@ export interface UserInfo {
   purpose_rent: any;
   realll: number | 0;
   region: string;
-  repair_status: string;
+  repair_status: number;
   room: number | undefined;  // Додано можливість undefined
   rooms_of: number;
   rooms_to: number;
@@ -58,24 +58,27 @@ export interface UserInfo {
   micro_district: string;
   metrocolor: string;
   metroname: string;
+  filterData: string;
+  option_flat: string;
+
 }
 export interface UserInfoSearch {
   animals: string | undefined;
-  area: string | undefined;
+  area: number;
   balcony: string | undefined;
   bunker: string | undefined;
   city: string;
   day_counts: string | undefined;
   days: number | undefined;
-  distance_green: string | undefined;
-  distance_metro: string | undefined;
-  distance_parking: string | undefined;
-  distance_shop: string | undefined;
-  distance_stop: string | undefined;
+  distance_green: number;
+  distance_metro: number;
+  distance_parking: number;
+  distance_shop: number;
+  distance_stop: number;
   family: number | undefined;
   flat: number | undefined;
   house: number | undefined;
-  kitchen_area: number | undefined;
+  kitchen_area: number;
   limit: number;
   looking_man: boolean | undefined;
   looking_woman: boolean | undefined;
@@ -83,8 +86,8 @@ export interface UserInfoSearch {
   months: number | undefined;
   option_pay: any;
   price: number | undefined;
-  purpose_rent: string | undefined;
-  repair_status: string | undefined;
+  purpose_rent: any;
+  repair_status: number;
   room: boolean | undefined;
   rooms: number | undefined;
   students: number | undefined;
@@ -93,8 +96,8 @@ export interface UserInfoSearch {
   years: number | undefined;
   about: string | undefined;
   agree_search: number | undefined;
-  area_of: string | undefined;
-  area_to: string | undefined;
+  area_of: string;
+  area_to: string;
   checked: number | 0;
   country: string;
   date: any;
@@ -107,8 +110,8 @@ export interface UserInfoSearch {
   mail: any;
   metro: string;
   mounths: number | undefined;
-  price_of: number | undefined;
-  price_to: number | undefined;
+  price_of: number;
+  price_to: number;
   realll: number | 0;
   rooms_of: number | undefined;
   rooms_to: number | undefined;
@@ -126,7 +129,8 @@ export interface UserInfoSearch {
 
   metrocolor: string;
   metroname: string;
-
+  filterData: string;
+  option_flat: string;
 }
 export interface HouseInfo {
   about: string;
@@ -138,11 +142,11 @@ export interface HouseInfo {
   bunker: string;
   city: string;
   country: string;
-  distance_green: any;
-  distance_metro: any;
-  distance_parking: any;
-  distance_shop: any;
-  distance_stop: any;
+  distance_green: number;
+  distance_metro: number;
+  distance_parking: number;
+  distance_shop: number;
+  distance_stop: number;
   district: string;
   family: any;
   flat_id: string;
@@ -151,7 +155,7 @@ export interface HouseInfo {
   houseNumber: string;
   id: number;
   img: string;
-  kitchen_area: string;
+  kitchen_area: number;
   limit: string;
   man: any;
   metro: string;
@@ -168,7 +172,7 @@ export interface HouseInfo {
   price_y: string;
   private: number;
   region: string;
-  repair_status: string;
+  repair_status: number;
   rent: any;
   room: any;
   rooms: string;
@@ -190,17 +194,17 @@ export interface HouseInfoSearch {
   rooms_to: string | undefined;
   area_of: string;
   area_to: string;
-  repair_status: string | undefined;
+  repair_status: number;
   bunker: string | undefined;
   balcony: string | undefined;
   animals: string | undefined;
-  distance_metro: string | undefined;
-  distance_stop: string | undefined;
-  distance_green: string | undefined;
-  distance_shop: string | undefined;
-  distance_parking: string | undefined;
+  distance_metro: number;
+  distance_stop: number;
+  distance_green: number;
+  distance_shop: number;
+  distance_parking: number;
   option_pay: string | undefined;
-  purpose_rent: string | undefined;
+  purpose_rent: any;
   looking_woman: string | undefined;
   looking_man: string | undefined;
   students: string | undefined;
@@ -218,7 +222,7 @@ export interface HouseInfoSearch {
   limit: number;
   option_flat: string | undefined;
   country: string | undefined;
-  kitchen_area: string | undefined;
+  kitchen_area: number;
   filterData: string | undefined;
 
   about: string | undefined;

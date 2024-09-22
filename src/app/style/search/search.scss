@@ -3,31 +3,30 @@
 @use "./../shared.scss";
 
 
+.cards-height {
+  position: relative;
+  @include s3-s6-max {
+    border-radius: 20px;
+    height: calc(100vh - 80px);
+    overflow: auto;
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+  @include s1-s3 {
+    height: auto;
+  }
+}
 
 .btn-close-container {
   z-index: 10 !important;
 }
 
-.card-wrapper {
-  border-radius: 0px !important;
-  @include s1-s3 {
-    min-height: 650px;
-    height: auto !important;
-  }
-}
-
 .card-content {
   align-items: stretch !important;
   background-color: $color-white;
-  overflow: auto;
   position: relative;
-  @include s3-s6-max {
-    border-radius: 20px;
-    @include box-shadow;
-  }
-  &::-webkit-scrollbar {
-    display: none;
-  }
+  border-radius: 20px;
 }
 
 .card-btn-container {
@@ -35,6 +34,8 @@
   flex-direction: row;
   align-items: center;
   justify-content: space-evenly;
+  @include blurred-background($color-dark, 0.7);
+
   .item-box {
     display: flex;
     align-items: center;

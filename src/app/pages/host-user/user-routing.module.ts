@@ -26,6 +26,7 @@ import { SubscribersUserComponent } from './host-user-discus/subscribers/subscri
 import { SubscriptionsUserComponent } from './host-user-discus/subscriptions/subscriptions-user.component';
 import { ChatHostComponent } from './host-user-chat/chat-host.component';
 import { UserParametersComponent } from './host-user-edit/user-parameters.component';
+import { UserTenantProfileComponent } from './host-user-edit/user-tenant-profile/user-tenant-profile.component';
 
 
 const routes: Routes = [
@@ -42,6 +43,7 @@ const routes: Routes = [
           { path: '', redirectTo: 'about', pathMatch: 'full' },
           { path: 'about', component: UserTenantComponent },
           { path: 'step', component: UserTenantStepComponent },
+          { path: 'profile', component: UserTenantProfileComponent },
         ],
       },
       {

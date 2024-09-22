@@ -1,7 +1,6 @@
 <div class="menu-container" *ngIf="chosenFlat">
-  <button [disabled]="disabledBtn" class="btn" (click)="toggleAllMenu(1)">
-    <i class="fa-solid fa-people-arrows"></i>
-    <div class="t-min bold">Дії</div>
+  <button [disabled]="disabledBtn" class="btn-open" (click)="toggleAllMenu(1)">
+    <i class="fa-solid fa-ellipsis-vertical"></i>
   </button>
   <div class="menu" (click)="toggleAllMenu(1)" *ngIf="menu[1]">
     <div [@cardAnimation]="{value: '', params: { delay: animationDelay(0) }}" class="t-lar-xx bold white t-e mr-2"

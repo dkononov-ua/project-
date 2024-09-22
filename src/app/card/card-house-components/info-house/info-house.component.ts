@@ -13,7 +13,7 @@ import { CardsDataHouseService } from 'src/app/services/house-components/cards-d
 @Component({
   selector: 'app-info-house',
   templateUrl: './info-house.component.html',
-  styleUrls: ['./info-house.component.scss'],
+  styleUrls: ['./../../card-info.scss'],
   providers: [
     { provide: LOCALE_ID, useValue: 'uk-UA' },
   ],

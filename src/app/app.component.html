@@ -1,11 +1,25 @@
-<div class="body-container" [ngClass]="{'home': isHomePage === true}">
-  <div [@fadeIn] class="bg" *ngIf="nextBG && !isMobile">
-    <img class="bg-img" [src]="currentImage">
-  </div>
-  <div class="container">
+<div class="body-container" [ngClass]="{'home': isHomePage}">
+
+  <ng-container *ngIf="nextBG && !isMobile">
+    <picture [@fadeIn] class="bg">
+      <img class="bg-img" [src]="currentImage">
+    </picture>
+  </ng-container>
+
+  <div class="container" [ngClass]="{'menuActive': menu}">
     <router-outlet></router-outlet>
   </div>
-  <app-status-message *ngIf="statusMessage"></app-status-message>
-  <app-menu *ngIf="menu"></app-menu>
-  <app-loader *ngIf="loading"></app-loader>
+
+  <ng-container *ngIf="statusMessage">
+    <app-status-message></app-status-message>
+  </ng-container>
+
+  <ng-container *ngIf="menu">
+    <app-menu></app-menu>
+  </ng-container>
+
+  <ng-container *ngIf="loading">
+    <app-loader></app-loader>
+  </ng-container>
+
 </div>

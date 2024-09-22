@@ -39,6 +39,9 @@ import { SubscribersDiscusComponent } from './host-user-discus/discus/subscriber
 import { SubscriptionsUserComponent } from './host-user-discus/subscriptions/subscriptions-user.component';
 import { UserParametersComponent } from './host-user-edit/user-parameters.component';
 import { MatBadgeModule } from '@angular/material/badge';
+import { UserTenantProfileComponent } from './host-user-edit/user-tenant-profile/user-tenant-profile.component';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
 
 @NgModule({
   declarations: [
@@ -63,6 +66,7 @@ import { MatBadgeModule } from '@angular/material/badge';
     SubscribersDiscusComponent,
     SubscriptionsUserComponent,
     HostUserTenantsProfileComponent,
+    UserTenantProfileComponent,
   ],
   providers: [
     DatePipe,
@@ -88,6 +92,9 @@ import { MatBadgeModule } from '@angular/material/badge';
     RouterModule,
     MatProgressSpinnerModule,
     MatBadgeModule,
+
+    MatDividerModule,
+    MatButtonToggleModule,
   ]
 })
 

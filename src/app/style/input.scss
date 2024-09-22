@@ -1,0 +1,57 @@
+@use "../style/presets/" as *;
+@use "../style/mixins/" as *;
+
+.section-chown {
+  @include flex-box-center;
+  margin-top: 10px;
+  flex-direction: column;
+}
+
+.flex-box-type {
+  @include flex-box-center;
+  @include s1-s3 {
+    justify-content: flex-end;
+    flex-direction: column;
+    width: 100%;
+  }
+}
+
+.label-section {
+  font-size: $t-med;
+  font-weight: bold;
+  margin-top: 10px;
+  width: 100%;
+  margin-bottom: 10px;
+  text-align: center;
+  padding-right: 10px;
+}
+
+.form-label {
+  font-size: $t-min;
+}
+
+.range-section {
+  @include flex-box-center;
+  margin-top: 10px;
+  flex-direction: column;
+  width: 100%;
+}
+
+.form-range {
+  width: 100%;
+  max-width: 320px;
+  // Стилізація трека
+  &::-webkit-slider-runnable-track {
+    height: 0.5rem;
+    background: $color-accent;
+    border-radius: 0.25rem;
+  }
+
+  &::-webkit-slider-thumb {
+    -webkit-appearance: none; /* Вимкнення стандартного вигляду */
+    width: 2rem;
+    height: 1rem;
+    background: $color-dark; /* Колір повзунка */
+    cursor: pointer;
+  }
+}

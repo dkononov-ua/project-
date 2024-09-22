@@ -15,18 +15,20 @@ export class FilterUserService {
   sortValue$: BehaviorSubject<string> = new BehaviorSubject<string>('');
   showedCards$: BehaviorSubject<string> = new BehaviorSubject<string>('');
   blockBtnStatus$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  limits$: BehaviorSubject<number> = new BehaviorSubject<number>(0);
+
 
   constructor(private cardsDataHouseService: CardsDataHouseService) { }
 
   updateFilter(filterValue: any, counterFound: number) {
+    // присвоюю значення знайденої інформації
     this.filterValue = filterValue;
-    // console.log(this.filterValue)
+    // передаю значення кількості знайденого
     this.counterFound$.next(counterFound);
-    if (this.filterValue) {
-      this.filterChange$.next(filterValue);
-      // console.log(filterValue)
-      this.cardsDataHouseService.setCardsData(filterValue);
-    }
+    // передаю інформацію туди де я на неї підписався
+    this.filterChange$.next(filterValue);
+    // передаю в сервіс там де я отримую і виводжу інформацію по картках користувачаів
+    this.cardsDataHouseService.setCardsData(filterValue);
   }
 
   getFilterValue() {
@@ -36,6 +38,11 @@ export class FilterUserService {
   loadCards(loadCards: string) {
     // console.log(loadCards);
     this.loadCards$.next(loadCards);
+  }
+
+  setLimits(limits: number) {
+    console.log(limits);
+    this.limits$.next(limits);
   }
 
   showedCards(showedCards: string) {

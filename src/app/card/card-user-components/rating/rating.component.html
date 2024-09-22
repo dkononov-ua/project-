@@ -1,54 +1,31 @@
-<div *ngIf="user" class="content-info w-100">
-
-  <div [@top4] class="main-param mb-2">
-    <div class="left">
-      <p class="t-c t-min"><i class="fa-solid fa-star"></i> <br> Рейтинг <br> Користувача</p>
-      <p class="t-c t-lar-x bold">ID: {{ user.user_id }}</p>
-    </div>
-    <div class="right">
-
-      <div class="flex-box">
-        <div class="flex-box w-80 jc-c wrap">
-          <p class="t-c t-med thin gray p-2">Рейтинг користувача:</p>
-
-          <div class="item-box w-100" *ngIf="ratingTenant">
-            <div mat-raised-button class="flex-column p-1 w-100">
-              <div class="t-lar-xx bold border-bottom w-100">{{ratingTenant.toFixed(2)}}
-                <i class="fa-solid fa-star"></i>
-                <span class="t-min">/ {{numberOfReviewsTenant}}</span>
-              </div>
-              <div class="t-min">Орендарь </div>
-            </div>
-          </div>
-
-          <div class="item-box w-100" *ngIf="ratingOwner">
-            <div mat-raised-button class="flex-column p-1 w-100">
-              <div class="t-lar-xx bold border-bottom w-100">{{ratingOwner.toFixed(2)}}
-                <i class="fa-solid fa-star"></i>
-                <span class="t-min">/ {{numberOfReviewsOwner}}</span>
-              </div>
-              <div class="t-min">Орендодавець </div>
-            </div>
-          </div>
-
-        </div>
-
-        <div class="flex-box flex-column w-20">
-          <button matTooltip="Перегляд Відгуків" class="btn-open" *ngIf="currentLocation !== '/user/info'"
-            (click)="toogleOpen()">
-            <i class="fa-solid fa-comment-dots"></i>
-          </button>
-        </div>
-
+<!-- <div class="item-box w-100" *ngIf="ratingTenant">
+    <div mat-raised-button class="flex-column p-1 w-100">
+      <div class="t-lar-xx bold border-bottom w-100">{{ratingTenant.toFixed(2)}}
+        <i class="fa-solid fa-star"></i>
+        <span class="t-min">/ {{numberOfReviewsTenant}}</span>
       </div>
+      <div class="t-min">Рейтинг орендаря</div>
     </div>
   </div>
-
-  <div [@fadeIn] class="detail" *ngIf="detail">
-    <div class="detail-wrapper t-c">
-      <button class="btn-close bg-white p-2" (click)="toogleOpen()"></button>
-      <div class="t-lar-x white p-2">Відгуки про користувача</div>
-      <app-reviews></app-reviews>
+  <div class="item-box w-100" *ngIf="ratingOwner">
+    <div mat-raised-button class="flex-column p-1 w-100">
+      <div class="t-lar-xx bold border-bottom w-100">{{ratingOwner.toFixed(2)}}
+        <i class="fa-solid fa-star"></i>
+        <span class="t-min">/ {{numberOfReviewsOwner}}</span>
+      </div>
+      <div class="t-min">Рейтинг орендодавця </div>
     </div>
+  </div> -->
+
+<button class="btn-open" (click)="toogleOpen()" [ngClass]="{'active': detail === true}"
+  *ngIf="currentLocation !== '/user/info'">
+  <i class="fa-solid fa-comment-dots"></i>
+</button>
+
+<div [@fadeIn] class="detail" *ngIf="detail">
+  <div class="detail-wrapper t-c">
+    <button class="btn-close bg-white p-2" (click)="toogleOpen()"></button>
+    <div class="t-lar-x white p-2">Відгуки про користувача</div>
+    <app-reviews></app-reviews>
   </div>
 </div>

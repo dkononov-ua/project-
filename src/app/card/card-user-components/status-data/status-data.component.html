@@ -22,15 +22,15 @@
     <div class="status-value" *ngIf="userInfo.family === 1"><i class="fa-solid fa-person-breastfeeding"></i></div>
 
     <div class="status-value status-metro bg-red"
-      *ngIf="userInfo.metrocolor && userInfo.metrocolor === 'Червона лінія'"><i
+      *ngIf="userInfo.metrocolor && userInfo.metrocolor === 'Червона'"><i
         class="fa-solid fa-m pr-2"></i>{{userInfo.metroname}}</div>
 
-    <div class="status-value status-metro bg-blue" *ngIf="userInfo.metrocolor && userInfo.metrocolor === 'Синя лінія'">
+    <div class="status-value status-metro bg-blue" *ngIf="userInfo.metrocolor && userInfo.metrocolor === 'Синя'">
       <i class="fa-solid fa-m pr-2"></i>{{userInfo.metroname}}
     </div>
 
     <div class="status-value status-metro bg-green"
-      *ngIf="userInfo.metrocolor && userInfo.metrocolor === 'Зелена лінія'"><i
+      *ngIf="userInfo.metrocolor && userInfo.metrocolor === 'Зелена'"><i
         class="fa-solid fa-m pr-2"></i>{{userInfo.metroname}}</div>
 
   </button>

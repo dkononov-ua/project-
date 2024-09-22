@@ -1,161 +1,27 @@
 <app-navbar></app-navbar>
-
 <div class="content-component">
-  <div class="switch-container" *ngIf="isMobile">
 
-    <div class="switch-btn-group">
-      <button class="btn" (click)="goBack()">
-        <i class="fa-solid fa-arrow-left"></i>
-        <div class="t-min">Назад</div>
-      </button>
-    </div>
-
-    <!-- <div class="menu-box">
-      <h1 class="menu-lable">Пошук</h1>
-      <h2 class="menu-name">Оселі <i class="fa-solid fa-magnifying-glass pl-2"></i></h2>
-    </div> -->
-
-    <div class="switch-btn-group">
-      <button [disabled]="!authorization" class="btn" [routerLink]="'/user/discus/subscriptions'">
-        <i class="fa-regular fa-heart"></i>
-        <div class="t-min bold">Вподоб.</div>
-        <div class="status" *ngIf="counterUserSubscriptions && counterUserSubscriptions !== '0'">
-          {{counterUserSubscriptions}} </div>
-      </button>
-    </div>
-
-    <div class="switch-btn-group" *ngIf="isMobile">
-      <button class="btn" (click)="indexPage = 1" [ngClass]="{ 'active': indexPage === 1}">
-        <i class="fa-solid fa-filter"></i>
-        <div class="t-min bold">Фільтр</div>
-      </button>
-    </div>
-
-    <div class="switch-btn-group" *ngIf="!isMobile">
-      <button [disabled]="counterFound === 0 || blockBtnStatus" class="btn">
-        <i class="fa-solid fa-magnifying-glass"></i>
-        <div class="t-min bold">Знайдено</div>
-        <div class="status" *ngIf="!blockBtnStatus">{{counterFound}}</div>
-        <div class="status" *ngIf="blockBtnStatus"> <mat-spinner color="dark"></mat-spinner>
-        </div>
-      </button>
-    </div>
-
-    <div class="switch-btn-group" *ngIf="isMobile">
-      <button [disabled]="counterFound === 0 || blockBtnStatus" class="btn" (click)="indexPage = 2"
-        [ngClass]="{ 'active': indexPage === 2}">
-        <i class="fa-solid fa-house-chimney-window"></i>
-        <div class="t-min bold">Знайдено</div>
-        <div class="status" *ngIf="!blockBtnStatus">{{counterFound}}</div>
-        <div class="status" *ngIf="blockBtnStatus"> <mat-spinner color="dark"></mat-spinner>
-        </div>
-      </button>
-    </div>
-
-    <div class="switch-btn-group" *ngIf="!isMobile">
-      <button [disabled]="counterFound < 2 || blockBtnStatus" class="btn" mat-button [matMenuTriggerFor]="menu">
-        <div *ngIf="this.filterValue === '0' || this.filterValue === ''">
-          <i class="fa-solid fa-shuffle"></i>
-          <div class="t-min bold">Сортування Довільно</div>
-        </div>
-
-        <div *ngIf="this.filterValue === '1'">
-          <i class="fa-solid fa-arrow-down-short-wide"></i>
-          <div class="t-min bold">Сортування Дешевші</div>
-        </div>
-
-        <div *ngIf="this.filterValue === '2'">
-          <i class="fa-solid fa-arrow-down-wide-short"></i>
-          <div class="t-min bold">Сортування Дорожчі</div>
-        </div>
-
-        <div *ngIf="this.filterValue === '3'">
-          <i class="fa-solid fa-arrow-down-9-1"></i>
-          <div class="t-min bold">Сортування Новіші</div>
-        </div>
-      </button>
-
-      <mat-menu #menu="matMenu">
-        <button mat-menu-item (click)="onSortSelected('0')"><i class="fa-solid fa-shuffle"></i>Довільно</button>
-        <button mat-menu-item (click)="onSortSelected('1')"><i class="fa-solid fa-arrow-down-short-wide"></i>
-          Дешевші</button>
-        <button mat-menu-item (click)="onSortSelected('2')"><i class="fa-solid fa-arrow-down-wide-short"></i>
-          Дорожчі</button>
-        <button mat-menu-item (click)="onSortSelected('3')"><i class="fa-solid fa-arrow-down-9-1"></i>
-          Новіші</button>
-      </mat-menu>
-    </div>
-
+  <div *ngIf="isMobile" class="col-12">
+    <app-search-term-house></app-search-term-house>
   </div>
 
   <div class="main-container">
-
-    <div *ngIf="!isMobile" class="col-lg-3 col-md-3">
-      <app-search-term-house></app-search-term-house>
+    <div *ngIf="!isMobile" class="d-flex col-12">
+      <div class="col-lg-6 col-md-6">
+        <app-search-term-house></app-search-term-house>
+        <div [@appearance] class="cards-height">
+          <app-cards-list></app-cards-list>
+        </div>
+      </div>
+      <div class="col-lg-5 col-md-5">
+        <app-house></app-house>
+      </div>
     </div>
-    <div *ngIf="!isMobile" class="col-lg-4 col-md-4">
-      <app-cards-list></app-cards-list>
-    </div>
-    <div *ngIf="!isMobile" class="col-lg-5 col-md-5">
-      <app-house></app-house>
-    </div>
-
-    <div *ngIf="isMobile && indexPage === 1">
-      <app-search-term-house></app-search-term-house>
-    </div>
-    <div *ngIf="isMobile && indexPage === 2">
+    <div [@appearance] *ngIf="isMobile && indexPage !== 3 && indexPage !== 4 && counterFound > 0">
       <app-cards-list></app-cards-list>
     </div>
     <div *ngIf="isMobile && indexPage === 3">
       <app-house></app-house>
     </div>
-
-    <div [@appearance] class="btn-group" *ngIf="isMobile && indexPage === 1">
-      <button [disabled]="counterFound === 0" class="b-primary" (click)="indexPage = 2">
-        <div class="t-med bold white">Всього Знайдено</div>
-        <i class="fa-solid fa-arrow-right pl-2"></i>
-        <div class="t-lar-xx bold white pl-2">{{counterFound}}</div>
-      </button>
-    </div>
-
-    <div [@appearance] class="btn-group" *ngIf="isMobile && indexPage === 2">
-      <!-- <button class="b-primary" (click)="indexPage = 1">
-        <div class="t-med bold white">Налаштувати фільтри</div>
-        <i class="fa-solid fa-filter pl-2"></i>
-      </button> -->
-      <button class="b-primary" [disabled]="counterFound === 0" mat-button [matMenuTriggerFor]="menu">
-        <div *ngIf="this.filterValue === ''">
-          <i class="fa-solid fa-shuffle"></i>
-          <div class="t-min white bold">Сортування Довільно</div>
-        </div>
-
-        <div *ngIf="this.filterValue === '1'">
-          <i class="fa-solid fa-arrow-down-short-wide"></i>
-          <div class="t-min white bold">Сортування Дешевші</div>
-        </div>
-
-        <div *ngIf="this.filterValue === '2'">
-          <i class="fa-solid fa-arrow-down-wide-short"></i>
-          <div class="t-min white bold">Сортування Дорожчі</div>
-        </div>
-
-        <div *ngIf="this.filterValue === '3'">
-          <i class="fa-solid fa-arrow-down-9-1"></i>
-          <div class="t-min white bold">Сортування Новіші</div>
-        </div>
-      </button>
-
-      <mat-menu #menu="matMenu">
-        <button mat-menu-item (click)="onSortSelected('')"><i class="fa-solid fa-shuffle"></i>Довільно</button>
-        <button mat-menu-item (click)="onSortSelected('1')"><i class="fa-solid fa-arrow-down-short-wide"></i>
-          Дешевші</button>
-        <button mat-menu-item (click)="onSortSelected('2')"><i class="fa-solid fa-arrow-down-wide-short"></i>
-          Дорожчі</button>
-        <button mat-menu-item (click)="onSortSelected('3')"><i class="fa-solid fa-arrow-down-9-1"></i>
-          Новіші</button>
-      </mat-menu>
-    </div>
-
-
   </div>
 </div>

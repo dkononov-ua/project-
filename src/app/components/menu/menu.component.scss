@@ -35,6 +35,7 @@
   transition: 1s;
   @include s1-s3 {
     align-items: flex-start;
+    padding-bottom: 7vh;
   }
   &::-webkit-scrollbar {
     display: none;

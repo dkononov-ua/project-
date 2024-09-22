@@ -12,7 +12,7 @@ import { HouseConfig } from '../../../interface/param-config';
 @Component({
   selector: 'app-img-house',
   templateUrl: './img-house.component.html',
-  styleUrls: ['./img-house.component.scss'],
+  styleUrls: ['./../../card-img.scss'],
   animations: [
     animations.left2,
     animations.top,

@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { FooterComponent } from 'src/app/components/footer/footer.component';
 import { SharedRoutingModule } from './shared-routing.module';
 import { MatButtonModule } from '@angular/material/button';
@@ -87,7 +87,9 @@ import { SearchTermHouseComponent } from '../pages/host-search/host-search-house
 import { CarouselUserComponent } from '../pages/host/carousel-user/carousel-user.component';
 import { PostsLastComponent } from '../pages/host/blog/posts-last/posts-last.component';
 import { FaqComponent } from '../pages/host/faq/faq.component';
-
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatBottomSheet, MatBottomSheetModule, MatBottomSheetRef, } from '@angular/material/bottom-sheet';
 @NgModule({
   declarations: [
     FooterComponent,
@@ -245,7 +247,11 @@ import { FaqComponent } from '../pages/host/faq/faq.component';
     BrowserModule,
     NgbTypeaheadModule,
 
+    MatButtonToggleModule,
+    MatDividerModule,
 
+    MatBottomSheetModule,
+    NgOptimizedImage,
   ]
 })
 export class SharedModule { }

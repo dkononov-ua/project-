@@ -22,8 +22,12 @@
   &.home {
     background-color: $color-white;
   }
+
   @include s1-s3 {
     height: auto;
+    .menuActive {
+      height: 93vh;
+    }
   }
   @media print {
     height: auto;

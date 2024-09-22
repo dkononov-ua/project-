@@ -113,6 +113,11 @@ export class SearchTenantComponent implements OnInit, OnDestroy {
     )
   }
 
+  // Очистити фільтр
+  clearFilter() {
+
+  }
+
   // перевірка підписок оселі
   async getHouseSubscriptionsCount() {
     await this.counterService.getHouseSubscriptionsCount(this.selectedFlatId);

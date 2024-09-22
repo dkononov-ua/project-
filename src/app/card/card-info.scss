@@ -1,5 +1,6 @@
-@use "../../../style/presets/" as *;
-@use "../../../style/mixins/" as *;
+@use "../style/presets/" as *;
+@use "../style/mixins/" as *;
+@use "../style/textForUser.scss" as *;
 
 .btn-call {
   display: inline-block;
@@ -114,7 +115,7 @@
     font-weight: 600;
     font-size: 12px;
     margin: 2px;
-    color: $color-accent;
+    color: $color-white;
   }
 
   .param-group {
@@ -127,6 +128,9 @@
 
     .param-field {
       @include flex-box-center;
+      flex-direction: column;
+      min-width: 60px;
+
       justify-content: flex-start;
       font-weight: 600;
       font-size: 12px;
@@ -153,9 +157,7 @@
 
 .item-box {
   display: flex;
-  align-items: center;
   flex-direction: column;
-  margin: 0 5px;
   .fa-solid {
     font-size: 14px;
     padding-left: 5px;
@@ -176,12 +178,12 @@
   .left {
     @include flex-box-center;
     @include box-shadow;
-    border-radius: 20px;
+    border-radius: 0px;
     flex-direction: column;
     width: 25%;
-    background-color: rgba(255, 99, 71, 0.794);
+    background-color: $color-light-gray;
     padding: 5px;
-    color: $color-white;
+    color: $color-gray;
   }
   .right {
     width: 75%;
@@ -208,12 +210,16 @@
 .detail-wrapper {
   @include box-shadow;
   max-width: 500px;
-  background-color: $color-dark;
-  border-radius: 20px;
+  width: 100%;
+  @include blurred-background($color-dark, 0.7);
+  border-radius: 0 0 20px 20px;
   padding: 10px;
   position: relative;
-  overflow: auto;
-  height: 85%;
+  height: auto;
+
+  @include s1-s3 {
+    margin-bottom: 20px;
+  }
   .btn-close {
     position: sticky;
     top: 0;

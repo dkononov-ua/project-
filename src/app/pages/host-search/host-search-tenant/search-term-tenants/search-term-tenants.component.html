@@ -1,178 +1,235 @@
-<div [@top] class="t-c filter-btn-wrapper p-2">
-  <button class="btn-search m-1" (click)="clearFilter()">
-    <div class="flex-column t-s">
-      <p class="t-min">Очистити</p>
-      <p class="t-min">Фільтри</p>
-    </div>
-    <i class="fa-solid fa-broom pl-2"></i>
+<div class="t-c switch-container" *ngIf="isMobile">
+
+  <div class="switch-btn-group" *ngIf="isMobile">
+    <button [disabled]="!awaitStatusBtn" class="btn" (click)="toogleFilter('location')"
+      [ngClass]="{ 'active': collapseLocation == true}">
+      <i class="fa-solid fa-map-location-dot custom-badge" matBadge="{{activeFilterLocation}}"
+        [matBadgeHidden]="activeFilterLocation === 0"></i>
+      <div class="t-min bold">Фільтр Локація</div>
+    </button>
+  </div>
+
+  <div class="switch-btn-group" *ngIf="isMobile">
+    <button [disabled]="!awaitStatusBtn" class="btn" (click)="toogleFilter('time')"
+      [ngClass]="{ 'active': collapseTime == true}">
+      <i class="fa-regular fa-hourglass-half custom-badge" matBadge="{{activeFilterTime}}"
+        [matBadgeHidden]="activeFilterTime === 0"></i>
+      <div class="t-min bold">Фільтр Терміни</div>
+    </button>
+  </div>
+
+  <button [disabled]="optionsFound === 0 || blockBtnStatus" class="b-primary p-2 mr-2" (click)="toogleAll()">
+
+    <ng-container *ngIf="blockBtnStatus; else content">
+      <div class="container-loader-mini">
+        <mat-spinner color="warn"></mat-spinner>
+        <div class="t-med bold white">Оновлення</div>
+      </div>
+    </ng-container>
+
+    <ng-template #content>
+      <div class="flex-box-center t-c">
+        <div class="t-min bold white">фільтрів - <span class="bold">{{totalActiveFilters}}</span> </div>
+        <div class="d-flex ">
+          <div class="t-med bold white t-c">Знайдено {{optionsFound}}</div>
+        </div>
+      </div>
+    </ng-template>
+
   </button>
 
-  <button [disabled]="!myDataExist" class="btn-search m-1" (click)="loadDataFlat()"
-    [ngClass]="{ 'active': myData == true}">
-    <div class="flex-column t-s">
-      <p class="t-min">Пошук по</p>
-      <p class="t-min">Моїй оселі</p>
-    </div>
-    <i class="fa-solid fa-house-circle-check"></i>
-  </button>
+  <div class="switch-btn-group" *ngIf="isMobile">
+    <button [disabled]="!awaitStatusBtn" class="btn" (click)="toogleFilter('features')"
+      [ngClass]="{ 'active': collapseFeatures == true}">
+      <i class="fa-solid fa-user-tag custom-badge" matBadge="{{activeFilterFeatures}}"
+        [matBadgeHidden]="activeFilterFeatures === 0"></i>
+      <div class="t-min bold">Фільтр Орендарь</div>
+    </button>
+  </div>
 
-  <button class="btn-search m-1" (click)="toogleLocation()" [ngClass]="{ 'active': collapseLocation == true}">
-    <div class="flex-column t-s">
-      <p class="t-min">Фільтр по</p>
-      <p class="t-min">Локації</p>
-    </div>
-    <i class="fa-solid fa-map-location-dot"></i>
-  </button>
-
-  <button class="btn-search m-1" (click)="toogleTime()" [ngClass]="{ 'active': collapseTime == true}">
-    <div class="flex-column t-s">
-      <p class="t-min">Фільтр по</p>
-      <p class="t-min">Термінам</p>
-    </div>
-    <i class="fa-regular fa-hourglass-half"></i>
-  </button>
-
-  <button class="btn-search m-1" (click)="toogleFeatures()" [ngClass]="{ 'active': collapseFeatures == true}">
-    <div class="flex-column t-s">
-      <p class="t-min">Фільтр по</p>
-      <p class="t-min">Орендарю</p>
-    </div>
-    <i class="fa-solid fa-user-tag"></i>
-  </button>
-
-  <button class="btn-search m-1" (click)="toogleHouseParam()" [ngClass]="{ 'active': collapseHouseParam == true}">
-    <div class="flex-column t-s">
-      <p class="t-min">Фільтр по</p>
-      <p class="t-min">Оселі</p>
-    </div>
-    <i class="fa-solid fa-house-circle-check"></i>
-  </button>
+  <div class="switch-btn-group" *ngIf="isMobile">
+    <button [disabled]="!awaitStatusBtn" class="btn" (click)="toogleFilter('houseParam')"
+      [ngClass]="{ 'active': collapseHouseParam == true}">
+      <i class="fa-solid fa-house-circle-check custom-badge" matBadge="{{activeFilterHouseParam}}"
+        [matBadgeHidden]="activeFilterHouseParam === 0"></i>
+      <div class="t-min bold">Фільтр Оселя</div>
+    </button>
+  </div>
 </div>
-<div [@top] class="t-c filter-wrapper" *ngIf="collapseTime">
-  <div class="t-c filter-window">
+<div [@appearance] class="flex-box-center t-c" *ngIf="totalActiveFilters > 1 && optionsFound === 0 && isMobile">
+  <p class="mt-3">По заданим фільтрам орендарів не знайдено...</p>
+  <div class="btn-group">
+    <button class="b-primary mr-2 custom-badge" (click)="clearFilterAll()">
+      <i class="fa-solid fa-broom"></i> Очистити всі фільтри
+    </button>
+  </div>
+</div>
+<div [@top3] class="t-c filter-btn-wrapper p-2" *ngIf="!isMobile">
 
-    <div class="d-flex flex-column">
-      <button class="btn-search m-1" (click)="toogleTime()">
-        <i class="fa-regular fa-circle-xmark"></i>
-        Закрити фільтр
-      </button>
-    </div>
+  <div class="d-flex">
 
-    <mat-label align="start">На який термін здаєте оселю?</mat-label>
-    <section>
-      <mat-form-field class="item-select p-1" appearance="outline">
-        <input type="number" name="days" (ngModelChange)="onSubmitWithDelay()" placeholder="Дні"
-          (click)="onDayCountsChange()" [(ngModel)]="userInfo.days" [min]="minValueDays" [max]="maxValueDays" matInput>
-        <mat-hint>Дні</mat-hint>
-      </mat-form-field>
+    <button class="btn-search m-1 custom-badge" (click)="toogleFilter('location')"
+      [ngClass]="{ 'active': collapseLocation == true}" matBadge="{{activeFilterLocation}}"
+      [matBadgeHidden]="activeFilterLocation === 0">
+      <div class="flex-column t-s">
+        <p class="t-min">Фільтр по</p>
+        <p class="t-min">Локації</p>
+      </div>
+      <i class="fa-solid fa-map-location-dot"></i>
+    </button>
 
-      <mat-form-field class="item-select p-1" appearance="outline">
-        <input type="number" name="weeks" (ngModelChange)="onSubmitWithDelay()" placeholder="Тиж."
-          (click)="onDayCountsChange()" [(ngModel)]="userInfo.weeks" [min]="minValueWeeks" [max]="maxValueWeeks"
-          matInput>
-        <mat-hint>Тижні</mat-hint>
-      </mat-form-field>
+    <button class="btn-search m-1 custom-badge" (click)="toogleFilter('time')"
+      [ngClass]="{ 'active': collapseTime == true}" matBadge="{{activeFilterTime}}"
+      [matBadgeHidden]="activeFilterTime === 0">
+      <div class="flex-column t-s">
+        <p class="t-min">Фільтр по</p>
+        <p class="t-min">Термінам</p>
+      </div>
+      <i class="fa-regular fa-hourglass-half"></i>
+    </button>
 
-      <mat-form-field class="item-select p-1" appearance="outline">
-        <input type="number" name="months" (ngModelChange)="onSubmitWithDelay()" placeholder="Міс."
-          (click)="onDayCountsChange()" [(ngModel)]="userInfo.months" [min]="minValueMonths" [max]="maxValueMonths"
-          matInput>
-        <mat-hint>Місяці</mat-hint>
+    <button class="btn-search m-1 custom-badge" (click)="toogleFilter('features')"
+      [ngClass]="{ 'active': collapseFeatures == true}" matBadge="{{activeFilterFeatures}}"
+      [matBadgeHidden]="activeFilterFeatures === 0">
+      <div class="flex-column t-s">
+        <p class="t-min">Фільтр по</p>
+        <p class="t-min">Орендарю</p>
+      </div>
+      <i class="fa-solid fa-user-tag"></i>
+    </button>
 
-      </mat-form-field>
+    <button class="btn-search m-1 custom-badge" (click)="toogleFilter('houseParam')"
+      [ngClass]="{ 'active': collapseHouseParam == true}" matBadge="{{activeFilterHouseParam}}"
+      [matBadgeHidden]="activeFilterHouseParam === 0">
+      <div class="flex-column t-s">
+        <p class="t-min">Фільтр по</p>
+        <p class="t-min">Оселі</p>
+      </div>
+      <i class="fa-solid fa-house-circle-check"></i>
+    </button>
+  </div>
 
-      <mat-form-field class="item-select p-1" appearance="outline">
-        <input type="number" name="years" (ngModelChange)="onSubmitWithDelay()" placeholder="Роки"
-          (click)="onDayCountsChange()" [(ngModel)]="userInfo.years" [min]="minValueYears" [max]="maxValueYears"
-          matInput>
-        <mat-hint>Роки</mat-hint>
+  <div [@appearance] class="btn-group-filter mt-2">
 
-      </mat-form-field>
+    <button [disabled]="totalActiveFilters < 1" class="b-primary mr-2 p-1" (click)="clearFilterAll()">
+      <div class="flex-column t-s">
+        <p class="t-min white bold">Очистити</p>
+        <p class="t-min white bold">Всі фільтри</p>
+      </div>
+      <i class="fa-solid fa-broom pl-2"></i>
+    </button>
+
+    <button [disabled]="optionsFound === 0 || blockBtnStatus" class="b-primary p-2 mr-2" (click)="toogleAll()">
+
+      <ng-container *ngIf="blockBtnStatus; else content">
+        <div class="container-loader-mini">
+          <mat-spinner color="warn"></mat-spinner>
+          <div class="t-med bold white">Оновлення</div>
+        </div>
+      </ng-container>
+
+      <ng-template #content>
+        <div class="flex-box-center t-c">
+          <div class="t-min bold white">фільтрів - <span class="bold">{{totalActiveFilters}}</span> </div>
+          <div class="d-flex ">
+            <div class="t-med bold white t-c">Знайдено {{optionsFound}}</div>
+          </div>
+        </div>
+      </ng-template>
+
+    </button>
+
+    <button [disabled]="!myDataExist" class="b-primary p-1" (click)="loadDataFlat()"
+      [ngClass]="{ 'active': myData == true}">
+      <div class="flex-column t-s">
+        <p class="t-min white bold">Заповнити фільтри</p>
+        <p class="t-min white bold">Даними моєї оселі</p>
+      </div>
+      <i class="fa-solid fa-house-circle-check"></i>
+    </button>
+
+  </div>
+
+</div>
+<div [@top3] class="t-c filter-wrapper" *ngIf="collapseTime">
+  <div class="t-c filter-window" [ngClass]="{'close': collapseTimeStatus}">
+
+    <mat-label align="start" class="filter-label">Терміни</mat-label>
+
+    <p class="t-med gray mb-2">Ви можете знаходити орендарів за часом на який вони хочуть орендувати оселю.<br> <span
+        class="accent bold">На який термін здаєте оселю?</span></p>
+    <section class="range-section">
+      <p class="t-lar-xx">Днів: {{ userInfo.days }}</p>
+      <label for="days" class="form-label dark">Встановіть кількість днів</label>
+      <input [(ngModel)]="userInfo.days" (ngModelChange)="afterTimeSet()" type="range" class="form-range" min="0"
+        max="31" step="1" id="days">
     </section>
+
+    <section class="range-section">
+      <p class="t-lar-xx">Тижнів: {{ userInfo.weeks }}</p>
+      <label for="weeks" class="form-label dark">Встановіть кількість тижнів</label>
+      <input [(ngModel)]="userInfo.weeks" (ngModelChange)="afterTimeSet()" type="range" class="form-range" min="0"
+        max="4" step="1" id="weeks">
+    </section>
+
+    <section class="range-section">
+      <p class="t-lar-xx">Місяців: {{ userInfo.mounths }}</p>
+      <label for="months" class="form-label dark">Встановіть кількість місяців</label>
+      <input [(ngModel)]="userInfo.mounths" (ngModelChange)="afterTimeSet()" type="range" class="form-range" min="0"
+        max="12" step="1" id="months">
+    </section>
+
+    <section class="range-section">
+      <p class="t-lar-xx">Років: {{ userInfo.years }}</p>
+      <label for="years" class="form-label dark">Встановіть кількість місяців</label>
+      <input [(ngModel)]="userInfo.years" (ngModelChange)="afterTimeSet()" type="range" class="form-range" min="0"
+        max="5" step="1" id="years">
+    </section>
+
+    <p class="t-min gray border-bottom p-2 mt-2">Загальний термін : <br>
+      <span class="t-lar-xx bold"> {{ userInfo.day_counts }} Днів</span>
+    </p>
+
     <div [@appearance] class="btn-group">
-      <button [disabled]="optionsFound === 0" class="b-primary" (click)="toogleAll()">
-        <div class="t-med bold white">Всього Знайдено</div>
-        <i class="fa-solid fa-arrow-right pl-2"></i>
-        <div class="t-lar-xx bold white pl-2">{{optionsFound}}</div>
+      <button class="b-primary mr-2" (click)="toogleAll()">
+        <i class="fa-regular fa-circle-xmark"></i>
+      </button>
+
+      <button [disabled]="activeFilterTime === 0" class="b-primary mr-2 custom-badge" (click)="clearFilterTime()"
+        matBadge="{{activeFilterTime}}" [matBadgeHidden]="activeFilterTime === 0">
+        <i class="fa-solid fa-broom"></i>
+      </button>
+
+      <button [disabled]="optionsFound === 0 || blockBtnStatus" class="b-primary p-2" (click)="toogleAll()">
+
+        <ng-container *ngIf="blockBtnStatus; else content">
+          <div class="container-loader-mini">
+            <mat-spinner color="warn"></mat-spinner>
+            <div class="t-med bold white">Оновлення</div>
+          </div>
+        </ng-container>
+
+        <ng-template #content>
+          <div class="t-med bold white">Знайдено</div>
+          <i class="fa-solid fa-arrow-right pl-2"></i>
+          <div class="t-lar-xx bold white pl-2">{{optionsFound}}</div>
+        </ng-template>
+
       </button>
     </div>
   </div>
 </div>
-<div [@top] class="t-c filter-wrapper" *ngIf="collapseFeatures">
-  <div class="t-c filter-window">
+<div [@top3] class="t-c filter-wrapper" *ngIf="collapseFeatures">
+  <div class="t-c filter-window" [ngClass]="{'close': collapseFeaturesStatus}">
+    <mat-label align="start" class="filter-label">Орендарь</mat-label>
 
-    <div class="d-flex flex-column">
-      <button class="btn-search m-1" (click)="toogleFeatures()">
-        <i class="fa-regular fa-circle-xmark"></i>
-        Закрити фільтр
-      </button>
-    </div>
-
-    <mat-form-field class="item-select p-1" appearance="outline">
-      <input matInput type="text" (ngModelChange)="searchByUserID()" placeholder="Знайти по ID"
-        [(ngModel)]="searchQuery" />
-      <mat-icon matSuffix><i class="fa-solid fa-magnifying-glass"></i></mat-icon>
-      <mat-hint align="start">Знайти орендаря по ID</mat-hint>
-    </mat-form-field>
-
-    <section>
-
-      <mat-label align="start">Орендарь шукає оселю</mat-label>
-      <mat-radio-group class="flex-box" [(ngModel)]="userInfo.option_pay" (ngModelChange)="onSubmitWithDelay()">
-        <mat-radio-button color="warn" [value]="1">Доба</mat-radio-button>
-        <mat-radio-button color="warn" [value]="0">Місяць</mat-radio-button>
-        <mat-radio-button color="warn" [value]="2">Безкоштовно</mat-radio-button>
-      </mat-radio-group>
-
-      <mat-form-field class="item-select" floatLabel="always" appearance="outline"
-        *ngIf="userInfo.option_pay !== undefined">
-        <input matInput class="right-align" step="1000" type="number" [min]="minValue" [max]="maxValue" placeholder="0"
-          [(ngModel)]="userInfo.price" name="price" (ngModelChange)="onSubmitWithDelay()">
-        <mat-hint align="start" *ngIf="userInfo.option_pay === 0">Оренда за місяць (грн)</mat-hint>
-        <mat-hint align="start" *ngIf="userInfo.option_pay === 1">Оренда за добу (грн)</mat-hint>
-      </mat-form-field>
-    </section>
-
-    <mat-label align="start">Тип орендарів яким я пропоную оселю</mat-label>
-    <section class="checkbox-section">
-      <mat-checkbox color="warn" class="example-margin" (ngModelChange)="onSubmitWithDelay()"
-        [(ngModel)]="userInfo.students">Студенти</mat-checkbox>
-      <mat-checkbox color="warn" class="example-margin" (ngModelChange)="onSubmitWithDelay()"
-        [(ngModel)]="userInfo.woman">Жінки</mat-checkbox>
-      <mat-checkbox color="warn" class="example-margin" (ngModelChange)="onSubmitWithDelay()"
-        [(ngModel)]="userInfo.man">Чоловіки</mat-checkbox>
-      <mat-checkbox color="warn" class="example-margin" (ngModelChange)="onSubmitWithDelay()"
-        [(ngModel)]="userInfo.family">Сім'ї</mat-checkbox>
-    </section>
-
-    <mat-label align="start">Особливості орендарів</mat-label>
-    <section>
+    <p class="t-med gray mb-2">Знаходьте орендарів за їх типами, або по їх особливим запитам.</p>
+    <section class="flex-box-center">
       <mat-form-field class="item-select p-1" appearance="outline">
-        <mat-select (ngModelChange)="onSubmitWithDelay()" placeholder="Укриття" [(ngModel)]="userInfo.bunker"
-          name="bunker">
-          <mat-option [disabled]=""><span class="item-disabled">Очистити</span></mat-option>
-          <mat-option value="Неважливо">Неважливо</mat-option>
-          <mat-option value="Паркінг">Паркінг</mat-option>
-          <mat-option value="В будинку">В будинку</mat-option>
-          <mat-option value="Поряд з будинком">Поряд з будинком</mat-option>
-        </mat-select>
-        <mat-icon matSuffix><i class="fa-solid fa-shield-heart"></i></mat-icon>
-        <mat-hint align="start">В оселі є укриття?</mat-hint>
+        <input matInput type="text" (ngModelChange)="searchByUserID()" placeholder="Знайти орендаря по ID"
+          [(ngModel)]="searchQuery" />
+        <mat-icon matSuffix><i class="fa-solid fa-magnifying-glass"></i></mat-icon>
       </mat-form-field>
-
-      <mat-form-field class="item-select p-1" appearance="outline">
-        <mat-select (ngModelChange)="onSubmitWithDelay()" placeholder="Тварини" [(ngModel)]="userInfo.animals"
-          name="animals">
-          <mat-option [disabled]=""><span class="item-disabled">Очистити</span></mat-option>
-          <mat-option value="0">Без тварин</mat-option>
-          <mat-option value="1">Можна з тваринами</mat-option>
-          <mat-option value="2">Тільки котики</mat-option>
-          <mat-option value="3">Тільки песики</mat-option>
-        </mat-select>
-        <mat-icon matSuffix><i class="fa-solid fa-paw"></i></mat-icon>
-        <mat-hint align="start">Орендарь може мати тварин?</mat-hint>
-      </mat-form-field>
-
       <mat-form-field class="item-select p-1" appearance="outline">
         <mat-select (ngModelChange)="onSubmitWithDelay()" placeholder="Мета оренди" [(ngModel)]="userInfo.purpose_rent"
           name="purpose_rent">
@@ -185,184 +242,314 @@
           <mat-option value="4">Особисті причини</mat-option>
         </mat-select>
         <mat-icon matSuffix><i class="fa-solid fa-head-side-virus"></i></mat-icon>
-        <mat-hint align="start">Обрати причину?</mat-hint>
       </mat-form-field>
     </section>
+    <section class="section-chown">
+      <mat-label align="start" class="label-section"><i class="fa-solid fa-calendar-day"></i>
+        Орендарь шукає оселю на:</mat-label>
+      <mat-button-toggle-group name="option_pay" [(ngModel)]="userInfo.option_pay" (ngModelChange)="onSubmitWithDelay()"
+        aria-label="Оплата">
+        <mat-button-toggle [value]="1">Добу</mat-button-toggle>
+        <mat-button-toggle [value]="0">Місяць</mat-button-toggle>
+        <mat-button-toggle [value]="2">Безкоштовно</mat-button-toggle>
+      </mat-button-toggle-group>
+    </section>
+    <section class="range-section" *ngIf="userInfo.option_pay !== undefined && userInfo.option_pay !== 2">
+      <p class="t-lar">Бюджет: <span class="bold t-lar-xx">{{ userInfo.price }}</span> грн</p>
+      <label for="price" class="form-label dark" *ngIf="userInfo.option_pay === 0">Оренда за місяць</label>
+      <label for="price" class="form-label dark" *ngIf="userInfo.option_pay === 1">Оренда за добу</label>
+      <input [(ngModel)]="userInfo.price" (ngModelChange)="onSubmitWithDelay()" type="range" class="form-range"
+        [min]="minValue" [max]="maxValue" step="1000" id="price">
+    </section>
+    <section class="section-chown">
+      <mat-label align="start" class="label-section">Тип орендарів яких розглядаєте:</mat-label>
 
+      <div class="flex-box-type p-2">
+        <p class="t-med">Студенти <i class="fa-solid fa-graduation-cap pr-2"></i></p>
+        <mat-button-toggle-group [(ngModel)]="userInfo.students" (ngModelChange)="onSubmitWithDelay()" name="students"
+          aria-label="students">
+          <mat-button-toggle [value]="undefined">Неважливо</mat-button-toggle>
+          <mat-button-toggle [value]="false">Ні</mat-button-toggle>
+          <mat-button-toggle [value]="true">Так</mat-button-toggle>
+        </mat-button-toggle-group>
+      </div>
+
+      <div class="flex-box-type p-2">
+        <p class="t-med">Жінки <i class="fa-solid fa-person-dress pr-2"></i></p>
+        <mat-button-toggle-group [(ngModel)]="userInfo.woman" (ngModelChange)="onSubmitWithDelay()" name="woman"
+          aria-label="woman">
+          <mat-button-toggle [value]="undefined">Неважливо</mat-button-toggle>
+          <mat-button-toggle [value]="false">Ні</mat-button-toggle>
+          <mat-button-toggle [value]="true">Так</mat-button-toggle>
+        </mat-button-toggle-group>
+      </div>
+
+      <div class="flex-box-type p-2">
+        <p class="t-med">Чоловіки <i class="fa-solid fa-person pr-2"></i></p>
+        <mat-button-toggle-group [(ngModel)]="userInfo.man" (ngModelChange)="onSubmitWithDelay()" name="man"
+          aria-label="man">
+          <mat-button-toggle [value]="undefined">Неважливо</mat-button-toggle>
+          <mat-button-toggle [value]="false">Ні</mat-button-toggle>
+          <mat-button-toggle [value]="true">Так</mat-button-toggle>
+        </mat-button-toggle-group>
+      </div>
+
+      <div class="flex-box-type p-2">
+        <p class="t-med">Сім'ї <i class="fa-solid fa-person-breastfeeding pr-2"></i></p>
+        <mat-button-toggle-group [(ngModel)]="userInfo.family" (ngModelChange)="onSubmitWithDelay()" name="family"
+          aria-label="family">
+          <mat-button-toggle [value]="undefined">Неважливо</mat-button-toggle>
+          <mat-button-toggle [value]="false">Ні</mat-button-toggle>
+          <mat-button-toggle [value]="true">Так</mat-button-toggle>
+        </mat-button-toggle-group>
+      </div>
+    </section>
+    <section class="section-chown">
+      <mat-label align="start" class="label-section">Орендарь може мати тварин? <i
+          class="fa-solid fa-paw"></i></mat-label>
+      <mat-button-toggle-group name="bunker" [(ngModel)]="userInfo.animals" (ngModelChange)="onSubmitWithDelay()"
+        aria-label="Петс">
+        <mat-button-toggle value="0">Ні</mat-button-toggle>
+        <mat-button-toggle value="1">Так</mat-button-toggle>
+        <mat-button-toggle value="2">Якщо котик</mat-button-toggle>
+        <mat-button-toggle value="3">Якщо песик</mat-button-toggle>
+      </mat-button-toggle-group>
+    </section>
     <div [@appearance] class="btn-group">
-      <button [disabled]="optionsFound === 0" class="b-primary" (click)="toogleAll()">
-        <div class="t-med bold white">Всього Знайдено</div>
-        <i class="fa-solid fa-arrow-right pl-2"></i>
-        <div class="t-lar-xx bold white pl-2">{{optionsFound}}</div>
-      </button>
-    </div>
-
-  </div>
-</div>
-<div [@top] class="t-c filter-wrapper" *ngIf="collapseHouseParam">
-  <div class="t-c filter-window">
-
-    <div class="d-flex flex-column">
-      <button class="btn-search m-1" (click)="toogleHouseParam()">
+      <button class="b-primary mr-2" (click)="toogleAll()">
         <i class="fa-regular fa-circle-xmark"></i>
-        Закрити фільтр
       </button>
-    </div>
 
-    <mat-label align="start">Параметри вашої оселі</mat-label>
-    <section class="checkbox-section">
-      <mat-checkbox color="warn" class="example-margin" (ngModelChange)="onSubmitWithDelay()"
-        [(ngModel)]="userInfo.house">Будинок</mat-checkbox>
-      <mat-checkbox color="warn" class="example-margin" (ngModelChange)="onSubmitWithDelay()"
-        [(ngModel)]="userInfo.flat">Квартира</mat-checkbox>
-      <mat-checkbox color="warn" class="example-margin" (ngModelChange)="onSubmitWithDelay()"
-        [(ngModel)]="userInfo.room">Кімнату</mat-checkbox>
-    </section>
+      <button [disabled]="activeFilterFeatures === 0" class="b-primary mr-2 custom-badge"
+        (click)="clearFilterFeatures()" matBadge="{{activeFilterFeatures}}"
+        [matBadgeHidden]="activeFilterFeatures === 0">
+        <i class="fa-solid fa-broom"></i>
+      </button>
 
-    <div [@top] class="t-c" *ngIf="userInfo.room">
-      <mat-label align="start">В оселі вже є мешканці?</mat-label>
-      <section class="checkbox-section">
-        <mat-checkbox color="warn" class="example-margin" (ngModelChange)="onSubmitWithDelay()"
-          [(ngModel)]="userInfo.looking_woman">Жінка</mat-checkbox>
-        <mat-checkbox color="warn" class="example-margin" (ngModelChange)="onSubmitWithDelay()"
-          [(ngModel)]="userInfo.looking_man">Чоловік</mat-checkbox>
-      </section>
-    </div>
+      <button [disabled]="optionsFound === 0 || blockBtnStatus" class="b-primary p-2" (click)="toogleAll()">
 
-    <section>
-      <mat-form-field class="item-select p-1" appearance="outline">
-        <mat-select (ngModelChange)="onSubmitWithDelay()" placeholder="Стан оселі" [(ngModel)]="userInfo.repair_status"
-          name="repair_status">
-          <mat-option [disabled]=""><span class="item-disabled">Очистити</span></mat-option>
-          <mat-option value="Неважливо">Неважливо</mat-option>
-          <mat-option value="Новий">Новий</mat-option>
-          <mat-option value="Добрий">Добрий</mat-option>
-          <mat-option value="Задовільний">Задовільний</mat-option>
-          <mat-option value="Поганий">Поганий</mat-option>
-        </mat-select>
-        <mat-icon matSuffix><i class="fa-solid fa-paint-roller"></i></mat-icon>
-        <mat-hint align="start">Стан оселі</mat-hint>
-      </mat-form-field>
+        <ng-container *ngIf="blockBtnStatus; else content">
+          <div class="container-loader-mini">
+            <mat-spinner color="warn"></mat-spinner>
+            <div class="t-med bold white">Оновлення</div>
+          </div>
+        </ng-container>
 
-      <mat-form-field class="item-select p-1" appearance="outline">
-        <input matInput type="text" [min]="minValue" [max]="maxValue" (ngModelChange)="onSubmitWithDelay()"
-          placeholder="Площа м²" [(ngModel)]="userInfo.area" name="area">
-        <mat-icon matSuffix><i class="fa-solid fa-compass-drafting"></i></mat-icon>
-        <mat-hint align="start">Площа оселі м²</mat-hint>
-      </mat-form-field>
+        <ng-template #content>
+          <div class="t-med bold white">Знайдено</div>
+          <i class="fa-solid fa-arrow-right pl-2"></i>
+          <div class="t-lar-xx bold white pl-2">{{optionsFound}}</div>
+        </ng-template>
 
-      <mat-form-field class="item-select p-1" appearance="outline">
-        <mat-select (ngModelChange)="onSubmitWithDelay()" placeholder="Кіл. кімнат" [(ngModel)]="userInfo.rooms"
-          name="rooms">
-          <mat-option [disabled]=""><span class="item-disabled">Очистити</span></mat-option>
-          <mat-option [value]="0">Неважливо</mat-option>
-          <mat-option [value]="1">Однокімнатна</mat-option>
-          <mat-option [value]="2">Двокімнатна</mat-option>
-          <mat-option [value]="3">Трикімнатна</mat-option>
-          <mat-option [value]="4">Чотирьохкімнатна</mat-option>
-          <mat-option [value]="5">Більше чотирьох</mat-option>
-        </mat-select>
-        <mat-icon matSuffix><i class="fa-solid fa-hotel"></i></mat-icon>
-        <mat-hint align="start">Кількість кімнат</mat-hint>
-      </mat-form-field>
-
-      <mat-form-field class="item-select p-1" appearance="outline">
-        <mat-select (ngModelChange)="onSubmitWithDelay()" placeholder="Балкон" [(ngModel)]="userInfo.balcony"
-          name="balcony">
-          <mat-option [disabled]=""><span class="item-disabled">Очистити</span></mat-option>
-          <mat-option value="Неважливо">Неважливо</mat-option>
-          <mat-option value="Класичний">Класичний</mat-option>
-          <mat-option value="Французький">Французький</mat-option>
-          <mat-option value="Лоджія">Лоджія</mat-option>
-          <mat-option value="Тераса">Тераса</mat-option>
-          <mat-option value="Веранда">Веранда</mat-option>
-        </mat-select>
-        <mat-icon matSuffix><i class="fa-regular fa-eye"></i></mat-icon>
-        <mat-hint align="start">Тип балкону</mat-hint>
-      </mat-form-field>
-
-      <mat-form-field class="item-select p-1" appearance="outline">
-        <mat-select (ngModelChange)="onSubmitWithDelay()" placeholder="Парк" [(ngModel)]="userInfo.distance_green"
-          name="distance_green">
-          <mat-option [disabled]=""><span class="item-disabled">Очистити</span></mat-option>
-          <mat-option value="100">до 100м</mat-option>
-          <mat-option value="300">до 300м</mat-option>
-          <mat-option value="500">до 500м</mat-option>
-          <mat-option value="1000">до 1км</mat-option>
-        </mat-select>
-        <mat-icon matSuffix><i class="fa-solid fa-tree"></i></mat-icon>
-        <mat-hint align="start">Відстань до парку</mat-hint>
-      </mat-form-field>
-
-      <mat-form-field class="item-select p-1" appearance="outline">
-        <mat-select (ngModelChange)="onSubmitWithDelay()" placeholder="Маркет" [(ngModel)]="userInfo.distance_shop"
-          name="distance_shop">
-          <mat-option [disabled]=""><span class="item-disabled">Очистити</span></mat-option>
-          <mat-option value="100">до 100м</mat-option>
-          <mat-option value="300">до 300м</mat-option>
-          <mat-option value="500">до 500м</mat-option>
-          <mat-option value="1000">до 1км</mat-option>
-        </mat-select>
-        <mat-icon matSuffix><i class="fa-solid fa-basket-shopping"></i></mat-icon>
-        <mat-hint align="start">Відстань до маркету</mat-hint>
-      </mat-form-field>
-
-      <mat-form-field class="item-select p-1" appearance="outline">
-        <mat-select (ngModelChange)="onSubmitWithDelay()" placeholder="Паркінг" [(ngModel)]="userInfo.distance_parking"
-          name="distance_parking">
-          <mat-option [disabled]=""><span class="item-disabled">Очистити</span></mat-option>
-          <mat-option value="1">на території</mat-option>
-          <mat-option value="100">до 100м</mat-option>
-          <mat-option value="300">до 300м</mat-option>
-          <mat-option value="500">до 500м</mat-option>
-          <mat-option value="1000">до 1км</mat-option>
-        </mat-select>
-        <mat-icon matSuffix><i class="fa-solid fa-car-side"></i></mat-icon>
-        <mat-hint align="start">Відстань до паркінгу</mat-hint>
-      </mat-form-field>
-
-      <mat-form-field class="item-select p-1" appearance="outline">
-        <mat-select (ngModelChange)="onSubmitWithDelay()" placeholder="Зупинки" [(ngModel)]="userInfo.distance_stop"
-          name="distance_stop">
-          <mat-option [disabled]=""><span class="item-disabled">Очистити</span></mat-option>
-          <mat-option value="100">до 100м</mat-option>
-          <mat-option value="300">до 300м</mat-option>
-          <mat-option value="500">до 500м</mat-option>
-          <mat-option value="1000">до 1км</mat-option>
-        </mat-select>
-        <mat-icon matSuffix><i class="fa-solid fa-bus"></i></mat-icon>
-        <mat-hint align="start">Відстань до зупинки</mat-hint>
-      </mat-form-field>
-    </section>
-    <div [@appearance] class="btn-group">
-      <button [disabled]="optionsFound === 0" class="b-primary" (click)="toogleAll()">
-        <div class="t-med bold white">Всього Знайдено</div>
-        <i class="fa-solid fa-arrow-right pl-2"></i>
-        <div class="t-lar-xx bold white pl-2">{{optionsFound}}</div>
       </button>
     </div>
   </div>
 </div>
-<div [@top] class="t-c filter-wrapper" *ngIf="collapseLocation">
-  <div class="t-c filter-window">
+<div [@top3] class="t-c filter-wrapper" *ngIf="collapseHouseParam">
+  <div class="t-c filter-window" [ngClass]="{'close': collapseHouseParamStatus}">
 
-    <div class="d-flex flex-column">
-      <button class="btn-search m-1" (click)="toogleLocation()">
+    <mat-label align="start" class="filter-label">Оселя</mat-label>
+    <p class="t-med gray mb-2">Введіть параметри вашої оселі і ми знайдемо орендарів які шукають схоже.</p>
+
+    <section class="section-chown">
+      <mat-label align="start" class="label-section"><i class="fa-solid fa-house-chimney-window"></i> Пропонуєте
+        будинок? </mat-label>
+      <mat-button-toggle-group name="house" [(ngModel)]="userInfo.house" (ngModelChange)="onSubmitWithDelay()"
+        aria-label="Будинок">
+        <mat-button-toggle [value]="undefined">Неважливо</mat-button-toggle>
+        <mat-button-toggle [value]="false">Ні</mat-button-toggle>
+        <mat-button-toggle [value]="true">Так</mat-button-toggle>
+      </mat-button-toggle-group>
+    </section>
+
+    <section class="section-chown">
+      <mat-label align="start" class="label-section"><i class="fa-solid fa-building-circle-arrow-right"></i>
+        Пропонуєте квартиру?</mat-label>
+      <mat-button-toggle-group name="flat" [(ngModel)]="userInfo.flat" (ngModelChange)="onSubmitWithDelay()"
+        aria-label="Квартира">
+        <mat-button-toggle [value]="undefined">Неважливо</mat-button-toggle>
+        <mat-button-toggle [value]="false">Ні</mat-button-toggle>
+        <mat-button-toggle [value]="true">Так</mat-button-toggle>
+      </mat-button-toggle-group>
+    </section>
+
+    <section class="section-chown">
+      <mat-label align="start" class="label-section"><i class="fa-solid fa-cube"></i>
+        Пропонуєте кімнату?</mat-label>
+      <mat-button-toggle-group name="room" [(ngModel)]="userInfo.room" (ngModelChange)="onSubmitWithDelay()"
+        aria-label="Кімната">
+        <mat-button-toggle [value]="undefined">Неважливо</mat-button-toggle>
+        <mat-button-toggle [value]="false">Ні</mat-button-toggle>
+        <mat-button-toggle [value]="true">Так</mat-button-toggle>
+      </mat-button-toggle-group>
+    </section>
+
+    <section [@top] class="section-chown" *ngIf="userInfo.room">
+      <mat-label align="start" class="label-section"><i class="fa-solid fa-person-dress"></i>
+        В оселі вже мешкає жінка?</mat-label>
+      <mat-button-toggle-group name="room" [(ngModel)]="userInfo.looking_woman" aria-label="Кімната" (ngModelChange)="onSubmitWithDelay()">
+        <mat-button-toggle [value]="undefined">Неважливо</mat-button-toggle>
+        <mat-button-toggle [value]="0">Ні</mat-button-toggle>
+        <mat-button-toggle [value]="1">Так</mat-button-toggle>
+      </mat-button-toggle-group>
+    </section>
+
+    <section [@top] class="section-chown" *ngIf="userInfo.room">
+      <mat-label align="start" class="label-section"><i class="fa-solid fa-person"></i>
+        В оселі вже мешкає чоловік?</mat-label>
+      <mat-button-toggle-group name="room" [(ngModel)]="userInfo.looking_man" aria-label="Кімната" (ngModelChange)="onSubmitWithDelay()">
+        <mat-button-toggle [value]="undefined">Неважливо</mat-button-toggle>
+        <mat-button-toggle [value]="0">Ні</mat-button-toggle>
+        <mat-button-toggle [value]="1">Так</mat-button-toggle>
+      </mat-button-toggle-group>
+    </section>
+
+    <section class="range-section">
+      <p class="t-lar-xx">
+        <i class="fa-solid fa-paint-roller"></i> Стан оселі: {{ userInfo.repair_status }}%
+      </p>
+      <input [(ngModel)]="userInfo.repair_status" (ngModelChange)="onSubmitWithDelay()" type="range" class="form-range"
+        min="0" max="100" step="10" id="repair_status">
+      <p class="form-label dark"> {{ getRepairStatusName(userInfo.repair_status) }} </p>
+    </section>
+
+    <section class="range-section">
+      <p class="t-lar-xx"><i class="fa-solid fa-compass-drafting"></i> Площа оселі: {{ userInfo.area }} м²</p>
+      <label for="area" class="form-label dark">Встановіть площу оселі</label>
+      <input [(ngModel)]="userInfo.area" (ngModelChange)="onSubmitWithDelay()" type="range" class="form-range" min="0"
+        max="200" step="1" id="area">
+    </section>
+
+    <section class="section-chown">
+      <mat-label align="start" class="label-section"><i class="fa-solid fa-hotel"></i>
+        Кількість кімнат:</mat-label>
+      <mat-button-toggle-group [(ngModel)]="userInfo.rooms" name="rooms" aria-label="Відстань до парку"
+        (ngModelChange)="onSubmitWithDelay()">
+        <mat-button-toggle [value]="0">Неважливо</mat-button-toggle>
+        <mat-button-toggle [value]="1">1</mat-button-toggle>
+        <mat-button-toggle [value]="2">2</mat-button-toggle>
+        <mat-button-toggle [value]="3">3</mat-button-toggle>
+        <mat-button-toggle [value]="4">4</mat-button-toggle>
+        <mat-button-toggle [value]="5">5+</mat-button-toggle>
+      </mat-button-toggle-group>
+    </section>
+
+    <mat-form-field class="item-select p-1" appearance="outline">
+      <mat-select (ngModelChange)="onSubmitWithDelay()" placeholder="Балкон" [(ngModel)]="userInfo.balcony"
+        name="balcony">
+        <mat-option [disabled]=""><span class="item-disabled">Очистити</span></mat-option>
+        <mat-option value="Неважливо">Неважливо</mat-option>
+        <mat-option value="Класичний">Класичний</mat-option>
+        <mat-option value="Французький">Французький</mat-option>
+        <mat-option value="Лоджія">Лоджія</mat-option>
+        <mat-option value="Тераса">Тераса</mat-option>
+        <mat-option value="Веранда">Веранда</mat-option>
+      </mat-select>
+      <mat-icon matSuffix><i class="fa-regular fa-eye"></i></mat-icon>
+      <mat-hint align="start">Тип балкону</mat-hint>
+    </mat-form-field>
+
+    <section class="section-chown">
+      <mat-label align="start" class="label-section"><i class="fa-solid fa-shield-heart"></i> В оселі є
+        укриття?</mat-label>
+      <mat-button-toggle-group name="bunker" [(ngModel)]="userInfo.bunker" (ngModelChange)="onSubmitWithDelay()"
+        aria-label="Укриття">
+        <mat-button-toggle value="Неважливо">Ні</mat-button-toggle>
+        <mat-button-toggle value="Паркінг">Паркінг</mat-button-toggle>
+        <mat-button-toggle value="В будинку">В будинку</mat-button-toggle>
+        <mat-button-toggle value="Поряд з будинком">Поряд</mat-button-toggle>
+      </mat-button-toggle-group>
+    </section>
+
+    <section class="section-chown">
+      <mat-label align="start" class="label-section"><i class="fa-solid fa-tree"></i>
+        Парк в радіусі до:</mat-label>
+      <mat-button-toggle-group [(ngModel)]="userInfo.distance_green" name="distance_green"
+        aria-label="Відстань до парку" (ngModelChange)="onSubmitWithDelay()"
+        [hideSingleSelectionIndicator]="hideSingleSelectionIndicator()">
+        <mat-button-toggle *ngFor="let distance of distanceConfiq" [value]="distance.value">
+          {{ distance.name }}</mat-button-toggle>
+      </mat-button-toggle-group>
+    </section>
+
+    <section class="section-chown">
+      <mat-label align="start" class="label-section"><i class="fa-solid fa-basket-shopping"></i>
+        Маркет в радіусі до:</mat-label>
+      <mat-button-toggle-group [(ngModel)]="userInfo.distance_shop" name="distance_shop"
+        aria-label="Відстань до маркету" (ngModelChange)="onSubmitWithDelay()"
+        [hideSingleSelectionIndicator]="hideSingleSelectionIndicator()">
+        <mat-button-toggle *ngFor="let distance of distanceConfiq" [value]="distance.value">
+          {{ distance.name }}</mat-button-toggle>
+      </mat-button-toggle-group>
+    </section>
+
+    <section class="section-chown">
+      <mat-label align="start" class="label-section"><i class="fa-solid fa-car-side"></i>
+        Паркінг в радіусі до:</mat-label>
+      <mat-button-toggle-group [(ngModel)]="userInfo.distance_parking" name="distance_parking"
+        aria-label="Відстань до паркінгу" (ngModelChange)="onSubmitWithDelay()"
+        [hideSingleSelectionIndicator]="hideSingleSelectionIndicator()">
+        <mat-button-toggle *ngFor="let distance of distanceConfiq" [value]="distance.value">
+          {{ distance.name }}</mat-button-toggle>
+      </mat-button-toggle-group>
+    </section>
+
+    <section class="section-chown">
+      <mat-label align="start" class="label-section"><i class="fa-solid fa-bus"></i>
+        Зупинка в радіусі до:</mat-label>
+      <mat-button-toggle-group [(ngModel)]="userInfo.distance_stop" name="distance_stop"
+        aria-label="Відстань до зупинки" (ngModelChange)="onSubmitWithDelay()"
+        [hideSingleSelectionIndicator]="hideSingleSelectionIndicator()">
+        <mat-button-toggle *ngFor="let distance of distanceConfiq" [value]="distance.value">
+          {{ distance.name }}</mat-button-toggle>
+      </mat-button-toggle-group>
+    </section>
+
+    <div [@appearance] class="btn-group">
+      <button class="b-primary mr-2" (click)="toogleAll()">
         <i class="fa-regular fa-circle-xmark"></i>
-        Закрити фільтр
       </button>
 
-      <div class="p-2" *ngIf="chownCity">
-        <button class="btn-close bg-white p-2" (click)="clearFilter()"></button>
-        <div class="flex-column t-s">
-          <p class="t-med bold">{{chownCity.name}}</p>
-          <p class="t-min">{{chownCity.population | number:'1.0-0'}}</p>
-          <img class="card-img" [src]="chownCity.icon" alt="User Image">
-        </div>
+      <button [disabled]="activeFilterHouseParam === 0" class="b-primary mr-2 custom-badge"
+        (click)="clearFilterHouseParam()" matBadge="{{activeFilterHouseParam}}"
+        [matBadgeHidden]="activeFilterHouseParam === 0">
+        <i class="fa-solid fa-broom"></i>
+      </button>
+
+      <button [disabled]="optionsFound === 0 || blockBtnStatus" class="b-primary p-2" (click)="toogleAll()">
+
+        <ng-container *ngIf="blockBtnStatus; else content">
+          <div class="container-loader-mini">
+            <mat-spinner color="warn"></mat-spinner>
+            <div class="t-med bold white">Оновлення</div>
+          </div>
+        </ng-container>
+
+        <ng-template #content>
+          <div class="t-med bold white">Знайдено</div>
+          <i class="fa-solid fa-arrow-right pl-2"></i>
+          <div class="t-lar-xx bold white pl-2">{{optionsFound}}</div>
+        </ng-template>
+
+      </button>
+    </div>
+  </div>
+</div>
+<div [@top3] class="t-c filter-wrapper" *ngIf="collapseLocation">
+  <div class="t-c filter-window" [ngClass]="{'close': collapseLocationStatus}">
+
+    <mat-label align="start" class="filter-label">Локація</mat-label>
+
+    <p class="t-med gray">Оберіть місто та область і ми знайдемо орендарів які шукають оселю в цій локації</p>
+
+    <div class="p-2" *ngIf="chownCity">
+      <div class="flex-column t-с">
+        <p class="t-med bold">{{chownCity.region}} область</p>
+        <p class="t-min">населення області - {{chownCity.regionPopulation | number:'1.0-0'}}</p>
+        <img class="card-img" [src]="chownCity.icon" alt="User Image">
       </div>
     </div>
 
-    <mat-label align="start">Локація</mat-label>
     <section>
       <mat-form-field class="item-select p-1" appearance="outline" *ngIf="userInfo.country">
         <mat-label for="country">Країна</mat-label>
@@ -424,42 +611,6 @@
       </mat-form-field>
     </section>
 
-    <div [@top1] class="t-c" *ngIf="userInfo.city && metroExists">
-      <mat-label align="start">Метро</mat-label>
-      <section>
-        <mat-form-field class="item-select p-1" appearance="outline">
-          <mat-label for="metrocolor">Лінія метро</mat-label>
-          <mat-select placeholder="Виберіть лінію" [(ngModel)]="userInfo.metrocolor" name="metrocolor"
-            (selectionChange)="onLineSelect(userInfo.metrocolor)" (ngModelChange)="onSubmitWithDelay()">
-            <mat-option *ngFor="let line of lines" [value]="line.name"> {{ line.name }} </mat-option>
-          </mat-select>
-          <mat-hint align="end">Виберіть лінію метро</mat-hint>
-          <mat-icon matSuffix><i class="fa-solid fa-code-branch"></i></mat-icon>
-        </mat-form-field>
-
-        <mat-form-field [@appearance] class="item-select p-1" appearance="outline" *ngIf="userInfo.metrocolor">
-          <mat-label for="metroname">Станція метро</mat-label>
-          <mat-select placeholder="Виберіть станцію" [(ngModel)]="userInfo.metroname" name="metroname"
-            (ngModelChange)="onSubmitWithDelay()">
-            <mat-option *ngFor="let station of stations" [value]="station.name">{{ station.name }}</mat-option>
-          </mat-select>
-          <mat-hint align="end">Виберіть станцію метро</mat-hint>
-          <mat-icon matSuffix><i class="fa-solid fa-archway"></i></mat-icon>
-        </mat-form-field>
-
-        <mat-form-field class="item-select p-1" appearance="outline">
-          <mat-label for="distance_metro">Відстань до метро</mat-label>
-          <mat-select placeholder="До метро" [(ngModel)]="userInfo.distance_metro" name="distance_metro"
-            (ngModelChange)="onSubmitWithDelay()">
-            <mat-option *ngFor="let distance of distanceConfiq" [value]="distance.value">
-              {{ distance.name }}</mat-option>
-          </mat-select>
-          <mat-hint align="end">Відстань до метро</mat-hint>
-          <mat-icon matSuffix><i class="fa-solid fa-arrows-left-right-to-line"></i></mat-icon>
-        </mat-form-field>
-      </section>
-    </div>
-
     <div class="city-box p-2" *ngIf="!userInfo.city">
       <button *ngFor="let item of cities" (click)="pickCity(item)" class="btn-city m-1">
         <div class="flex-column t-s">
@@ -470,13 +621,76 @@
       </button>
     </div>
 
+    <div [@top1] class="t-c w-100" *ngIf="userInfo.city && metroExists">
+      <mat-label align="start">Метро</mat-label>
+
+      <section class="section-chown">
+        <mat-label align="start" class="label-section"><i class="fa-solid fa-code-branch"></i>
+          Лінія метро:</mat-label>
+        <mat-button-toggle-group name="metrocolor" [(ngModel)]="userInfo.metrocolor"
+          (ngModelChange)="onLineSelect(userInfo.metrocolor)" aria-label="Метро"
+          [hideSingleSelectionIndicator]="hideSingleSelectionIndicator()">
+          <mat-button-toggle *ngFor="let line of lines" [value]="line.name">{{ line.name }}</mat-button-toggle>
+        </mat-button-toggle-group>
+      </section>
+
+      <section class="section-chown">
+        <mat-label align="start" class="label-section"><i class="fa-solid fa-arrows-left-right-to-line"></i>
+          Метро в радіусі до:</mat-label>
+        <mat-button-toggle-group [(ngModel)]="userInfo.distance_metro" name="distance_metro"
+          aria-label="Відстань до метро" (ngModelChange)="onSubmitWithDelay()"
+          [hideSingleSelectionIndicator]="hideSingleSelectionIndicator()">
+          <mat-button-toggle *ngFor="let distance of distanceConfiq" [value]="distance.value">
+            {{ distance.name }}</mat-button-toggle>
+        </mat-button-toggle-group>
+      </section>
+
+      <section class="section-chown">
+        <mat-form-field [@appearance] class="item-select p-1" appearance="outline" *ngIf="userInfo.metrocolor">
+          <mat-label for="metroname">Станція метро</mat-label>
+          <mat-select placeholder="Виберіть станцію" [(ngModel)]="userInfo.metroname" name="metroname"
+            (ngModelChange)="onSubmitWithDelay()">
+            <mat-option *ngFor="let station of stations" [value]="station.name">{{ station.name }}</mat-option>
+          </mat-select>
+          <mat-hint align="end">Виберіть станцію метро</mat-hint>
+          <mat-icon matSuffix><i class="fa-solid fa-archway"></i></mat-icon>
+        </mat-form-field>
+
+      </section>
+    </div>
+
+
     <div [@appearance] class="btn-group">
-      <button [disabled]="optionsFound === 0" class="b-primary" (click)="toogleAll()">
-        <div class="t-med bold white">Всього Знайдено</div>
-        <i class="fa-solid fa-arrow-right pl-2"></i>
-        <div class="t-lar-xx bold white pl-2">{{optionsFound}}</div>
+      <button class="b-primary mr-2" (click)="toogleAll()">
+        <i class="fa-regular fa-circle-xmark"></i>
+      </button>
+
+      <button [disabled]="activeFilterLocation === 0" class="b-primary mr-2 custom-badge"
+        (click)="clearFilterLocation()" matBadge="{{activeFilterLocation}}"
+        [matBadgeHidden]="activeFilterLocation === 0">
+        <i class="fa-solid fa-broom"></i>
+      </button>
+
+      <button [disabled]="optionsFound === 0 || blockBtnStatus" class="b-primary p-2" (click)="toogleAll()">
+
+        <ng-container *ngIf="blockBtnStatus; else content">
+          <div class="container-loader-mini">
+            <mat-spinner color="warn"></mat-spinner>
+            <div class="t-med bold white">Оновлення</div>
+          </div>
+        </ng-container>
+
+        <ng-template #content>
+          <div class="t-med bold white">Знайдено</div>
+          <i class="fa-solid fa-arrow-right pl-2"></i>
+          <div class="t-lar-xx bold white pl-2">{{optionsFound}}</div>
+        </ng-template>
+
       </button>
     </div>
 
   </div>
+
+
+
 </div>

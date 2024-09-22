@@ -1,19 +1,12 @@
 <div class="menu">
 
-  <a [routerLinkActive]="'active'" [routerLink]="'/home'"
-    [@cardAnimation]="{value: '', params: { delay: animationDelay(9) }}" class="wrapper-img mb-2">
-    <img class="img-fluid" src="./../../assets/logo/discussio.png" alt="logo discussio">
-    <div class="userName pl-2">
-      <p class="t-lar bold">Discussio</p>
-      <p class="t-min">Платформа для нерухомості</p>
-    </div>
-  </a>
-
-  <div class="menu-home p-2">
+ <div class="menu-home p-2">
     <div class="category_home">
       <a [@cardAnimation]="{value: '', params: { delay: animationDelay(3) }}" class="item-home"
         [routerLinkActive]="'active'" [routerLink]="'/home'" (click)="closeToogleMenu()">
-        <img class="logo-img" src="./../../assets/logo/discussio.png" alt="logo discussio">
+        <picture>
+          <img [ngSrc]="path_logo" alt="logo" class="logo-img" width="50" height="50" priority>
+        </picture>
         <div class="item-description">
           <p class="t-min">Головна</p>
         </div>

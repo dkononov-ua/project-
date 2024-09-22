@@ -1,33 +1,44 @@
-<div class="container-img" *ngIf="user">
+<div class="container-img" *ngIf="userInfo">
 
-  <app-status-data></app-status-data>
+  <!-- <app-status-data></app-status-data> -->
 
   <div class="wrapper-img">
 
-    <ng-container *ngIf="user.img && isLoadingImg && user.img !== 'user_default.svg'">
-      <img [@top4] class="img-fluid" [src]="serverPath + pathPhotoUser + user.img" alt="img">
+    <ng-container *ngIf="userInfo.img && isLoadingImg && userInfo.img !== 'user_default.svg'">
+      <img [@top4] class="img-fluid" [src]="serverPath + pathPhotoUser + userInfo.img" alt="img">
     </ng-container>
 
-    <ng-container *ngIf="user.img && !isLoadingImg && user.img !== 'user_default.svg'">
+    <ng-container *ngIf="userInfo.img && !isLoadingImg && userInfo.img !== 'user_default.svg'">
       <div class=" img-fluid">
         <div class="container-loader-mini">
           <mat-spinner color="warn"></mat-spinner>
-          <img [@top2] [src]="serverPath + pathPhotoUser + user.img" (load)="isLoadingImg = true" hidden>
+          <img [@top2] [src]="serverPath + pathPhotoUser + userInfo.img" (load)="isLoadingImg = true" hidden>
           <div class="t-min bold gray mt-2">Завантаження фото</div>
         </div>
       </div>
     </ng-container>
 
-    <ng-container *ngIf="!user.img || user.img === 'user_default.svg'">
+    <ng-container *ngIf="!userInfo.img || userInfo.img === 'user_default.svg'">
       <img [@top2] class="img-fluid" src="../../../../assets/user_default.svg" alt="img">
     </ng-container>
-    <div class="info-panel">
-    </div>
-    <div [@top1] class="decor"></div>
 
+    <div [@right1] class="name-box p-2" *ngIf="userInfo.lastName || userInfo.firstName || userInfo.surName">
+      <div class="name-group">
+        <div class="name-field" *ngIf="userInfo.lastName">
+          {{userInfo.lastName}}
+        </div>
+        <div class="name-field" *ngIf="userInfo.firstName">
+          {{userInfo.firstName}}
+        </div>
+        <div class="name-field" *ngIf="userInfo.surName">
+          {{userInfo.surName}}
+        </div>
+      </div>
+    </div>
   </div>
 
-  <div [@left2] class="func" *ngIf="currentLocation !== '/user/info'">
+  <div [@left2] class="func" *ngIf="currentLocation !== '/userInfo/info'">
     <app-functions></app-functions>
+  </div>
 
 </div>

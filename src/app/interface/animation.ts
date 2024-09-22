@@ -179,12 +179,12 @@ export const animations = {
 
   appearance: trigger('appearance', [
     transition('void => *', [
-      style({ transform: 'scale(3)', opacity: 0 }),
-      animate('600ms ease-in-out', style({ transform: 'scale(1)', opacity: 1 }))
+      style({ transform: 'scale(1.4)', opacity: 0 }),
+      animate('1200ms ease-in-out', style({ transform: 'scale(1)', opacity: 1 }))
     ]),
     transition('* => void', [
       style({ transform: 'scale(1)', opacity: 1 }),
-      animate('600ms ease-in-out', style({ transform: 'scale(3)', opacity: 0 }))
+      animate('500ms ease-in-out', style({ transform: 'scale(1.1)', opacity: 0 }))
     ]),
   ]),
 

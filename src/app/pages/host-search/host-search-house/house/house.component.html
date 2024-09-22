@@ -1,6 +1,6 @@
-<div class="card-wrapper">
-  <div class="card-content" (panstart)="onPanStart($event)" (panend)="onPanEnd($event)" [@cardSwipe]="cardSwipeState"
-    *ngIf="selectedFlat">
+<div class="cards-height">
+  <div class="card-content w-100" (panstart)="onPanStart($event)" (panend)="onPanEnd($event)"
+    [@cardSwipe]="cardSwipeState" *ngIf="selectedFlat">
 
     <div class="btn-close-container m-2">
       <div class="btn-close-box">

@@ -10,7 +10,7 @@ import { LoaderService } from 'src/app/services/loader.service';
 @Component({
   selector: 'app-host-user-page',
   templateUrl: './host-user-page.component.html',
-  styleUrls: ['./host-user-page.component.scss'],
+  styleUrls: ['./../../myPage.scss'],
   animations: [
     animations.appearance,
     animations.top1,

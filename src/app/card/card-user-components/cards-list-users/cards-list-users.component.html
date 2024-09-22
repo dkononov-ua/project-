@@ -8,33 +8,90 @@
   <button class="paginator-btn" (click)="incrementOffset()">
     <i class="fa-solid fa-chevron-right"></i></button>
 </div>
-<div #findCards [@top3] class="cards-container" (scroll)="onScroll($event)">
-  <div class="card-mini m-1" *ngFor="let subscriber of allCards" (click)="onSelect(subscriber.user_id)"
-    [ngClass]="{ 'selected': subscriber.user_id == choseUser }">
-    <div class="card-mini-img-container">
+<div #findCards class="cards-container" (scroll)="onScroll($event)">
+
+  <ng-container *ngIf="blockBtnStatus; else content">
+    <div class="container-loader-mini">
+      <mat-spinner color="warn"></mat-spinner>
+      <div class="t-med mt-2">Завантаження інформації</div>
+    </div>
+  </ng-container>
+
+  <ng-template #content>
+    <div class="card-mini m-1" *ngFor="let userInfo of allCards" (click)="onSelect(userInfo.user_id)"
+      [ngClass]="{ 'selected': userInfo.user_id == choseUser }">
       <!-- якщо фото немає -->
-      <img class="card-mini-img" src="../../../../assets/user_default.svg" alt="img"
-        *ngIf="!subscriber.img || subscriber.img === 'user_default.svg'" loading="lazy">
-      <!-- якщо фото користувача є чекаємо його завантаження і показуємо спінер -->
-      <div class="card-mini-img" *ngIf="subscriber.img && subscriber.img !== 'user_default.svg' && !isLoadingImg">
-        <div class="container-loader-mini">
-          <mat-spinner color="warn"></mat-spinner>
-          <img class="card-mini-img" [src]="serverPath + pathPhotoUser + subscriber.img" alt="img"
-            (load)="isLoadingImg = true" hidden>
-          <div class="t-min gray mt-2">Завантаження фото</div>
+      <div class="img-wrapper">
+        <img class="card-mini-img" src="../../../../assets/user_default.svg" alt="img"
+          *ngIf="!userInfo.img || userInfo.img === 'user_default.svg'" loading="lazy">
+        <!-- якщо фото користувача є чекаємо його завантаження і показуємо спінер -->
+        <div *ngIf="userInfo.img && userInfo.img !== 'user_default.svg' && !isLoadingImg">
+          <div class="container-loader-mini">
+            <mat-spinner color="warn"></mat-spinner>
+            <img class="card-mini-img" [src]="serverPath + pathPhotoUser + userInfo.img" alt="img"
+              (load)="isLoadingImg = true" hidden>
+            <div class="t-min gray mt-2">Завантаження фото</div>
+          </div>
         </div>
+        <!-- якщо фото користувача завантажилось показуємо фото -->
+        <img class="card-mini-img" [src]="serverPath + pathPhotoUser + userInfo.img" alt="img"
+          *ngIf="userInfo.img && userInfo.img !== 'user_default.svg' && isLoadingImg" loading="lazy">
       </div>
-      <!-- якщо фото користувача завантажилось показуємо фото -->
-      <img class="card-mini-img" [src]="serverPath + pathPhotoUser + subscriber.img" alt="img"
-        *ngIf="subscriber.img && subscriber.img !== 'user_default.svg' && isLoadingImg" loading="lazy">
-    </div>
-    <div class="card-body">
-      <div class="p-1">
-        <div class="t-lar bold accent">ID: {{ subscriber.user_id }}</div>
-        <div class="t-lar bold">{{ subscriber.lastName }}</div>
-        <div class="t-lar-xx bold">{{ subscriber.firstName }}</div>
-        <div class="t-med thin">{{ subscriber.surName }}</div>
+
+      <div class="card-body p-2">
+
+        <div class="t-med bold t-e">{{ userInfo.lastName }} {{ userInfo.firstName }}</div>
+
+        <div class="t-med thin t-e" *ngIf="userInfo.price_to || userInfo.price_of">
+          <span *ngIf="userInfo.price_of && userInfo.price_of !== '0.01'">від {{ (userInfo.price_of / 1000) |
+            number:'1.0-0' }}k ₴</span>
+          <span *ngIf="userInfo.price_to && userInfo.price_to !== '0.01'"> до {{ (userInfo.price_to / 1000) |
+            number:'1.0-0' }}k ₴</span>
+        </div>
+
+        <div class="status-content" *ngIf="userInfo">
+          <div class="status-box">
+
+            <div class="status-value bg-yellow" *ngIf="userInfo.checked === 0"><i
+                class="fa-solid fa-person-circle-exclamation"></i></div>
+            <div class="status-value bg-green" *ngIf="userInfo.checked === 1"><i
+                class="fa-solid fa-person-circle-check"></i>
+            </div>
+
+            <div class="status-value bg-yellow" *ngIf="userInfo.realll === 1"><i class="fa-solid fa-coins"></i></div>
+
+            <div class="status-value bg-gray" *ngIf="userInfo.house === 1 && userInfo.agree_search === 1"><i
+                class="fa-solid fa-house-chimney-window"></i></div>
+            <div class="status-value bg-gray" *ngIf="userInfo.flat === 1 && userInfo.agree_search === 1"><i
+                class="fa-solid fa-building-circle-arrow-right"></i></div>
+            <div class="status-value bg-gray" *ngIf="userInfo.room === 1 && userInfo.agree_search === 1"><i
+                class="fa-solid fa-cube"></i></div>
+
+            <div class="status-value" *ngIf="userInfo.woman === 1"><i class="fa-solid fa-person-dress"></i></div>
+            <div class="status-value" *ngIf="userInfo.man === 1"><i class="fa-solid fa-person"></i></div>
+            <div class="status-value" *ngIf="userInfo.students === 1"><i class="fa-solid fa-graduation-cap"></i></div>
+            <div class="status-value" *ngIf="userInfo.family === 1"><i class="fa-solid fa-person-breastfeeding"></i>
+            </div>
+
+            <div class="status-value" *ngIf="['1', '2', '3'].includes(userInfo.animals)">
+              <i class="fa-solid fa-paw" *ngIf="userInfo.animals === '1'"></i>
+              <i class="fa-solid fa-cat" *ngIf="userInfo.animals === '2'"></i>
+              <i class="fa-solid fa-dog" *ngIf="userInfo.animals === '3'"></i>
+            </div>
+
+            <div class="status-value" *ngIf="userInfo.metrocolor" [ngClass]="{
+              'bg-red': userInfo.metrocolor === 'Червона',
+              'bg-blue': userInfo.metrocolor === 'Синя',
+              'bg-green': userInfo.metrocolor === 'Зелена'
+              }"><i class="fa-solid fa-train-subway"></i>
+            </div>
+
+          </div>
+        </div>
+
       </div>
     </div>
-  </div>
+    <p class="t-lar-xx" *ngIf="!existInfo">Нічого не знайдено...</p>
+  </ng-template>
+
 </div>

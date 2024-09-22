@@ -1,4 +1,4 @@
-<div class="card-wrapper">
+<div class="cards-height">
   <div class="card-content w-100" (panstart)="onPanStart($event)" (panend)="onPanEnd($event)"
     [@cardSwipe]="cardSwipeState" *ngIf="selectedUser">
     <div class="btn-close-container m-2">
@@ -40,7 +40,7 @@
     <app-info></app-info>
   </div>
 
-  <div class="status-subscription-wrapper h-100" *ngIf="isSelectedUserId">
+  <div class="status-subscription-wrapper h-100" *ngIf="!isSelectedUserId">
     <div [@appearance] class="status-subscription bg-transparent">
       <div class="status-text p-2 t-c">Оберіть <br> користувача</div>
     </div>

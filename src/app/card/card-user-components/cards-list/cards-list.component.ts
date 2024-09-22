@@ -19,7 +19,7 @@ import { FilterService } from 'src/app/services/search/filter.service';
 @Component({
   selector: 'app-cards-list',
   templateUrl: './cards-list.component.html',
-  styleUrls: ['./cards-list.component.scss'],
+  styleUrls: ['./../../card-list.scss'],
   animations: [animations.right1]
 })
 export class CardsListComponent implements OnInit, OnDestroy {
@@ -47,6 +47,9 @@ export class CardsListComponent implements OnInit, OnDestroy {
   currentLocation: string = '';
   isMobile: boolean = false;
   authorization: boolean = false;
+  blockBtnStatus: boolean = false;
+  isLoadingImg: boolean = false;
+  existInfo: boolean = false;
 
   @ViewChild('findCards') findCardsElement!: ElementRef;
 
@@ -66,6 +69,8 @@ export class CardsListComponent implements OnInit, OnDestroy {
     this.checkUserAuthorization();
     await this.getChosenFlatId();
     this.getSubInfoFromService(this.offs);
+    this.getBtnStatus();
+
   }
 
   // перевірка на девайс
@@ -96,6 +101,15 @@ export class CardsListComponent implements OnInit, OnDestroy {
     }
   }
 
+  // Підписка на отримання статусу коли інформація оновлюється
+  getBtnStatus() {
+    this.subscriptions.push(
+      this.filterService.blockBtnStatus$.subscribe(blockBtnStatus => {
+        this.blockBtnStatus = blockBtnStatus;
+      })
+    )
+  }
+
   // Підписка на отримання айді обраної оселі
   async getChosenFlatId() {
     this.subscriptions.push(
@@ -105,6 +119,7 @@ export class CardsListComponent implements OnInit, OnDestroy {
         if (this.choseFlatId) {
           this.getCardsData();
         }
+
       })
     );
   }
@@ -123,7 +138,16 @@ export class CardsListComponent implements OnInit, OnDestroy {
     this.subscriptions.push(
       this.cardsDataService.cardsData$.subscribe(data => {
         // console.log(data)
-        this.allCards = data;
+        if (Array.isArray(data) && data.length > 0) {
+          this.allCards = data;
+          // console.log(this.allCards)
+          this.existInfo = true;
+        } else {
+          this.allCards = data;
+          this.existInfo = false;
+          this.choseSubscribeService.removeChosenFlatId();
+          this.cardsDataService.removeCardData();
+        }
       })
     );
   }

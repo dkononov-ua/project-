@@ -32,6 +32,9 @@ import { MatStepperModule } from '@angular/material/stepper';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SearchHousingComponent } from './host-search-house/search-housing.component';
 import { HouseComponent } from './host-search-house/house/house.component';
+import { MatButtonModule } from '@angular/material/button';
+import { MatDividerModule } from '@angular/material/divider';
+import {MatButtonToggleModule} from '@angular/material/button-toggle';
 @NgModule({
   declarations: [
     SearchTenantComponent,
@@ -70,7 +73,12 @@ import { HouseComponent } from './host-search-house/house/house.component';
     MatRadioModule,
     MatCheckboxModule,
     MatMenuModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+
+    MatButtonModule,
+    MatDividerModule,
+    MatIconModule,
+    MatButtonToggleModule,
   ],
   providers: [
     FilterService,
@@ -79,5 +87,6 @@ import { HouseComponent } from './host-search-house/house/house.component';
     { provide: HAMMER_GESTURE_CONFIG, useClass: GestureService },
     provideHttpClient(withInterceptorsFromDi()),
   ]
+
 })
 export class SearchModule { }

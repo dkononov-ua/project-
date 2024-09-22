@@ -1,5 +1,5 @@
-<div class="loader-overlay">
-  <div class="loader">
-    <img src="{{path_logo}}" alt="logo" class="loader-logo">
-  </div>
+<div [@appearance] class="loader-overlay">
+  <picture class="loader">
+    <img [ngSrc]="path_logo" alt="logo" class="loader-logo" width="150" height="150" priority>
+  </picture>
 </div>

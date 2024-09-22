@@ -14,6 +14,7 @@ export class FilterService {
   loadCards$: BehaviorSubject<string> = new BehaviorSubject<string>('');
   sortValue$: BehaviorSubject<string> = new BehaviorSubject<string>('');
   showedCards$: BehaviorSubject<string> = new BehaviorSubject<string>('');
+  limits$: BehaviorSubject<number> = new BehaviorSubject<number>(0);
 
   blockBtnStatus$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
@@ -27,6 +28,11 @@ export class FilterService {
     this.formatedData(filterValue)
   }
 
+  setLimits(limits: number) {
+    console.log(limits);
+    this.limits$.next(limits);
+  }
+  
   formatedData(data: any) {
     if (data) {
       const allCards = data.map((item: any) => ({

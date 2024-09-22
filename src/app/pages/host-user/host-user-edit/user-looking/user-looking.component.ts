@@ -39,7 +39,11 @@ import { StatusMessageService } from 'src/app/services/status-message.service';
 
 export class UserLookingComponent implements OnInit, OnDestroy {
 
-
+  getRepairStatusName(value: number): string {
+    const status = select_options.repair.find(r => r.value === value);
+    return status ? status.name : 'Не визначено';
+  }
+  
   subways = subway; // імпортовані дані про метро
   metroLines: any[] = []; // для зберігання ліній метро обраного міста
   stations: any[] = []; // для зберігання станцій метро обраної лінії

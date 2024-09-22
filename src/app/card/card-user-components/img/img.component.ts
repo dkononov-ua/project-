@@ -11,7 +11,7 @@ import { CardsDataHouseService } from 'src/app/services/house-components/cards-d
 @Component({
   selector: 'app-img',
   templateUrl: './img.component.html',
-  styleUrls: ['./img.component.scss'],
+  styleUrls: ['./../../card-img.scss'],
   providers: [
     { provide: LOCALE_ID, useValue: 'uk-UA' },
   ],
@@ -22,6 +22,7 @@ import { CardsDataHouseService } from 'src/app/services/house-components/cards-d
     animations.top3,
     animations.top4,
     animations.left2,
+    animations.right1,
   ],
 })
 
@@ -36,9 +37,7 @@ export class ImgComponent implements OnInit, OnDestroy {
   // ***
   isLoadingImg: boolean = false;
   // параметри оселі
-  user = {
-    img: ''
-  };
+  userInfo: any;
 
   subscriptions: any[] = [];
   currentPhotoIndex: number = 0;
@@ -82,7 +81,7 @@ export class ImgComponent implements OnInit, OnDestroy {
 
   // Перевірка на авторизацію користувача
   async checkUserAuthorization() {
-    const userJson = localStorage.getItem('user');
+    const userJson = localStorage.getItem('userInfo');
     if (userJson) {
       this.authorization = true;
     } else {
@@ -107,7 +106,7 @@ export class ImgComponent implements OnInit, OnDestroy {
 
   // Перевіряє, чи поточний шлях належить до роутів користувача
   private isUserRoute(): boolean {
-    return ['/user/discus/discussion', '/user/discus/subscribers-user', '/user/discus/subscriptions-user'].includes(this.currentLocation);
+    return ['/user/discus/discussion', '/user/discus/subscribers', '/user/discus/subscriptions'].includes(this.currentLocation);
   }
 
   // Перевіряє, чи поточний шлях належить до роутів оселі
@@ -134,7 +133,8 @@ export class ImgComponent implements OnInit, OnDestroy {
   subscriptionsCardsDataService() {
     this.subscriptions.push(
       this.cardsDataService.cardData$.subscribe(async (data: any) => {
-        this.user.img = data.owner.img;
+        console.log(data)
+        this.userInfo = data.owner;
       })
     );
   }
@@ -143,7 +143,7 @@ export class ImgComponent implements OnInit, OnDestroy {
   subscriptionsDataHouseService() {
     this.subscriptions.push(
       this.cardsDataHouseService.cardData$.subscribe(async (data: any) => {
-        this.user = data;
+        this.userInfo = data;
       })
     );
   }
@@ -153,7 +153,12 @@ export class ImgComponent implements OnInit, OnDestroy {
     const userData = localStorage.getItem('userData');
     if (userData) {
       const userObject = JSON.parse(userData);
-      this.user.img = userObject.img[0].img;
+      // console.log(userObject)
+      this.userInfo = userObject;
+      this.userInfo.img = userObject.img[0].img;
+      this.userInfo.lastName = userObject.inf.lastName;
+      this.userInfo.firstName = userObject.inf.firstName;
+      this.userInfo.surName = userObject.inf.surName;
     } else {
       setTimeout(() => {
         this.getInfoUser();
@@ -168,14 +173,14 @@ export class ImgComponent implements OnInit, OnDestroy {
 
   // Перемикання Фото в каруселі
   prevPhoto() {
-    const length = this.user?.img.length || 0;
+    const length = this.userInfo?.img.length || 0;
     if (this.currentPhotoIndex !== 0) {
       this.currentPhotoIndex--;
     }
   }
 
   nextPhoto() {
-    const length = this.user?.img.length || 0;
+    const length = this.userInfo?.img.length || 0;
     if (this.currentPhotoIndex < length) {
       this.currentPhotoIndex++;
     }

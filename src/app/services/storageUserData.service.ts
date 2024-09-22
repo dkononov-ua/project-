@@ -121,8 +121,8 @@ export class StorageUserDataService implements OnDestroy {
           city: userData.city,
           rooms_of: userData.rooms_of,
           rooms_to: userData.rooms_to,
-          area_of: userData.area_of,
-          area_to: userData.area_to,
+          area_of: userData.area_of || '0.00',
+          area_to: userData.area_to || '100000.00',
           repair_status: userData.repair_status,
           bunker: userData.bunker,
           balcony: userData.balcony,
@@ -149,7 +149,6 @@ export class StorageUserDataService implements OnDestroy {
           mounths: userData.mounths,
           years: userData.years,
           about: userData.about,
-
           metro: userData.metro,
           district: userData.district,
           micro_district: userData.micro_district,
@@ -157,6 +156,7 @@ export class StorageUserDataService implements OnDestroy {
           metrocolor: userData.metrocolor,
           floor: userData.floor,
         };
+        // console.log(data)
         const response: any = await this.http.post(this.serverPath + '/features/add', { auth: JSON.parse(userJson), new: data }).toPromise();
         this.loaderService.setLoading(true);
         if (response.status === true) {

@@ -394,7 +394,16 @@
           <mat-hint align="end">Тип балкону</mat-hint>
         </mat-form-field>
 
-        <mat-form-field class="item-select w-50" appearance="outline">
+        <section class="range-section">
+          <p class="t-lar-xx">
+            <i class="fa-solid fa-paint-roller"></i> Стан оселі: {{ userInfo.repair_status }}%
+          </p>
+          <p class="t-min"> {{ getRepairStatusName(userInfo.repair_status) }} </p>
+          <input [(ngModel)]="userInfo.repair_status" type="range"
+            class="form-range" min="0" max="100" step="10" id="repair_status">
+        </section>
+
+        <!-- <mat-form-field class="item-select w-50" appearance="outline">
           <mat-select placeholder="Стан оселі" [(ngModel)]="userInfo.repair_status" name="repair_status">
             <mat-option value="Неважливо">Неважливо</mat-option>
             <mat-option value="Новий">Новий</mat-option>
@@ -404,7 +413,7 @@
           </mat-select>
           <mat-icon matSuffix><i class="fa-solid fa-paint-roller"></i></mat-icon>
           <mat-hint align="end">Стан оселі</mat-hint>
-        </mat-form-field>
+        </mat-form-field> -->
 
         <mat-form-field class="item-select w-50" appearance="outline">
           <mat-select placeholder="Поверхові параметри" [(ngModel)]="userInfo.floor" name="floor">

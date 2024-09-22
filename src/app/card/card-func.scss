@@ -1,5 +1,5 @@
-@use "../../../style/presets/" as *;
-@use "../../../style/mixins/" as *;
+@use "../style/presets/" as *;
+@use "../style/mixins/" as *;
 
 .menu-container {
   @include flex-box-center;
@@ -7,12 +7,31 @@
   padding: 5px;
 }
 
-.btn {
-  background-color: transparent;
-  height: 70px;
-  width: 70px;
+.btn-open {
+  @include flex-box-center;
+  @include box-shadow;
+  flex-direction: column;
+  background-color: $color-white;
+  padding: 5px;
+  width: 50px;
+  height: 50px;
   border-radius: 50%;
+  margin: 3px;
+  transition: 1s;
+  &:hover {
+    @include hover;
+  }
+  .fa-solid {
+    font-size: 30px;
+  }
+  &.active {
+    color: $color-accent;
+    .fa-solid {
+      color: $color-accent;
+    }
+  }
 }
+
 
 .menu {
   @include flex-box-center;
@@ -23,6 +42,7 @@
   top: 0;
   left: 0;
   background-color: rgba(0, 0, 0, 0.736);
+  z-index: 999;
   .link {
     &:disabled {
       background-color: $color-gray;

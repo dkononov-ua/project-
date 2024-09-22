@@ -1,99 +1,68 @@
 <div class="t-c switch-container" *ngIf="isMobile">
 
-  <div class="switch-btn-group" *ngIf="isMobile">
+  <div class="switch-btn-group">
     <button [disabled]="!awaitStatusBtn" class="btn" (click)="toogleFilter('location')"
       [ngClass]="{ 'active': collapseLocation == true}">
       <i class="fa-solid fa-map-location-dot custom-badge" matBadge="{{activeFilterLocation}}"
         [matBadgeHidden]="activeFilterLocation === 0"></i>
-      <div class="t-min bold">Фільтр Локація</div>
+      <div class="t-min bold">Локація</div>
     </button>
   </div>
 
-  <div class="switch-btn-group" *ngIf="isMobile">
-    <button [disabled]="!awaitStatusBtn" class="btn" (click)="toogleFilter('filterParam')"
-      [ngClass]="{ 'active': collapseSort == true}">
-      <i class="fa-solid fa-shuffle custom-badge" matBadge="{{activeSorting}}"
-        [matBadgeHidden]="activeSorting === 0"></i>
-      <div class="t-min bold">Сортування Осель</div>
+  <div class="switch-btn-group">
+    <button [disabled]="!awaitStatusBtn" class="btn" (click)="toogleFilter('time')"
+      [ngClass]="{ 'active': collapseTime == true}">
+      <i class="fa-regular fa-hourglass-half custom-badge" matBadge="{{activeFilterTime}}"
+        [matBadgeHidden]="activeFilterTime === 0"></i>
+      <div class="t-min bold">Терміни</div>
     </button>
   </div>
 
-  <button [disabled]="optionsFound === 0 || blockBtnStatus" class="b-primary p-2 mr-2" (click)="toogleAll()">
-
-    <ng-container *ngIf="blockBtnStatus; else content">
-      <div class="container-loader-mini">
-        <mat-spinner color="warn"></mat-spinner>
-        <div class="t-med bold white">Оновлення</div>
-      </div>
-    </ng-container>
-
-    <ng-template #content>
-      <div class="flex-box-center t-c">
-        <div class="t-min bold white">фільтрів - <span class="bold">{{totalActiveFilters}}</span> </div>
-        <div class="d-flex ">
-          <div class="t-med bold white t-c">Знайдено {{optionsFound}}</div>
-        </div>
-      </div>
-    </ng-template>
-
-  </button>
-
-  <div class="switch-btn-group" *ngIf="isMobile">
+  <div class="switch-btn-group">
     <button [disabled]="!awaitStatusBtn" class="btn" (click)="toogleFilter('features')"
       [ngClass]="{ 'active': collapseFeatures == true}">
       <i class="fa-solid fa-user-tag custom-badge" matBadge="{{activeFilterFeatures}}"
         [matBadgeHidden]="activeFilterFeatures === 0"></i>
-      <div class="t-min bold">Фільтр Орендарь</div>
+      <div class="t-min bold">Орендарь</div>
     </button>
   </div>
 
-  <div class="switch-btn-group" *ngIf="isMobile">
+  <div class="switch-btn-group">
     <button [disabled]="!awaitStatusBtn" class="btn" (click)="toogleFilter('houseParam')"
       [ngClass]="{ 'active': collapseHouseParam == true}">
       <i class="fa-solid fa-house-circle-check custom-badge" matBadge="{{activeFilterHouseParam}}"
         [matBadgeHidden]="activeFilterHouseParam === 0"></i>
-      <div class="t-min bold">Фільтр Оселя</div>
+      <div class="t-min bold">Оселя</div>
     </button>
   </div>
 </div>
-<div [@appearance] class="flex-box-center t-c" *ngIf="totalActiveFilters > 1 && optionsFound === 0 && isMobile">
-  <p class="mt-3">По заданим фільтрам орендарів не знайдено...</p>
-  <div class="btn-group">
-    <button class="b-primary mr-2 custom-badge" (click)="clearFilterAll()">
-      <i class="fa-solid fa-broom"></i> Очистити всі фільтри
-    </button>
-  </div>
-</div>
-<div [@top3] class="t-c filter-btn-wrapper p-2" *ngIf="!isMobile">
 
+<div [@top1] class="t-c filter-btn-wrapper p-2" *ngIf="!isMobile">
   <div class="d-flex">
 
     <button class="btn-search m-1 custom-badge" (click)="toogleFilter('location')"
       [ngClass]="{ 'active': collapseLocation == true}" matBadge="{{activeFilterLocation}}"
       [matBadgeHidden]="activeFilterLocation === 0">
       <div class="flex-column t-s">
-        <p class="t-min">Фільтр по</p>
-        <p class="t-min">Локації</p>
+        <p class="t-min">Локація</p>
       </div>
       <i class="fa-solid fa-map-location-dot"></i>
     </button>
 
-    <button class="btn-search m-1 custom-badge" (click)="toogleFilter('filterParam')"
-      [ngClass]="{ 'active': collapseSort == true}" matBadge="{{activeFilterLocation}}"
-      [matBadgeHidden]="activeFilterLocation === 0">
+    <button class="btn-search m-1 custom-badge" (click)="toogleFilter('time')"
+      [ngClass]="{ 'active': collapseTime == true}" matBadge="{{activeFilterTime}}"
+      [matBadgeHidden]="activeFilterTime === 0">
       <div class="flex-column t-s">
-        <p class="t-min">Сортування</p>
-        <p class="t-min">Осель</p>
+        <p class="t-min">Терміни</p>
       </div>
-      <i class="fa-solid fa-shuffle"></i>
+      <i class="fa-regular fa-hourglass-half"></i>
     </button>
 
     <button class="btn-search m-1 custom-badge" (click)="toogleFilter('features')"
       [ngClass]="{ 'active': collapseFeatures == true}" matBadge="{{activeFilterFeatures}}"
       [matBadgeHidden]="activeFilterFeatures === 0">
       <div class="flex-column t-s">
-        <p class="t-min">Фільтр по</p>
-        <p class="t-min">Орендарю</p>
+        <p class="t-min">Орендарь</p>
       </div>
       <i class="fa-solid fa-user-tag"></i>
     </button>
@@ -102,106 +71,354 @@
       [ngClass]="{ 'active': collapseHouseParam == true}" matBadge="{{activeFilterHouseParam}}"
       [matBadgeHidden]="activeFilterHouseParam === 0">
       <div class="flex-column t-s">
-        <p class="t-min">Фільтр по</p>
-        <p class="t-min">Оселі</p>
+        <p class="t-min">Оселя</p>
       </div>
       <i class="fa-solid fa-house-circle-check"></i>
     </button>
   </div>
+</div>
 
-  <div [@appearance] class="btn-group-filter mt-2">
+<div [@top1] class="t-c content" *ngIf="!collapseTime && !collapseFeatures && !collapseHouseParam && !collapseLocation">
+  <div class="t-c" [ngClass]="{'close': collapseParamStatus}">
 
-    <button [disabled]="totalActiveFilters < 1" class="b-primary mr-2 p-1" (click)="clearFilterAll()">
-      <div class="flex-column t-s">
-        <p class="t-min white bold">Очистити</p>
-        <p class="t-min white bold">Всі фільтри</p>
+    <div class="gif-box" *ngIf="totalActiveFilters < 1">
+      <img class="home-img" src="../../../../assets/gif/tenants.gif" alt="tenants_profile" loading="lazy">
+    </div>
+
+    <div class="activation-status" [ngClass]="{ 'active': userInfo.agree_search === 1 }">
+      <div class="activation-status-item">
+        <span *ngIf="!userInfo.agree_search">Профіль орендаря <br> не активовано</span>
+        <span *ngIf="userInfo.agree_search === 1">Профіль орендаря <br> активовано </span>
+        <i class="fa-solid fa-power-off white pl-2"></i>
       </div>
-      <i class="fa-solid fa-broom pl-2"></i>
-    </button>
+    </div>
 
-    <button [disabled]="optionsFound === 0 || blockBtnStatus" class="b-primary p-2 mr-2" (click)="toogleAll()">
+    <p class="t-lar-x bold p-2">Внесено {{totalActiveFilters}}/35 <br> пошукових параметрів
+    </p>
+    <p [@appearance] class="t-min gray p-2" *ngIf="!suggestConservation">Внести зміни або активувати профіль можна лише
+      з вказаним
+      містом,
+      областю та варіантом оплати.
+    </p>
 
-      <ng-container *ngIf="blockBtnStatus; else content">
-        <div class="container-loader-mini">
-          <mat-spinner color="warn"></mat-spinner>
-          <div class="t-med bold white">Оновлення</div>
-        </div>
-      </ng-container>
+    <div class="detail-wrapper p-2 t-c">
+      <div class="param-box" *ngIf="userInfo.option_pay !== undefined || userInfo.price_of || userInfo.price_to">
+        <div class="param-label">Бюджет:</div>
+        <div class="param-group">
+          <div class="param-field" *ngIf="userInfo.price_of">
+            Ціна від (грн):<span class="param-value"><i class="fa-solid fa-sack-dollar"></i>{{ userInfo.price_of |
+              number:'1.0-0' }}</span>
+          </div>
 
-      <ng-template #content>
-        <div class="flex-box-center t-c">
-          <div class="t-min bold white">фільтрів - <span class="bold">{{totalActiveFilters}}</span> </div>
-          <div class="d-flex ">
-            <div class="t-med bold white t-c">Знайдено {{optionsFound}}</div>
+          <div class="param-field" *ngIf="userInfo.price_to">
+            Ціна до (грн):<span class="param-value"><i class="fa-solid fa-sack-dollar"></i>{{ userInfo.price_to |
+              number:'1.0-0' }}</span>
+          </div>
+
+          <div class="param-field" *ngIf="userInfo.option_pay !== undefined">
+            Оплата:<span class="param-value"><i class="fa-regular fa-credit-card"></i>{{ option_pay[userInfo.option_pay]
+              }}</span>
           </div>
         </div>
-      </ng-template>
-
-    </button>
-
-    <button [disabled]="!myDataExist" class="b-primary p-1" (click)="loadDataUserSearch()"
-      [ngClass]="{ 'active': myData == true}">
-      <div class="flex-column t-s">
-        <p class="t-min white bold">Заповнити фільтри</p>
-        <p class="t-min white bold">Даними мого профілю</p>
       </div>
-      <i class="fa-solid fa-house-circle-check"></i>
-    </button>
 
+      <div class="param-box" *ngIf="userInfo.region || userInfo.city">
+        <div class="param-label">Локація:</div>
+        <div class="param-group">
+          <div class="param-field" *ngIf="userInfo.region">
+            Область:<span class="param-value"><i class="fa-solid fa-earth-americas"></i>{{ userInfo.region }} </span>
+          </div>
+
+          <div class="param-field" *ngIf="userInfo.city">
+            Місто:<span class="param-value"><i class="fa-solid fa-city"></i>{{ userInfo.city }} </span>
+          </div>
+
+          <div class="param-field" *ngIf="userInfo.district">
+            Район:<span class="param-value"><i class="fa-solid fa-mountain-city"></i>{{ userInfo.district }}</span>
+          </div>
+
+          <div class="param-field" *ngIf="userInfo.micro_district">
+            Мікрорайон:<span class="param-value"><i class="fa-solid fa-building-flag"></i>{{ userInfo.micro_district
+              }}</span>
+          </div>
+
+          <div class="param-field" *ngIf="userInfo.street">
+            Вулиця:<span class="param-value"><i class="fa-solid fa-road"></i>{{ userInfo.street }}</span>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="param-box" *ngIf="activeFilterHouseParam > 0">
+        <div class="param-label">Параметри оселі:</div>
+        <div class="param-group">
+
+          <div class="param-field" *ngIf="userInfo.house === 1">
+            Тип оселі:<span class="param-value"><i class="fa-solid fa-house-chimney-window"></i> Будинок </span>
+          </div>
+
+          <div class="param-field" *ngIf="userInfo.flat === 1">
+            Тип оселі:<span class="param-value"><i class="fa-solid fa-building-circle-arrow-right"></i> Квартира
+            </span>
+          </div>
+
+          <div class="param-field" *ngIf="userInfo.room">
+            Підійде:<span class="param-value"><i class="fa-solid fa-cube"></i> Кімната </span>
+          </div>
+
+          <div class="param-field" *ngIf="userInfo.area_of">
+            Площа від:<span class="param-value"><i class="fa-solid fa-s"></i>{{ userInfo.area_of }}м²</span>
+          </div>
+
+          <div class="param-field" *ngIf="userInfo.area_to">
+            Площа до:<span class="param-value"><i class="fa-solid fa-s"></i>{{ userInfo.area_to }}м²</span>
+          </div>
+
+          <div class="param-field" *ngIf="userInfo.kitchen_area">
+            Кухня від:<span class="param-value"><i class="fa-solid fa-s"></i>{{ userInfo.kitchen_area }}м²</span>
+          </div>
+
+          <div class="param-field" *ngIf="userInfo.repair_status">Стан
+            оселі:<span class="param-value"><i class="fa-solid fa-paint-roller"></i>{{ repair[userInfo.repair_status]
+              }}</span>
+          </div>
+
+          <div class="param-field" *ngIf="userInfo.rooms_of">
+            Кімнат від:<span class="param-value"><i class="fa-solid fa-draw-polygon"></i>{{ userInfo.rooms_of }}</span>
+          </div>
+
+          <div class="param-field" *ngIf="userInfo.rooms_to">
+            Кімнат до:<span class="param-value"><i class="fa-solid fa-draw-polygon"></i>{{ userInfo.rooms_to }}</span>
+          </div>
+
+          <div class="param-field" *ngIf="userInfo.floor">
+            Поверх:<span class="param-value"><i class="fa-solid fa-stairs"></i>{{ floor[userInfo.floor] }}</span>
+          </div>
+
+          <div class="param-field" *ngIf="userInfo.balcony">
+            Тип балкону:<span class="param-value"><i class="fa-regular fa-eye"></i>{{ userInfo.balcony }}</span>
+          </div>
+
+          <div class="param-field" *ngIf="userInfo.kitchen_area">
+            Площа кухні:<span class="param-value"><i class="fa-solid fa-s"></i>{{ userInfo.kitchen_area }}м²</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="param-box"
+        *ngIf="userInfo.distance_stop || userInfo.distance_shop || userInfo.distance_green || userInfo.distance_parking">
+        <div class="param-label">Інфраструктура в доступності:</div>
+        <div class="param-group">
+          <div class="param-field" *ngIf="userInfo.distance_stop">
+            Зупинка до:<span class="param-value"><i class="fa-solid fa-bus"></i>{{ aboutDistance[userInfo.distance_stop]
+              }}</span>
+          </div>
+          <div class="param-field" *ngIf="userInfo.distance_shop">
+            Маркет до:<span class="param-value"><i class="fa-solid fa-basket-shopping"></i>{{
+              aboutDistance[userInfo.distance_shop] }}</span>
+          </div>
+          <div class="param-field" *ngIf="userInfo.distance_green">
+            Парк до:<span class="param-value"><i class="fa-solid fa-tree"></i>{{ aboutDistance[userInfo.distance_green]
+              }}</span>
+          </div>
+          <div class="param-field" *ngIf="userInfo.distance_parking">
+            Паркінг до:<span class="param-value"><i class="fa-solid fa-car-side"></i>{{
+              aboutDistance[userInfo.distance_parking] }}</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="param-box" *ngIf="userInfo.metrocolor || userInfo.metroname || userInfo.distance_metro">
+        <div class="param-label">Метро:</div>
+        <div class="param-group">
+          <div class="param-field" *ngIf="userInfo.metrocolor">
+            Лінія:<span class="param-value"><i class="fa-solid fa-code-branch"></i>{{ userInfo.metrocolor }}</span>
+          </div>
+          <div class="param-field" *ngIf="userInfo.metroname">
+            Станція:<span class="param-value"><i class="fa-solid fa-archway"></i>{{ userInfo.metroname }}</span>
+          </div>
+          <div class="param-field" *ngIf="userInfo.distance_metro">
+            Відстань до:<span class="param-value"><i class="fa-solid fa-arrows-left-right-to-line"></i>{{
+              aboutDistance[userInfo.distance_metro]
+              }}</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="param-box" *ngIf="userInfo.bunker || userInfo.animals || userInfo.purpose_rent">
+        <div class="param-label">Особливості:</div>
+        <div class="param-group">
+
+          <div class="param-field" *ngIf="userInfo.purpose_rent">
+            Мета пошуку:<span class="param-value"><i class="fa-solid fa-head-side-virus"></i>{{
+              purpose[userInfo.purpose_rent]
+              }}</span>
+          </div>
+
+          <div class="param-field" *ngIf="userInfo.bunker">
+            Наявність укриття:<span class="param-value"><i class="fa-solid fa-shield-heart"></i>{{ userInfo.bunker
+              }}</span>
+          </div>
+
+          <div class="param-field" *ngIf="userInfo.animals && userInfo.animals !== '0'">
+            Тварини:
+            <span class="param-value">
+              <i class="fa-solid fa-paw" *ngIf="userInfo.animals === '1'"></i>
+              <i class="fa-solid fa-cat" *ngIf="userInfo.animals === '2'"></i>
+              <i class="fa-solid fa-dog" *ngIf="userInfo.animals === '3'"></i>
+              {{ animals[userInfo.animals] }}
+            </span>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="param-box" *ngIf="userInfo.woman || userInfo.man || userInfo.students || userInfo.family">
+        <div class="param-label">Шукаю оселю для:</div>
+        <div class="param-group">
+
+          <div class="param-field" *ngIf="userInfo.woman === 1">
+            Жінки <span class="param-value"><i class="fa-solid fa-person-dress"></i></span>
+          </div>
+
+          <div class="param-field" *ngIf="userInfo.man === 1">
+            Чоловіка <span class="param-value"><i class="fa-solid fa-person"></i></span>
+          </div>
+
+          <div class="param-field" *ngIf="userInfo.students === 1">
+            Студента<span class="param-value"><i class="fa-solid fa-graduation-cap"></i> </span>
+          </div>
+
+          <div class="param-field" *ngIf="userInfo.family === 1">
+            Сім'ї<span class="param-value"><i class="fa-solid fa-children"></i> </span>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="param-box" *ngIf="userInfo.room">
+        <div class="param-label">Розглядаю сусіда по оселі:</div>
+        <div class="param-group p-1">
+          <div class="param-field" *ngIf="userInfo.looking_man">
+            Якщо:<span class="param-value"><i class="fa-solid fa-person"></i>Чоловік</span>
+          </div>
+          <div class="param-field" *ngIf="userInfo.looking_woman">Якщо:<span class="param-value"><i
+                class="fa-solid fa-person-dress"></i>Жінка</span>
+          </div>
+          <div class="param-field" *ngIf="!userInfo.looking_woman && !userInfo.looking_man">Неважливо<span
+              class="param-value"><i class="fa-solid fa-person-half-dress"></i>Всеодно який буде сусід</span> </div>
+        </div>
+      </div>
+
+      <div class="param-box" *ngIf="userInfo.years || userInfo.mounths || userInfo.weeks || userInfo.days">
+        <div class="param-label">Орієнтовний термін оренди:</div>
+        <div class="param-group p-1">
+
+          <div class="param-field" *ngIf="userInfo.years && userInfo.years !== null">Роки:<span class="param-value"><i
+                class="fa-solid fa-calendar"></i>{{ userInfo.years }}</span></div>
+
+          <div class="param-field" *ngIf="userInfo.mounths && userInfo.mounths !== null">Місяці:
+            <span class="param-value"><i class="fa-solid fa-calendar-days"></i>{{ userInfo.mounths }}</span>
+          </div>
+
+          <div class="param-field" *ngIf="userInfo.weeks && userInfo.weeks !== null">Тижні:<span class="param-value"><i
+                class="fa-regular fa-calendar-days"></i>{{ userInfo.weeks }}</span></div>
+
+          <div class="param-field" *ngIf="userInfo.days && userInfo.days !== null">Дні:<span class="param-value"><i
+                class="fa-solid fa-hourglass-half"></i>{{
+              userInfo.days }}</span></div>
+        </div>
+      </div>
+
+      <div class="p-2" *ngIf="userInfo.about">
+        <div class="t-lar white bold">Додаткова інформація:</div>
+        <div class="t-min white">{{ userInfo.about }}</div>
+      </div>
+
+    </div>
+    <div class="btn-group">
+      <button [disabled]="totalActiveFilters === 0" class="b-primary mr-2 custom-badge" (click)="clearFilterAll()"
+        matBadge="{{totalActiveFilters}}" [matBadgeHidden]="totalActiveFilters === 0">
+        <i class="fa-solid fa-broom"></i>
+      </button>
+
+      <button *ngIf="!totalActiveFilters" class="b-primary p-2 mr-2" (click)="toogleFilter('location')">
+        Почати <i class="fa-solid fa-rocket pl-2 white"></i>
+      </button>
+
+      <button *ngIf="authorization"
+        matTooltip="Внести зміни або активувати профіль можна лише з вказаним містом, областю та варіантом оплати."
+        [disabled]="!suggestConservation" class="b-primary p-2" (click)="saveInfo()">
+        Зберегти <i class="fa-regular fa-circle-check pl-2 white"></i>
+      </button>
+
+      <button *ngIf="!authorization"
+        matTooltip="Внести зміни або активувати профіль можна лише з вказаним містом, областю та варіантом оплати."
+        [disabled]="!suggestConservation" class="b-primary p-2" (click)="saveInfoLocal()">
+        Зберегти <i class="fa-regular fa-circle-check pl-2 white"></i>
+      </button>
+
+    </div>
   </div>
-
 </div>
-<div [@top3] class="t-c filter-wrapper" *ngIf="collapseSort">
-  <div class="t-c filter-window" [ngClass]="{'close': collapseSortStatus}">
 
-    <mat-label align="start" class="filter-label">Сортування</mat-label>
+<div [@top3] class="t-c filter-wrapper" *ngIf="collapseTime">
+  <div class="t-c filter-window" [ngClass]="{'close': collapseTimeStatus}">
 
-    <p class="t-med gray mb-2">Ви можете відсортувати оселі в залежності від ваших вподобань.</p>
+    <mat-label align="start" class="filter-label">Терміни</mat-label>
 
-    <section class="section-chown w-100">
-      <mat-button-toggle-group class="toggle-group-column mt-2" name="filterData" (ngModelChange)="onSubmitWithDelay()"
-        [(ngModel)]="userInfo.filterData" aria-label="filterData">
-        <mat-button-toggle value=""><i class="fa-solid fa-shuffle pr-2"></i>
-          Без сортування</mat-button-toggle>
-        <mat-button-toggle value="1"><i class="fa-solid fa-arrow-down-short-wide pr-2"></i>
-          Сортувати від найдешевших </mat-button-toggle>
-        <mat-button-toggle value="2"><i class="fa-solid fa-arrow-down-wide-short pr-2"></i>
-          Сортувати від найдорожчих </mat-button-toggle>
-        <mat-button-toggle value="3"><i class="fa-solid fa-arrow-down-9-1 pr-2"></i>
-          Сортування від найновіших</mat-button-toggle>
-      </mat-button-toggle-group>
+    <p class="t-med gray mb-2">Ви можете задавати час на який вам треба орендувати оселю.<br> <span
+        class="accent bold">На який термін хочете орендувати оселю?</span></p>
+    <section class="range-section">
+      <p class="t-lar-xx">Днів: {{ userInfo.days }}</p>
+      <label for="days" class="form-label dark">Встановіть кількість днів</label>
+      <input (ngModelChange)="onSubmitWithDelay()" [(ngModel)]="userInfo.days" (ngModelChange)="afterTimeSet()"
+        type="range" class="form-range" min="0" max="31" step="1" id="days">
     </section>
+
+    <section class="range-section">
+      <p class="t-lar-xx">Тижнів: {{ userInfo.weeks }}</p>
+      <label for="weeks" class="form-label dark">Встановіть кількість тижнів</label>
+      <input (ngModelChange)="onSubmitWithDelay()" [(ngModel)]="userInfo.weeks" (ngModelChange)="afterTimeSet()"
+        type="range" class="form-range" min="0" max="4" step="1" id="weeks">
+    </section>
+
+    <section class="range-section">
+      <p class="t-lar-xx">Місяців: {{ userInfo.mounths }}</p>
+      <label for="months" class="form-label dark">Встановіть кількість місяців</label>
+      <input (ngModelChange)="onSubmitWithDelay()" [(ngModel)]="userInfo.mounths" (ngModelChange)="afterTimeSet()"
+        type="range" class="form-range" min="0" max="12" step="1" id="months">
+    </section>
+
+    <section class="range-section">
+      <p class="t-lar-xx">Років: {{ userInfo.years }}</p>
+      <label for="years" class="form-label dark">Встановіть кількість місяців</label>
+      <input (ngModelChange)="onSubmitWithDelay()" [(ngModel)]="userInfo.years" (ngModelChange)="afterTimeSet()"
+        type="range" class="form-range" min="0" max="5" step="1" id="years">
+    </section>
+
+    <p class="t-min gray border-bottom p-2 mt-2">Загальний термін : <br>
+      <span class="t-lar-xx bold"> {{ userInfo.day_counts }} Днів</span>
+    </p>
 
     <div [@appearance] class="btn-group">
       <button class="b-primary mr-2" (click)="toogleAll()">
         <i class="fa-regular fa-circle-xmark"></i>
       </button>
 
-      <button [disabled]="activeSorting === 0" class="b-primary mr-2 custom-badge" (click)="clearSorting()"
-        matBadge="{{activeSorting}}" [matBadgeHidden]="activeSorting === 0">
+      <button [disabled]="activeFilterTime === 0" class="b-primary mr-2 custom-badge" (click)="clearFilterTime()"
+        matBadge="{{activeFilterTime}}" [matBadgeHidden]="activeFilterTime === 0">
         <i class="fa-solid fa-broom"></i>
       </button>
 
-      <button [disabled]="optionsFound === 0 || blockBtnStatus" class="b-primary p-2" (click)="toogleAll()">
-
-        <ng-container *ngIf="blockBtnStatus; else content">
-          <div class="container-loader-mini">
-            <mat-spinner color="warn"></mat-spinner>
-            <div class="t-med bold white">Оновлення</div>
-          </div>
-        </ng-container>
-
-        <ng-template #content>
-          <div class="t-med bold white">Знайдено</div>
-          <i class="fa-solid fa-arrow-right pl-2"></i>
-          <div class="t-lar-xx bold white pl-2">{{optionsFound}}</div>
-        </ng-template>
-
+      <button class="b-primary p-2" (click)="toogleFilter('features')">
+        <div class="t-med bold white">Далі</div>
+        <i class="fa-solid fa-arrow-right pl-2"></i>
       </button>
+
     </div>
   </div>
 </div>
-
 <div [@top3] class="t-c filter-wrapper" *ngIf="collapseFeatures">
   <div class="t-c filter-window" [ngClass]="{'close': collapseFeaturesStatus}">
     <mat-label align="start" class="filter-label">Орендарь</mat-label>
@@ -335,6 +552,15 @@
       </mat-button-toggle-group>
     </section>
 
+    <section class="flex-box-center mt-2 p-2">
+      <mat-label align="start" class="label-section">Опис оголошення або привітання від вас <i
+          class="fa-solid fa-signature"></i></mat-label>
+      <mat-form-field class="mt-2 w-100">
+        <textarea appAutoResizeTextarea matInput id="textArea" (ngModelChange)="onSubmitWithDelay()"
+          [(ngModel)]="userInfo.about"></textarea>
+      </mat-form-field>
+    </section>
+
     <div [@appearance] class="btn-group">
       <button class="b-primary mr-2" (click)="toogleAll()">
         <i class="fa-regular fa-circle-xmark"></i>
@@ -346,22 +572,11 @@
         <i class="fa-solid fa-broom"></i>
       </button>
 
-      <button [disabled]="optionsFound === 0 || blockBtnStatus" class="b-primary p-2" (click)="toogleAll()">
-
-        <ng-container *ngIf="blockBtnStatus; else content">
-          <div class="container-loader-mini">
-            <mat-spinner color="warn"></mat-spinner>
-            <div class="t-med bold white">Оновлення</div>
-          </div>
-        </ng-container>
-
-        <ng-template #content>
-          <div class="t-med bold white">Знайдено</div>
-          <i class="fa-solid fa-arrow-right pl-2"></i>
-          <div class="t-lar-xx bold white pl-2">{{optionsFound}}</div>
-        </ng-template>
-
+      <button class="b-primary p-2" (click)="toogleFilter('houseParam')">
+        <div class="t-med bold white">Далі</div>
+        <i class="fa-solid fa-arrow-right pl-2"></i>
       </button>
+
     </div>
   </div>
 </div>
@@ -370,11 +585,6 @@
 
     <mat-label align="start" class="filter-label">Оселя</mat-label>
     <p class="t-med gray mb-2">Введіть параметри бажаної оселі і ми знайдемо її для вас по відповідним параметрам.</p>
-
-    <mat-form-field class="item-select" appearance="outline">
-      <input matInput type="text" (input)="searchByID()" placeholder="Знайти оселю по ID" [(ngModel)]="searchQuery" />
-      <mat-icon matSuffix><i class="fa-solid fa-magnifying-glass"></i></mat-icon>
-    </mat-form-field>
 
     <section class="section-chown">
       <mat-label align="start" class="label-section"><i class="fa-solid fa-house-chimney-window"></i> Підійде
@@ -584,22 +794,14 @@
         <i class="fa-solid fa-broom"></i>
       </button>
 
-      <button [disabled]="optionsFound === 0 || blockBtnStatus" class="b-primary p-2" (click)="toogleAll()">
-
-        <ng-container *ngIf="blockBtnStatus; else content">
-          <div class="container-loader-mini">
-            <mat-spinner color="warn"></mat-spinner>
-            <div class="t-med bold white">Оновлення</div>
-          </div>
-        </ng-container>
-
-        <ng-template #content>
-          <div class="t-med bold white">Знайдено</div>
-          <i class="fa-solid fa-arrow-right pl-2"></i>
-          <div class="t-lar-xx bold white pl-2">{{optionsFound}}</div>
-        </ng-template>
-
+      <button *ngIf="authorization" class="b-primary p-2" (click)="saveInfo()">
+        <i class="fa-regular fa-circle-check pr-2 white"></i> Зберегти
       </button>
+
+      <button *ngIf="!authorization" class="b-primary p-2" (click)="saveInfoLocal()">
+        <i class="fa-regular fa-circle-check pr-2 white"></i> Зберегти
+      </button>
+
     </div>
   </div>
 </div>
@@ -614,15 +816,15 @@
       <div class="flex-column t-с">
         <p class="t-med bold">{{chownCity.region}} область</p>
         <p class="t-min">населення області - {{chownCity.regionPopulation | number:'1.0-0'}}</p>
-        <img class="card-img" [src]="chownCity.icon" alt="User Image">
+        <img class="card-img" [src]="chownCity.icon" alt="userInfo Image">
       </div>
     </div>
 
     <section>
       <mat-form-field class="item-select p-1" appearance="outline" *ngIf="userInfo.country">
         <mat-label for="country">Країна</mat-label>
-        <input disabled name="userInfo.country" id="country" matInput [(ngModel)]="userInfo.country"
-          placeholder="Виберіть або введіть мікрорайон">
+        <input disabled name="userInfo.country" id="country" matInput (ngModelChange)="onSubmitWithDelay()"
+          [(ngModel)]="userInfo.country" placeholder="Виберіть або введіть мікрорайон">
         <mat-icon matSuffix><i class="fa-solid fa-flag gray"></i></mat-icon>
         <mat-hint align="end" class="t-min gray">В розробці</mat-hint>
       </mat-form-field>
@@ -673,8 +875,8 @@
       <mat-form-field [@appearance] class="item-select p-1" appearance="outline"
         *ngIf="userInfo.city && userInfo.district">
         <mat-label for="micro_district">Мікрорайон</mat-label>
-        <input name="userInfo.micro_district" id="micro_district" matInput [(ngModel)]="userInfo.micro_district"
-          placeholder="Введіть мікрорайон" (ngModelChange)="onSubmitWithDelay()">
+        <input name="userInfo.micro_district" id="micro_district" matInput (ngModelChange)="onSubmitWithDelay()"
+          [(ngModel)]="userInfo.micro_district" placeholder="Введіть мікрорайон">
         <mat-icon matSuffix><i class="fa-solid fa-building-flag gray"></i></mat-icon>
       </mat-form-field>
     </section>
@@ -695,8 +897,8 @@
       <section class="section-chown">
         <mat-label align="start" class="label-section"><i class="fa-solid fa-code-branch"></i>
           Лінія метро:</mat-label>
-        <mat-button-toggle-group name="metrocolor" [(ngModel)]="userInfo.metrocolor"
-          (ngModelChange)="onLineSelect(userInfo.metrocolor)" aria-label="Метро"
+        <mat-button-toggle-group name="metrocolor" (ngModelChange)="onSubmitWithDelay()"
+          [(ngModel)]="userInfo.metrocolor" (ngModelChange)="onLineSelect(userInfo.metrocolor)" aria-label="Метро"
           [hideSingleSelectionIndicator]="hideSingleSelectionIndicator()">
           <mat-button-toggle *ngFor="let line of lines" [value]="line.name">{{ line.name }}</mat-button-toggle>
         </mat-button-toggle-group>
@@ -705,8 +907,8 @@
       <section class="section-chown">
         <mat-label align="start" class="label-section"><i class="fa-solid fa-arrows-left-right-to-line"></i>
           Метро в радіусі до:</mat-label>
-        <mat-button-toggle-group [(ngModel)]="userInfo.distance_metro" name="distance_metro"
-          aria-label="Відстань до метро" (ngModelChange)="onSubmitWithDelay()"
+        <mat-button-toggle-group (ngModelChange)="onSubmitWithDelay()" [(ngModel)]="userInfo.distance_metro"
+          name="distance_metro" aria-label="Відстань до метро"
           [hideSingleSelectionIndicator]="hideSingleSelectionIndicator()">
           <mat-button-toggle *ngFor="let distance of distanceConfiq" [value]="distance.value">
             {{ distance.name }}</mat-button-toggle>
@@ -716,8 +918,8 @@
       <section class="section-chown">
         <mat-form-field [@appearance] class="item-select p-1" appearance="outline" *ngIf="userInfo.metrocolor">
           <mat-label for="metroname">Станція метро</mat-label>
-          <mat-select placeholder="Виберіть станцію" [(ngModel)]="userInfo.metroname" name="metroname"
-            (ngModelChange)="onSubmitWithDelay()">
+          <mat-select placeholder="Виберіть станцію" (ngModelChange)="onSubmitWithDelay()"
+            [(ngModel)]="userInfo.metroname" name="metroname">
             <mat-option *ngFor="let station of stations" [value]="station.name">{{ station.name }}</mat-option>
           </mat-select>
           <mat-hint align="end">Виберіть станцію метро</mat-hint>
@@ -739,23 +941,15 @@
         <i class="fa-solid fa-broom"></i>
       </button>
 
-      <button [disabled]="optionsFound === 0 || blockBtnStatus" class="b-primary p-2" (click)="toogleAll()">
-
-        <ng-container *ngIf="blockBtnStatus; else content">
-          <div class="container-loader-mini">
-            <mat-spinner color="warn"></mat-spinner>
-            <div class="t-med bold white">Оновлення</div>
-          </div>
-        </ng-container>
-
-        <ng-template #content>
-          <div class="t-med bold white">Знайдено</div>
-          <i class="fa-solid fa-arrow-right pl-2"></i>
-          <div class="t-lar-xx bold white pl-2">{{optionsFound}}</div>
-        </ng-template>
-
+      <button class="b-primary p-2" (click)="toogleFilter('time')">
+        <div class="t-med bold white">Далі</div>
+        <i class="fa-solid fa-arrow-right pl-2"></i>
       </button>
+
     </div>
 
   </div>
+
+
+
 </div>

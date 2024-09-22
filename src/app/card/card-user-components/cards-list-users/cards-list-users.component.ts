@@ -11,15 +11,19 @@ import { Location } from '@angular/common';
 import { Subscription } from 'rxjs';
 import { CardsDataHouseService } from 'src/app/services/house-components/cards-data-house.service';
 import { FilterUserService } from 'src/app/services/search/filter-user.service';
+import { arrow } from '@popperjs/core';
 
 @Component({
   selector: 'app-cards-list-users',
   templateUrl: './cards-list-users.component.html',
-  styleUrls: ['./cards-list-users.component.scss'],
+  styleUrls: ['./../../card-list.scss'],
   animations: [animations.top3],
 })
 
 export class CardsListUsersComponent implements OnInit, OnDestroy {
+
+
+
   subscriptions: Subscription[] = [];
 
   // імпорт шляхів до медіа
@@ -46,6 +50,8 @@ export class CardsListUsersComponent implements OnInit, OnDestroy {
   @ViewChild('findCards') findCardsElement!: ElementRef;
   isMobile: boolean = false;
   authorization: boolean = false;
+  blockBtnStatus: boolean = false;
+  existInfo: boolean = false;
 
   constructor(
     private selectedFlatIdService: SelectedFlatService,
@@ -65,6 +71,7 @@ export class CardsListUsersComponent implements OnInit, OnDestroy {
     await this.getSelectedFlatId();
     await this.getChosenUserId();
     this.getSubInfoFromService(this.offs);
+    this.getBtnStatus();
   }
 
   // перевірка на девайс
@@ -129,12 +136,29 @@ export class CardsListUsersComponent implements OnInit, OnDestroy {
     this.getCounterCards();
   }
 
+  // Підписка на отримання статусу коли інформація оновлюється
+  getBtnStatus() {
+    this.subscriptions.push(
+      this.filterUserService.blockBtnStatus$.subscribe(blockBtnStatus => {
+        this.blockBtnStatus = blockBtnStatus;
+      })
+    )
+  }
+
   // Підписка на інформацію про картки
   private getCardsData(): void {
     this.subscriptions.push(
       this.cardsDataHouseService.cardsData$.subscribe(data => {
-        this.allCards = data;
-        // console.log(this.allCards)
+        if (Array.isArray(data) && data.length > 0) {
+          this.allCards = data;
+          // console.log(this.allCards)
+          this.existInfo = true;
+        } else {
+          this.allCards = data;
+          this.existInfo = false;
+          this.choseSubscribersService.removeChosenUserId();
+          this.cardsDataHouseService.removeCardData();
+        }
       })
     );
   }
@@ -197,6 +221,8 @@ export class CardsListUsersComponent implements OnInit, OnDestroy {
       const offs = (this.pageEvent.pageIndex) * this.pageEvent.pageSize;
       this.offs = offs;
       this.getSubInfoFromService(this.offs);
+      this.setLimits(this.offs);
+
     }
     this.getCurrentPageInfo()
   }
@@ -208,8 +234,13 @@ export class CardsListUsersComponent implements OnInit, OnDestroy {
       const offs = (this.pageEvent.pageIndex) * this.pageEvent.pageSize;
       this.offs = offs;
       this.getSubInfoFromService(this.offs);
+      this.setLimits(this.offs);
     }
     this.getCurrentPageInfo()
+  }
+
+  setLimits(limits: number) {
+    this.filterUserService.setLimits(limits)
   }
 
   // перевірка на якій ми сторінці і скільки їх
@@ -223,16 +254,16 @@ export class CardsListUsersComponent implements OnInit, OnDestroy {
   }
 
   onScroll(event: Event): void {
-    const element = this.findCardsElement.nativeElement;
-    const atTop = element.scrollTop === 0;
-    const atBottom = element.scrollHeight - element.scrollTop === element.clientHeight;
-    if (atTop) {
-      // console.log(atTop)
-      // this.filterService.loadCards('prev')
-    } else if (atBottom) {
-      // console.log(atBottom)
-      this.filterUserService.loadCards('next')
-    }
+    // const element = this.findCardsElement.nativeElement;
+    // const atTop = element.scrollTop === 0;
+    // const atBottom = element.scrollHeight - element.scrollTop === element.clientHeight;
+    // if (atTop) {
+    //   // console.log(atTop)
+    //   // this.filterService.loadCards('prev')
+    // } else if (atBottom) {
+    //   // console.log(atBottom)
+    //   this.filterUserService.loadCards('next')
+    // }
   }
 
   ngOnDestroy() {

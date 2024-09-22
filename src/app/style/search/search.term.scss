@@ -1,13 +1,75 @@
 @use "./../presets/" as *;
 @use "./../mixins/" as *;
 @use "./../shared.scss";
+@use "./../input.scss";
+
+
+.toggle-group-column {
+  display: flex;
+  width: auto;
+  @include s1-s3 {
+    max-width: 96%;
+    flex-direction: column;
+  }
+}
+
+.cards-height {
+  @include s3-s6-max {
+    border-radius: 20px;
+    height: calc(100vh - 80px - 150px);
+    overflow: auto;
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+  @include s1-s3 {
+    height: auto;
+  }
+}
+
+.custom-badge .mat-badge-content {
+  background-color: $color-accent;
+  color: $color-white;
+}
+
+.filter-count {
+  color: $color-white;
+  font-size: $t-med;
+  text-transform: lowercase;
+  background-color: $color-gray;
+  border-radius: 10px;
+  padding: 5px;
+  &.active {
+    background-color: $color-accent;
+  }
+}
+
+
+.filter-label {
+  font-size: 30px;
+  margin-top: 20px;
+}
+
+.b-primary {
+  width: auto;
+  min-width: 60px;
+  &.active {
+    background-color: $color-blue;
+  }
+}
 
 .filter-btn-wrapper {
   @include flex-box-center;
+  flex-direction: column;
+  position: relative;
   width: 100%;
   @include s1-s3 {
     flex-direction: column;
   }
+}
+
+.btn-group-filter {
+  @include flex-box-center;
 }
 
 .btn-search {
@@ -24,9 +86,14 @@
   }
   @include s1-s3 {
     width: 100%;
+    height: 100px;
     justify-content: space-between;
     .t-min {
       font-size: $t-med;
+    }
+    .fa-solid,
+    .fa-regular {
+      font-size: 30px;
     }
   }
   &:disabled {
@@ -109,14 +176,14 @@
 .switch-container {
   @include flex-box;
   height: 60px !important;
-  margin: 0px !important;
+  margin-top: 20px;
   z-index: 15 !important;
   width: 100%;
   justify-content: flex-start;
   position: relative;
   justify-content: space-around !important;
   // background-color: $color-accent;
-  @include blurred-background($color-white);
+  // @include blurred-background($color-white);
 
   .switch-btn-group {
     @include flex-box-column;
@@ -283,51 +350,20 @@
 
 .btn-group {
   @include flex-box-center;
-  width: 100%;
-  position: sticky;
   bottom: 0;
-  padding-bottom: 40px;
-  @include s1-s3 {
-    position: fixed;
-    padding-bottom: 20px;
-  }
-}
+  position: sticky;
 
-.switch-box {
-  position: relative;
-  .switch-btn-group {
-    .btn {
-      .flex-box {
-        position: relative;
-        align-items: center;
-        .fa-house-chimney-window {
-          font-size: 35px;
-          z-index: 90;
-        }
-        .t-lar {
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          position: absolute;
-          background-color: $color-accent;
-          border-radius: 50%;
-          width: 20px;
-          height: 20px;
-          z-index: 100;
-          color: $color-white;
-        }
-      }
-      &:active {
-        .t-min,
-        .t-lar-xx,
-        .fa-solid {
-          color: $color-accent;
-        }
-      }
-      .active {
-        color: $color-accent;
-      }
-    }
+  @include s3-s6-max {
+    width: auto;
+    padding: 5px;
+    border-radius: 20px;
+    // margin-bottom: 40px;
+    @include blurred-background($color-white, 0.5);
+  }
+  @include s1-s3 {
+    @include blurred-background($color-white, 0.8);
+    padding: 5px 5px 20px 5px;
+    border-radius: 20px;
   }
 }
 
@@ -369,6 +405,7 @@ mat-hint {
 
 .item-select {
   width: auto;
+  max-width: 400px;
   font-size: 16px;
   flex-direction: column-reverse;
   @include s1-s3 {
@@ -384,27 +421,57 @@ mat-hint {
 
 .filter-wrapper {
   position: fixed;
-  height: 100%;
+  display: flex;
+  justify-content: center;
+  height: 100vh;
   width: 100%;
   z-index: 100;
-  top: 0;
+  bottom: 0;
   left: 0;
-  background-color: rgba(0, 0, 0, 0.808);
+  @include s3-s6-max {
+    padding: 10px;
+  }
+  @include s1-s3 {
+    height: auto;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    border-radius: 20px 20px 0 0;
+  }
 }
 
 .filter-window {
   @include flex-box-center;
   flex-direction: column;
+  overflow: auto;
+  position: relative;
 
-  height: 100%;
-  width: 100%;
-  background-color: rgba(201, 201, 201, 0.808);
-  border-radius: 20px;
-  padding: 8px;
-  color: $color-white !important;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
+  @include s3-s6-max {
+    justify-content: space-evenly;
+    height: 100%;
+    width: 100%;
+    max-width: 1050px;
+    max-height: 100vh;
+    border-radius: 20px;
+    @include blurred-background($color-white, 0.7);
+  }
   @include s1-s3 {
     justify-content: flex-start;
+
+    @include blurred-background($color-white, 0.8);
+    border-radius: 20px 20px 0 0;
+    box-shadow: 0px 0px 50px 20px $color-gray;
+    height: auto;
+    min-height: 60vh;
+    max-height: 91vh;
     overflow: auto;
-    padding-bottom: 90px;
+  }
+  &.close {
+    transition: 2s;
+    transform: translateY(200%);
   }
 }

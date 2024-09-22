@@ -21,7 +21,7 @@ import { ViewComunService } from 'src/app/pages/host-user/host-user-discus/discu
 @Component({
   selector: 'app-functions-house',
   templateUrl: './functions-house.component.html',
-  styleUrls: ['./functions-house.component.scss'],
+  styleUrls: ['./../../card-func.scss'],
   providers: [
     { provide: LOCALE_ID, useValue: 'uk-UA' },
   ],

@@ -1,6 +1,6 @@
 <button class="btn-open" (click)="toogleOpen()" [ngClass]="{'active': detail === true}">
   <i class="fa-solid fa-link"></i>
-  <!-- <div class="t-min">Більше</div> -->
+  <!-- <div class="t-min">Контакти</div> -->
 </button>
 
 <div [@fadeIn] class="detail" *ngIf="detail">
@@ -19,57 +19,57 @@
 
     <div class="links-box">
 
-        <a href="tel:{{ userInfo.tell}}" class="link-item" *ngIf="userInfo.tell">
-          <i class="fa-solid fa-phone"></i>
-          <div class="link-item-name">{{userInfo.tell}}</div>
-        </a>
+      <a href="tel:{{ userInfo.tell}}" class="link-item" *ngIf="userInfo.tell">
+        <i class="fa-solid fa-phone"></i>
+        <div class="link-item-name">{{userInfo.tell}}</div>
+      </a>
 
-        <button disabled class="link-item" *ngIf="!userInfo.tell">
-          <i class="fa-solid fa-phone"></i>
-          <div class="link-item-name">Номер Відсутній</div>
-        </button>
+      <button disabled class="link-item" *ngIf="!userInfo.tell">
+        <i class="fa-solid fa-phone"></i>
+        <div class="link-item-name">Номер Відсутній</div>
+      </button>
 
-        <button class="link-item" *ngIf="userInfo.mail" (click)="copyMail()">
-          <i class="fa-solid fa-at"></i>
-          <div class="link-item-name">{{userInfo.mail}}</div>
-        </button>
-        <button disabled class="link-item" *ngIf="!userInfo.mail">
-          <i class="fa-solid fa-at"></i>
-          <div class="link-item-name">Email Відсутній</div>
-        </button>
+      <button class="link-item" *ngIf="userInfo.mail" (click)="copyMail()">
+        <i class="fa-solid fa-at"></i>
+        <div class="link-item-name">{{userInfo.mail}}</div>
+      </button>
+      <button disabled class="link-item" *ngIf="!userInfo.mail">
+        <i class="fa-solid fa-at"></i>
+        <div class="link-item-name">Email Відсутній</div>
+      </button>
 
-        <a class="link-item" href="https://www.instagram.com/{{  userInfo.instagram }}" *ngIf="userInfo.instagram">
-          <i class="fa-brands fa-instagram"></i>
-          <div class="link-item-name">{{userInfo.instagram}}</div>
-        </a>
-        <button disabled class="link-item" *ngIf="!userInfo.instagram">
-          <i class="fa-brands fa-instagram"></i>
-          <div class="link-item-name">Instagram Відсутній</div>
-        </button>
-        <a class="link-item" href="https://www.facebook.com//{{  userInfo.facebook }}" *ngIf="userInfo.facebook">
-          <i class="fa-brands fa-facebook"></i>
-          <div class="link-item-name">{{userInfo.facebook}}</div>
-        </a>
-        <button disabled class="link-item" *ngIf="!userInfo.facebook">
-          <i class="fa-brands fa-facebook"></i>
-          <div class="link-item-name">Facebook Відсутній</div>
-        </button>
-        <a class="link-item" href="https://t.me/{{  userInfo.telegram }}" *ngIf="userInfo.telegram">
-          <i class="fa-brands fa-telegram"></i>
-          <div class="link-item-name">{{userInfo.telegram}}</div>
-        </a>
-        <button disabled class="link-item" *ngIf="!userInfo.telegram">
-          <i class="fa-brands fa-telegram"></i>
-          <div class="link-item-name">Telegram Відсутній</div>
-        </button>
-        <button class="link-item" *ngIf="userInfo.viber" (click)="copyViber()">
-          <i class="fa-brands fa-viber"></i>
-          <div class="link-item-name">{{userInfo.viber}}</div>
-        </button>
-        <button disabled class="link-item" *ngIf="!userInfo.viber">
-          <i class="fa-brands fa-viber"></i>
-          <div class="link-item-name">Viber Відсутній</div>
-        </button>
+      <a class="link-item" href="https://www.instagram.com/{{  userInfo.instagram }}" *ngIf="userInfo.instagram">
+        <i class="fa-brands fa-instagram"></i>
+        <div class="link-item-name">{{userInfo.instagram}}</div>
+      </a>
+      <button disabled class="link-item" *ngIf="!userInfo.instagram">
+        <i class="fa-brands fa-instagram"></i>
+        <div class="link-item-name">Instagram Відсутній</div>
+      </button>
+      <a class="link-item" href="https://www.facebook.com//{{  userInfo.facebook }}" *ngIf="userInfo.facebook">
+        <i class="fa-brands fa-facebook"></i>
+        <div class="link-item-name">{{userInfo.facebook}}</div>
+      </a>
+      <button disabled class="link-item" *ngIf="!userInfo.facebook">
+        <i class="fa-brands fa-facebook"></i>
+        <div class="link-item-name">Facebook Відсутній</div>
+      </button>
+      <a class="link-item" href="https://t.me/{{  userInfo.telegram }}" *ngIf="userInfo.telegram">
+        <i class="fa-brands fa-telegram"></i>
+        <div class="link-item-name">{{userInfo.telegram}}</div>
+      </a>
+      <button disabled class="link-item" *ngIf="!userInfo.telegram">
+        <i class="fa-brands fa-telegram"></i>
+        <div class="link-item-name">Telegram Відсутній</div>
+      </button>
+      <button class="link-item" *ngIf="userInfo.viber" (click)="copyViber()">
+        <i class="fa-brands fa-viber"></i>
+        <div class="link-item-name">{{userInfo.viber}}</div>
+      </button>
+      <button disabled class="link-item" *ngIf="!userInfo.viber">
+        <i class="fa-brands fa-viber"></i>
+        <div class="link-item-name">Viber Відсутній</div>
+      </button>
     </div>
 
   </div>

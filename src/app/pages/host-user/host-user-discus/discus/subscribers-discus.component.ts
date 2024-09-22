@@ -139,7 +139,8 @@ export class SubscribersDiscusComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.cardsDataService.removeCardData(); // очищуємо дані про оселю
+    this.choseSubscribeService.removeChosenFlatId();
+    this.cardsDataService.removeCardData();
     this.subscriptions.forEach(subscription => subscription.unsubscribe());
   }
 
