@@ -1,367 +1,544 @@
 <div class="menu">
+  <ng-container *ngIf="isMobile">
 
-  <div [@cardAnimation]="{value: '', params: { delay: animationDelay(0) }}" class="wrapper-img mb-2"
-    (click)="closeToogleMenu()">
-
-    <picture>
-      <img [ngSrc]="userData?.img && userData.img[0].img !== 'user_default.svg'
-                  ? serverPath + pathPhotoUser + userData.img[0].img
-                  : '../../../assets/user_default.svg'" alt="img" class="img-fluid" width="50" height="50"
-        [routerLink]="'/user/info'" priority>
-    </picture>
-
-    <div class="userName pl-2 pr-2" *ngIf="!userData" [routerLink]="'/user/info'">
-      <p class="t-lar bold">Меню Користувача</p>
-      <p class="t-min">User Name User ID</p>
-    </div>
-
-    <div class="userName pl-2 pr-2" *ngIf="userData" [routerLink]="'/user/info'">
-      <p class="t-lar bold">{{userData.inf.firstName}}</p>
-      <p class="t-min">{{userData.inf.lastName}} ID : {{userData.inf.user_id}}</p>
-    </div>
-    <a *ngIf="userData" [@cardAnimation]="{value: '', params: { delay: animationDelay(5) }}" class="message"
-      [routerLinkActive]="'active'" [routerLink]="'/user/chat'" (click)="closeToogleMenu()">
-      <i class="fa-solid fa-message custom-badge" matBadge="{{counterUserNewMessage}}"
-        [matBadgeHidden]="counterUserNewMessage === 0"></i>
-    </a>
-  </div>
-
-  <div class="category-container">
-    <div class="category">
-      <a [@cardAnimation]="{value: '', params: { delay: animationDelay(1) }}" class="link-item"
-        [routerLinkActive]="'active'" [routerLink]="'/user/info'" (click)="closeToogleMenu()">
-        <i class="fa-regular fa-circle-user"></i>
+    <div class="d-flex jc-sb w-100">
+      <p class="t-lar-xx t-s w-100">Користувач</p>
+      <a class="link-item jc-fe" [routerLinkActive]="'active'" [routerLink]="'/search/house'"
+        (click)="closeToogleMenu()">
+        <i class="fa-solid fa-magnifying-glass"></i>
         <div class="item-description">
-          <p class="t-med bold">Профіль</p>
-          <p class="t-min">Користувача</p>
+          <p class="t-min">Пошук</p>
+          <p class="t-med bold text-uppercase">Оселі</p>
         </div>
       </a>
-      <button [@appearance] [ngClass]="{'active': section[1]}" class="link-btn" (click)="setSection(1)">
-        <i [ngClass]="section[1] ? 'fa-solid fa-circle-chevron-up' : 'fa-solid fa-circle-chevron-down'"></i>
-      </button>
     </div>
-    <div class="subcategory-container p-2" *ngIf="section[1]">
 
-      <a [@cardAnimation]="{value: '', params: { delay: animationDelay(1) }}" class="subcategory"
-        [routerLinkActive]="'active'" [routerLink]="'/auth/login'" *ngIf="!userData" (click)="closeToogleMenu()">
-        <i class="fa-solid fa-arrow-right-from-bracket"></i>
-        <div class="item-description">
-          <p class="t-min">Вхід</p>
-          <p class="t-min">В аккаунт</p>
-        </div>
-      </a>
+    <div class="category-container">
+      <div class="category">
+        <a class="link-item" (click)="closeToogleMenu()" [routerLink]="'/user/info'">
+          <picture class="pr-2">
+            <img [ngSrc]="userData?.img && userData.img[0].img !== 'user_default.svg'
+                      ? serverPath + pathPhotoUser + userData.img[0].img
+                      : '../../../assets/user_default.svg'" alt="img" class="img-fluid" width="50" height="50"
+              [routerLink]="'/user/info'" priority>
+          </picture>
+          <div class="item-description" *ngIf="!userData" [routerLink]="'/user/info'">
+            <p class="t-med bold">Користувач</p>
+            <p class="t-min">Увійдіть в аккаунт</p>
+          </div>
 
-      <a *ngIf="userData" [@cardAnimation]="{value: '', params: { delay: animationDelay(2) }}" class="subcategory"
-        [routerLinkActive]="'active'" [routerLink]="'/user/edit'" (click)="closeToogleMenu()">
-        <i class="fa-solid fa-gears"></i>
-        <div class="item-description">
-          <p class="t-min">Редагувати</p>
-          <p class="t-min">Аккаунт</p>
-        </div>
-      </a>
+          <div class="item-description" *ngIf="userData" [routerLink]="'/user/info'">
+            <p class="t-med bold">{{userData.inf.firstName}}</p>
+            <p class="t-min">{{userData.inf.lastName}} ID : {{userData.inf.user_id}}</p>
+          </div>
+        </a>
 
-      <button [@cardAnimation]="{value: '', params: { delay: animationDelay(3) }}" class="subcategory"
+        <a class="message" [routerLinkActive]="'active'" [routerLink]="'/user/edit'" (click)="closeToogleMenu()">
+          <i class="fa-solid fa-gears"></i>
+        </a>
+
+      </div>
+
+      <div class="subcategory-container ">
+
+        <a class="subcategory" [routerLinkActive]="'active'" [routerLink]="'/auth/login'" *ngIf="!userData"
+          (click)="closeToogleMenu()">
+          <i class="fa-solid fa-arrow-right-from-bracket"></i>
+          <div class="item-description">
+            <p class="t-min">Вхід</p>
+          </div>
+        </a>
+
+        <!-- <button class="subcategory"
         [routerLink]="'/auth/change-password'" (click)="closeToogleMenu()">
         <i class="fa-solid fa-key"></i>
         <div class="item-description">
-          <p class="t-min">Змінити</p>
           <p class="t-min">Пароль</p>
         </div>
-      </button>
+      </button> -->
 
-      <button *ngIf="userData" [@cardAnimation]="{value: '', params: { delay: animationDelay(4) }}" class="subcategory"
-        (click)="logout()">
-        <i class="fa-solid fa-door-open"></i>
-        <div class="item-description">
-          <p class="t-min">Вийти</p>
-          <p class="t-min">З аккаунту</p>
-        </div>
-      </button>
+        <button *ngIf="userData" class="subcategory" (click)="logout()">
+          <i class="fa-solid fa-door-open"></i>
+          <div class="item-description">
+            <p class="t-min">Вийти</p>
+          </div>
+        </button>
 
-    </div>
-  </div>
+        <a class="subcategory" [routerLinkActive]="'active'" [routerLink]="'/auth/login'" *ngIf="!userData"
+          (click)="closeToogleMenu()">
+          <i class="fa-solid fa-arrow-right-from-bracket"></i>
+          <div class="item-description">
+            <p class="t-min">Вхід</p>
+          </div>
+        </a>
 
-  <div class="category-container">
-    <div class="category">
-      <a [@cardAnimation]="{value: '', params: { delay: animationDelay(3) }}" class="link-item"
-        [routerLinkActive]="'active'" [routerLink]="'/user/tenant/profile'" (click)="closeToogleMenu()">
+        <a class="subcategory" [routerLinkActive]="'active'" [routerLink]="'/user/chat'" (click)="closeToogleMenu()">
+          <i class="fa-solid fa-message custom-badge" matBadge="{{counterUserNewMessage}}"
+            [matBadgeHidden]="counterUserNewMessage === 0"></i>
+          <div class="item-description">
+            <p class="t-min">Повід.</p>
+            <span class="bage"></span>
+          </div>
+        </a>
 
-        <i class="fa-solid fa-person-hiking custom-badge"></i>
-        <div class="item-description">
-          <p class="t-med bold">Профіль</p>
-          <p class="t-min">Орендаря</p>
-        </div>
+        <a class="subcategory" [routerLinkActive]="'active'" [routerLink]="'/user/discus/subscriptions'"
+          (click)="closeToogleMenu()">
+          <i class="fa-regular fa-heart custom-badge" matBadge="{{counterUserSubscriptions}}"></i>
 
-        <i *ngIf="authorization" class="fa-solid fa-toggle-on custom-badge pl-1" matBadge="a"
-          [matBadgeHidden]="userFeaturesData && userFeaturesData.agree_search !== 1">
-        </i>
+          <div class="item-description">
+            <p class="t-min">Вподобані</p>
+            <span class="bage"></span>
+          </div>
+        </a>
 
-      </a>
-
-      <button [@appearance] [ngClass]="{'active': section[3]}" class="link-btn" (click)="setSection(3)">
-        <i [ngClass]="section[3] ? 'fa-solid fa-circle-chevron-up' : 'fa-solid fa-circle-chevron-down'"></i>
-      </button>
-    </div>
-    <div class="subcategory-container p-2" *ngIf="section[3]">
-      <a [@cardAnimation]="{value: '', params: { delay: animationDelay(1) }}" class="subcategory"
-        [routerLinkActive]="'active'" [routerLink]="'/user/tenant/about'" (click)="closeToogleMenu()">
-        <i class="fa-regular fa-circle-question"></i>
-        <div class="item-description">
-          <p class="t-min">Що</p>
-          <p class="t-min">це?</p>
-        </div>
-      </a>
-      <a [@cardAnimation]="{value: '', params: { delay: animationDelay(2) }}" class="subcategory"
-        [routerLinkActive]="'active'" [routerLink]="'/user/tenant/step'" (click)="closeToogleMenu()">
-        <i class="fa-solid fa-shoe-prints"></i>
-        <div class="item-description">
-          <p class="t-min">Як</p>
-          <p class="t-min">актив ?</p>
-        </div>
-      </a>
-
-      <button (click)="activateTenantProfile()" [@cardAnimation]="{value: '', params: { delay: animationDelay(2) }}"
-        class="subcategory" *ngIf="userFeaturesData && userFeaturesData.agree_search === 0">
-        <i class="fa-solid fa-toggle-on"></i>
-        <div class="item-description">
-          <p class="t-min">Актив.</p>
-          <p class="t-min">Профіль</p>
-        </div>
-      </button>
-
-      <button (click)="deactivateTenantProfile()" [@cardAnimation]="{value: '', params: { delay: animationDelay(2) }}"
-        class="subcategory" *ngIf="userFeaturesData && userFeaturesData.agree_search === 1">
-        <i class="fa-solid fa-power-off"></i>
-        <div class="item-description">
-          <p class="t-min">Деактив.</p>
-          <p class="t-min">Профіль.</p>
-        </div>
-      </button>
-
-    </div>
-  </div>
-
-  <div class="category-container">
-    <div class="category">
-      <a [@cardAnimation]="{value: '', params: { delay: animationDelay(4) }}" class="link-item"
-        [routerLinkActive]="'active'" [routerLink]="'/user/discus'" (click)="closeToogleMenu()">
-        <i class="fa-solid fa-signs-post"></i>
-        <div class="item-description">
-          <p class="t-med bold">Підписки</p>
-          <p class="t-min">Та Дискусії</p>
-        </div>
-
-        <div *ngIf="!section[4] && userData">
-          <i *ngIf="counterUserSubscriptions !== 0" class="fa-regular fa-heart custom-badge pl-1"
-            matBadge="{{counterUserSubscriptions}}"></i>
-          <i *ngIf="counterUserSubscribers !== 0" class="fa-solid fa-house-fire custom-badge pl-1"
-            matBadge="{{counterUserSubscribers}}"></i>
-          <i *ngIf="counterUserDiscussio !== 0" class="fa-solid fa-person-walking-luggage custom-badge pl-1"
-            matBadge="{{counterUserDiscussio}}"></i>
-        </div>
-
-      </a>
-      <button [@appearance] [ngClass]="{'active': section[4]}" class="link-btn" (click)="setSection(4)">
-        <i [ngClass]="section[4] ? 'fa-solid fa-circle-chevron-up' : 'fa-solid fa-circle-chevron-down'"></i>
-      </button>
-    </div>
-    <div class="subcategory-container p-2" *ngIf="section[4]">
-
-      <a [@cardAnimation]="{value: '', params: { delay: animationDelay(1) }}" class="subcategory"
-        [routerLinkActive]="'active'" [routerLink]="'/user/discus/about'" (click)="closeToogleMenu()">
-        <i class="fa-regular fa-circle-question"></i>
-        <div class="item-description">
-          <p class="t-min">Що</p>
-          <p class="t-min">Це?</p>
-        </div>
-      </a>
-
-      <a [@cardAnimation]="{value: '', params: { delay: animationDelay(2) }}" class="subcategory"
-        [routerLinkActive]="'active'" [routerLink]="'/user/discus/subscriptions'" (click)="closeToogleMenu()">
-        <i class="fa-regular fa-heart custom-badge" matBadge="{{counterUserSubscriptions}}"></i>
-
-        <div class="item-description">
-          <p class="t-min">Вподобані</p>
-          <p class="t-min">Оселі</p>
-          <span class="bage"></span>
-        </div>
-      </a>
-
-      <a [@cardAnimation]="{value: '', params: { delay: animationDelay(3) }}" class="subcategory"
-        [routerLinkActive]="'active'" [routerLink]="'/user/discus/subscribers'" (click)="closeToogleMenu()">
-        <i class="fa-solid fa-house-fire custom-badge" matBadge="{{counterUserSubscribers}}"></i>
-        <div class="item-description">
-          <p class="t-min">Запроп.</p>
-          <p class="t-min">Оселі</p>
-        </div>
-      </a>
-
-      <a [@cardAnimation]="{value: '', params: { delay: animationDelay(4) }}" class="subcategory"
-        [routerLinkActive]="'active'" [routerLink]="'/user/discus/discussion'" (click)="closeToogleMenu()">
-        <i class="fa-solid fa-person-walking-luggage custom-badge" matBadge="{{counterUserDiscussio}}"></i>
-        <div class="item-description">
-          <p class="t-min">Дискусії</p>
-          <p class="t-min">Орендаря</p>
-        </div>
-      </a>
-    </div>
-  </div>
-
-  <div class="category-container">
-    <div class="category">
-      <a [@cardAnimation]="{value: '', params: { delay: animationDelay(2) }}" class="link-item"
-        [routerLinkActive]="'active'" [routerLink]="'/user/agree'" (click)="closeToogleMenu()">
-
-        <i class="fa-solid fa-envelope-open-text "></i>
-
-        <div class="item-description">
-          <p class="t-med bold">Угоди</p>
-          <p class="t-min">Орендаря</p>
-        </div>
-
-        <i *ngIf="authorization && userData && !section[2]" class="fa-solid fa-hourglass-half  custom-badge pl-1"
-          matBadge="{{userData.agree.total}}" [matBadgeHidden]="userData.agree.total === 0 || section[2]"></i>
-
-      </a>
-      <button [@appearance] [ngClass]="{'active': section[2]}" class="link-btn" (click)="setSection(2)">
-        <i [ngClass]="section[2] ? 'fa-solid fa-circle-chevron-up' : 'fa-solid fa-circle-chevron-down'"></i>
-      </button>
-    </div>
-    <div class="subcategory-container p-2" *ngIf="section[2]">
-
-      <a [@cardAnimation]="{value: '', params: { delay: animationDelay(1) }}" class="subcategory"
-        [routerLinkActive]="'active'" [routerLink]="'/user/agree/about'" (click)="closeToogleMenu()">
-        <i class="fa-regular fa-circle-question"></i>
-        <div class="item-description">
-          <p class="t-min">Що</p>
-          <p class="t-min">це?</p>
-        </div>
-      </a>
-
-      <a [@cardAnimation]="{value: '', params: { delay: animationDelay(2) }}" class="subcategory"
-        [routerLinkActive]="'active'" [routerLink]="'/user/agree/step'" (click)="closeToogleMenu()">
-        <i class="fa-solid fa-shoe-prints"></i>
-        <div class="item-description">
-          <p class="t-min">Як</p>
-          <p class="t-min">отримати?</p>
-        </div>
-      </a>
-
-      <a [@cardAnimation]="{value: '', params: { delay: animationDelay(3) }}" class="subcategory"
-        [routerLinkActive]="'active'" [routerLink]="'/user/agree/review'" (click)="closeToogleMenu()">
+        <a class="subcategory" [routerLinkActive]="'active'" [routerLink]="'/user/discus/discussion'"
+          (click)="closeToogleMenu()">
+          <i class="fa-solid fa-person-walking-luggage custom-badge" matBadge="{{counterUserDiscussio}}"></i>
+          <div class="item-description">
+            <p class="t-min">Дискусії</p>
+          </div>
+        </a>
 
 
-        <i *ngIf="!authorization" class="fa-solid fa-hourglass-half fa-envelope-open-text "></i>
-        <i *ngIf="authorization && userData" class="fa-solid fa-hourglass-half  custom-badge pl-1"
-          matBadge="{{userData.agree.total}}" [matBadgeHidden]="userData.agree.total === 0"></i>
-
-        <div class="item-description">
-          <p class="t-min">Запроп.</p>
-          <p class="t-min">Угоди</p>
-        </div>
-      </a>
-
-      <a [@cardAnimation]="{value: '', params: { delay: animationDelay(4) }}" class="subcategory"
-        [routerLinkActive]="'active'" [routerLink]="'/user/agree/concluded'" (click)="closeToogleMenu()">
-        <i class="fa-solid fa-file-circle-check"></i>
-        <div class="item-description">
-          <p class="t-min">Ухвалені</p>
-          <p class="t-min">Угоди</p>
-        </div>
-      </a>
-
-    </div>
-  </div>
-
-  <div class="category-container">
-    <div class="category">
-      <a [@cardAnimation]="{value: '', params: { delay: animationDelay(4) }}" class="link-item"
-        [routerLinkActive]="'active'" [routerLink]="'/search/house'" (click)="closeToogleMenu()">
-        <i class="fa-solid fa-magnifying-glass"></i>
-        <div class="item-description">
-          <p class="t-med bold">Пошук</p>
-          <p class="t-min">Оселі</p>
-        </div>
-      </a>
-      <button [@appearance] [ngClass]="{'active': section[7]}" class="link-btn" (click)="setSection(7)">
-        <i [ngClass]="section[7] ? 'fa-solid fa-circle-chevron-up' : 'fa-solid fa-circle-chevron-down'"></i>
-      </button>
-    </div>
-    <div class="subcategory-container p-2" *ngIf="section[7]">
-      <a [@cardAnimation]="{value: '', params: { delay: animationDelay(1) }}" class="subcategory"
-        [routerLinkActive]="'active'" [routerLink]="'/user/search/house'" (click)="closeToogleMenu()">
-        <i class="fa-solid fa-house-flag"></i>
-        <div class="item-description">
-          <p class="t-min">Пошук </p>
-          <p class="t-min">Оселі</p>
-        </div>
-      </a>
-
-    </div>
-  </div>
-
-  <div class="category-container">
-    <div class="category">
-      <a [@cardAnimation]="{value: '', params: { delay: animationDelay(1) }}" class="link-item"
-        [routerLinkActive]="'active'" [routerLink]="'/user/edit'" (click)="closeToogleMenu()">
-        <i class="fa-solid fa-gears"></i>
-        <div class="item-description">
-          <p class="t-med bold">Редагування</p>
-          <p class="t-min">Всі налаштування</p>
-        </div>
-      </a>
-      <button [@appearance] [ngClass]="{'active': section[6]}" class="link-btn" (click)="setSection(6)">
-        <i [ngClass]="section[6] ? 'fa-solid fa-circle-chevron-up' : 'fa-solid fa-circle-chevron-down'"></i>
-      </button>
+      </div>
     </div>
 
-    <div class="subcategory-container p-2" *ngIf="section[6]">
+    <div class="category-container">
+      <div class="category">
+        <a class="link-item" [routerLink]="'/user/tenant/profile'" (click)="closeToogleMenu()">
 
-      <a [@cardAnimation]="{value: '', params: { delay: animationDelay(1) }}" class="subcategory"
-        [routerLinkActive]="'active'" [routerLink]="'/user/edit/person'" (click)="closeToogleMenu()">
-        <i class="fa-regular fa-circle-user"></i>
-        <div class="item-description">
-          <p class="t-min">Персона</p>
-        </div>
-      </a>
+          <i class="fa-solid fa-person-hiking "></i>
+          <div class="item-description custom-badge" matBadge="a"
+            [matBadgeHidden]="!userFeaturesData || userFeaturesData.agree_search !== 1">
+            <p class="t-med bold">Профіль</p>
+            <p class="t-min">Орендаря</p>
+          </div>
 
-      <a [@cardAnimation]="{value: '', params: { delay: animationDelay(2) }}" class="subcategory"
-        [routerLinkActive]="'active'" [routerLink]="'/user/edit/contacts'" (click)="closeToogleMenu()">
-        <i class="fa-solid fa-share-nodes"></i>
-        <div class="item-description">
-          <p class="t-min">Контакти</p>
-        </div>
-      </a>
+        </a>
+        <a class="message custom-badge" [routerLinkActive]="'active'" [routerLink]="'/user/discus/subscribers'"
+          (click)="closeToogleMenu()" matBadge="{{counterUserSubscribers}}">
+          <i class="fa-solid fa-house-fire "></i>
+        </a>
+      </div>
+      <div class="subcategory-container p-2" *ngIf="section[3]">
+        <a class="subcategory" [routerLinkActive]="'active'" [routerLink]="'/user/tenant/profile'"
+          (click)="closeToogleMenu()">
+          <i class="fa-solid fa-id-card"></i>
+          <div class="item-description">
+            <p class="t-min">Профіль</p>
+          </div>
+        </a>
+        <a class="subcategory" [routerLinkActive]="'active'" [routerLink]="'/user/tenant/about'"
+          (click)="closeToogleMenu()">
+          <i class="fa-regular fa-circle-question"></i>
+          <div class="item-description">
+            <p class="t-min">Що це?</p>
+          </div>
+        </a>
+        <a class="subcategory" [routerLinkActive]="'active'" [routerLink]="'/user/tenant/step'"
+          (click)="closeToogleMenu()">
+          <i class="fa-solid fa-shoe-prints"></i>
+          <div class="item-description">
+            <p class="t-min">Як актив?</p>
+          </div>
+        </a>
 
-      <a [@cardAnimation]="{value: '', params: { delay: animationDelay(3) }}" class="subcategory"
-        [routerLinkActive]="'active'" [routerLink]="'/user/edit/status'" (click)="closeToogleMenu()">
-        <i class="fa-solid fa-sliders"></i>
-        <div class="item-description">
-          <p class="t-min">Статуси</p>
-        </div>
-      </a>
+        <button (click)="activateTenantProfile()" class="subcategory"
+          *ngIf="userFeaturesData && userFeaturesData.agree_search === 0">
+          <i class="fa-solid fa-toggle-on"></i>
+          <div class="item-description">
+            <p class="t-min">Актив.</p>
+          </div>
+        </button>
 
-      <a [@cardAnimation]="{value: '', params: { delay: animationDelay(4) }}" class="subcategory"
-        [routerLinkActive]="'active'" [routerLink]="'/user/edit/looking'" (click)="closeToogleMenu()">
-        <i class="fa-solid fa-person-hiking"></i>
-        <div class="item-description">
-          <p class="t-min">Профіль</p>
-          <p class="t-min">Орендаря</p>
-        </div>
-      </a>
+        <button (click)="deactivateTenantProfile()" class="subcategory"
+          *ngIf="userFeaturesData && userFeaturesData.agree_search === 1">
+          <i class="fa-solid fa-power-off"></i>
+          <div class="item-description">
+            <p class="t-min">Деактив.</p>
+          </div>
+        </button>
 
-      <a [@cardAnimation]="{value: '', params: { delay: animationDelay(5) }}" class="subcategory"
-        [routerLinkActive]="'active'" [routerLink]="'/user/edit/delete'" (click)="closeToogleMenu()">
-        <i class="fa-solid fa-user-minus"></i>
-        <div class="item-description">
-          <p class="t-min">Видалити</p>
-          <p class="t-min">профіль</p>
-        </div>
-      </a>
-
+      </div>
     </div>
-  </div>
+
+    <div class="category-container">
+      <div class="category">
+        <a class="link-item" [routerLinkActive]="'active'" [routerLink]="'/user/agree'" (click)="closeToogleMenu()">
+          <i class="fa-solid fa-envelope-open-text "></i>
+          <div class="item-description">
+            <p class="t-med bold">Угоди</p>
+            <p class="t-min">Орендаря</p>
+          </div>
+        </a>
+
+        <a class="message" [routerLinkActive]="'active'" [routerLink]="'/user/agree/review'"
+          (click)="closeToogleMenu()">
+          <i *ngIf="!authorization" class="fa-solid fa-hourglass-half fa-envelope-open-text "></i>
+          <i *ngIf="authorization && userData" class="fa-solid fa-hourglass-half  custom-badge pl-1"
+            matBadge="{{userData.agree.total}}" [matBadgeHidden]="userData.agree.total === 0"></i>
+        </a>
+      </div>
+      <div class="subcategory-container p-2" *ngIf="section[2]">
+
+        <a class="subcategory" [routerLinkActive]="'active'" [routerLink]="'/user/agree/about'"
+          (click)="closeToogleMenu()">
+          <i class="fa-regular fa-circle-question"></i>
+          <div class="item-description">
+            <p class="t-min">Що це?</p>
+          </div>
+        </a>
+
+        <a class="subcategory" [routerLinkActive]="'active'" [routerLink]="'/user/agree/step'"
+          (click)="closeToogleMenu()">
+          <i class="fa-solid fa-shoe-prints"></i>
+          <div class="item-description">
+            <p class="t-min">Як отримати?</p>
+          </div>
+        </a>
+
+        <a class="subcategory" [routerLinkActive]="'active'" [routerLink]="'/user/agree/review'"
+          (click)="closeToogleMenu()">
 
 
+          <i *ngIf="!authorization" class="fa-solid fa-hourglass-half fa-envelope-open-text "></i>
+          <i *ngIf="authorization && userData" class="fa-solid fa-hourglass-half  custom-badge pl-1"
+            matBadge="{{userData.agree.total}}" [matBadgeHidden]="userData.agree.total === 0"></i>
 
+          <div class="item-description">
+            <p class="t-min">Запроп.</p>
+          </div>
+        </a>
+
+        <a class="subcategory" [routerLinkActive]="'active'" [routerLink]="'/user/agree/concluded'"
+          (click)="closeToogleMenu()">
+          <i class="fa-solid fa-file-circle-check"></i>
+          <div class="item-description">
+            <p class="t-min">Ухвалені</p>
+          </div>
+        </a>
+      </div>
+    </div>
+  </ng-container>
+
+  <ng-container *ngIf="!isMobile">
+
+    <div [@cardAnimation]="{value: '', params: { delay: animationDelay(0) }}" class="wrapper-img mb-2"
+      (click)="closeToogleMenu()">
+
+      <picture>
+        <img [ngSrc]="userData?.img && userData.img[0].img !== 'user_default.svg'
+                  ? serverPath + pathPhotoUser + userData.img[0].img
+                  : '../../../assets/user_default.svg'" alt="img" class="img-fluid" width="50" height="50"
+          [routerLink]="'/user/info'" priority>
+      </picture>
+
+      <div class="userName pl-2 pr-2" *ngIf="!userData" [routerLink]="'/user/info'">
+        <p class="t-lar bold">Меню Користувача</p>
+        <p class="t-min">User Name User ID</p>
+      </div>
+
+      <div class="userName pl-2 pr-2" *ngIf="userData" [routerLink]="'/user/info'">
+        <p class="t-lar bold">{{userData.inf.firstName}}</p>
+        <p class="t-min">{{userData.inf.lastName}} ID : {{userData.inf.user_id}}</p>
+      </div>
+      <a *ngIf="userData" [@cardAnimation]="{value: '', params: { delay: animationDelay(5) }}" class="message"
+        [routerLinkActive]="'active'" [routerLink]="'/user/chat'" (click)="closeToogleMenu()">
+        <i class="fa-solid fa-message custom-badge" matBadge="{{counterUserNewMessage}}"
+          [matBadgeHidden]="counterUserNewMessage === 0"></i>
+      </a>
+    </div>
+
+    <div class="category-container" [@cardAnimation]="{value: '', params: { delay: animationDelay(1) }}">
+      <div class="category">
+        <a class="link-item" [routerLinkActive]="'active'" [routerLink]="'/user/info'" (click)="closeToogleMenu()">
+          <i class="fa-regular fa-circle-user"></i>
+          <div class="item-description">
+            <p class="t-med bold">Профіль</p>
+            <p class="t-min">Користувача</p>
+          </div>
+        </a>
+        <button [@appearance] [ngClass]="{'active': section[1]}" class="link-btn" (click)="setSectionFromBtn(1)">
+          <i [ngClass]="section[1] ? 'fa-solid fa-circle-chevron-up' : 'fa-solid fa-circle-chevron-down'"></i>
+        </button>
+      </div>
+      <div class="subcategory-container p-2" *ngIf="section[1]">
+
+        <a [@cardAnimation]="{value: '', params: { delay: animationDelay(1) }}" class="subcategory"
+          [routerLinkActive]="'active'" [routerLink]="'/auth/login'" *ngIf="!userData" (click)="closeToogleMenu()">
+          <i class="fa-solid fa-arrow-right-from-bracket"></i>
+          <div class="item-description">
+            <p class="t-min">Вхід</p>
+            <p class="t-min">В аккаунт</p>
+          </div>
+        </a>
+
+        <a *ngIf="userData" [@cardAnimation]="{value: '', params: { delay: animationDelay(2) }}" class="subcategory"
+          [routerLinkActive]="'active'" [routerLink]="'/user/edit'" (click)="closeToogleMenu()">
+          <i class="fa-solid fa-gears"></i>
+          <div class="item-description">
+            <p class="t-min">Редагувати</p>
+            <p class="t-min">Аккаунт</p>
+          </div>
+        </a>
+
+        <button [@cardAnimation]="{value: '', params: { delay: animationDelay(3) }}" class="subcategory"
+          [routerLink]="'/auth/change-password'" (click)="closeToogleMenu()">
+          <i class="fa-solid fa-key"></i>
+          <div class="item-description">
+            <p class="t-min">Змінити</p>
+            <p class="t-min">Пароль</p>
+          </div>
+        </button>
+
+        <button *ngIf="userData" [@cardAnimation]="{value: '', params: { delay: animationDelay(4) }}"
+          class="subcategory" (click)="logout()">
+          <i class="fa-solid fa-door-open"></i>
+          <div class="item-description">
+            <p class="t-min">Вийти</p>
+            <p class="t-min">З аккаунту</p>
+          </div>
+        </button>
+
+      </div>
+    </div>
+
+    <div class="category-container" [@cardAnimation]="{value: '', params: { delay: animationDelay(2) }}">
+      <div class="category">
+        <a class="link-item" [routerLinkActive]="'active'" [routerLink]="'/user/tenant/profile'"
+          (click)="closeToogleMenu()">
+
+          <i class="fa-solid fa-person-hiking custom-badge"></i>
+          <div class="item-description">
+            <p class="t-med bold">Профіль</p>
+            <p class="t-min">Орендаря</p>
+          </div>
+
+          <i *ngIf="authorization" class="fa-solid fa-toggle-on custom-badge pl-1" matBadge="a"
+            [matBadgeHidden]="userFeaturesData && userFeaturesData.agree_search !== 1">
+          </i>
+
+        </a>
+
+        <button [@appearance] [ngClass]="{'active': section[3]}" class="link-btn" (click)="setSectionFromBtn(3)">
+          <i [ngClass]="section[3] ? 'fa-solid fa-circle-chevron-up' : 'fa-solid fa-circle-chevron-down'"></i>
+        </button>
+      </div>
+      <div class="subcategory-container p-2" *ngIf="section[3]">
+        <a [@cardAnimation]="{value: '', params: { delay: animationDelay(1) }}" class="subcategory"
+          [routerLinkActive]="'active'" [routerLink]="'/user/tenant/about'" (click)="closeToogleMenu()">
+          <i class="fa-regular fa-circle-question"></i>
+          <div class="item-description">
+            <p class="t-min">Що</p>
+            <p class="t-min">це?</p>
+          </div>
+        </a>
+        <a [@cardAnimation]="{value: '', params: { delay: animationDelay(2) }}" class="subcategory"
+          [routerLinkActive]="'active'" [routerLink]="'/user/tenant/step'" (click)="closeToogleMenu()">
+          <i class="fa-solid fa-shoe-prints"></i>
+          <div class="item-description">
+            <p class="t-min">Як</p>
+            <p class="t-min">актив ?</p>
+          </div>
+        </a>
+
+        <button (click)="activateTenantProfile()" [@cardAnimation]="{value: '', params: { delay: animationDelay(2) }}"
+          class="subcategory" *ngIf="userFeaturesData && userFeaturesData.agree_search === 0">
+          <i class="fa-solid fa-toggle-on"></i>
+          <div class="item-description">
+            <p class="t-min">Актив.</p>
+            <p class="t-min">Профіль</p>
+          </div>
+        </button>
+
+        <button (click)="deactivateTenantProfile()" [@cardAnimation]="{value: '', params: { delay: animationDelay(2) }}"
+          class="subcategory" *ngIf="userFeaturesData && userFeaturesData.agree_search === 1">
+          <i class="fa-solid fa-power-off"></i>
+          <div class="item-description">
+            <p class="t-min">Деактив.</p>
+            <p class="t-min">Профіль.</p>
+          </div>
+        </button>
+
+      </div>
+    </div>
+
+    <div class="category-container" [@cardAnimation]="{value: '', params: { delay: animationDelay(3) }}">
+      <div class="category">
+        <a [@cardAnimation]="{value: '', params: { delay: animationDelay(4) }}" class="link-item"
+          [routerLinkActive]="'active'" [routerLink]="'/user/discus'" (click)="closeToogleMenu()">
+          <i class="fa-solid fa-signs-post"></i>
+          <div class="item-description">
+            <p class="t-med bold">Підписки</p>
+            <p class="t-min">Та Дискусії</p>
+          </div>
+
+          <div *ngIf="!section[4] && userData">
+            <i *ngIf="counterUserSubscriptions !== 0" class="fa-regular fa-heart custom-badge pl-1"
+              matBadge="{{counterUserSubscriptions}}"></i>
+            <i *ngIf="counterUserSubscribers !== 0" class="fa-solid fa-house-fire custom-badge pl-1"
+              matBadge="{{counterUserSubscribers}}"></i>
+            <i *ngIf="counterUserDiscussio !== 0" class="fa-solid fa-person-walking-luggage custom-badge pl-1"
+              matBadge="{{counterUserDiscussio}}"></i>
+          </div>
+
+        </a>
+        <button [@appearance] [ngClass]="{'active': section[4]}" class="link-btn" (click)="setSectionFromBtn(4)">
+          <i [ngClass]="section[4] ? 'fa-solid fa-circle-chevron-up' : 'fa-solid fa-circle-chevron-down'"></i>
+        </button>
+      </div>
+      <div class="subcategory-container p-2" *ngIf="section[4]">
+
+        <a [@cardAnimation]="{value: '', params: { delay: animationDelay(1) }}" class="subcategory"
+          [routerLinkActive]="'active'" [routerLink]="'/user/discus/about'" (click)="closeToogleMenu()">
+          <i class="fa-regular fa-circle-question"></i>
+          <div class="item-description">
+            <p class="t-min">Що</p>
+            <p class="t-min">Це?</p>
+          </div>
+        </a>
+
+        <a [@cardAnimation]="{value: '', params: { delay: animationDelay(2) }}" class="subcategory"
+          [routerLinkActive]="'active'" [routerLink]="'/user/discus/subscriptions'" (click)="closeToogleMenu()">
+          <i class="fa-regular fa-heart custom-badge" matBadge="{{counterUserSubscriptions}}"></i>
+
+          <div class="item-description">
+            <p class="t-min">Вподобані</p>
+            <p class="t-min">Оселі</p>
+            <span class="bage"></span>
+          </div>
+        </a>
+
+        <a [@cardAnimation]="{value: '', params: { delay: animationDelay(3) }}" class="subcategory"
+          [routerLinkActive]="'active'" [routerLink]="'/user/discus/subscribers'" (click)="closeToogleMenu()">
+          <i class="fa-solid fa-house-fire custom-badge" matBadge="{{counterUserSubscribers}}"></i>
+          <div class="item-description">
+            <p class="t-min">Запроп.</p>
+            <p class="t-min">Оселі</p>
+          </div>
+        </a>
+
+        <a [@cardAnimation]="{value: '', params: { delay: animationDelay(4) }}" class="subcategory"
+          [routerLinkActive]="'active'" [routerLink]="'/user/discus/discussion'" (click)="closeToogleMenu()">
+          <i class="fa-solid fa-person-walking-luggage custom-badge" matBadge="{{counterUserDiscussio}}"></i>
+          <div class="item-description">
+            <p class="t-min">Дискусії</p>
+            <p class="t-min">Орендаря</p>
+          </div>
+        </a>
+      </div>
+    </div>
+
+    <div class="category-container" [@cardAnimation]="{value: '', params: { delay: animationDelay(4) }}">
+      <div class="category">
+        <a [@cardAnimation]="{value: '', params: { delay: animationDelay(2) }}" class="link-item"
+          [routerLinkActive]="'active'" [routerLink]="'/user/agree'" (click)="closeToogleMenu()">
+
+          <i class="fa-solid fa-envelope-open-text "></i>
+
+          <div class="item-description">
+            <p class="t-med bold">Угоди</p>
+            <p class="t-min">Орендаря</p>
+          </div>
+
+          <i *ngIf="authorization && userData && !section[2]" class="fa-solid fa-hourglass-half  custom-badge pl-1"
+            matBadge="{{userData.agree.total}}" [matBadgeHidden]="userData.agree.total === 0 || section[2]"></i>
+
+        </a>
+        <button [@appearance] [ngClass]="{'active': section[2]}" class="link-btn" (click)="setSectionFromBtn(2)">
+          <i [ngClass]="section[2] ? 'fa-solid fa-circle-chevron-up' : 'fa-solid fa-circle-chevron-down'"></i>
+        </button>
+      </div>
+      <div class="subcategory-container p-2" *ngIf="section[2]">
+
+        <a [@cardAnimation]="{value: '', params: { delay: animationDelay(1) }}" class="subcategory"
+          [routerLinkActive]="'active'" [routerLink]="'/user/agree/about'" (click)="closeToogleMenu()">
+          <i class="fa-regular fa-circle-question"></i>
+          <div class="item-description">
+            <p class="t-min">Що</p>
+            <p class="t-min">це?</p>
+          </div>
+        </a>
+
+        <a [@cardAnimation]="{value: '', params: { delay: animationDelay(2) }}" class="subcategory"
+          [routerLinkActive]="'active'" [routerLink]="'/user/agree/step'" (click)="closeToogleMenu()">
+          <i class="fa-solid fa-shoe-prints"></i>
+          <div class="item-description">
+            <p class="t-min">Як</p>
+            <p class="t-min">отримати?</p>
+          </div>
+        </a>
+
+        <a [@cardAnimation]="{value: '', params: { delay: animationDelay(3) }}" class="subcategory"
+          [routerLinkActive]="'active'" [routerLink]="'/user/agree/review'" (click)="closeToogleMenu()">
+
+
+          <i *ngIf="!authorization" class="fa-solid fa-hourglass-half fa-envelope-open-text "></i>
+          <i *ngIf="authorization && userData" class="fa-solid fa-hourglass-half  custom-badge pl-1"
+            matBadge="{{userData.agree.total}}" [matBadgeHidden]="userData.agree.total === 0"></i>
+
+          <div class="item-description">
+            <p class="t-min">Запроп.</p>
+            <p class="t-min">Угоди</p>
+          </div>
+        </a>
+
+        <a [@cardAnimation]="{value: '', params: { delay: animationDelay(4) }}" class="subcategory"
+          [routerLinkActive]="'active'" [routerLink]="'/user/agree/concluded'" (click)="closeToogleMenu()">
+          <i class="fa-solid fa-file-circle-check"></i>
+          <div class="item-description">
+            <p class="t-min">Ухвалені</p>
+            <p class="t-min">Угоди</p>
+          </div>
+        </a>
+
+      </div>
+    </div>
+
+    <div class="category-container" [@cardAnimation]="{value: '', params: { delay: animationDelay(5) }}">
+      <div class="category">
+        <a class="link-item" [routerLinkActive]="'active'" [routerLink]="'/user/search/house'"
+          (click)="closeToogleMenu()">
+          <i class="fa-solid fa-magnifying-glass"></i>
+          <div class="item-description">
+            <p class="t-med bold">Пошук</p>
+            <p class="t-min">Оселі</p>
+          </div>
+        </a>
+        <button [@appearance] [ngClass]="{'active': section[7]}" class="link-btn" (click)="setSectionFromBtn(7)">
+          <i [ngClass]="section[7] ? 'fa-solid fa-circle-chevron-up' : 'fa-solid fa-circle-chevron-down'"></i>
+        </button>
+      </div>
+      <div class="subcategory-container p-2" *ngIf="section[7]">
+        <a [@cardAnimation]="{value: '', params: { delay: animationDelay(1) }}" class="subcategory"
+          [routerLinkActive]="'active'" [routerLink]="'/user/search/house'" (click)="closeToogleMenu()">
+          <i class="fa-solid fa-house-flag"></i>
+          <div class="item-description">
+            <p class="t-min">Пошук </p>
+            <p class="t-min">Оселі</p>
+          </div>
+        </a>
+
+        <a [@cardAnimation]="{value: '', params: { delay: animationDelay(2) }}" class="subcategory"
+          [routerLinkActive]="'active'" [routerLink]="'/house/search/tenant'">
+          <i class="fa-solid fa-child-reaching"></i>
+          <div class="item-description">
+            <p class="t-min">Пошук</p>
+            <p class="t-min">Орендаря</p>
+          </div>
+        </a>
+
+        <a [@cardAnimation]="{value: '', params: { delay: animationDelay(3) }}" class="subcategory"
+          [routerLinkActive]="'active'" [routerLink]="'/house/search/neighbor'">
+          <i class="fa-solid fa-restroom"></i>
+          <div class="item-description">
+            <p class="t-min">Пошук</p>
+            <p class="t-min">Сусіда</p>
+          </div>
+        </a>
+
+      </div>
+    </div>
+
+  </ng-container>
 </div>

@@ -1,6 +1,7 @@
 import { Component, ElementRef } from '@angular/core';
 import { animations } from '../../../interface/animation';
 import * as ServerConfig from 'src/app/config/path-config';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-our-team',
@@ -38,6 +39,10 @@ export class OurTeamComponent {
 
   currentStep: number = 4;
   statusMessage: string | undefined;
+
+  goBack(): void {
+    this.location.back();
+  }
 
   changeStep(step: number): void {
     this.currentStep = step;
@@ -170,6 +175,8 @@ export class OurTeamComponent {
 
   constructor(
     private el: ElementRef,
+    private location: Location,
+
   ) { }
 
   ngOnInit() {

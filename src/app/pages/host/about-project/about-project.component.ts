@@ -3,6 +3,7 @@ import * as ServerConfig from 'src/app/config/path-config';
 import { animations } from '../../../interface/animation';
 import { SharedService } from 'src/app/services/shared.service';
 import { AuthGoogleService } from '../../host-auth/auth-google.service';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-about-project',
@@ -29,6 +30,10 @@ import { AuthGoogleService } from '../../host-auth/auth-google.service';
   ],
 })
 export class AboutProjectComponent implements OnInit {
+
+  goBack(): void {
+    this.location.back();
+  }
 
   text: boolean = false;
   changeText() {
@@ -78,6 +83,8 @@ export class AboutProjectComponent implements OnInit {
     private el: ElementRef,
     private sharedService: SharedService,
     private authGoogleService: AuthGoogleService,
+    private location: Location,
+
   ) { }
 
   ngOnInit() {

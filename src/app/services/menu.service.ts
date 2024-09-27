@@ -10,12 +10,18 @@ export class MenuService {
   private toogleMenuSubject = new BehaviorSubject<boolean>(false);
   public toogleMenu$ = this.toogleMenuSubject.asObservable();
 
+  private toogleMenuEditUserSubject = new BehaviorSubject<boolean>(false);
+  public toogleMenuEditUser$ = this.toogleMenuEditUserSubject.asObservable();
+
+
   constructor() { }
 
   toogleMenu(status: boolean) {
-    // console.log('toogleMenu called with status:', status);
-    // console.trace();  // Додає трасування стека викликів
     this.toogleMenuSubject.next(status);
+  }
+
+  toogleMenuEditUser(status: boolean) {
+    this.toogleMenuEditUserSubject.next(status);
   }
 
 }

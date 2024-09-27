@@ -1,13 +1,13 @@
-<div class="content-wrapper">
+<div class="content-wrapper" *ngIf="houseData">
   <div class="width-param col-lg-6 col-md-6 col-sm-12 col-12">
 
     <div [@bot] class="switch-container p-2" *ngIf="isMobile">
 
-      <div class="switch-btn-group">
+      <!-- <div class="switch-btn-group">
         <a class="btn" [routerLink]="'/user/info'">
           <i class="fa-solid fa-arrow-left"></i>
         </a>
-      </div>
+      </div> -->
 
       <div class="switch-btn-group" *ngIf="houseData && houseData.about.rent === 0">
         <button class="btn" (click)="activateHouseProfile()">

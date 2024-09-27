@@ -1,12 +1,5 @@
 <div class="switch-container" *ngIf="isMobile">
 
-  <div class="switch-btn-group" *ngIf="!selectedName">
-    <button class="btn" [routerLink]="'/house'">
-      <i class="fa-solid fa-arrow-left"></i>
-      <div class="t-min">Назад</div>
-    </button>
-  </div>
-
   <div class="switch-btn-group" *ngIf="selectedName">
     <button class="btn" (click)="backToDiscus()">
       <i class="fa-solid fa-arrow-left"></i>

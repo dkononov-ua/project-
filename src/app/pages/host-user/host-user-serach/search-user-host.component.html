@@ -1,13 +1,6 @@
 <div [@top1] class="switch-container" *ngIf="isMobile">
 
   <div class="switch-btn-group">
-    <a class="btn" [routerLink]="'/user/info'">
-      <i class="fa-solid fa-arrow-left"></i>
-      <div class="t-min">Назад</div>
-    </a>
-  </div>
-
-  <div class="switch-btn-group">
     <a class="btn" [routerLinkActive]="'active'" [routerLink]="'/user/search/house'">
       <i class="fa-solid fa-house-flag"></i>
       <div class="t-min">Оселя</div>

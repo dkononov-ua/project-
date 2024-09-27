@@ -68,6 +68,7 @@ export class NavigationUserComponent implements OnInit, OnDestroy {
   authorization: boolean = false;
   section: boolean[] = [false, false, false, false, false, false, false, false, false];
   currentLocation: string = '';
+  currentSectionIndex: number = -1;
 
 
   closeToogleMenu() {
@@ -114,27 +115,21 @@ export class NavigationUserComponent implements OnInit, OnDestroy {
   }
 
   checkLocation() {
+    const sectionMap = [
+      { path: '/user/info', section: 1 },
+      { path: '/user/agree', section: 2 },
+      { path: '/user/tenant', section: 3 },
+      { path: '/user/discus', section: 4 },
+      { path: '/chat-user', section: 5 },
+      { path: '/user/edit', section: 6 },
+      { path: '/user/search', section: 7 }
+    ];
     this.currentLocation = this.location.path();
-    if (this.currentLocation.includes('/user/info')) {
-      this.setSection(1);
-    } else if (this.currentLocation.includes('/user/agree')) {
-      this.setSection(2);
-    } else if (this.currentLocation.includes('/user/tenant')) {
-      this.setSection(3);
-    } else if (this.currentLocation.includes('/user/discus')) {
-      this.setSection(4);
-    } else if (this.currentLocation.includes('/chat-user')) {
-      this.setSection(5);
-    } else if (this.currentLocation.includes('/user/edit')) {
-      this.setSection(6);
-    } else if (this.currentLocation.includes('/user/search')) {
-      this.setSection(7);
-    } else {
-      this.setSection(-1); // вимикає всі секції, якщо шлях не відповідає жодному з умов
-    }
+    const matchedSection = sectionMap.find(entry => this.currentLocation.includes(entry.path));
+    this.setSection(matchedSection ? matchedSection.section : -1);
   }
 
-  setSection(index: number) {
+  setSectionFromBtn(index: number) {
     this.section = this.section.map((isOpen, i) => {
       if (i === index) {
         return !isOpen;
@@ -143,6 +138,17 @@ export class NavigationUserComponent implements OnInit, OnDestroy {
     });
   }
 
+  setSection(index: number) {
+    if (this.currentSectionIndex !== index) {
+      this.section = this.section.map((isOpen, i) => {
+        this.currentSectionIndex = index;
+        if (i === index) {
+          return !isOpen;
+        }
+        return false;
+      });
+    }
+  }
 
   // Беру інформацію користувача
   async getInfoUser() {
@@ -163,7 +169,6 @@ export class NavigationUserComponent implements OnInit, OnDestroy {
     if (userFeaturesData) {
       const userObject = JSON.parse(userFeaturesData);
       this.userFeaturesData = userObject.inf;
-      // console.log(this.userFeaturesData)
     }
   }
 

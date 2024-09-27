@@ -6,20 +6,6 @@
   <div class="content-component">
     <div class="switch-container" *ngIf="isMobile">
 
-      <div class="switch-btn-group" *ngIf="indexPage === 0 && isMobile">
-        <button class="btn" [routerLink]="'/user/info'">
-          <i class="fa-solid fa-arrow-left"></i>
-          <div class="t-min">Назад</div>
-        </button>
-      </div>
-
-      <div class="switch-btn-group" *ngIf="indexPage === 1 && isMobile">
-        <button class="btn" (click)="indexPage = 0">
-          <i class="fa-solid fa-arrow-left"></i>
-          <div class="t-min">Назад</div>
-        </button>
-      </div>
-
       <div class="menu-box hide-mobile" *ngIf="indexPage === 0 && isMobile">
         <div class="menu-lable">Меню</div>
         <div class="menu-name">Чат Орендаря</div>
@@ -47,6 +33,11 @@
           <div>{{ selectedChat.flat_name }}</div>
           <div class="text-min">Chat ID: {{ selectedChat.chat_id }}</div>
         </div>
+      </div>
+
+      <div class="switch-btn-group" *ngIf="indexPage === 1 && isMobile">
+        <button class="btn-close" (click)="indexPage = 0">
+        </button>
       </div>
 
     </div>

@@ -245,29 +245,25 @@ export class SharedService {
   }
 
   logoutHouse() {
-    this.statusMessageService.setStatusMessage('');
-    this.loaderService.setLoading(true)
+    this.clearCacheHouse();
     setTimeout(() => {
-      this.statusMessageService.setStatusMessage('Потрібно обрати оселю');
-      this.clearCacheHouse();
+      this.router.navigate(['/house/control/add']);
       setTimeout(() => {
-        this.router.navigate(['/house/control/add']);
-        this.statusMessageService.setStatusMessage('');
-        this.loaderService.setLoading(false)
-      }, 1500);
-    }, 200);
+        location.reload();
+      }, 100);
+    }, 1500);
   }
 
   getlogoutHouse() {
-    this.loaderService.setLoading(true);
     this.statusMessageService.setStatusMessage('Виходимо з аккаунту оселі');
     this.clearCacheHouse();
     setTimeout(() => {
       this.statusMessageService.setStatusMessage('Очищуємо дані');
       setTimeout(() => {
-        this.router.navigate(['/house/control/selection']);
-        location.reload();
-        this.statusMessageService.setStatusMessage('');
+        this.router.navigate(['/house/control/add']);
+        setTimeout(() => {
+          location.reload();
+        }, 100);
       }, 1500);
     }, 2500);
   }
@@ -278,6 +274,7 @@ export class SharedService {
     localStorage.removeItem('selectedFlatId');
     localStorage.removeItem('selectedFlatName');
     localStorage.removeItem('selectedHouse');
+    localStorage.removeItem('userFeaturesData');
     localStorage.removeItem('houseData');
     localStorage.removeItem('userData');
     localStorage.removeItem('user');

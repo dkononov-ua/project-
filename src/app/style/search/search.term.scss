@@ -45,18 +45,8 @@
 }
 
 
-.filter-label {
-  font-size: 30px;
-  margin-top: 20px;
-}
 
-.b-primary {
-  width: auto;
-  min-width: 60px;
-  &.active {
-    background-color: $color-blue;
-  }
-}
+
 
 .filter-btn-wrapper {
   @include flex-box-center;
@@ -348,24 +338,7 @@
   }
 }
 
-.btn-group {
-  @include flex-box-center;
-  bottom: 0;
-  position: sticky;
 
-  @include s3-s6-max {
-    width: auto;
-    padding: 5px;
-    border-radius: 20px;
-    // margin-bottom: 40px;
-    @include blurred-background($color-white, 0.5);
-  }
-  @include s1-s3 {
-    @include blurred-background($color-white, 0.8);
-    padding: 5px 5px 20px 5px;
-    border-radius: 20px;
-  }
-}
 
 mat-radio-group {
   display: flex;
@@ -403,75 +376,10 @@ mat-hint {
   height: 15px;
 }
 
-.item-select {
-  width: auto;
-  max-width: 400px;
-  font-size: 16px;
-  flex-direction: column-reverse;
-  @include s1-s3 {
-    width: 100%;
-    font-size: 16px;
-  }
-}
+
 
 .fa-solid,
 .fa-regular {
   color: $color-text;
 }
 
-.filter-wrapper {
-  position: fixed;
-  display: flex;
-  justify-content: center;
-  height: 100vh;
-  width: 100%;
-  z-index: 100;
-  bottom: 0;
-  left: 0;
-  @include s3-s6-max {
-    padding: 10px;
-  }
-  @include s1-s3 {
-    height: auto;
-    display: flex;
-    align-items: flex-end;
-    justify-content: center;
-    border-radius: 20px 20px 0 0;
-  }
-}
-
-.filter-window {
-  @include flex-box-center;
-  flex-direction: column;
-  overflow: auto;
-  position: relative;
-
-  &::-webkit-scrollbar {
-    display: none;
-  }
-
-  @include s3-s6-max {
-    justify-content: space-evenly;
-    height: 100%;
-    width: 100%;
-    max-width: 1050px;
-    max-height: 100vh;
-    border-radius: 20px;
-    @include blurred-background($color-white, 0.7);
-  }
-  @include s1-s3 {
-    justify-content: flex-start;
-
-    @include blurred-background($color-white, 0.8);
-    border-radius: 20px 20px 0 0;
-    box-shadow: 0px 0px 50px 20px $color-gray;
-    height: auto;
-    min-height: 60vh;
-    max-height: 91vh;
-    overflow: auto;
-  }
-  &.close {
-    transition: 2s;
-    transform: translateY(200%);
-  }
-}

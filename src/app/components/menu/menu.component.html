@@ -1,12 +1,12 @@
-<div class="menu-container">
+<div class="menu-container" [ngClass]="{'active': bgMenu}">
   <div class="menu-wrapper">
     <div class="bg-menu" [ngClass]="{'active': bgMenu}">
-      <div class="w-100"> <app-project-navigation></app-project-navigation> </div>
-      <div class="w-100"> <app-navigation-user></app-navigation-user> </div>
-      <div class="w-100"> <app-navigation-house></app-navigation-house> </div>
-      <p class="t-lar bold t-c w-100 mt-3">Discussio</p>
-      <p class="t-min bold t-c w-100 pb-3">Соціальна платформа для орендарів та орендодавців</p>
+      <div [@right1] class="w-100"> <app-navigation-user></app-navigation-user> </div>
+      <div [@right2] class="w-100"> <app-navigation-house></app-navigation-house> </div>
+      <div [@right3] class="w-100"> <app-project-navigation></app-project-navigation> </div>
+      <p class="t-lar bold w-100 t-c mt-3"> Discussio</p>
+      <p class="t-min bold w-100 t-c pb-3"> Соціальна платформа для орендарів та орендодавців</p>
     </div>
   </div>
-  <button class="toogleMenu" (click)="closeToogleMenu()"></button>
+  <button class="toogleMenu" [ngClass]="{'active': bgMenu}" (click)="closeToogleMenu()"></button>
 </div>

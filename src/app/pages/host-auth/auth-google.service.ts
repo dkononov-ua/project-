@@ -72,8 +72,9 @@ export class AuthGoogleService {
               this.statusMessageService.setStatusMessage('Переходимо до налаштування профілю!');
               localStorage.setItem('user', JSON.stringify(response));
               setTimeout(() => {
-                this.router.navigate(['/user/edit/person']);
+                this.router.navigate(['/user/edit']);
                 this.statusMessageService.setStatusMessage('');
+                this.loaderService.setLoading(false);
               }, 2000);
             }, 1000);
           } else if (response.status === true && param === 'login') {

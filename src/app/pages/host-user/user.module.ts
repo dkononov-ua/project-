@@ -18,7 +18,6 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { RouterModule } from '@angular/router';
 import { UserContactsComponent } from 'src/app/pages/host-user/host-user-edit/user-contacts/user-contacts.component';
 import { UserDeleteComponent } from 'src/app/pages/host-user/host-user-edit/user-delete/user-delete.component';
-import { UserLookingComponent } from 'src/app/pages/host-user/host-user-edit/user-looking/user-looking.component';
 import { UserPersonComponent } from 'src/app/pages/host-user/host-user-edit/user-person/user-person.component';
 import { UserStatusComponent } from 'src/app/pages/host-user/host-user-edit/user-status/user-status.component';
 import { SharedModule } from 'src/app/shared/shared.module';
@@ -56,7 +55,6 @@ import { MatButtonToggleModule } from '@angular/material/button-toggle';
     UserContactsComponent,
     UserPersonComponent,
     UserStatusComponent,
-    UserLookingComponent,
     UserDeleteComponent,
     UserTenantComponent,
     UserTenantStepComponent,

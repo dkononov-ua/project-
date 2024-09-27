@@ -4,6 +4,8 @@ import * as ServerConfig from 'src/app/config/path-config';
 import { animations } from '../../../../interface/animation';
 import { Location } from '@angular/common';
 import { SharedService } from 'src/app/services/shared.service';
+import { MenuService } from 'src/app/services/menu.service';
+import { DataService } from 'src/app/services/data.service';
 
 @Component({
   selector: 'app-user-contacts',
@@ -19,6 +21,8 @@ import { SharedService } from 'src/app/services/shared.service';
     animations.right1,
     animations.swichCard,
     animations.top1,
+    animations.appearance,
+
   ],
 })
 
@@ -44,10 +48,16 @@ export class UserContactsComponent implements OnInit, OnDestroy {
   authorization: boolean = false;
   subscriptions: any[] = [];
 
+  async setToogleMenu() {
+    this.menuService.toogleMenuEditUser(false)
+  }
+
   constructor(
     private http: HttpClient,
     private location: Location,
     private sharedService: SharedService,
+    private menuService: MenuService,
+    private dataService: DataService,
   ) { }
 
   async ngOnInit(): Promise<void> {
@@ -108,10 +118,15 @@ export class UserContactsComponent implements OnInit, OnDestroy {
         const response: any = await this.http.post(this.serverPath + '/add/contacts', { auth: JSON.parse(userJson), new: data }).toPromise();
         if (response.status === true) {
           this.sharedService.setStatusMessage('Контактні дані збережено');
+          localStorage.removeItem('userData');
           setTimeout(() => {
-            this.sharedService.setStatusMessage('');
-            this.getInfo();
-          }, 2000);
+            this.sharedService.setStatusMessage('Оновлення...');
+            this.dataService.getInfoUser();
+            this.setToogleMenu();
+            setTimeout(() => {
+              location.reload();
+            }, 1000);
+          }, 1500);
         } else {
           this.sharedService.setStatusMessage('Помилка збереження');
           setTimeout(() => {

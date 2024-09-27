@@ -40,18 +40,18 @@ a {
   color: $color-accent;
   text-decoration: none;
   // display: block;
-  transition: 0.5s ease;
+  // transition: 0.5s ease;
 
-  &:hover {
-    color: $color-accent;
-    font-weight: bold;
-    transform: scale(1.1);
-  }
+  // &:hover {
+  //   color: $color-accent;
+  //   font-weight: bold;
+  //   transform: scale(1.1);
+  // }
 
-  .fab {
-    transform: scale(1.4);
-    transition: transform 2s;
-  }
+  // .fab {
+  //   transform: scale(1.4);
+  //   transition: transform 2s;
+  // }
 }
 
 .img-fluid {

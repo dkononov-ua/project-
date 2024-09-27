@@ -10,6 +10,7 @@ import { StatusDataService } from 'src/app/services/status-data.service';
 import { StatusMessageService } from 'src/app/services/status-message.service';
 import { UpdateMetaTagsService } from 'src/app/services/updateMetaTags.service';
 import { MissingParamsService } from '../host-house-edit/missing-params.service';
+import { LoaderService } from 'src/app/services/loader.service';
 
 @Component({
   selector: 'app-host-house-page',
@@ -75,9 +76,11 @@ export class HostHousePageComponent implements OnInit, OnDestroy {
     private statusMessageService: StatusMessageService,
     private updateMetaTagsService: UpdateMetaTagsService,
     private missingParamsService: MissingParamsService,
+    private loaderService: LoaderService,
   ) { }
 
   async ngOnInit(): Promise<void> {
+    this.loaderService.setLoading(true);
     await this.getCheckDevice();
     await this.getServerPath();
     await this.getSelectedFlatId();
@@ -153,14 +156,13 @@ export class HostHousePageComponent implements OnInit, OnDestroy {
       this.getHouseAcces();
       this.loadSearchDataFlat();
       this.getConcludedAgree();
+      this.loaderService.setLoading(false);
     } else {
       this.authorizationHouse = false;
       this.houseData = false;
-      this.sharedService.clearCacheHouse();
       this.statusMessageService.setStatusMessage('Оберіть оселю');
       setTimeout(() => {
-        this.router.navigate(['/house/control/add']);
-        this.statusMessageService.setStatusMessage('');
+        this.sharedService.logoutHouse();
       }, 1500);
     }
   }

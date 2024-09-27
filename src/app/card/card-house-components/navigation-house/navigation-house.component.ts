@@ -11,6 +11,7 @@ import { filter } from 'rxjs';
 import { Location } from '@angular/common';
 import { DataService } from 'src/app/services/data.service';
 import { MissingParamsService } from 'src/app/pages/host-house/host-house-edit/missing-params.service';
+import { LoaderService } from 'src/app/services/loader.service';
 
 @Component({
   selector: 'app-navigation-house',
@@ -43,6 +44,7 @@ import { MissingParamsService } from 'src/app/pages/host-house/host-house-edit/m
 })
 
 export class NavigationHouseComponent implements OnInit, OnDestroy {
+  currentSectionIndex: number = -1;
 
   onClickMenu(indexPage: number) {
     this.indexPage = indexPage;
@@ -112,13 +114,25 @@ export class NavigationHouseComponent implements OnInit, OnDestroy {
     this.menuService.toogleMenu(false);
   }
 
-  setSection(index: number) {
+  setSectionFromBtn(index: number) {
     this.section = this.section.map((isOpen, i) => {
       if (i === index) {
         return !isOpen;
       }
       return false;
     });
+  }
+
+  setSection(index: number) {
+    if (this.currentSectionIndex !== index) {
+      this.section = this.section.map((isOpen, i) => {
+        this.currentSectionIndex = index;
+        if (i === index) {
+          return !isOpen;
+        }
+        return false;
+      });
+    }
   }
 
   constructor(
@@ -130,6 +144,7 @@ export class NavigationHouseComponent implements OnInit, OnDestroy {
     private location: Location,
     private dataService: DataService,
     private missingParamsService: MissingParamsService,
+    private loaderService: LoaderService,
   ) { }
 
   async ngOnInit(): Promise<void> {
@@ -146,32 +161,23 @@ export class NavigationHouseComponent implements OnInit, OnDestroy {
   }
 
   checkLocation() {
+    const sectionMap = [
+      { path: '/house/info', section: 1 },
+      { path: '/house/agree', section: 2 },
+      { path: '/house/control', section: 3 },
+      { path: '/house/discus', section: 4 },
+      { path: '/chat-house', section: 5 },
+      { path: '/house/edit', section: 6 },
+      { path: '/house/search', section: 7 },
+      { path: '/house/objects', section: 8 },
+      { path: '/house/residents', section: 9 },
+      { path: '/house/communal', section: 10 },
+    ];
     this.currentLocation = this.location.path();
-    if (this.currentLocation.includes('/house/info')) {
-      this.setSection(1);
-    } else if (this.currentLocation.includes('/house/agree')) {
-      this.setSection(2);
-    } else if (this.currentLocation.includes('/house/control')) {
-      this.setSection(3);
-    } else if (this.currentLocation.includes('/house/discus')) {
-      this.setSection(4);
-    } else if (this.currentLocation.includes('/chat-house')) {
-      this.setSection(5);
-    } else if (this.currentLocation.includes('/house/edit')) {
-      this.setSection(6);
-    } else if (this.currentLocation.includes('/house/search')) {
-      this.setSection(7);
-    } else if (this.currentLocation.includes('/house/objects')) {
-      this.setSection(8);
-    } else if (this.currentLocation.includes('/house/residents')) {
-      this.setSection(9);
-    } else if (this.currentLocation.includes('/house/communal')) {
-      this.setSection(10);
-    } else {
-
-      this.setSection(-1); // вимикає всі секції, якщо шлях не відповідає жодному з умов
-    }
+    const matchedSection = sectionMap.find(entry => this.currentLocation.includes(entry.path));
+    this.setSection(matchedSection ? matchedSection.section : -1);
   }
+
 
   // Перевірка на авторизацію користувача
   async checkUserAuthorization() {
@@ -340,7 +346,11 @@ export class NavigationHouseComponent implements OnInit, OnDestroy {
   }
 
   logoutHouse() {
-    this.sharedService.logoutHouse();
+    this.loaderService.setLoading(true);
+    this.closeToogleMenu();
+    setTimeout(() => {
+      this.sharedService.getlogoutHouse();
+    }, 100);
   }
 
 

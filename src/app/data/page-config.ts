@@ -20,82 +20,22 @@ export const pageConfig = {
     metaUrl: '',
     metaAuthor: '',
     metaCanonical: '',
-    metaThemeColor: '',
+    metaThemeColor: '#FFFFFF',
     metaRobots: 'noindex, nofollow',
   },
 
-  '/user/edit/person':
+  '/user/edit':
   {
     title: 'Редагування',
-    description: 'Персона',
-    metaTitle: 'Редагування персональної інформації',
+    description: 'Профілю користувача',
+    metaTitle: 'Редагування профілю користувача',
     metaDescriptions: '',
     metaKeywords: '',
     metaImg: '',
     metaUrl: '',
     metaAuthor: '',
     metaCanonical: '',
-    metaThemeColor: '',
-    metaRobots: 'noindex, nofollow',
-  },
-
-  '/user/edit/contacts':
-  {
-    title: 'Редагування',
-    description: 'Контакти',
-    metaTitle: 'Редагування контактів',
-    metaDescriptions: '',
-    metaKeywords: '',
-    metaImg: '',
-    metaUrl: '',
-    metaAuthor: '',
-    metaCanonical: '',
-    metaThemeColor: '',
-    metaRobots: 'noindex, nofollow',
-  },
-
-  '/user/edit/status':
-  {
-    title: 'Редагування',
-    description: 'Статуси',
-    metaTitle: 'Редагування статусів',
-    metaDescriptions: '',
-    metaKeywords: '',
-    metaImg: '',
-    metaUrl: '',
-    metaAuthor: '',
-    metaCanonical: '',
-    metaThemeColor: '',
-    metaRobots: 'noindex, nofollow',
-  },
-
-  '/user/edit/looking':
-  {
-    title: 'Редагування ',
-    description: 'Профілю орендаря',
-    metaTitle: 'Редагування профілю орендаря – Discussio',
-    metaDescriptions: 'Оновіть свій профіль орендаря на Discussio. Використовуйте форму для розміщення та редагування оголошень про пошук житла. Легко знайдіть нові можливості для проживання.',
-    metaKeywords: 'редагування профілю, оголошення про пошук житла, орендар, знайти оселю, пошук квартир, розміщення оголошень, оновлення профілю, пошук житла, нове місце для проживання, зручності житла, оренда квартир, оголошення про оренду',
-    metaImg: 'https://discussio.site/assets/img/edit-profile.png',
-    metaUrl: 'https://discussio.site/user/edit/looking',
-    metaAuthor: 'Discussio Team',
-    metaCanonical: 'https://discussio.site/user/edit/looking',
-    metaThemeColor: '',
-    metaRobots: 'index, follow'
-  },
-
-  '/user/edit/delete':
-  {
-    title: 'Видалення',
-    description: 'Аккаунту',
-    metaTitle: 'Видалення аккаунту',
-    metaDescriptions: '',
-    metaKeywords: '',
-    metaImg: '',
-    metaUrl: '',
-    metaAuthor: '',
-    metaCanonical: '',
-    metaThemeColor: '',
+    metaThemeColor: '#FFFFFF',
     metaRobots: 'noindex, nofollow',
   },
 
@@ -110,7 +50,7 @@ export const pageConfig = {
     metaUrl: 'https://discussio.site/user/tenant/about',
     metaAuthor: 'Discussio Team',
     metaCanonical: 'https://discussio.site/user/tenant/about',
-    metaThemeColor: '',
+    metaThemeColor: '#FFFFFF',
     metaRobots: 'index, follow'
   },
 
@@ -125,7 +65,7 @@ export const pageConfig = {
     metaUrl: 'https://discussio.site/user/tenant/step',
     metaAuthor: 'Discussio Team',
     metaCanonical: 'https://discussio.site/user/tenant/step',
-    metaThemeColor: '',
+    metaThemeColor: '#FFFFFF',
     metaRobots: 'index, follow'
   },
 
@@ -140,7 +80,7 @@ export const pageConfig = {
     metaUrl: 'https://discussio.site/user/agree/about',
     metaAuthor: 'Discussio Team',
     metaCanonical: 'https://discussio.site/user/agree/about',
-    metaThemeColor: '',
+    metaThemeColor: '#FFFFFF',
     metaRobots: 'index, follow'
   },
 
@@ -155,7 +95,7 @@ export const pageConfig = {
     metaUrl: 'https://discussio.site/user/agree/step',
     metaAuthor: 'Discussio Team',
     metaCanonical: 'https://discussio.site/user/agree/step',
-    metaThemeColor: '',
+    metaThemeColor: '#FFFFFF',
     metaRobots: 'index, follow'
   },
 
@@ -170,7 +110,7 @@ export const pageConfig = {
     metaUrl: '',
     metaAuthor: '',
     metaCanonical: '',
-    metaThemeColor: '',
+    metaThemeColor: '#FFFFFF',
     metaRobots: 'noindex, nofollow',
   },
 
@@ -185,7 +125,7 @@ export const pageConfig = {
     metaUrl: '',
     metaAuthor: '',
     metaCanonical: '',
-    metaThemeColor: '',
+    metaThemeColor: '#FFFFFF',
     metaRobots: 'noindex, nofollow',
   },
 
@@ -200,7 +140,7 @@ export const pageConfig = {
     metaUrl: 'https://discussio.site/user/discus/about',
     metaAuthor: 'Discussio',
     metaCanonical: 'https://discussio.site/user/discus/about',
-    metaThemeColor: '',
+    metaThemeColor: '#FFFFFF',
     metaRobots: 'index, follow',
   },
 
@@ -215,7 +155,7 @@ export const pageConfig = {
     metaUrl: '',
     metaAuthor: '',
     metaCanonical: '',
-    metaThemeColor: '',
+    metaThemeColor: '#FFFFFF',
     metaRobots: 'noindex, nofollow',
   },
 
@@ -230,7 +170,7 @@ export const pageConfig = {
     metaUrl: '',
     metaAuthor: '',
     metaCanonical: '',
-    metaThemeColor: '',
+    metaThemeColor: '#FFFFFF',
     metaRobots: 'noindex, nofollow',
   },
 
@@ -245,8 +185,23 @@ export const pageConfig = {
     metaUrl: '',
     metaAuthor: '',
     metaCanonical: '',
-    metaThemeColor: '',
+    metaThemeColor: '#FFFFFF',
     metaRobots: 'noindex, nofollow',
+  },
+
+  '':
+  {
+    title: 'Discussio',
+    description: 'Головна',
+    metaTitle: 'Діскусіо - управління нерухомістю, оренда житла, пошук орендарів',
+    metaDescriptions: 'Discussio - платформа для ефективного управління нерухомістю. Потрібно знайти оселю чи орендаря? Ми допоможемо з пошуком житла та орендарів, а також з формуванням угод.',
+    metaKeywords: 'нерухомість, оренда житла, пошук орендарів, управління нерухомістю, підселення, пошук сусіда, розміщення оголошень, діскусіо, discussio, оренда, пошук оселі',
+    metaImg: 'https://discussio.site/assets/gif/home.gif',
+    metaUrl: 'https://discussio.site/home',
+    metaAuthor: 'Discussio',
+    metaCanonical: 'https://discussio.site/home',
+    metaThemeColor: '#FF7D66',
+    metaRobots: 'index, follow'
   },
 
   '/home':
@@ -275,7 +230,7 @@ export const pageConfig = {
     metaUrl: 'https://discussio.site/blog',
     metaAuthor: 'Discussio Blog',
     metaCanonical: 'https://discussio.site/blog',
-    metaThemeColor: '',
+    metaThemeColor: '#FFFFFF',
     metaRobots: 'index, follow'
   },
 
@@ -290,7 +245,7 @@ export const pageConfig = {
     metaUrl: 'https://discussio.site/faq',
     metaAuthor: 'Discussio Team',
     metaCanonical: 'https://discussio.site/faq',
-    metaThemeColor: '',
+    metaThemeColor: '#FFFFFF',
     metaRobots: 'index, follow'
   },
 
@@ -305,7 +260,7 @@ export const pageConfig = {
     metaUrl: 'https://discussio.site/our-team',
     metaAuthor: 'Discussio Team',
     metaCanonical: 'https://discussio.site/our-team',
-    metaThemeColor: '',
+    metaThemeColor: '#FFFFFF',
     metaRobots: 'index, follow',
   },
 
@@ -320,7 +275,7 @@ export const pageConfig = {
     metaUrl: 'https://discussio.site/contacts',
     metaAuthor: 'Discussio Team',
     metaCanonical: 'https://discussio.site/contacts',
-    metaThemeColor: '',
+    metaThemeColor: '#FFFFFF',
     metaRobots: 'index, follow'
   },
 
@@ -335,7 +290,7 @@ export const pageConfig = {
     metaUrl: 'https://discussio.site/user-licence',
     metaAuthor: 'Discussio Team',
     metaCanonical: 'https://discussio.site/user-licence',
-    metaThemeColor: '', // Вказаний колір теми
+    metaThemeColor: '#FFFFFF', // Вказаний колір теми
     metaRobots: 'index, follow'
   },
 
@@ -350,7 +305,7 @@ export const pageConfig = {
     metaUrl: 'https://discussio.site/about-project',
     metaAuthor: 'Discussio Team',
     metaCanonical: 'https://discussio.site/about-project',
-    metaThemeColor: '',
+    metaThemeColor: '#FFFFFF',
     metaRobots: 'index, follow',
   },
 
@@ -365,7 +320,7 @@ export const pageConfig = {
     metaUrl: 'https://discussio.site/support-us',
     metaAuthor: 'Discussio Team',
     metaCanonical: 'https://discussio.site/support-us',
-    metaThemeColor: '',
+    metaThemeColor: '#FFFFFF',
     metaRobots: 'index, follow',
   },
 
@@ -380,7 +335,7 @@ export const pageConfig = {
     metaUrl: '',
     metaAuthor: '',
     metaCanonical: '',
-    metaThemeColor: '',
+    metaThemeColor: '#FFFFFF',
     metaRobots: 'noindex, nofollow',
   },
 
@@ -395,7 +350,7 @@ export const pageConfig = {
     metaUrl: '',
     metaAuthor: '',
     metaCanonical: '',
-    metaThemeColor: '',
+    metaThemeColor: '#FFFFFF',
     metaRobots: 'noindex, nofollow',
   },
 
@@ -410,7 +365,7 @@ export const pageConfig = {
     metaUrl: 'https://discussio.site/house/control/about',
     metaAuthor: 'Discussio Team',
     metaCanonical: 'https://discussio.site/house/control/about',
-    metaThemeColor: '',
+    metaThemeColor: '#FFFFFF',
     metaRobots: 'index, follow',
   },
 
@@ -425,7 +380,7 @@ export const pageConfig = {
     metaUrl: 'https://discussio.site/house/agree/about',
     metaAuthor: 'Discussio Team',
     metaCanonical: 'https://discussio.site/house/agree/about',
-    metaThemeColor: '',
+    metaThemeColor: '#FFFFFF',
     metaRobots: 'index, follow',
   },
 
@@ -440,7 +395,7 @@ export const pageConfig = {
     metaUrl: 'https://discussio.site/house/agree/step',
     metaAuthor: 'Discussio Team',
     metaCanonical: 'https://discussio.site/house/agree/step',
-    metaThemeColor: '',
+    metaThemeColor: '#FFFFFF',
     metaRobots: 'index, follow',
   },
 
@@ -455,7 +410,7 @@ export const pageConfig = {
     metaUrl: '',
     metaAuthor: '',
     metaCanonical: '',
-    metaThemeColor: '',
+    metaThemeColor: '#FFFFFF',
     metaRobots: 'noindex, nofollow',
   },
 
@@ -470,7 +425,7 @@ export const pageConfig = {
     metaUrl: '',
     metaAuthor: '',
     metaCanonical: '',
-    metaThemeColor: '',
+    metaThemeColor: '#FFFFFF',
     metaRobots: 'noindex, nofollow',
   },
 
@@ -485,7 +440,7 @@ export const pageConfig = {
     metaUrl: '',
     metaAuthor: '',
     metaCanonical: '',
-    metaThemeColor: '',
+    metaThemeColor: '#FFFFFF',
     metaRobots: 'noindex, nofollow',
   },
 
@@ -500,7 +455,7 @@ export const pageConfig = {
     metaUrl: 'https://discussio.site/house/discus/about',
     metaAuthor: 'Discussio Team',
     metaCanonical: 'https://discussio.site/house/discus/about',
-    metaThemeColor: '',
+    metaThemeColor: '#FFFFFF',
     metaRobots: 'index, follow'
   },
 
@@ -515,7 +470,7 @@ export const pageConfig = {
     metaUrl: '',
     metaAuthor: '',
     metaCanonical: '',
-    metaThemeColor: '',
+    metaThemeColor: '#FFFFFF',
     metaRobots: 'noindex, nofollow',
   },
 
@@ -530,7 +485,7 @@ export const pageConfig = {
     metaUrl: '',
     metaAuthor: '',
     metaCanonical: '',
-    metaThemeColor: '',
+    metaThemeColor: '#FFFFFF',
     metaRobots: 'noindex, nofollow',
   },
 
@@ -545,7 +500,7 @@ export const pageConfig = {
     metaUrl: '',
     metaAuthor: '',
     metaCanonical: '',
-    metaThemeColor: '',
+    metaThemeColor: '#FFFFFF',
     metaRobots: 'noindex, nofollow',
   },
 
@@ -560,7 +515,7 @@ export const pageConfig = {
     metaUrl: 'https://discussio.site/house/objects/about',
     metaAuthor: 'Discussio Team',
     metaCanonical: 'https://discussio.site/house/objects/about',
-    metaThemeColor: '',
+    metaThemeColor: '#FFFFFF',
     metaRobots: 'index, follow'
   },
 
@@ -575,7 +530,7 @@ export const pageConfig = {
     metaUrl: '',
     metaAuthor: '',
     metaCanonical: '',
-    metaThemeColor: '',
+    metaThemeColor: '#FFFFFF',
     metaRobots: 'noindex, nofollow',
   },
 
@@ -590,7 +545,7 @@ export const pageConfig = {
     metaUrl: '',
     metaAuthor: '',
     metaCanonical: '',
-    metaThemeColor: '',
+    metaThemeColor: '#FFFFFF',
     metaRobots: 'noindex, nofollow',
   },
 
@@ -605,7 +560,7 @@ export const pageConfig = {
     metaUrl: '',
     metaAuthor: '',
     metaCanonical: '',
-    metaThemeColor: '',
+    metaThemeColor: '#FFFFFF',
     metaRobots: 'noindex, nofollow',
   },
 
@@ -620,7 +575,7 @@ export const pageConfig = {
     metaUrl: '',
     metaAuthor: '',
     metaCanonical: '',
-    metaThemeColor: '',
+    metaThemeColor: '#FFFFFF',
     metaRobots: 'noindex, nofollow',
   },
 
@@ -635,7 +590,7 @@ export const pageConfig = {
     metaUrl: '',
     metaAuthor: '',
     metaCanonical: '',
-    metaThemeColor: '',
+    metaThemeColor: '#FFFFFF',
     metaRobots: 'noindex, nofollow',
   },
 
@@ -650,7 +605,7 @@ export const pageConfig = {
     metaUrl: '',
     metaAuthor: '',
     metaCanonical: '',
-    metaThemeColor: '',
+    metaThemeColor: '#FFFFFF',
     metaRobots: 'noindex, nofollow',
   },
 
@@ -665,7 +620,7 @@ export const pageConfig = {
     metaUrl: '',
     metaAuthor: '',
     metaCanonical: '',
-    metaThemeColor: '',
+    metaThemeColor: '#FFFFFF',
     metaRobots: 'noindex, nofollow',
   },
 
@@ -680,7 +635,7 @@ export const pageConfig = {
     metaUrl: 'https://discussio.site/house/communal/about',
     metaAuthor: 'Discussio Team',
     metaCanonical: 'https://discussio.site/house/communal/about',
-    metaThemeColor: '',
+    metaThemeColor: '#FFFFFF',
     metaRobots: 'index, follow'
   },
 
@@ -695,7 +650,7 @@ export const pageConfig = {
     metaUrl: '',
     metaAuthor: '',
     metaCanonical: '',
-    metaThemeColor: '',
+    metaThemeColor: '#FFFFFF',
     metaRobots: 'noindex, nofollow',
   },
 
@@ -710,7 +665,7 @@ export const pageConfig = {
     metaUrl: '',
     metaAuthor: '',
     metaCanonical: '',
-    metaThemeColor: '',
+    metaThemeColor: '#FFFFFF',
     metaRobots: 'noindex, nofollow',
   },
 
@@ -725,7 +680,7 @@ export const pageConfig = {
     metaUrl: '',
     metaAuthor: '',
     metaCanonical: '',
-    metaThemeColor: '',
+    metaThemeColor: '#FFFFFF',
     metaRobots: 'noindex, nofollow',
   },
 
@@ -740,7 +695,7 @@ export const pageConfig = {
     metaUrl: '',
     metaAuthor: '',
     metaCanonical: '',
-    metaThemeColor: '',
+    metaThemeColor: '#FFFFFF',
     metaRobots: 'noindex, nofollow',
   },
 
@@ -755,7 +710,7 @@ export const pageConfig = {
     metaUrl: '',
     metaAuthor: '',
     metaCanonical: '',
-    metaThemeColor: '',
+    metaThemeColor: '#FFFFFF',
     metaRobots: 'noindex, nofollow',
   },
 
@@ -770,7 +725,7 @@ export const pageConfig = {
     metaUrl: '',
     metaAuthor: '',
     metaCanonical: '',
-    metaThemeColor: '',
+    metaThemeColor: '#FFFFFF',
     metaRobots: 'noindex, nofollow',
   },
 
@@ -785,7 +740,7 @@ export const pageConfig = {
     metaUrl: 'https://discussio.site/house/residents/about',
     metaAuthor: 'Discussio Team',
     metaCanonical: 'https://discussio.site/house/residents/about',
-    metaThemeColor: '',
+    metaThemeColor: '#FFFFFF',
     metaRobots: 'index, follow',
   },
 
@@ -800,7 +755,7 @@ export const pageConfig = {
     metaUrl: '',
     metaAuthor: '',
     metaCanonical: '',
-    metaThemeColor: '',
+    metaThemeColor: '#FFFFFF',
     metaRobots: 'noindex, nofollow',
   },
 
@@ -815,7 +770,7 @@ export const pageConfig = {
     metaUrl: '',
     metaAuthor: '',
     metaCanonical: '',
-    metaThemeColor: '',
+    metaThemeColor: '#FFFFFF',
     metaRobots: 'noindex, nofollow',
   },
 
@@ -830,7 +785,7 @@ export const pageConfig = {
     metaUrl: '',
     metaAuthor: '',
     metaCanonical: '',
-    metaThemeColor: '',
+    metaThemeColor: '#FFFFFF',
     metaRobots: 'noindex, nofollow',
   },
 
@@ -845,7 +800,7 @@ export const pageConfig = {
     metaUrl: 'https://discussio.site/search/tenant',
     metaAuthor: 'Discussio Team',
     metaCanonical: 'https://discussio.site/search/tenant',
-    metaThemeColor: '',
+    metaThemeColor: '#FFFFFF',
     metaRobots: 'index, follow',
   },
 
@@ -860,7 +815,7 @@ export const pageConfig = {
     metaUrl: '',
     metaAuthor: '',
     metaCanonical: '',
-    metaThemeColor: '',
+    metaThemeColor: '#FFFFFF',
     metaRobots: 'index, follow',
   },
 
@@ -875,7 +830,7 @@ export const pageConfig = {
     metaUrl: 'https://discussio.site/user/search/house',
     metaAuthor: 'Discussio Team',
     metaCanonical: 'https://discussio.site/user/search/house',
-    metaThemeColor: '',
+    metaThemeColor: '#FFFFFF',
     metaRobots: 'index, follow'
   },
 
@@ -890,7 +845,7 @@ export const pageConfig = {
     metaUrl: 'https://discussio.site/house/search/tenant',
     metaAuthor: 'Discussio Team',
     metaCanonical: 'https://discussio.site/house/search/tenant',
-    metaThemeColor: '',
+    metaThemeColor: '#FFFFFF',
     metaRobots: 'index, follow',
   },
 
@@ -905,7 +860,7 @@ export const pageConfig = {
     metaUrl: 'https://discussio.site/house/search/neighbor',
     metaAuthor: 'Discussio Team',
     metaCanonical: 'https://discussio.site/house/search/neighbor',
-    metaThemeColor: '',
+    metaThemeColor: '#FFFFFF',
     metaRobots: 'index, follow',
   },
 
@@ -920,7 +875,7 @@ export const pageConfig = {
     metaUrl: 'https://discussio.site/auth/registration',
     metaAuthor: 'Discussio',
     metaCanonical: 'https://discussio.site/auth/registration',
-    metaThemeColor: '',
+    metaThemeColor: '#FFFFFF',
     metaRobots: 'index, follow',
   },
 
@@ -935,7 +890,7 @@ export const pageConfig = {
     metaUrl: 'https://discussio.site/auth/login',
     metaAuthor: 'Discussio',
     metaCanonical: 'https://discussio.site/auth/login',
-    metaThemeColor: '',
+    metaThemeColor: '#FFFFFF',
     metaRobots: 'index, follow',
   },
 

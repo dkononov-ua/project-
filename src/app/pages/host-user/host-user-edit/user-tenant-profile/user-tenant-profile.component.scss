@@ -1,55 +1,18 @@
 @use "../../../../style/input.scss";
+@use "../../../../style/circle.scss";
 @use "../../../../style/search/search.term.scss";
 @use "../../../../style/presets/" as *;
 @use "../../../../style/mixins/" as *;
 
-.activation-status {
-  margin-top: 20px;
-  @include flex-box-center;
-  width: 100%;
-  &.active {
-    .activation-status-item {
-      @include blurred-background($color-green, 0.8);
-    }
-  }
-  .activation-status-item {
-    @include box-shadow;
-    color: $color-white;
-    text-align: center;
-    font-size: 20px;
-    width: 100%;
-    max-width: 300px;
-    border-radius: 20px;
-    @include blurred-background($color-gray, 0.8);
-  }
-}
-
-.gif-box {
-  position: relative;
-  .home-img {
-    overflow: hidden;
-    width: 100%;
-    max-width: 400px;
-
-    height: auto;
-    object-fit: cover;
-  }
-}
 
 .param-value {
   display: flex;
-  flex-direction: column;
-  font-size: $t-med;
+  justify-content: center;
   min-width: 60px;
   .fa-solid,
   .fa-regular {
+    font-size: 16px;
     padding-right: 5px;
-  }
-}
-
-.param-field {
-  @include s3-s6-max {
-    background-color: $color-white !important;
   }
 }
 
@@ -57,7 +20,7 @@
   margin: 0;
   justify-content: space-around;
   @include s3-s6-max {
-    height: calc(100vh - 120px - 60px);
+    height: calc(100vh - 80px);
     overflow: auto;
     &::-webkit-scrollbar {
       display: none;
@@ -66,18 +29,6 @@
   @include s1-s3 {
     height: calc(100vh - 80px - 60px - 7vh);
     overflow: auto;
-  }
-}
-
-.gif-box {
-  position: relative;
-  border-radius: 0px 0px 20px 20px;
-  .home-img {
-    overflow: hidden;
-    // filter: drop-shadow(2px 2px 8px $color-dark);
-    width: 100%;
-    height: auto;
-    object-fit: cover;
   }
 }
 

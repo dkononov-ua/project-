@@ -36,332 +36,384 @@
     </button>
   </div>
 </div>
-
-<div [@top1] class="t-c filter-btn-wrapper p-2" *ngIf="!isMobile">
-  <div class="d-flex">
-
-    <button class="btn-search m-1 custom-badge" (click)="toogleFilter('location')"
-      [ngClass]="{ 'active': collapseLocation == true}" matBadge="{{activeFilterLocation}}"
-      [matBadgeHidden]="activeFilterLocation === 0">
-      <div class="flex-column t-s">
-        <p class="t-min">Локація</p>
-      </div>
-      <i class="fa-solid fa-map-location-dot"></i>
-    </button>
-
-    <button class="btn-search m-1 custom-badge" (click)="toogleFilter('time')"
-      [ngClass]="{ 'active': collapseTime == true}" matBadge="{{activeFilterTime}}"
-      [matBadgeHidden]="activeFilterTime === 0">
-      <div class="flex-column t-s">
-        <p class="t-min">Терміни</p>
-      </div>
-      <i class="fa-regular fa-hourglass-half"></i>
-    </button>
-
-    <button class="btn-search m-1 custom-badge" (click)="toogleFilter('features')"
-      [ngClass]="{ 'active': collapseFeatures == true}" matBadge="{{activeFilterFeatures}}"
-      [matBadgeHidden]="activeFilterFeatures === 0">
-      <div class="flex-column t-s">
-        <p class="t-min">Орендарь</p>
-      </div>
-      <i class="fa-solid fa-user-tag"></i>
-    </button>
-
-    <button class="btn-search m-1 custom-badge" (click)="toogleFilter('houseParam')"
-      [ngClass]="{ 'active': collapseHouseParam == true}" matBadge="{{activeFilterHouseParam}}"
-      [matBadgeHidden]="activeFilterHouseParam === 0">
-      <div class="flex-column t-s">
-        <p class="t-min">Оселя</p>
-      </div>
-      <i class="fa-solid fa-house-circle-check"></i>
-    </button>
+<ng-container *ngIf="!awaitStatusBtn; else content">
+  <div class="t-c content jc-c container-loader-mini">
+    <mat-spinner color="warn"></mat-spinner>
+    <div class="t-med mt-2">Оновлення інформації</div>
   </div>
-</div>
+</ng-container>
+<ng-template #content>
+  <div class="t-c content" *ngIf="!collapseTime && !collapseFeatures && !collapseHouseParam && !collapseLocation">
+    <div class="t-c" [ngClass]="{'close': collapseParamStatus}">
 
-<div [@top1] class="t-c content" *ngIf="!collapseTime && !collapseFeatures && !collapseHouseParam && !collapseLocation">
-  <div class="t-c" [ngClass]="{'close': collapseParamStatus}">
+      <div class="profile-completion-container p-2">
 
-    <div class="gif-box" *ngIf="totalActiveFilters < 1">
-      <img class="home-img" src="../../../../assets/gif/tenants.gif" alt="tenants_profile" loading="lazy">
-    </div>
+        <div [@top] class="circle-container">
+          <div class="d-flex jc-sa al-c">
 
-    <div class="activation-status" [ngClass]="{ 'active': userInfo.agree_search === 1 }">
-      <div class="activation-status-item">
-        <span *ngIf="!userInfo.agree_search">Профіль орендаря <br> не активовано</span>
-        <span *ngIf="userInfo.agree_search === 1">Профіль орендаря <br> активовано </span>
-        <i class="fa-solid fa-power-off white pl-2"></i>
-      </div>
-    </div>
+            <div class="spinner-wrapper" [ngClass]="getSpinnerClass(totalFilling)">
+              <mat-progress-spinner class="custom-spinner" [value]="totalFilling" mode="determinate" diameter="140"
+                strokeWidth="12">
+              </mat-progress-spinner>
+              <div class="spinner-text"><i class="fa-solid fa-person-hiking custom-badge"
+                  matBadge="{{totalActiveFilters}}" [matBadgeHidden]="totalActiveFilters === 0"></i> <br> {{
+                totalFilling
+                }}%</div>
+            </div>
 
-    <p class="t-lar-x bold p-2">Внесено {{totalActiveFilters}}/35 <br> пошукових параметрів
-    </p>
-    <p [@appearance] class="t-min gray p-2" *ngIf="!suggestConservation">Внести зміни або активувати профіль можна лише
-      з вказаним
-      містом,
-      областю та варіантом оплати.
-    </p>
-
-    <div class="detail-wrapper p-2 t-c">
-      <div class="param-box" *ngIf="userInfo.option_pay !== undefined || userInfo.price_of || userInfo.price_to">
-        <div class="param-label">Бюджет:</div>
-        <div class="param-group">
-          <div class="param-field" *ngIf="userInfo.price_of">
-            Ціна від (грн):<span class="param-value"><i class="fa-solid fa-sack-dollar"></i>{{ userInfo.price_of |
-              number:'1.0-0' }}</span>
-          </div>
-
-          <div class="param-field" *ngIf="userInfo.price_to">
-            Ціна до (грн):<span class="param-value"><i class="fa-solid fa-sack-dollar"></i>{{ userInfo.price_to |
-              number:'1.0-0' }}</span>
-          </div>
-
-          <div class="param-field" *ngIf="userInfo.option_pay !== undefined">
-            Оплата:<span class="param-value"><i class="fa-regular fa-credit-card"></i>{{ option_pay[userInfo.option_pay]
-              }}</span>
+            <div class="w-50 pr-2">
+              <h3>Заповнення профілю орендаря</h3>
+              <p class="t-min">
+                Статус заповнення профілю є показником наскільки детально ви прописали пошукові запити. Чим їх більше
+                тим легше буде орендодавцю або сусіду вирішити чи підійде вам його оселя.
+              </p>
+            </div>
           </div>
         </div>
+
+        <button [@top1] class="circle-container circle-container--btn" (click)="toogleFilter('location')">
+          <div class="d-flex jc-sa al-c">
+            <div class="pr-2">
+              <h3>Локація</h3>
+              <p class="t-min">
+                Локація є ключовим критерієм пошуку орендарів. Важливо детально описати конкретну локацію, щоб
+                орендодавець міг запропонувати вам відповідний варіант. Без вказаної області та міста оголошення не буде
+                активоване.
+              </p>
+            </div>
+
+            <div class="spinner-wrapper" [ngClass]="getSpinnerLocationClass(totalLocation)">
+              <mat-progress-spinner class="custom-spinner" [value]="totalLocation" mode="determinate" diameter="120"
+                strokeWidth="10">
+              </mat-progress-spinner>
+              <div class="spinner-text"> <i class="fa-solid fa-map-location-dot custom-badge"
+                  matBadge="{{activeFilterLocation}}" [matBadgeHidden]="activeFilterLocation === 0"></i>
+                {{ totalLocation }}%</div>
+            </div>
+          </div>
+          <div class="param-box" *ngIf="userInfo.region || userInfo.city">
+            <div class="param-group">
+              <div class="param-field" *ngIf="userInfo.region">
+                Область:<span class="param-value"><i class="fa-solid fa-earth-americas"></i>{{ userInfo.region }}
+                </span>
+              </div>
+
+              <div class="param-field" *ngIf="userInfo.city">
+                Місто:<span class="param-value"><i class="fa-solid fa-city"></i>{{ userInfo.city }} </span>
+              </div>
+
+              <div class="param-field" *ngIf="userInfo.district">
+                Район:<span class="param-value"><i class="fa-solid fa-mountain-city"></i>{{ userInfo.district }}</span>
+              </div>
+
+              <div class="param-field" *ngIf="userInfo.micro_district">
+                Мікрорайон:<span class="param-value"><i class="fa-solid fa-building-flag"></i>{{ userInfo.micro_district
+                  }}</span>
+              </div>
+
+              <div class="param-field" *ngIf="userInfo.street">
+                Вулиця:<span class="param-value"><i class="fa-solid fa-road"></i>{{ userInfo.street }}</span>
+              </div>
+
+            </div>
+          </div>
+          <div class="param-box" *ngIf="userInfo.metrocolor || userInfo.metroname || userInfo.distance_metro">
+            <div class="param-label">Метро:</div>
+            <div class="param-group">
+              <div class="param-field" *ngIf="userInfo.metrocolor">
+                Лінія:<span class="param-value"><i class="fa-solid fa-code-branch"></i>{{ userInfo.metrocolor }}</span>
+              </div>
+              <div class="param-field" *ngIf="userInfo.metroname">
+                Станція:<span class="param-value"><i class="fa-solid fa-archway"></i>{{ userInfo.metroname }}</span>
+              </div>
+              <div class="param-field" *ngIf="userInfo.distance_metro">
+                Відстань до:<span class="param-value"><i class="fa-solid fa-arrows-left-right-to-line"></i>{{
+                  aboutDistance[userInfo.distance_metro]
+                  }}</span>
+              </div>
+            </div>
+          </div>
+
+        </button>
+
+        <button [@top2] class="circle-container circle-container--btn" (click)="toogleFilter('features')">
+          <div class="d-flex jc-sa al-c">
+            <div class="pr-2">
+              <h3>Орендарь</h3>
+              <p class="t-min">
+                Ціна та спосіб оплати в цьому розділі є обов'язковими параметрами, без яких оголошення не буде
+                активовано. Ви також можете зазначити свої побажання та особливі критерії. Тип орендарів рекомендується
+                вказувати той, до якого ви найбільше належите, але можна комбінувати варіанти
+              </p>
+            </div>
+            <div class="spinner-wrapper" [ngClass]="getSpinnerClass(totalFeatures)">
+              <mat-progress-spinner class="custom-spinner" [value]="totalFeatures" mode="determinate" diameter="120"
+                strokeWidth="10">
+              </mat-progress-spinner>
+              <div class="spinner-text"> <i class="fa-solid fa-user-tag custom-badge"
+                  matBadge="{{activeFilterFeatures}}" [matBadgeHidden]="activeFilterFeatures === 0"></i>
+                {{ totalFeatures }}%</div>
+            </div>
+          </div>
+          <div class="param-box" *ngIf="userInfo.option_pay !== undefined || userInfo.price_of || userInfo.price_to">
+            <div class="param-label">Бюджет:</div>
+            <div class="param-group">
+              <div class="param-field" *ngIf="userInfo.price_of">
+                Ціна від (грн):<span class="param-value"><i class="fa-solid fa-sack-dollar"></i>{{ userInfo.price_of |
+                  number:'1.0-0' }}</span>
+              </div>
+
+              <div class="param-field" *ngIf="userInfo.price_to">
+                Ціна до (грн):<span class="param-value"><i class="fa-solid fa-sack-dollar"></i>{{ userInfo.price_to |
+                  number:'1.0-0' }}</span>
+              </div>
+
+              <div class="param-field" *ngIf="userInfo.option_pay !== undefined">
+                Оплата:<span class="param-value"><i class="fa-regular fa-credit-card"></i>{{
+                  option_pay[userInfo.option_pay]
+                  }}</span>
+              </div>
+
+              <div class="param-field" *ngIf="userInfo.purpose_rent">
+                Мета пошуку:<span class="param-value"><i class="fa-solid fa-head-side-virus"></i>{{
+                  purpose[userInfo.purpose_rent]
+                  }}</span>
+              </div>
+
+              <div class="param-field" *ngIf="userInfo.bunker">
+                Наявність укриття:<span class="param-value"><i class="fa-solid fa-shield-heart"></i>{{ userInfo.bunker
+                  }}</span>
+              </div>
+
+              <div class="param-field" *ngIf="userInfo.animals && userInfo.animals !== '0'">
+                Тварини:
+                <span class="param-value">
+                  <i class="fa-solid fa-paw" *ngIf="userInfo.animals === '1'"></i>
+                  <i class="fa-solid fa-cat" *ngIf="userInfo.animals === '2'"></i>
+                  <i class="fa-solid fa-dog" *ngIf="userInfo.animals === '3'"></i>
+                  {{ animals[userInfo.animals] }}
+                </span>
+              </div>
+
+            </div>
+          </div>
+
+          <div class="param-box" *ngIf="userInfo.woman || userInfo.man || userInfo.students || userInfo.family">
+            <div class="param-label">Шукаю оселю для:</div>
+            <div class="param-group">
+
+              <div class="param-field" *ngIf="userInfo.woman === 1">
+                Жінки <span class="param-value"><i class="fa-solid fa-person-dress"></i></span>
+              </div>
+
+              <div class="param-field" *ngIf="userInfo.man === 1">
+                Чоловіка <span class="param-value"><i class="fa-solid fa-person"></i></span>
+              </div>
+
+              <div class="param-field" *ngIf="userInfo.students === 1">
+                Студента<span class="param-value"><i class="fa-solid fa-graduation-cap"></i> </span>
+              </div>
+
+              <div class="param-field" *ngIf="userInfo.family === 1">
+                Сім'ї<span class="param-value"><i class="fa-solid fa-children"></i> </span>
+              </div>
+
+            </div>
+          </div>
+          <div class="p-2" *ngIf="userInfo.about">
+            <div class="t-lar bold">Додаткова інформація:</div>
+            <div class="t-min">{{ userInfo.about }}</div>
+          </div>
+        </button>
+
+        <button [@top3] class="circle-container circle-container--btn" (click)="toogleFilter('time')">
+          <div class="d-flex jc-sa al-c">
+            <div class="pr-2">
+              <h3>Терміни</h3>
+              <p class="t-min">
+                Встановлені терміни дозволяють орендодавцям зрозуміти, чи можуть вони здати оселю на потрібний вам
+                період. Ці параметри не є обов'язковими, але можуть допомогти швидше знайти бажане житло. Різні способи
+                введення додаються для вашої зручності, а підбір і пошук здійснюються за загальною кількістю днів.
+              </p>
+            </div>
+            <div class="spinner-wrapper" [ngClass]="getSpinnerClass(totalTime)">
+              <mat-progress-spinner class="custom-spinner" [value]="totalTime" mode="determinate" diameter="120"
+                strokeWidth="10">
+              </mat-progress-spinner>
+              <div class="spinner-text"> <i class="fa-regular fa-hourglass-half custom-badge"
+                  matBadge="{{activeFilterTime}}" [matBadgeHidden]="activeFilterTime === 0"></i>
+                {{ totalTime }}%</div>
+            </div>
+          </div>
+          <div class="param-box" *ngIf="userInfo.years || userInfo.mounths || userInfo.weeks || userInfo.days">
+            <div class="param-group p-1">
+
+              <div class="param-field" *ngIf="userInfo.years && userInfo.years !== null">Роки:<span
+                  class="param-value"><i class="fa-solid fa-calendar"></i>{{ userInfo.years }}</span></div>
+
+              <div class="param-field" *ngIf="userInfo.mounths && userInfo.mounths !== null">Місяці:
+                <span class="param-value"><i class="fa-solid fa-calendar-days"></i>{{ userInfo.mounths }}</span>
+              </div>
+
+              <div class="param-field" *ngIf="userInfo.weeks && userInfo.weeks !== null">Тижні:<span
+                  class="param-value"><i class="fa-regular fa-calendar-days"></i>{{ userInfo.weeks }}</span></div>
+
+              <div class="param-field" *ngIf="userInfo.days && userInfo.days !== null">Дні:<span class="param-value"><i
+                    class="fa-solid fa-hourglass-half"></i>{{
+                  userInfo.days }}</span></div>
+
+              <div class="param-field" *ngIf="userInfo.day_counts">Загалом днів:
+                <span class="param-value"> <i class="fa-solid fa-hourglass-half"></i>{{ userInfo.day_counts }}</span>
+              </div>
+
+
+            </div>
+          </div>
+        </button>
+
+        <button [@top4] class="circle-container circle-container--btn" (click)="toogleFilter('houseParam')">
+          <div class="d-flex jc-sa al-c">
+            <div class="pr-2">
+              <h3>Оселя</h3>
+              <p class="t-min">
+                У параметрах оселі ви можете детально налаштувати всі характеристики бажаного житла: вибрати тип оселі,
+                визначити можливість підселення, вказати необхідну інфраструктуру та інші важливі аспекти. Це допоможе
+                швидше знайти житло, яке відповідатиме вашим потребам
+              </p>
+            </div>
+            <div class="spinner-wrapper" [ngClass]="getSpinnerClass(totalHouseParam)">
+              <mat-progress-spinner class="custom-spinner" [value]="totalHouseParam" mode="determinate" diameter="120"
+                strokeWidth="10">
+              </mat-progress-spinner>
+              <div class="spinner-text"> <i class="fa-solid fa-house-circle-check custom-badge"
+                  matBadge="{{activeFilterHouseParam}}" [matBadgeHidden]="activeFilterHouseParam === 0"></i>
+                {{ totalHouseParam }}%</div>
+            </div>
+          </div>
+          <div class="param-box" *ngIf="activeFilterHouseParam > 0">
+            <div class="param-group">
+
+              <div class="param-field" *ngIf="userInfo.house === 1">
+                Тип оселі:<span class="param-value"><i class="fa-solid fa-house-chimney-window"></i> Будинок </span>
+              </div>
+
+              <div class="param-field" *ngIf="userInfo.flat === 1">
+                Тип оселі:<span class="param-value"><i class="fa-solid fa-building-circle-arrow-right"></i> Квартира
+                </span>
+              </div>
+
+              <div class="param-field" *ngIf="userInfo.room">
+                Підійде:<span class="param-value"><i class="fa-solid fa-cube"></i> Кімната </span>
+              </div>
+
+              <div class="param-field" *ngIf="userInfo.area_of">
+                Площа від:<span class="param-value"><i class="fa-solid fa-s"></i>{{ userInfo.area_of }}м²</span>
+              </div>
+
+              <div class="param-field" *ngIf="userInfo.area_to">
+                Площа до:<span class="param-value"><i class="fa-solid fa-s"></i>{{ userInfo.area_to }}м²</span>
+              </div>
+
+              <div class="param-field" *ngIf="userInfo.kitchen_area">
+                Кухня від:<span class="param-value"><i class="fa-solid fa-s"></i>{{ userInfo.kitchen_area }}м²</span>
+              </div>
+
+              <div class="param-field" *ngIf="userInfo.repair_status">Стан
+                оселі:<span class="param-value"><i class="fa-solid fa-paint-roller"></i>{{
+                  repair[userInfo.repair_status]
+                  }}</span>
+              </div>
+
+              <div class="param-field" *ngIf="userInfo.rooms_of">
+                Кімнат від:<span class="param-value"><i class="fa-solid fa-draw-polygon"></i>{{ userInfo.rooms_of
+                  }}</span>
+              </div>
+
+              <div class="param-field" *ngIf="userInfo.rooms_to">
+                Кімнат до:<span class="param-value"><i class="fa-solid fa-draw-polygon"></i>{{ userInfo.rooms_to
+                  }}</span>
+              </div>
+
+              <div class="param-field" *ngIf="userInfo.floor">
+                Поверх:<span class="param-value"><i class="fa-solid fa-stairs"></i>{{ floor[userInfo.floor] }}</span>
+              </div>
+
+              <div class="param-field" *ngIf="userInfo.balcony">
+                Тип балкону:<span class="param-value"><i class="fa-regular fa-eye"></i>{{ userInfo.balcony }}</span>
+              </div>
+
+              <div class="param-field" *ngIf="userInfo.kitchen_area">
+                Площа кухні:<span class="param-value"><i class="fa-solid fa-s"></i>{{ userInfo.kitchen_area }}м²</span>
+              </div>
+
+              <div class="param-field" *ngIf="userInfo.distance_stop">
+                Зупинка до:<span class="param-value"><i class="fa-solid fa-bus"></i>{{
+                  aboutDistance[userInfo.distance_stop]
+                  }}</span>
+              </div>
+              <div class="param-field" *ngIf="userInfo.distance_shop">
+                Маркет до:<span class="param-value"><i class="fa-solid fa-basket-shopping"></i>{{
+                  aboutDistance[userInfo.distance_shop] }}</span>
+              </div>
+              <div class="param-field" *ngIf="userInfo.distance_green">
+                Парк до:<span class="param-value"><i class="fa-solid fa-tree"></i>{{
+                  aboutDistance[userInfo.distance_green]
+                  }}</span>
+              </div>
+              <div class="param-field" *ngIf="userInfo.distance_parking">
+                Паркінг до:<span class="param-value"><i class="fa-solid fa-car-side"></i>{{
+                  aboutDistance[userInfo.distance_parking] }}</span>
+              </div>
+
+            </div>
+          </div>
+          <div class="param-box" *ngIf="userInfo.room">
+            <div class="param-label">Розглядаю сусіда по оселі:</div>
+            <div class="param-group p-1">
+              <div class="param-field" *ngIf="userInfo.looking_man">
+                Якщо:<span class="param-value"><i class="fa-solid fa-person"></i>Чоловік</span>
+              </div>
+              <div class="param-field" *ngIf="userInfo.looking_woman">Якщо:<span class="param-value"><i
+                    class="fa-solid fa-person-dress"></i>Жінка</span>
+              </div>
+              <div class="param-field" *ngIf="!userInfo.looking_woman && !userInfo.looking_man">Неважливо<span
+                  class="param-value"><i class="fa-solid fa-person-half-dress"></i>Всеодно який буде сусід</span> </div>
+            </div>
+          </div>
+        </button>
+
       </div>
 
-      <div class="param-box" *ngIf="userInfo.region || userInfo.city">
-        <div class="param-label">Локація:</div>
-        <div class="param-group">
-          <div class="param-field" *ngIf="userInfo.region">
-            Область:<span class="param-value"><i class="fa-solid fa-earth-americas"></i>{{ userInfo.region }} </span>
-          </div>
+      <p [@appearance] class="t-min gray p-2" *ngIf="!suggestConservation">Внести зміни або активувати профіль можна
+        лише з вказаним містом, областю та варіантом оплати.
+      </p>
 
-          <div class="param-field" *ngIf="userInfo.city">
-            Місто:<span class="param-value"><i class="fa-solid fa-city"></i>{{ userInfo.city }} </span>
-          </div>
+      <div class="btn-group">
+        <button [disabled]="totalActiveFilters === 0" class="b-primary mr-2 custom-badge" (click)="clearFilterAll()"
+          matBadge="{{totalActiveFilters}}" [matBadgeHidden]="totalActiveFilters === 0">
+          <i class="fa-solid fa-broom"></i>
+        </button>
 
-          <div class="param-field" *ngIf="userInfo.district">
-            Район:<span class="param-value"><i class="fa-solid fa-mountain-city"></i>{{ userInfo.district }}</span>
-          </div>
+        <button *ngIf="!totalActiveFilters" class="b-primary p-2 mr-2" (click)="toogleFilter('location')">
+          Почати <i class="fa-solid fa-rocket pl-2 white"></i>
+        </button>
 
-          <div class="param-field" *ngIf="userInfo.micro_district">
-            Мікрорайон:<span class="param-value"><i class="fa-solid fa-building-flag"></i>{{ userInfo.micro_district
-              }}</span>
-          </div>
+        <button *ngIf="authorization"
+          matTooltip="Внести зміни або активувати профіль можна лише з вказаним містом, областю та варіантом оплати."
+          [disabled]="!suggestConservation" class="b-primary p-2" (click)="saveInfo()">
+          Зберегти <i class="fa-regular fa-circle-check pl-2 white"></i>
+        </button>
 
-          <div class="param-field" *ngIf="userInfo.street">
-            Вулиця:<span class="param-value"><i class="fa-solid fa-road"></i>{{ userInfo.street }}</span>
-          </div>
+        <button *ngIf="!authorization"
+          matTooltip="Внести зміни або активувати профіль можна лише з вказаним містом, областю та варіантом оплати."
+          [disabled]="!suggestConservation" class="b-primary p-2" (click)="saveInfoLocal()">
+          Зберегти <i class="fa-regular fa-circle-check pl-2 white"></i>
+        </button>
 
-        </div>
       </div>
-
-      <div class="param-box" *ngIf="activeFilterHouseParam > 0">
-        <div class="param-label">Параметри оселі:</div>
-        <div class="param-group">
-
-          <div class="param-field" *ngIf="userInfo.house === 1">
-            Тип оселі:<span class="param-value"><i class="fa-solid fa-house-chimney-window"></i> Будинок </span>
-          </div>
-
-          <div class="param-field" *ngIf="userInfo.flat === 1">
-            Тип оселі:<span class="param-value"><i class="fa-solid fa-building-circle-arrow-right"></i> Квартира
-            </span>
-          </div>
-
-          <div class="param-field" *ngIf="userInfo.room">
-            Підійде:<span class="param-value"><i class="fa-solid fa-cube"></i> Кімната </span>
-          </div>
-
-          <div class="param-field" *ngIf="userInfo.area_of">
-            Площа від:<span class="param-value"><i class="fa-solid fa-s"></i>{{ userInfo.area_of }}м²</span>
-          </div>
-
-          <div class="param-field" *ngIf="userInfo.area_to">
-            Площа до:<span class="param-value"><i class="fa-solid fa-s"></i>{{ userInfo.area_to }}м²</span>
-          </div>
-
-          <div class="param-field" *ngIf="userInfo.kitchen_area">
-            Кухня від:<span class="param-value"><i class="fa-solid fa-s"></i>{{ userInfo.kitchen_area }}м²</span>
-          </div>
-
-          <div class="param-field" *ngIf="userInfo.repair_status">Стан
-            оселі:<span class="param-value"><i class="fa-solid fa-paint-roller"></i>{{ repair[userInfo.repair_status]
-              }}</span>
-          </div>
-
-          <div class="param-field" *ngIf="userInfo.rooms_of">
-            Кімнат від:<span class="param-value"><i class="fa-solid fa-draw-polygon"></i>{{ userInfo.rooms_of }}</span>
-          </div>
-
-          <div class="param-field" *ngIf="userInfo.rooms_to">
-            Кімнат до:<span class="param-value"><i class="fa-solid fa-draw-polygon"></i>{{ userInfo.rooms_to }}</span>
-          </div>
-
-          <div class="param-field" *ngIf="userInfo.floor">
-            Поверх:<span class="param-value"><i class="fa-solid fa-stairs"></i>{{ floor[userInfo.floor] }}</span>
-          </div>
-
-          <div class="param-field" *ngIf="userInfo.balcony">
-            Тип балкону:<span class="param-value"><i class="fa-regular fa-eye"></i>{{ userInfo.balcony }}</span>
-          </div>
-
-          <div class="param-field" *ngIf="userInfo.kitchen_area">
-            Площа кухні:<span class="param-value"><i class="fa-solid fa-s"></i>{{ userInfo.kitchen_area }}м²</span>
-          </div>
-        </div>
-      </div>
-
-      <div class="param-box"
-        *ngIf="userInfo.distance_stop || userInfo.distance_shop || userInfo.distance_green || userInfo.distance_parking">
-        <div class="param-label">Інфраструктура в доступності:</div>
-        <div class="param-group">
-          <div class="param-field" *ngIf="userInfo.distance_stop">
-            Зупинка до:<span class="param-value"><i class="fa-solid fa-bus"></i>{{ aboutDistance[userInfo.distance_stop]
-              }}</span>
-          </div>
-          <div class="param-field" *ngIf="userInfo.distance_shop">
-            Маркет до:<span class="param-value"><i class="fa-solid fa-basket-shopping"></i>{{
-              aboutDistance[userInfo.distance_shop] }}</span>
-          </div>
-          <div class="param-field" *ngIf="userInfo.distance_green">
-            Парк до:<span class="param-value"><i class="fa-solid fa-tree"></i>{{ aboutDistance[userInfo.distance_green]
-              }}</span>
-          </div>
-          <div class="param-field" *ngIf="userInfo.distance_parking">
-            Паркінг до:<span class="param-value"><i class="fa-solid fa-car-side"></i>{{
-              aboutDistance[userInfo.distance_parking] }}</span>
-          </div>
-        </div>
-      </div>
-
-      <div class="param-box" *ngIf="userInfo.metrocolor || userInfo.metroname || userInfo.distance_metro">
-        <div class="param-label">Метро:</div>
-        <div class="param-group">
-          <div class="param-field" *ngIf="userInfo.metrocolor">
-            Лінія:<span class="param-value"><i class="fa-solid fa-code-branch"></i>{{ userInfo.metrocolor }}</span>
-          </div>
-          <div class="param-field" *ngIf="userInfo.metroname">
-            Станція:<span class="param-value"><i class="fa-solid fa-archway"></i>{{ userInfo.metroname }}</span>
-          </div>
-          <div class="param-field" *ngIf="userInfo.distance_metro">
-            Відстань до:<span class="param-value"><i class="fa-solid fa-arrows-left-right-to-line"></i>{{
-              aboutDistance[userInfo.distance_metro]
-              }}</span>
-          </div>
-        </div>
-      </div>
-
-      <div class="param-box" *ngIf="userInfo.bunker || userInfo.animals || userInfo.purpose_rent">
-        <div class="param-label">Особливості:</div>
-        <div class="param-group">
-
-          <div class="param-field" *ngIf="userInfo.purpose_rent">
-            Мета пошуку:<span class="param-value"><i class="fa-solid fa-head-side-virus"></i>{{
-              purpose[userInfo.purpose_rent]
-              }}</span>
-          </div>
-
-          <div class="param-field" *ngIf="userInfo.bunker">
-            Наявність укриття:<span class="param-value"><i class="fa-solid fa-shield-heart"></i>{{ userInfo.bunker
-              }}</span>
-          </div>
-
-          <div class="param-field" *ngIf="userInfo.animals && userInfo.animals !== '0'">
-            Тварини:
-            <span class="param-value">
-              <i class="fa-solid fa-paw" *ngIf="userInfo.animals === '1'"></i>
-              <i class="fa-solid fa-cat" *ngIf="userInfo.animals === '2'"></i>
-              <i class="fa-solid fa-dog" *ngIf="userInfo.animals === '3'"></i>
-              {{ animals[userInfo.animals] }}
-            </span>
-          </div>
-
-        </div>
-      </div>
-
-      <div class="param-box" *ngIf="userInfo.woman || userInfo.man || userInfo.students || userInfo.family">
-        <div class="param-label">Шукаю оселю для:</div>
-        <div class="param-group">
-
-          <div class="param-field" *ngIf="userInfo.woman === 1">
-            Жінки <span class="param-value"><i class="fa-solid fa-person-dress"></i></span>
-          </div>
-
-          <div class="param-field" *ngIf="userInfo.man === 1">
-            Чоловіка <span class="param-value"><i class="fa-solid fa-person"></i></span>
-          </div>
-
-          <div class="param-field" *ngIf="userInfo.students === 1">
-            Студента<span class="param-value"><i class="fa-solid fa-graduation-cap"></i> </span>
-          </div>
-
-          <div class="param-field" *ngIf="userInfo.family === 1">
-            Сім'ї<span class="param-value"><i class="fa-solid fa-children"></i> </span>
-          </div>
-
-        </div>
-      </div>
-
-      <div class="param-box" *ngIf="userInfo.room">
-        <div class="param-label">Розглядаю сусіда по оселі:</div>
-        <div class="param-group p-1">
-          <div class="param-field" *ngIf="userInfo.looking_man">
-            Якщо:<span class="param-value"><i class="fa-solid fa-person"></i>Чоловік</span>
-          </div>
-          <div class="param-field" *ngIf="userInfo.looking_woman">Якщо:<span class="param-value"><i
-                class="fa-solid fa-person-dress"></i>Жінка</span>
-          </div>
-          <div class="param-field" *ngIf="!userInfo.looking_woman && !userInfo.looking_man">Неважливо<span
-              class="param-value"><i class="fa-solid fa-person-half-dress"></i>Всеодно який буде сусід</span> </div>
-        </div>
-      </div>
-
-      <div class="param-box" *ngIf="userInfo.years || userInfo.mounths || userInfo.weeks || userInfo.days">
-        <div class="param-label">Орієнтовний термін оренди:</div>
-        <div class="param-group p-1">
-
-          <div class="param-field" *ngIf="userInfo.years && userInfo.years !== null">Роки:<span class="param-value"><i
-                class="fa-solid fa-calendar"></i>{{ userInfo.years }}</span></div>
-
-          <div class="param-field" *ngIf="userInfo.mounths && userInfo.mounths !== null">Місяці:
-            <span class="param-value"><i class="fa-solid fa-calendar-days"></i>{{ userInfo.mounths }}</span>
-          </div>
-
-          <div class="param-field" *ngIf="userInfo.weeks && userInfo.weeks !== null">Тижні:<span class="param-value"><i
-                class="fa-regular fa-calendar-days"></i>{{ userInfo.weeks }}</span></div>
-
-          <div class="param-field" *ngIf="userInfo.days && userInfo.days !== null">Дні:<span class="param-value"><i
-                class="fa-solid fa-hourglass-half"></i>{{
-              userInfo.days }}</span></div>
-        </div>
-      </div>
-
-      <div class="p-2" *ngIf="userInfo.about">
-        <div class="t-lar white bold">Додаткова інформація:</div>
-        <div class="t-min white">{{ userInfo.about }}</div>
-      </div>
-
-    </div>
-    <div class="btn-group">
-      <button [disabled]="totalActiveFilters === 0" class="b-primary mr-2 custom-badge" (click)="clearFilterAll()"
-        matBadge="{{totalActiveFilters}}" [matBadgeHidden]="totalActiveFilters === 0">
-        <i class="fa-solid fa-broom"></i>
-      </button>
-
-      <button *ngIf="!totalActiveFilters" class="b-primary p-2 mr-2" (click)="toogleFilter('location')">
-        Почати <i class="fa-solid fa-rocket pl-2 white"></i>
-      </button>
-
-      <button *ngIf="authorization"
-        matTooltip="Внести зміни або активувати профіль можна лише з вказаним містом, областю та варіантом оплати."
-        [disabled]="!suggestConservation" class="b-primary p-2" (click)="saveInfo()">
-        Зберегти <i class="fa-regular fa-circle-check pl-2 white"></i>
-      </button>
-
-      <button *ngIf="!authorization"
-        matTooltip="Внести зміни або активувати профіль можна лише з вказаним містом, областю та варіантом оплати."
-        [disabled]="!suggestConservation" class="b-primary p-2" (click)="saveInfoLocal()">
-        Зберегти <i class="fa-regular fa-circle-check pl-2 white"></i>
-      </button>
-
     </div>
   </div>
-</div>
-
+</ng-template>
 <div [@top3] class="t-c filter-wrapper" *ngIf="collapseTime">
   <div class="t-c filter-window" [ngClass]="{'close': collapseTimeStatus}">
 
@@ -504,8 +556,8 @@
         <mat-button-toggle-group (ngModelChange)="onSubmitWithDelay()" [(ngModel)]="userInfo.students" name="students"
           aria-label="students">
           <mat-button-toggle [value]="undefined">Неважливо</mat-button-toggle>
-          <mat-button-toggle [value]="false">Ні</mat-button-toggle>
-          <mat-button-toggle [value]="true">Так</mat-button-toggle>
+          <mat-button-toggle [value]="0">Ні</mat-button-toggle>
+          <mat-button-toggle [value]="1">Так</mat-button-toggle>
         </mat-button-toggle-group>
       </div>
 
@@ -514,8 +566,8 @@
         <mat-button-toggle-group (ngModelChange)="onSubmitWithDelay()" [(ngModel)]="userInfo.woman" name="woman"
           aria-label="woman">
           <mat-button-toggle [value]="undefined">Неважливо</mat-button-toggle>
-          <mat-button-toggle [value]="false">Ні</mat-button-toggle>
-          <mat-button-toggle [value]="true">Так</mat-button-toggle>
+          <mat-button-toggle [value]="0">Ні</mat-button-toggle>
+          <mat-button-toggle [value]="1">Так</mat-button-toggle>
         </mat-button-toggle-group>
       </div>
 
@@ -524,8 +576,8 @@
         <mat-button-toggle-group (ngModelChange)="onSubmitWithDelay()" [(ngModel)]="userInfo.man" name="man"
           aria-label="man">
           <mat-button-toggle [value]="undefined">Неважливо</mat-button-toggle>
-          <mat-button-toggle [value]="false">Ні</mat-button-toggle>
-          <mat-button-toggle [value]="true">Так</mat-button-toggle>
+          <mat-button-toggle [value]="0">Ні</mat-button-toggle>
+          <mat-button-toggle [value]="1">Так</mat-button-toggle>
         </mat-button-toggle-group>
       </div>
 
@@ -534,8 +586,8 @@
         <mat-button-toggle-group (ngModelChange)="onSubmitWithDelay()" [(ngModel)]="userInfo.family" name="family"
           aria-label="family">
           <mat-button-toggle [value]="undefined">Неважливо</mat-button-toggle>
-          <mat-button-toggle [value]="false">Ні</mat-button-toggle>
-          <mat-button-toggle [value]="true">Так</mat-button-toggle>
+          <mat-button-toggle [value]="0">Ні</mat-button-toggle>
+          <mat-button-toggle [value]="1">Так</mat-button-toggle>
         </mat-button-toggle-group>
       </div>
     </section>
@@ -703,7 +755,7 @@
       </mat-button-toggle-group>
     </section>
 
-    <section class="section-chown w-100">
+    <section class="section-chown">
       <mat-label align="start" class="label-section"><i class="fa-solid fa-stairs"></i>Чи важливий поверх?</mat-label>
       <mat-button-toggle-group class="toggle-group-column" name="floor" (ngModelChange)="onSubmitWithDelay()"
         [(ngModel)]="userInfo.floor" aria-label="Укриття">

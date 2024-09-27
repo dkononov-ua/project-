@@ -288,7 +288,7 @@ export class HouseControlPageComponent implements OnInit, OnDestroy {
     } catch (error) {
       console.error('Error fetching flat info:', error);
     } finally {
-      this.loaderService.setLoading(false);
+      // this.loaderService.setLoading(false);
     }
   }
 

@@ -128,12 +128,6 @@ export class HouseComponent implements OnInit, OnDestroy {
     } else {
       this.authorizationHouse = false;
       this.houseData = false;
-      this.sharedService.clearCacheHouse();
-      this.statusMessageService.setStatusMessage('Оберіть оселю');
-      setTimeout(() => {
-        this.router.navigate(['/house/control/add']);
-        this.statusMessageService.setStatusMessage('');
-      }, 1500);
     }
   }
 

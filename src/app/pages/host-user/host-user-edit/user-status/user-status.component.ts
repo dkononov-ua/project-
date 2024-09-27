@@ -4,6 +4,7 @@ import * as ServerConfig from 'src/app/config/path-config';
 import { animations } from '../../../../interface/animation';
 import { Location } from '@angular/common';
 import { SharedService } from 'src/app/services/shared.service';
+import { MenuService } from 'src/app/services/menu.service';
 
 interface UserParam {
   add_in_flat: boolean | false;
@@ -23,6 +24,7 @@ interface UserParam {
     animations.right1,
     animations.swichCard,
     animations.top1,
+    animations.appearance,
   ],
 })
 
@@ -52,10 +54,15 @@ export class UserStatusComponent implements OnInit, OnDestroy {
   authorization: boolean = false;
   subscriptions: any[] = [];
 
+  async setToogleMenu() {
+    this.menuService.toogleMenuEditUser(false)
+  }
+
   constructor(
     private http: HttpClient,
     private location: Location,
     private sharedService: SharedService,
+    private menuService: MenuService,
   ) { }
 
   async ngOnInit(): Promise<void> {

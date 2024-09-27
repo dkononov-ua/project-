@@ -86,7 +86,6 @@ span {
   justify-content: flex-start;
   position: relative;
   justify-content: space-around !important;
-  background-color: $color-accent;
 
   .switch-btn-group {
     @include flex-box-column;
@@ -105,7 +104,6 @@ span {
     @include flex-box-column;
     position: relative;
     justify-content: center;
-    color: $color-white;
     height: 40px;
     width: 40px;
     background-color: transparent;
@@ -129,11 +127,11 @@ span {
     &.active {
       .fa-solid,
       .fa-regular {
-        color: $color-dark;
+        color: $color-accent;
         font-size: 36px;
       }
       .t-min {
-        color: $color-dark;
+        color: $color-accent;
       }
       font-weight: bold;
       filter: drop-shadow(0px 0px 2px $color-accent);
@@ -147,10 +145,10 @@ span {
     .fa-solid,
     .fa-regular {
       font-size: 30px;
-      color: $color-white;
+      color: $color-dark;
     }
     .t-min {
-      color: $color-white;
+      color: $color-dark;
     }
   }
 }

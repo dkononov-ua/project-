@@ -1,0 +1,80 @@
+@use "../style/presets/" as *;
+@use "../style/mixins/" as *;
+
+.profile-completion-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  @include s3-s6-max {
+    gap: 20px;
+  }
+}
+
+.circle-group {
+  display: flex;
+  @include s1-s3 {
+    flex-wrap: wrap;
+  }
+}
+
+.gap-custom {
+  margin: 0px 0px 10px 0px;
+  width: 40%;
+  @include s3-s6-max {
+    margin: 0px 10px 0px 0px;
+  }
+}
+
+.circle-container {
+  text-align: center;
+  padding: 10px;
+  width: 100%;
+}
+
+.circle-container--btn {
+  border-radius: 20px;
+  transition: 1s;
+  @include s3-s6-max {
+    &:hover {
+      background-color: $color-light-gray;
+      transform: scale(0.95);
+    }
+  }
+}
+
+.spinner-wrapper {
+  position: relative;
+  display: inline-block;
+}
+
+.custom-spinner {
+  position: relative;
+}
+
+/* Стилі для перевизначення кольору спінера */
+::ng-deep .spinner-green .mdc-circular-progress__determinate-circle {
+  stroke: #4caf50 !important; /* Зелений колір */
+}
+
+::ng-deep .spinner-yellow .mdc-circular-progress__determinate-circle {
+  stroke: #ffeb3b !important; /* Жовтий колір */
+}
+
+::ng-deep .spinner-red .mdc-circular-progress__determinate-circle {
+  stroke: #f44336 !important; /* Червоний колір */
+}
+
+::ng-deep .spinner-gray .mdc-circular-progress__determinate-circle {
+  stroke: #151414c6 !important; /* Червоний колір */
+}
+
+.spinner-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 18px;
+  font-weight: bold;
+  color: #3f51b5; /* Основний колір, можете замінити на інший */
+}

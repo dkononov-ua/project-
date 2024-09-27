@@ -36,6 +36,7 @@ import { Purpose, Distance, OptionPayTenant, Animals, Floor, Repair } from '../.
     animations.top1,
     animations.top2,
     animations.top3,
+    animations.top4,
     animations.appearance,
   ],
 })
@@ -67,6 +68,11 @@ export class UserTenantProfileComponent implements OnInit, OnDestroy {
   activationUserSearch: boolean = false;
   deactivation: boolean = false;
   suggestConservation: boolean = false;
+  totalFilling: number = 0;
+  totalFeatures: number = 0;
+  totalLocation: number = 0;
+  totalHouseParam: number = 0;
+  totalTime: number = 0;
 
 
   checkReason() {
@@ -274,8 +280,28 @@ export class UserTenantProfileComponent implements OnInit, OnDestroy {
   subscriptions: any[] = [];
   blockBtnStatus: boolean = false;
 
-  getBtnStatus() {
+  getSpinnerLocationClass(value: number): string {
+    if (value >= 37) {
+      return 'spinner-green';
+    } else if (value >= 25) {
+      return 'spinner-yellow';
+    } else if (value > 0) {
+      return 'spinner-red';
+    } else {
+      return 'spinner-gray';
+    }
+  }
 
+  getSpinnerClass(value: number): string {
+    if (value >= 60) {
+      return 'spinner-green';
+    } else if (value >= 30) {
+      return 'spinner-yellow';
+    } else if (value > 0) {
+      return 'spinner-red';
+    } else {
+      return 'spinner-gray';
+    }
   }
 
   constructor(
@@ -294,7 +320,6 @@ export class UserTenantProfileComponent implements OnInit, OnDestroy {
     this.getServerPath();
     this.checkUserAuthorization();
     this.checkChownCityData();
-    this.getBtnStatus();
     this.onSubmitWithDelay();
   }
 
@@ -441,7 +466,6 @@ export class UserTenantProfileComponent implements OnInit, OnDestroy {
   }
 
   clearFilterLocation() {
-    this.searchQuery = '';
     this.userInfo.country = '';
     this.userInfo.region = '';
     this.userInfo.city = '';
@@ -457,26 +481,29 @@ export class UserTenantProfileComponent implements OnInit, OnDestroy {
 
   // Метод для підрахунку кількості задіяних фільтрів
   countFilterLocation(): number {
+    const totalFields = 8;
     let count = 0;
     if (this.userInfo.country) count++;
     if (this.userInfo.region) count++;
     if (this.userInfo.city) count++;
     if (this.userInfo.district) count++;
-    if (this.userInfo.street) count++;
     if (this.userInfo.micro_district) count++;
     if (this.userInfo.metroname) count++;
     if (this.userInfo.metrocolor) count++;
     if (this.userInfo.distance_metro) count++;
+    this.totalLocation = parseFloat(((count / totalFields) * 100).toFixed(2));
     return count;
   }
 
   // Метод для підрахунку кількості задіяних фільтрів
   countFilterHouseParam(): number {
+    const totalFields = 16;
     let count = 0;
     if (this.userInfo.room !== undefined) count++;
-    if (this.userInfo.rooms !== undefined) count++;
-    if (this.userInfo.area > 0) count++;
-    if (this.userInfo.bunker !== '') count++;
+    if (this.userInfo.rooms_of) count++;
+    if (this.userInfo.rooms_to) count++;
+    if (this.userInfo.area_of && this.userInfo.area_of !== '0.00') count++;
+    if (this.userInfo.area_to && this.userInfo.area_to !== '100000.00') count++;
     if (this.userInfo.balcony !== '') count++;
     if (this.userInfo.repair_status > 0) count++;
     if (this.userInfo.distance_stop !== 0) count++;
@@ -485,35 +512,42 @@ export class UserTenantProfileComponent implements OnInit, OnDestroy {
     if (this.userInfo.distance_parking !== 0) count++;
     if (this.userInfo.house !== undefined) count++;
     if (this.userInfo.flat !== undefined) count++;
-    if (this.userInfo.kitchen_area !== undefined) count++;
     if (this.userInfo.looking_woman) count++;
     if (this.userInfo.looking_man) count++;
+    if (this.userInfo.floor > 0) count++;
+    this.totalHouseParam = parseFloat(((count / totalFields) * 100).toFixed(2));
 
     return count;
   }
 
   // Метод для підрахунку кількості задіяних фільтрів
   countFilterFeatures(): number {
+    const totalFields = 10;
     let count = 0;
-    if (this.searchQuery) count++;
     if (this.userInfo.animals !== '') count++;
     if (this.userInfo.option_pay !== undefined) count++;
-    if (this.userInfo.price && this.userInfo.price !== 0) count++;
+    if (this.userInfo.bunker !== '') count++;
+    if (this.userInfo.price_of !== 0) count++;
+    if (this.userInfo.price_to !== 0) count++;
     if (this.userInfo.purpose_rent !== '') count++;
     if (this.userInfo.students !== undefined) count++;
     if (this.userInfo.woman !== undefined) count++;
     if (this.userInfo.man !== undefined) count++;
     if (this.userInfo.family !== undefined) count++;
+    this.totalFeatures = parseFloat(((count / totalFields) * 100).toFixed(2));
     return count;
   }
 
   // Метод для підрахунку кількості задіяних фільтрів
   countFilterTime(): number {
+    const totalFields = 5;
     let count = 0;
     if (this.userInfo.days !== 0) count++;
     if (this.userInfo.weeks !== 0) count++;
     if (this.userInfo.mounths !== 0) count++;
-    // if (this.userInfo.day_counts && this.userInfo.day_counts !== '0') count++;
+    if (this.userInfo.years !== 0) count++;
+    if (this.userInfo.day_counts && this.userInfo.day_counts !== '0') count++;
+    this.totalTime = parseFloat(((count / totalFields) * 100).toFixed(2));
     return count;
   }
 
@@ -523,9 +557,10 @@ export class UserTenantProfileComponent implements OnInit, OnDestroy {
     this.activeFilterHouseParam = this.countFilterHouseParam();
     this.activeFilterFeatures = this.countFilterFeatures();
     this.activeFilterTime = this.countFilterTime();
-
     // Підраховуємо загальну кількість активних фільтрів
     this.totalActiveFilters = this.activeFilterLocation + this.activeFilterHouseParam + this.activeFilterFeatures + this.activeFilterTime;
+    const totalFields = 39;
+    this.totalFilling = parseFloat(((this.totalActiveFilters / totalFields) * 100).toFixed(2));
   }
 
   // отримуємо інформацію про наш профіль орендаря
@@ -534,7 +569,7 @@ export class UserTenantProfileComponent implements OnInit, OnDestroy {
     if (userJson) {
       try {
         const response: any = await this.http.post(this.serverPath + '/features/get', { auth: JSON.parse(userJson) }).toPromise();
-        console.log(response)
+        // console.log(response)
         if (response.status === true) {
           this.userInfo = response.inf;
           this.countActiveFilters();
@@ -651,6 +686,7 @@ export class UserTenantProfileComponent implements OnInit, OnDestroy {
     if (this.userInfo.city) {
       this.filteredDistricts = [];
       this.filteredDistricts = await this.cityDataService.loadDistrictFromOwnDB(this.userInfo.city);
+      this.onSubmitWithDelay();
     }
   }
 

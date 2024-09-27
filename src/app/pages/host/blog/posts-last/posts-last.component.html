@@ -1,67 +1,71 @@
-<div [@bot3] class="d-flex t-c justify-content-center w-100 mt-2" *ngIf="posts && posts.length > 0">
-  <h2 class="p-2 bold">Останні пости на тему нерухомості та про платформу</h2>
-</div>
-<div [@bot5] class="post-container d-flex" *ngIf="posts && posts.length > 0">
+<ng-container *ngIf="posts && posts.length > 0">
+  <div [@bot3] class="d-flex t-c justify-content-center w-100 mt-2">
+    <h2 class="p-2 bold dark">Останні пости на тему нерухомості та про платформу</h2>
+  </div>
+  <div [@bot5] class="post-container h-auto d-flex">
 
-  <a [routerLink]="['/contacts']" class="post col-lg-3 col-md-3 col-sm-12 col-12">
+    <a [routerLink]="['/contacts']" class="post col-lg-3 col-md-3 col-sm-12 col-12">
 
-    <div class="img-wrapper">
-      <img [@top2] class="img" src="./../../../../../assets/blog/ads.png" alt="Discussio_ads" loading="lazy">
-      <div [@top3] class="decor"></div>
-    </div>
+      <div class="img-wrapper">
+        <img [@top2] class="img" src="./../../../../../assets/blog/ads.png" alt="Discussio_ads" loading="lazy">
+        <div [@top3] class="decor"></div>
+      </div>
 
-    <div [@top4] class="card-body p-3">
+      <div [@top4] class="card-body p-3">
 
-      <p class="t-min mb-2">Discussio Ads</p>
+        <p class="t-min mb-2">Discussio Ads</p>
 
-      <h4 class="t-s bold">Тут може бути рекламна інтеграція </h4>
-      <div class="status-content mt-2">
-        <div class="status-box">
-          <div class="status-value"><i class="fa-solid fa-tag"></i>Реклама</div>
+        <h4 class="t-s bold">Тут може бути рекламна інтеграція </h4>
+        <div class="status-content mt-2">
+          <div class="status-box">
+            <div class="status-value"><i class="fa-solid fa-tag"></i>Реклама</div>
+          </div>
         </div>
       </div>
-    </div>
-  </a>
+    </a>
 
-  <a [routerLink]="['/blog', post.slug]" class="post col-lg-3 col-md-3 col-sm-12 col-12" *ngFor="let post of posts">
+    <a [routerLink]="['/blog', post.slug]" class="post col-lg-3 col-md-3 col-sm-12 col-12" *ngFor="let post of posts">
 
-    <div class="img-wrapper" *ngIf="post">
-      <img [@top2] class="img" *ngIf="post.image" [src]="post.image" alt="Post Image" loading="lazy">
-      <img [@top2] class="img" *ngIf="!post.image" src="../../../assets/logo/logo.svg" alt="Post Image" loading="lazy">
-      <div [@top3] class="decor"></div>
-    </div>
+      <div class="img-wrapper" *ngIf="post">
+        <img [@top2] class="img" *ngIf="post.image" [src]="post.image" alt="Post Image" loading="lazy">
+        <img [@top2] class="img" *ngIf="!post.image" src="../../../assets/logo/logo.svg" alt="Post Image"
+          loading="lazy">
+        <div [@top3] class="decor"></div>
+      </div>
 
-    <div [@top4] class="card-body p-3">
+      <div [@top4] class="card-body p-3">
 
-      <p class="t-min mb-2">{{ post.author }} {{ post.formattedDate }}</p>
+        <p class="t-min mb-2">{{ post.author }} {{ post.formattedDate }}</p>
 
-      <h4 class="t-s bold">{{ post.title }}</h4>
-      <div class="status-content mt-2">
-        <div class="status-box">
-          <div class="status-value" *ngIf="post.categories === 0"><i class="fa-solid fa-list"></i></div>
-          <div class="status-value" *ngIf="post.categories === 1"><i class="fa-regular fa-newspaper"></i>Новини
+        <h4 class="t-s bold">{{ post.title }}</h4>
+        <div class="status-content mt-2">
+          <div class="status-box">
+            <div class="status-value" *ngIf="post.categories === 0"><i class="fa-solid fa-list"></i></div>
+            <div class="status-value" *ngIf="post.categories === 1"><i class="fa-regular fa-newspaper"></i>Новини
+            </div>
+            <div class="status-value" *ngIf="post.categories === 2"><i class="fa-regular fa-circle-up"></i>Оновлення
+            </div>
+            <div class="status-value" *ngIf="post.categories === 3"> <i
+                class="fa-solid fa-wand-magic-sparkles"></i>Поради
+            </div>
+            <div class="status-value" *ngIf="post.categories === 4"><i class="fa-solid fa-tag"></i>Реклама</div>
+            <div class="status-value" *ngIf="post.person === 0"><i class="fa-solid fa-people-group"></i>Загальний
+            </div>
+            <div class="status-value" *ngIf="post.person === 1"><i class="fa-solid fa-house-user"></i>Власникам
+            </div>
+            <div class="status-value" *ngIf="post.person === 2"><i class="fa-solid fa-person"></i>Орендарям</div>
           </div>
-          <div class="status-value" *ngIf="post.categories === 2"><i class="fa-regular fa-circle-up"></i>Оновлення
-          </div>
-          <div class="status-value" *ngIf="post.categories === 3"> <i class="fa-solid fa-wand-magic-sparkles"></i>Поради
-          </div>
-          <div class="status-value" *ngIf="post.categories === 4"><i class="fa-solid fa-tag"></i>Реклама</div>
-          <div class="status-value" *ngIf="post.person === 0"><i class="fa-solid fa-people-group"></i>Загальний
-          </div>
-          <div class="status-value" *ngIf="post.person === 1"><i class="fa-solid fa-house-user"></i>Власникам
-          </div>
-          <div class="status-value" *ngIf="post.person === 2"><i class="fa-solid fa-person"></i>Орендарям</div>
         </div>
       </div>
-    </div>
-  </a>
+    </a>
 
-</div>
-<div [@bot5] class="d-flex justify-content-center w-100" *ngIf="posts && posts.length > 0">
+  </div>
+  <div [@bot5] class="d-flex justify-content-center w-100">
 
-  <a class="b-primary m-2" [routerLink]="'/blog'">
-    Читати більше
-    <i class="fa-solid fa-blog pl-2"></i>
-  </a>
+    <a class="b-primary m-2" [routerLink]="'/blog'">
+      Читати більше
+      <i class="fa-solid fa-blog pl-2"></i>
+    </a>
 
-</div>
+  </div>
+</ng-container>

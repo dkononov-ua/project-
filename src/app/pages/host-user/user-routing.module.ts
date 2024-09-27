@@ -2,11 +2,6 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { CanActivateGuard } from 'src/app/services/auth.guard';
 import { UserComponent } from './user.component';
-import { UserContactsComponent } from 'src/app/pages/host-user/host-user-edit/user-contacts/user-contacts.component';
-import { UserPersonComponent } from 'src/app/pages/host-user/host-user-edit/user-person/user-person.component';
-import { UserStatusComponent } from 'src/app/pages/host-user/host-user-edit/user-status/user-status.component';
-import { UserLookingComponent } from 'src/app/pages/host-user/host-user-edit/user-looking/user-looking.component';
-import { UserDeleteComponent } from 'src/app/pages/host-user/host-user-edit/user-delete/user-delete.component';
 import { UserTenantComponent } from './host-user-tenants-profile/user-tenant/user-tenant.component';
 import { SearchHousePageComponent } from 'src/app/pages/host-user/host-user-serach/search-house-page/search-house-page.component';
 import { AgreeUserPageComponent } from 'src/app/pages/host-user/host-user-agree/agree-user-page/agree-user-page.component';
@@ -35,7 +30,7 @@ const routes: Routes = [
     component: UserComponent,
     children: [
       { path: '', redirectTo: 'info', pathMatch: 'full' },
-      { path: 'info', component: HostUserPageComponent, data: { title: 'Профіль користувача', description: 'Профіль користувача' } },
+      { path: 'info', component: HostUserPageComponent, canActivate: [CanActivateGuard] },
       { path: 'chat', component: ChatHostComponent, canActivate: [CanActivateGuard] },
       {
         path: 'tenant', component: HostUserTenantsProfileComponent,
@@ -73,22 +68,10 @@ const routes: Routes = [
           { path: 'concluded', component: AgreeUserConcludedComponent, canActivate: [CanActivateGuard] },
         ],
       },
-      {
-        path: 'edit',
-        component: UserParametersComponent,
-        children: [
-          { path: '', redirectTo: 'person', pathMatch: 'full' },
-          { path: 'contacts', component: UserContactsComponent, canActivate: [CanActivateGuard] },
-          { path: 'person', component: UserPersonComponent, canActivate: [CanActivateGuard] },
-          { path: 'status', component: UserStatusComponent, canActivate: [CanActivateGuard] },
-          { path: 'looking', component: UserLookingComponent },
-          { path: 'delete', component: UserDeleteComponent, canActivate: [CanActivateGuard] },
-        ],
-      },
+      { path: 'edit', component: UserParametersComponent, canActivate: [CanActivateGuard] },
     ],
   },
   { path: '404', component: NotFoundComponent },
-  // { path: '**', redirectTo: '/404' },
 ];
 
 @NgModule({

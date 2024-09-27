@@ -13,6 +13,9 @@ import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/materia
 import * as _moment from 'moment';
 import { default as _rollupMoment, Moment } from 'moment';
 import { StorageUserDataService } from 'src/app/services/storageUserData.service';
+import { LoaderService } from 'src/app/services/loader.service';
+import { MenuService } from 'src/app/services/menu.service';
+import { DataService } from 'src/app/services/data.service';
 const moment = _rollupMoment || _moment;
 
 export const MY_FORMATS = {
@@ -78,6 +81,8 @@ interface UserCont {
     animations.right1,
     animations.swichCard,
     animations.top1,
+    animations.top3,
+    animations.appearance,
   ],
 })
 
@@ -92,6 +97,8 @@ export class UserPersonComponent implements OnInit, OnDestroy {
   // ***
 
   isLoadingImg: boolean = false;
+  collapse: boolean = true;
+  collapseStatus: boolean = false;
 
   goBack(): void {
     this.location.back();
@@ -132,6 +139,10 @@ export class UserPersonComponent implements OnInit, OnDestroy {
   subscriptions: any[] = [];
   registrationGoogleInfo: any;
 
+  async setToogleMenu() {
+    this.menuService.toogleMenuEditUser(false)
+  }
+
   constructor(
     private http: HttpClient,
     private router: Router,
@@ -140,6 +151,9 @@ export class UserPersonComponent implements OnInit, OnDestroy {
     private location: Location,
     private sharedService: SharedService,
     private storageUserDataService: StorageUserDataService,
+    private loaderService: LoaderService,
+    private menuService: MenuService,
+    private dataService: DataService,
   ) { }
 
   async ngOnInit(): Promise<void> {
@@ -179,6 +193,7 @@ export class UserPersonComponent implements OnInit, OnDestroy {
   }
 
   async getInfo(): Promise<any> {
+    this.loaderService.setLoading(true);
     const userJson = localStorage.getItem('user');
     if (userJson !== null) {
       this.http.post(this.serverPath + '/userinfo', JSON.parse(userJson))
@@ -193,6 +208,8 @@ export class UserPersonComponent implements OnInit, OnDestroy {
           if (registrationGoogleInfo) {
             this.registrationGoogleInfo = JSON.parse(registrationGoogleInfo);
             this.registrationGoogle();
+          } else {
+            this.loaderService.setLoading(false);
           }
         }, (error: any) => {
           console.error(error);
@@ -244,6 +261,7 @@ export class UserPersonComponent implements OnInit, OnDestroy {
   }
 
   async saveInfoUser(): Promise<void> {
+    this.loaderService.setLoading(true);
     const userJson = localStorage.getItem('user');
     if (userJson) {
       try {
@@ -255,10 +273,15 @@ export class UserPersonComponent implements OnInit, OnDestroy {
         // console.log(response)
         if (response.status === true) {
           this.sharedService.setStatusMessage('Персональні дані збережено');
+          localStorage.removeItem('userData');
           setTimeout(() => {
-            this.sharedService.setStatusMessage('');
-            this.getInfo();
-          }, 2000);
+            this.sharedService.setStatusMessage('Оновлення...');
+            this.dataService.getInfoUser();
+            this.setToogleMenu();
+            setTimeout(() => {
+              location.reload();
+            }, 1000);
+          }, 1500);
         } else {
           this.sharedService.setStatusMessage('Помилка збереження');
           setTimeout(() => {

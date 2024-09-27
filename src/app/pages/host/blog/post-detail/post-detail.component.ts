@@ -4,6 +4,7 @@ import { PostService } from 'src/app/services/post.service';
 import { animations } from '../../../../interface/animation';
 import { DomSanitizer, Meta, SafeHtml, Title } from '@angular/platform-browser';
 import { UpdateMetaTagsService } from 'src/app/services/updateMetaTags.service';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-post-detail',
@@ -31,6 +32,11 @@ import { UpdateMetaTagsService } from 'src/app/services/updateMetaTags.service';
 })
 export class PostDetailComponent implements OnInit {
 
+  goBack(): void {
+    this.location.back();
+  }
+
+
   post: any;
   slug: any;
 
@@ -39,7 +45,9 @@ export class PostDetailComponent implements OnInit {
     private postService: PostService,
     private updateMetaTagsService: UpdateMetaTagsService,
     private sanitizer: DomSanitizer,
-    private router: Router, // Додаємо Router для генерації посилань
+    private router: Router,
+    private location: Location,
+
   ) { }
 
   async ngOnInit(): Promise<void> {

@@ -1,5 +1,11 @@
 <nav class="navigation-container" [ngClass]="{'home': homePage}">
 
+  <div class="item-group">
+    <button class="nav-link" (click)="goBack()" [ngClass]="{'home': homePage}">
+      <i class="fa-solid fa-arrow-left"></i>
+    </button>
+  </div>
+
   <button class="lobo-box ml-2" (click)="openToogleMenu()" *ngIf="isMobile">
     <picture>
       <img [ngSrc]="path_logo" alt="logo" class="logo-img" width="50" height="50" priority>

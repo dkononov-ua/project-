@@ -8,6 +8,7 @@ import { CropImgComponent } from 'src/app/components/crop-img/crop-img.component
 import { animations } from '../../../../interface/animation';
 import { Location } from '@angular/common';
 import { SharedService } from 'src/app/services/shared.service';
+import { MenuService } from 'src/app/services/menu.service';
 
 @Component({
   selector: 'app-user-delete',
@@ -105,6 +106,10 @@ export class UserDeleteComponent implements OnInit, OnDestroy {
   authorization: boolean = false;
   subscriptions: any[] = [];
 
+  async setToogleMenu() {
+    this.menuService.toogleMenuEditUser(false)
+  }
+
   constructor(
     private http: HttpClient,
     private router: Router,
@@ -112,6 +117,7 @@ export class UserDeleteComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private location: Location,
     private sharedService: SharedService,
+    private menuService: MenuService,
   ) { }
 
   async ngOnInit(): Promise<void> {
