@@ -16,6 +16,7 @@ import { StorageUserDataService } from 'src/app/services/storageUserData.service
 import { LoaderService } from 'src/app/services/loader.service';
 import { MenuService } from 'src/app/services/menu.service';
 import { DataService } from 'src/app/services/data.service';
+import { firstValueFrom } from 'rxjs';
 const moment = _rollupMoment || _moment;
 
 export const MY_FORMATS = {
@@ -195,13 +196,11 @@ export class UserPersonComponent implements OnInit, OnDestroy {
   async getInfo(): Promise<any> {
     this.loaderService.setLoading(true);
     const userJson = localStorage.getItem('user');
-    if (userJson !== null) {
-      this.http.post(this.serverPath + '/userinfo', JSON.parse(userJson))
-        .subscribe((response: any) => {
+    if (userJson) {
+      try {
+        const response: any = await firstValueFrom(this.http.post(this.serverPath + '/userinfo', JSON.parse(userJson)));
+        if (response) {
           this.userImg = response.img[0].img;
-          if (!this.userImg || this.userImg === 'user_default.svg') {
-            this.isLoadingImg = false
-          }
           this.userInfo = response.inf;
           this.userCont = response.cont;
           const registrationGoogleInfo = localStorage.getItem('registrationGoogleInfo');
@@ -211,11 +210,14 @@ export class UserPersonComponent implements OnInit, OnDestroy {
           } else {
             this.loaderService.setLoading(false);
           }
-        }, (error: any) => {
-          console.error(error);
-        });
+        } else {
+          this.loaderService.setLoading(false);
+        }
+      } catch (error) {
+        this.loaderService.setLoading(false);
+      }
     } else {
-      console.log('user not found');
+      this.sharedService.logout();
     }
   }
 
@@ -330,18 +332,21 @@ export class UserPersonComponent implements OnInit, OnDestroy {
     if (userJson && formData) {
       formData.append('auth', JSON.stringify(JSON.parse(userJson!)));
       const headers = { 'Accept': 'application/json' };
+      this.loaderService.setLoading(true)
       try {
         const response: any = await this.http.post(this.serverPath + '/img/uploaduser', formData, { headers }).toPromise();
         if (response.status === 'Збережено') {
           this.sharedService.setStatusMessage('Фото додано');
-          this.getInfo();
           setTimeout(() => {
+            this.getInfo();
             this.sharedService.setStatusMessage('');
+            this.loaderService.setLoading(false)
           }, 2000);
         } else {
           this.sharedService.setStatusMessage('Помилка завантаження');
           setTimeout(() => {
             this.sharedService.setStatusMessage('');
+            this.loaderService.setLoading(false)
           }, 2000);
         }
       } catch (error) {

@@ -16,7 +16,7 @@
     Якщо є Google аккаунт зареєструйтесь за допомогою його
   </div>
 
-  <button class="b-primary mt-2 w-100" (click)="openGoogleAuth()" *ngIf="indexBtn === 1">
+  <button class="b-primary mi-wi-250 mt-2" (click)="openGoogleAuth()" *ngIf="indexBtn === 1">
     Зареєструватись з гугл <i class="fa-brands fa-google pl-2"></i>
   </button>
 
@@ -31,7 +31,7 @@
     Якщо немає то зареєструйтесь через форму
   </div>
 
-  <button class="b-primary mt-2 w-100" (click)="toogleRegForm()" *ngIf="indexBtn === 1">
+  <button class="b-primary mi-wi-250 mt-2" (click)="toogleRegForm()" *ngIf="indexBtn === 1">
     Реєстрація через форму <i class="fa-solid fa-envelope-circle-check pl-2"></i>
   </button>
 
@@ -91,7 +91,7 @@
 
   </form>
 
-  <button class="b-primary m-2" [disabled]="!registrationForm.valid"
+  <button class="b-primary mi-wi-250 m-2" [disabled]="!registrationForm.valid"
     [ngClass]="{'disabled-button': formErrors.email || !registrationForm.valid || !validateAgeDate}"
     (click)="registrationCheck()" *ngIf="indexBtn === 1">
     <i class="fa-solid fa-person-walking-dashed-line-arrow-right pr-2"></i> Зареєструватись
@@ -106,8 +106,8 @@
   </mat-form-field>
 
   <div class="btn-group" *ngIf="indexBtn === 2">
-    <button class="b-primary m-2" (click)="indexBtn = 1">Назад</button>
-    <button class="b-primary m-2" [disabled]="!emailCheckCode" (click)="registration()">Підтвердити</button>
+    <button class="b-primary mi-wi-250 m-2" (click)="indexBtn = 1">Назад</button>
+    <button class="b-primary mi-wi-250 m-2" [disabled]="!emailCheckCode" (click)="registration()">Підтвердити</button>
   </div>
 
 </div>

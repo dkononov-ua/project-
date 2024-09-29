@@ -30,7 +30,7 @@ const routes: Routes = [
     component: UserComponent,
     children: [
       { path: '', redirectTo: 'info', pathMatch: 'full' },
-      { path: 'info', component: HostUserPageComponent, canActivate: [CanActivateGuard] },
+      { path: 'info', component: HostUserPageComponent },
       { path: 'chat', component: ChatHostComponent, canActivate: [CanActivateGuard] },
       {
         path: 'tenant', component: HostUserTenantsProfileComponent,

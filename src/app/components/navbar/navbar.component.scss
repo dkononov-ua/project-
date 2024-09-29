@@ -1,6 +1,68 @@
 @use "../../style/presets/" as *;
 @use "../../style/mixins/" as *;
 
+.search-btn-container {
+  width: auto;
+  min-width: 40%;
+  height: 60px;
+  position: relative;
+}
+
+.search-btn-wrapper {
+  @include flex-box-center;
+  position: absolute;
+  top: -1rem;
+  width: auto;
+  z-index: 50;
+  height: 60px;
+
+  .search-btn {
+    @include flex-box-center;
+    @include box-shadow;
+    align-items: flex-end;
+    padding: 5px;
+    width: auto;
+    min-width: 60px;
+    font-family: $font-main;
+    text-transform: capitalize;
+    height: 60px;
+    font-size: 14px;
+    border-radius: 0 0 10px 10px;
+    background-color: $color-light-gray;
+    color: $color-gray;
+    transform: translateY(0%);
+    transition: 0.5s;
+    .fa-solid,
+    .fa-regular,
+    .t-min {
+      color: $color-white;
+    }
+    &:hover {
+      background-color: $color-accent;
+      transform: translateY(3%);
+      height: 65px;
+
+      @include box-shadow-a;
+      .fa-solid,
+      .fa-regular,
+      .t-min {
+        color: $color-white;
+      }
+    }
+    &.active {
+      background-color: $color-accent;
+      transform: translateY(5%);
+      height: 70px;
+      @include box-shadow-a;
+      .fa-solid,
+      .fa-regular,
+      .t-min {
+        color: $color-white;
+      }
+    }
+  }
+}
+
 .menu-item {
   @include flex-box-center;
   justify-content: space-between;
@@ -71,230 +133,239 @@
 }
 
 .navigation-container {
-  @include flex-box;
-  height: 60px;
-  width: 100%;
-  justify-content: flex-start;
   z-index: 5;
   position: fixed;
   top: 0;
+  left: 0;
   padding-top: 1rem;
-
-  &.home {
-    @include blurred-background($color-white, 0.5);
-    @include s1-s3 {
-      @include blurred-background($color-accent);
-      .fa-magnifying-glass {
-        color: $color-white !important;
-      }
-    }
-  }
+  width: 100%;
+  @include flex-box;
+  background-color: rgba(255, 255, 255, 0.57);
 
   @include s1-s3 {
-    @include blurred-background(rgba(255, 255, 255, 0), 0.1);
-    background-blend-mode: multiply;
-    z-index: 30;
-    padding-top: 0rem !important;
-    justify-content: flex-start;
-    background-image: none !important;
+    padding-top: 0rem;
   }
 
-  .icon-box {
-    .fa-magnifying-glass {
-      font-size: 16px !important;
-      color: $color-gray;
-    }
-  }
+  // &.home {
+  //   @include s1-s3 {
+  //     .fa-magnifying-glass {
+  //       color: $color-white !important;
+  //     }
+  //   }
+  // }
 
-  .item-group {
-    @include flex-box-column;
-    margin: 0;
-    padding: 0;
-    position: relative;
-    width: 80px;
-  }
-
-  .menu-box {
-    display: flex;
-    justify-content: flex-start;
-    flex-direction: column;
+  .navigation-wrapper {
+    @include flex-box;
+    height: 60px;
     width: 100%;
-    max-width: 300px;
+    justify-content: center;
 
     @include s1-s3 {
-      &.home {
+      width: 100%;
+      z-index: 30;
+      padding-top: 0rem !important;
+      justify-content: flex-start;
+      background-image: none !important;
+    }
+
+    .icon-box {
+      .fa-magnifying-glass {
+        font-size: 16px !important;
+        color: $color-gray;
+      }
+    }
+
+    .item-group {
+      @include flex-box-column;
+      margin: 0;
+      padding: 0;
+      position: relative;
+      width: 80px;
+    }
+
+    .menu-box {
+      display: flex;
+      justify-content: flex-start;
+      flex-direction: column;
+      width: 100%;
+      max-width: 300px;
+
+      @include s1-s3 {
+        &.home {
+          .t-lar-x,
+          .t-lar,
+          .t-med {
+            color: $color-white;
+          }
+        }
+
+        // width: 100%;
+        max-width: 100%;
+
         .t-lar-x,
         .t-lar,
         .t-med {
-          color: $color-white;
+          color: $color-dark;
+        }
+        .menu-box {
+          border: none;
         }
       }
-
-      // width: 100%;
-      max-width: 100%;
-
-      .t-lar-x,
-      .t-lar,
-      .t-med {
-        color: $color-dark;
-      }
-      .menu-box {
-        border: none;
-      }
-    }
-  }
-
-  .lobo-box {
-    position: relative;
-    display: inline-block;
-    cursor: pointer;
-    background-color: transparent;
-
-    // Ефект збільшення всієї кнопки при наведенні
-    &:hover {
-      transform: scale(1.1);
     }
 
-    .logo-img {
-      height: 50px;
-      width: 50px;
-      border-radius: 50%;
+    .lobo-box {
       position: relative;
-      z-index: 1;
-      animation: logoBounce 2s infinite ease-out;
-    }
+      display: inline-block;
+      cursor: pointer;
+      background-color: transparent;
 
-    // Псевдоелементи для бордерів
-    &::before,
-    &::after {
-      content: "";
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      width: 50px;
-      height: 50px;
-      border-radius: 50%;
-      border: 2px solid $color-accent; // Початковий колір бордера
-      transform: translate(-50%, -50%);
-      opacity: 0;
-      pointer-events: none; // Щоб анімація не блокувала кліки
-      z-index: 0;
-    }
-
-    // Перший псевдоелемент (внутрішня хвиля)
-    &::before {
-      animation: rippleEffect 2s infinite ease-out;
-    }
-
-    // Другий псевдоелемент (зовнішня хвиля)
-    &::after {
-      animation: rippleEffect 2s infinite ease-out 0.5s; // Затримка для другого ефекту
-    }
-  }
-
-  // Анімація для псевдоелементів (хвиль)
-  @keyframes rippleEffect {
-    0% {
-      width: 40px;
-      height: 40px;
-      opacity: 0.8;
-      border-width: 2px;
-    }
-    50% {
-      width: 60px;
-      height: 60px;
-      opacity: 0.3;
-      border-width: 1px;
-    }
-    100% {
-      width: 80px;
-      height: 80px;
-      opacity: 0;
-      border-width: 1;
-    }
-  }
-
-  // Анімація логотипу (стиснення під час поштовху)
-  @keyframes logoBounce {
-    0%,
-    100% {
-      transform: scale(1); // Початковий розмір
-    }
-    50% {
-      transform: scale(0.95); // Логотип стискається до 90% розміру
-    }
-  }
-
-  .nav-link {
-    @include flex-box-column;
-    position: relative;
-    justify-content: center;
-    height: 50px;
-    width: 80px;
-    background-color: transparent;
-    border: none;
-    transition: 1s;
-
-    .fa-solid,
-    .fa-regular {
-      font-size: 30px;
-    }
-
-    @include s1-s3 {
-      &.home {
-        .fa-solid,
-        .fa-regular,
-        .t-min {
-          color: $color-white;
+      @include s3-s6-max {
+        &:hover {
+          transform: scale(1.1);
         }
       }
-      flex: 1;
-      width: 60px;
-      .fa-solid,
-      .fa-regular,
-      .t-min {
-        color: $color-dark;
+
+      .logo-img {
+        height: 50px;
+        width: 50px;
+        border-radius: 50%;
+        position: relative;
+        z-index: 1;
+        animation: logoBounce 2s infinite ease-out;
+      }
+
+      // Псевдоелементи для бордерів
+      &::before,
+      &::after {
+        content: "";
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        border: 2px solid $color-accent; // Початковий колір бордера
+        transform: translate(-50%, -50%);
+        opacity: 0;
+        pointer-events: none; // Щоб анімація не блокувала кліки
+        z-index: 0;
+      }
+
+      // Перший псевдоелемент (внутрішня хвиля)
+      // &::before {
+      //   animation: rippleEffect 2s infinite ease-out;
+      // }
+
+      // Другий псевдоелемент (зовнішня хвиля)
+      // &::after {
+      //   animation: rippleEffect 2s infinite ease-out 0.5s; // Затримка для другого ефекту
+      // }
+    }
+
+    // Анімація для псевдоелементів (хвиль)
+    // @keyframes rippleEffect {
+    //   0% {
+    //     width: 40px;
+    //     height: 40px;
+    //     opacity: 0.8;
+    //     border-width: 2px;
+    //   }
+    //   50% {
+    //     width: 60px;
+    //     height: 60px;
+    //     opacity: 0.3;
+    //     border-width: 1px;
+    //   }
+    //   100% {
+    //     width: 80px;
+    //     height: 80px;
+    //     opacity: 0;
+    //     border-width: 1;
+    //   }
+    // }
+
+    // Анімація логотипу (стиснення під час поштовху)
+    @keyframes logoBounce {
+      0%,
+      100% {
+        transform: scale(1); // Початковий розмір
+      }
+      50% {
+        transform: scale(0.95); // Логотип стискається до 90% розміру
       }
     }
 
-    &:hover {
-      transform: scale(1.02);
-      .fa-solid,
-      .fa-regular {
-        color: $color-accent;
-        font-size: 36px;
-      }
-      .t-min {
-        color: $color-accent;
-      }
-    }
+    .nav-link {
+      @include flex-box-column;
+      position: relative;
+      justify-content: center;
+      height: 50px;
+      width: 80px;
+      background-color: transparent;
+      border: none;
+      transition: 1s;
 
-    &.active {
       .fa-solid,
       .fa-regular {
-        color: $color-accent;
         font-size: 30px;
       }
-      .t-min {
-        color: $color-accent;
-      }
-      font-weight: bold;
-      filter: drop-shadow(0px 0px 2px $color-accent);
+
       @include s1-s3 {
-        &.active {
+        &.home {
           .fa-solid,
           .fa-regular,
           .t-min {
-            color: $color-dark;
+            color: $color-white;
+          }
+        }
+        flex: 1;
+        width: 60px;
+        .fa-solid,
+        .fa-regular,
+        .t-min {
+          color: $color-dark;
+        }
+      }
+
+      &:hover {
+        transform: scale(1.02);
+        .fa-solid,
+        .fa-regular {
+          color: $color-accent;
+          font-size: 36px;
+        }
+        .t-min {
+          color: $color-accent;
+        }
+      }
+
+      &.active {
+        .fa-solid,
+        .fa-regular {
+          color: $color-accent;
+          font-size: 30px;
+        }
+        .t-min {
+          color: $color-accent;
+        }
+        font-weight: bold;
+        filter: drop-shadow(0px 0px 2px $color-accent);
+        @include s1-s3 {
+          &.active {
+            .fa-solid,
+            .fa-regular,
+            .t-min {
+              color: $color-dark;
+            }
           }
         }
       }
-    }
 
-    &:disabled {
-      .fa-regular,
-      .fa-solid {
-        color: $color-gray;
+      &:disabled {
+        .fa-regular,
+        .fa-solid {
+          color: $color-gray;
+        }
       }
     }
   }

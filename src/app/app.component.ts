@@ -1,5 +1,4 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { Location } from '@angular/common';
 import * as ServerConfig from 'src/app/config/path-config';
 import { SharedService } from './services/shared.service';
@@ -10,6 +9,7 @@ import { NavigationEnd, Router } from '@angular/router';
 import { LoaderService } from './services/loader.service';
 import { filter, Subject, takeUntil } from 'rxjs';
 import { MenuService } from './services/menu.service';
+import { AuthService } from './services/auth.service';
 
 interface MenuStatus {
   status: boolean;
@@ -98,6 +98,7 @@ export class AppComponent implements OnInit, OnDestroy {
     private loaderService: LoaderService,
     private menuService: MenuService,
     private router: Router,
+    private authService: AuthService,
   ) { }
 
   async ngOnInit(): Promise<void> {
@@ -115,6 +116,7 @@ export class AppComponent implements OnInit, OnDestroy {
     this.getStatusMenu();
     this.getStatusLoader();
     this.getStatusServer();
+    this.authService.checkAuth();
   }
 
   checkUrl() {
@@ -130,7 +132,6 @@ export class AppComponent implements OnInit, OnDestroy {
       }
     });
   }
-
 
   // підписка на оновлення шляху серверу
   async getStatusServer() {

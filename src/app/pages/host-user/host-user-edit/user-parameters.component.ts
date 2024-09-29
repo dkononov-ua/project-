@@ -201,7 +201,7 @@ export class UserParametersComponent implements OnInit, OnDestroy {
     if (this.userData.inf.lastName) count++;
     if (this.userData.inf.surName) count++;
     if (this.userData.inf.dob) count++;
-    if (this.userData.img) count++;
+    if (this.userData.img[0].img && this.userData.img[0].img !== 'user_default.svg') count++;
     return count;
   }
 

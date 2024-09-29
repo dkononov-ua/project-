@@ -275,6 +275,7 @@ export class SharedService {
     localStorage.removeItem('selectedFlatName');
     localStorage.removeItem('selectedHouse');
     localStorage.removeItem('userFeaturesData');
+    localStorage.removeItem('storageUserLooking');
     localStorage.removeItem('houseData');
     localStorage.removeItem('userData');
     localStorage.removeItem('user');

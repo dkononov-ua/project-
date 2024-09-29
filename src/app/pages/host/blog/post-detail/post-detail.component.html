@@ -12,7 +12,7 @@
         <p [@top3] class="t-min">{{ post.author }} {{ post.formattedDate }}</p>
 
         <div [@top3] class="btn-group">
-          <button class="b-primary m-1" (click)="shareLink(post.slug)" target="_blank">
+          <button class="b-primary mi-wi-250 m-1" (click)="shareLink(post.slug)" target="_blank">
             <div class="white">Поділитись</div>
             <i class="fa-solid fa-share-from-square pl-2"></i>
           </button>
@@ -20,7 +20,7 @@
 
         <div [@top2] class="card-text mt-2 pl-3" [innerHTML]="sanitizeContent(post.content)"></div>
 
-        <a class="b-primary m-1" *ngIf="post.link" [href]="post.link" target="_blank">
+        <a class="b-primary mi-wi-250 m-1" *ngIf="post.link" [href]="post.link" target="_blank">
           Посилання <i class="fa-solid fa-link pl-2"></i>
         </a>
 

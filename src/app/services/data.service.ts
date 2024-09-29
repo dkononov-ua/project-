@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { catchError, Observable, of, tap, throwError } from 'rxjs';
-import * as ServerConfig from 'src/app/config/path-config';
 import { SelectedFlatService } from './selected-flat.service';
 import { SharedService } from './shared.service';
 @Injectable({

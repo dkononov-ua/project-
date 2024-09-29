@@ -8,7 +8,7 @@
 
     <ng-container *ngIf="userImg !== 'user_default.svg' && isLoadingImg">
       <div class="img-wrapper">
-        <img class="img-fluid" [src]="serverPath + pathPhotoUser + userImg" alt="img">
+        <img class="img-fluid" [src]="serverPath + pathPhotoUser + userImg" alt="img" loading="lazy">
         <button class="card-1" (click)="_fileInput.click()">
           <div class="flex-column t-c">
             <p class="t-lar bold accent">ЗАВАНТАЖИТИ ФОТО</p>
@@ -34,7 +34,8 @@
 
     <ng-container *ngIf="!userImg || userImg === 'user_default.svg'">
       <div class="img-wrapper">
-        <img class="img-fluid" src="../../../../assets/user_default.svg" alt="img">
+        <img class="img-fluid" src="../../../../../assets/Discussiowhite.ico.svg" alt="img" loading="lazy" width="200"
+          height="200">
         <div class="card-1">
           <div class="flex-column t-c">
             <p class="t-lar bold accent">ЗАВАНТАЖИТИ ФОТО</p>

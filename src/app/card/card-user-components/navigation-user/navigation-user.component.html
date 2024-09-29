@@ -64,14 +64,6 @@
           </div>
         </button>
 
-        <a class="subcategory" [routerLinkActive]="'active'" [routerLink]="'/auth/login'" *ngIf="!userData"
-          (click)="closeToogleMenu()">
-          <i class="fa-solid fa-arrow-right-from-bracket"></i>
-          <div class="item-description">
-            <p class="t-min">Вхід</p>
-          </div>
-        </a>
-
         <a class="subcategory" [routerLinkActive]="'active'" [routerLink]="'/user/chat'" (click)="closeToogleMenu()">
           <i class="fa-solid fa-message custom-badge" matBadge="{{counterUserNewMessage}}"
             [matBadgeHidden]="counterUserNewMessage === 0"></i>
