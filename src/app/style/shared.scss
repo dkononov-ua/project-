@@ -246,6 +246,7 @@
   width: 100%;
   margin-top: 20px;
   background-color: transparent;
+  justify-content: center;
   .btn {
     @include flex-box-center;
     font-size: $t-min;

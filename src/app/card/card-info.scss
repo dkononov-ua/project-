@@ -1,6 +1,7 @@
 @use "../style/presets/" as *;
 @use "../style/mixins/" as *;
 @use "../style/textForUser.scss" as *;
+@use "../style/shared.scss";
 
 .btn-call {
   display: inline-block;

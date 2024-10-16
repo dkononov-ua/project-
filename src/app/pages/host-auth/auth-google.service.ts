@@ -109,11 +109,13 @@ export class AuthGoogleService {
             }, 2000);
           }
         } catch (error) {
-          console.log(error)
+          console.log(error);
+          this.loaderService.setLoading(false);
         }
       } else { }
     } else {
       console.log('Властивість `_tokenResponse` не знайдена у користувача');
+      this.loaderService.setLoading(false);
     }
   }
 }

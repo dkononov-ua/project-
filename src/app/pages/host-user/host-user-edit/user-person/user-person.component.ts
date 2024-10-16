@@ -1,4 +1,4 @@
-import { Component, LOCALE_ID, OnDestroy, OnInit } from '@angular/core';
+import { Component, LOCALE_ID, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import * as ServerConfig from 'src/app/config/path-config';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -17,6 +17,7 @@ import { LoaderService } from 'src/app/services/loader.service';
 import { MenuService } from 'src/app/services/menu.service';
 import { DataService } from 'src/app/services/data.service';
 import { firstValueFrom } from 'rxjs';
+import { MatDatepicker } from '@angular/material/datepicker';
 const moment = _rollupMoment || _moment;
 
 export const MY_FORMATS = {
@@ -142,6 +143,11 @@ export class UserPersonComponent implements OnInit, OnDestroy {
 
   async setToogleMenu() {
     this.menuService.toogleMenuEditUser(false)
+  }
+
+  @ViewChild('picker') datepicker!: MatDatepicker<any>;
+  openDatepicker() {
+    this.datepicker.open();
   }
 
   constructor(
@@ -288,6 +294,7 @@ export class UserPersonComponent implements OnInit, OnDestroy {
           this.sharedService.setStatusMessage('Помилка збереження');
           setTimeout(() => {
             this.sharedService.setStatusMessage('');
+            this.loaderService.setLoading(false);
           }, 2000);
         }
       } catch (error) {
@@ -297,6 +304,7 @@ export class UserPersonComponent implements OnInit, OnDestroy {
       }
     } else {
       console.log('Авторизуйтесь');
+      this.loaderService.setLoading(false);
     }
   }
 

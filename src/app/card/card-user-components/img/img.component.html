@@ -37,8 +37,11 @@
     </div>
   </div>
 
-  <div [@left2] class="func" *ngIf="currentLocation !== '/userInfo/info'">
+  <div [@left2] class="func" *ngIf="currentLocation !== '/user/info'">
     <app-functions></app-functions>
+  </div>
+  <div [@left2] class="func" *ngIf="currentLocation === '/user/info'">
+    <app-links-box></app-links-box>
   </div>
 
 </div>

@@ -113,7 +113,8 @@
     overflow: auto;
   }
   @include s1-s3 {
-    height: auto;
+    min-height: 91vh;
+    width: 100%;
     border-radius: 0px;
   }
 }

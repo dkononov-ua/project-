@@ -11,8 +11,8 @@
 export const pageConfig = {
   '/user/info':
   {
-    title: 'Користувач',
-    description: 'Профіль',
+    title: 'Мій профіль',
+    description: 'Користувача',
     metaTitle: 'Профіль користувача',
     metaDescriptions: 'Переглядайте вашу інформацію та керуйте аккаунтом',
     metaKeywords: 'акаунт, профіль користувача, моя сторінка, мій профіль, prifile',

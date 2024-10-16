@@ -56,8 +56,8 @@
 
     <mat-form-field class="inputbox" *ngIf="indexBtn === 1" (click)="picker.open()">
       <mat-label>Дата народження</mat-label>
-      <input matInput [min]="minDate" [max]="maxDate" [matDatepicker]="picker" type="text" [readonly]="true"
-        placeholder="Оберіть дату з календаря" id="dob" formControlName="dob">
+      <input matInput [min]="minDate" [max]="maxDate" [matDatepicker]="picker" type="text"
+        placeholder="Оберіть дату з календаря" id="dob" formControlName="dob" readonly>
       <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
       <mat-datepicker #picker></mat-datepicker>
       <div *ngIf="validateAgeMessage" class="error-message">{{validateAgeMessage}}</div>

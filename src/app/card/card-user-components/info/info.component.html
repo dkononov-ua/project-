@@ -246,13 +246,17 @@
     </div>
 
   </div>
-  <div [@top3]>
-    <app-agree-details></app-agree-details>
-  </div>
+  <app-agree-details></app-agree-details>
 </div>
 
-<div class="status-subscription-wrapper h-100" *ngIf="!userInfo">
-  <div [@appearance] class="status-subscription bg-transparent">
+<div class="status-subscription-wrapper" *ngIf="!userInfo">
+  <div class="status-subscription bg-transparent">
     <div class="status-text p-2 t-c">Потрібно <br> увійти в аккаунт</div>
+  </div>
+  <div class="btn-group" *ngIf="!authorization">
+    <a class="b-primary mi-wi-250 m-2" [routerLink]="'/auth/login'">
+      Увійти
+      <i class="fa-solid fa-arrow-right-from-bracket pl-2"></i>
+    </a>
   </div>
 </div>

@@ -3,14 +3,20 @@
 
 .status-subscription-wrapper {
   @include flex-box-center;
+  flex-direction: column;
   position: relative;
   border-radius: 20px 20px 0 0;
-  height: 350px;
+  height: 100%;
   width: 100%;
   overflow: hidden;
   position: absolute;
   top: 0;
   left: 0;
+  padding: 40px;
+  // @include s1-s3 {
+  //   position: relative;
+  //   height: 80vh;
+  // }
 }
 
 .status-subscription {
@@ -19,7 +25,7 @@
   height: 100%;
   width: 100%;
   .status-text {
-    font-size: 40px;
+    font-size: 30px;
     color: $color-accent;
     font-weight: 300;
     border: 1px solid $color-accent;
