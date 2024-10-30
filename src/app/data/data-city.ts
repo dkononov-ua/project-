@@ -18,7 +18,15 @@ export const regions = [
       { id: 8, name: 'Керч', postalCode: '98300' },
       { id: 9, name: 'Красноперекопськ', postalCode: '96000' },
       { id: 10, name: 'Саки', postalCode: '96500' },
-      { id: 11, name: 'Сімферополь', postalCode: '95000' },
+      {
+        id: 11, name: 'Сімферополь', postalCode: '95000',
+        district: [
+          { id: 1, district: 'Залізничний' },
+          { id: 2, district: 'Київський' },
+          { id: 3, district: 'Центральний' },
+        ]
+
+      },
       { id: 12, name: 'Старий Крим', postalCode: '97345' },
       { id: 13, name: 'Судак', postalCode: '98000' },
       { id: 14, name: 'Феодосія', postalCode: '98100' },
@@ -30,7 +38,15 @@ export const regions = [
     id: 2,
     name: 'Вінницька',
     cities: [
-      { id: 0, name: 'Вінниця', postalCode: '21000' },
+      {
+        id: 0, name: 'Вінниця', postalCode: '21000',
+        district: [
+          { id: 1, district: 'Замостянський' },
+          { id: 2, district: 'Ленінський' },
+          { id: 3, district: 'Староміський' },
+        ]
+
+      },
       { id: 1, name: 'Могилів-Подільський', postalCode: '24000' },
       { id: 2, name: 'Бар', postalCode: '23000' },
       { id: 3, name: 'Гайсин', postalCode: '23700' },
@@ -60,7 +76,14 @@ export const regions = [
       { id: 3, name: 'Камінь-Каширський', postalCode: '44500' },
       { id: 4, name: 'Ківерці', postalCode: '45200' },
       { id: 5, name: 'Ковель', postalCode: '45000' },
-      { id: 6, name: 'Луцьк', postalCode: '43000' },
+      {
+        id: 6, name: 'Луцьк', postalCode: '43000',
+        district: [
+          { id: 1, district: 'Привокзальний' },
+          { id: 2, district: 'Центральний' },
+        ]
+
+      },
       { id: 7, name: 'Любомль', postalCode: '44300' },
       { id: 8, name: 'Нововолинськ', postalCode: '45400' },
       { id: 9, name: 'Рожище', postalCode: '45100' },
@@ -94,7 +117,18 @@ export const regions = [
       { id: 5, name: 'Жовті Води', postalCode: '52290' },
       { id: 6, name: 'Зеленодольськ', postalCode: '53860' },
       { id: 7, name: 'Кам’янське', postalCode: '51900' },
-      { id: 8, name: 'Кривий Ріг', postalCode: '50000' },
+      {
+        id: 8, name: 'Кривий Ріг', postalCode: '50000',
+        district: [
+          { id: 1, district: 'Центрально-Міський' },
+          { id: 2, district: 'Дзержинський' },
+          { id: 3, district: 'Інгулецький' },
+          { id: 4, district: 'Саксаганський' },
+          { id: 5, district: 'Тернівський' },
+          { id: 6, district: 'Жовтневий' }
+        ]
+
+      },
       { id: 9, name: 'Марганець', postalCode: '53400' },
       { id: 10, name: 'Нікополь', postalCode: '53200' },
       { id: 11, name: 'Новомосковськ', postalCode: '51214' },
@@ -173,7 +207,14 @@ export const regions = [
       { id: 0, name: 'Андрушівка', postalCode: '13405' },
       { id: 1, name: 'Баранівка', postalCode: '12705' },
       { id: 2, name: 'Бердичів', postalCode: '13300' },
-      { id: 3, name: 'Житомир', postalCode: '10499' },
+      {
+        id: 3, name: 'Житомир', postalCode: '10499',
+        district: [
+          { id: 1, district: 'Богунський' },
+          { id: 2, district: 'Корольовський' },
+        ]
+
+      },
       { id: 4, name: 'Звягель', postalCode: '11709' },
       { id: 5, name: 'Коростень', postalCode: '11500' },
       { id: 6, name: 'Коростишів', postalCode: '12509' },
@@ -196,7 +237,14 @@ export const regions = [
       { id: 5, name: 'Рахів', postalCode: '90600' },
       { id: 6, name: 'Свалява', postalCode: '89300' },
       { id: 7, name: 'Тячів', postalCode: '90500' },
-      { id: 8, name: 'Ужгород', postalCode: '88000' },
+      {
+        id: 8, name: 'Ужгород', postalCode: '88000',
+        district: [
+          { id: 1, district: 'Центральний' },
+          { id: 2, district: 'Боздоський' },
+        ]
+
+      },
       { id: 9, name: 'Хуст', postalCode: '90400' },
       { id: 10, name: 'Чоп', postalCode: '89500' }
     ]
@@ -211,7 +259,17 @@ export const regions = [
       { id: 3, name: 'Гуляйполе', postalCode: '70205' },
       { id: 4, name: 'Дніпрорудне', postalCode: '71634' },
       { id: 5, name: 'Енергодар', postalCode: '71599' },
-      { id: 6, name: 'Запоріжжя', postalCode: '69061' },
+      {
+        id: 6, name: 'Запоріжжя', postalCode: '69061',
+        district: [
+          { id: 1, district: 'Дніпровський' },
+          { id: 2, district: 'Комунарський' },
+          { id: 3, district: 'Олександрівський' },
+          { id: 4, district: 'Заводський' },
+          { id: 5, district: 'Шевченківський' },
+        ]
+
+      },
       { id: 7, name: 'Кам’янка-Дніпровська', postalCode: '71309' },
       { id: 8, name: 'Мелітополь', postalCode: '72301' },
       { id: 9, name: 'Молочанськ', postalCode: '71717' },
@@ -230,7 +288,14 @@ export const regions = [
       { id: 2, name: 'Галич', postalCode: '77104' },
       { id: 3, name: 'Городенка', postalCode: '78100' },
       { id: 4, name: 'Долина', postalCode: '77508' },
-      { id: 5, name: 'Івано-Франківськ', postalCode: '76002' },
+      {
+        id: 5, name: 'Івано-Франківськ', postalCode: '76002',
+        district: [
+          { id: 1, district: 'Центральний' },
+          { id: 2, district: 'Міський' },
+        ]
+
+      },
       { id: 6, name: 'Калуш', postalCode: '77300' },
       { id: 7, name: 'Коломия', postalCode: '78212' },
       { id: 8, name: 'Косів', postalCode: '78600' },
@@ -309,7 +374,13 @@ export const regions = [
       { id: 2, name: 'Гайворон', postalCode: '26312' },
       { id: 3, name: 'Долинська', postalCode: '28500' },
       { id: 4, name: 'Знам’янка', postalCode: '27400' },
-      { id: 5, name: 'Кропивницький', postalCode: '25000' },
+      {
+        id: 5, name: 'Кропивницький', postalCode: '25000',
+        district: [
+          { id: 1, district: 'Фортечний' },
+          { id: 2, district: 'Подільський' },
+        ]
+      },
       { id: 6, name: 'Мала Виска', postalCode: '26200' },
       { id: 7, name: 'Новомиргород', postalCode: '26000' },
       { id: 8, name: 'Новоукраїнка', postalCode: '27100' },
@@ -339,7 +410,15 @@ export const regions = [
       { id: 14, name: 'Кипуче', postalCode: '94315' },
       { id: 15, name: 'Кремінна', postalCode: '92905' },
       { id: 16, name: 'Лисичанськ', postalCode: '93190' },
-      { id: 17, name: 'Луганськ', postalCode: '91000' },
+      {
+        id: 17, name: 'Луганськ', postalCode: '91000',
+        district: [
+          { id: 1, district: 'Кам’янобродський' },
+          { id: 2, district: 'Жовтневий' },
+          { id: 3, district: 'Ленінський' },
+        ]
+
+      },
       { id: 18, name: 'Лутугине', postalCode: '92000' },
       { id: 19, name: 'Міусинськ', postalCode: '94536' },
       { id: 20, name: 'Молодогвардійськ', postalCode: '94415' },
@@ -395,7 +474,7 @@ export const regions = [
           { id: 6, district: 'Франківський' }
         ]
       },
-      { id: 18, name: 'Миколаїв', postalCode: '81604' },
+      // { id: 18, name: 'Миколаїв', postalCode: '81604', },
       { id: 19, name: 'Моршин', postalCode: '82482' },
       { id: 20, name: 'Мостиська', postalCode: '81300' },
       { id: 21, name: 'Новий Калинів', postalCode: '81464' },
@@ -429,7 +508,16 @@ export const regions = [
     cities: [
       { id: 0, name: 'Баштанка', postalCode: '56109' },
       { id: 1, name: 'Вознесенськ', postalCode: '56518' },
-      { id: 2, name: 'Миколаїв', postalCode: '327027' },
+      {
+        id: 2, name: 'Миколаїв',
+        postalCode: '327027',
+        district: [
+          { id: 1, district: 'Центральний' },
+          { id: 2, district: 'Інгульський' },
+          { id: 3, district: 'Заводський' },
+          { id: 4, district: 'Корабельний' },
+        ]
+      },
       { id: 3, name: 'Нова Одеса', postalCode: '56608' },
       { id: 4, name: 'Новий Буг', postalCode: '55609' },
       { id: 5, name: 'Очаків', postalCode: '57514' },
@@ -465,6 +553,7 @@ export const regions = [
           { id: 5, district: 'Комінтернівський' },
           { id: 6, district: 'Слобідський' }
         ]
+
       },
       { id: 12, name: 'Подільськ', postalCode: '66314' },
       { id: 13, name: 'Рені', postalCode: '68809' },
@@ -492,7 +581,15 @@ export const regions = [
       { id: 10, name: 'Лубни', postalCode: '37500' },
       { id: 11, name: 'Миргород', postalCode: '37609' },
       { id: 12, name: 'Пирятин', postalCode: '37004' },
-      { id: 13, name: 'Полтава', postalCode: '36499' },
+      {
+        id: 13, name: 'Полтава', postalCode: '36499',
+        district: [
+          { id: 1, district: 'Київський' },
+          { id: 2, district: 'Подільський' },
+          { id: 3, district: 'Шевченківський' },
+        ]
+
+      },
       { id: 14, name: 'Решетилівка', postalCode: '38402' },
       { id: 15, name: 'Хорол', postalCode: '37800' }
     ]
@@ -510,7 +607,13 @@ export const regions = [
       { id: 6, name: 'Костопіль', postalCode: '35008' },
       { id: 7, name: 'Острог', postalCode: '35800' },
       { id: 8, name: 'Радивилів', postalCode: '35500' },
-      { id: 9, name: 'Рівне', postalCode: '33499' },
+      {
+        id: 9, name: 'Рівне', postalCode: '33499',
+        district: [
+          { id: 1, district: 'Західний' },
+          { id: 2, district: 'Північний' },
+        ]
+      },
       { id: 10, name: 'Сарни', postalCode: '34507' }
     ]
   },
@@ -530,7 +633,14 @@ export const regions = [
       { id: 9, name: 'Путивль', postalCode: '41500' },
       { id: 10, name: 'Ромни', postalCode: '42000' },
       { id: 11, name: 'Середина-Буда', postalCode: '41000' },
-      { id: 12, name: 'Суми', postalCode: '40004' },
+      {
+        id: 12, name: 'Суми', postalCode: '40004',
+        district: [
+          { id: 1, district: 'Ковпаківський' },
+          { id: 2, district: 'Зарічний' },
+        ]
+
+      },
       { id: 13, name: 'Тростянець', postalCode: '42600' },
       { id: 14, name: 'Шостка', postalCode: '41100' }
     ]
@@ -553,7 +663,15 @@ export const regions = [
       { id: 11, name: 'Почаїв', postalCode: '47027' },
       { id: 12, name: 'Скалат', postalCode: '47851' },
       { id: 13, name: 'Теребовля', postalCode: '48100' },
-      { id: 14, name: 'Тернопіль', postalCode: '46000' },
+      {
+        id: 14, name: 'Тернопіль', postalCode: '46000',
+        district: [
+          { id: 1, district: 'Східний' },
+          { id: 2, district: 'Західний' },
+          { id: 3, district: 'Південний' },
+        ]
+
+      },
       { id: 15, name: 'Хоростків', postalCode: '48244' },
       { id: 16, name: 'Чортків', postalCode: '48509' },
       { id: 17, name: 'Шумськ', postalCode: '47104' }
@@ -609,7 +727,15 @@ export const regions = [
       { id: 5, name: 'Олешки', postalCode: '75108' },
       { id: 6, name: 'Скадовськ', postalCode: '75704' },
       { id: 7, name: 'Таврійськ', postalCode: '74989' },
-      { id: 8, name: 'Херсон', postalCode: '73000' }
+      {
+        id: 8, name: 'Херсон', postalCode: '73000',
+        district: [
+          { id: 1, district: 'Корабельний' },
+          { id: 2, district: 'Дніпровський' },
+          { id: 3, district: 'Суворовський' },
+        ]
+
+      }
     ]
   },
   {
@@ -627,7 +753,14 @@ export const regions = [
       { id: 8, name: 'Полонне', postalCode: '30509' },
       { id: 9, name: 'Славута', postalCode: '30000' },
       { id: 10, name: 'Старокостянтинів', postalCode: '31109' },
-      { id: 11, name: 'Хмельницький', postalCode: '29000' },
+      {
+        id: 11, name: 'Хмельницький', postalCode: '29000',
+        district: [
+          { id: 1, district: 'Заріччя' },
+          { id: 2, district: 'Південний' },
+        ]
+
+      },
       { id: 12, name: 'Шепетівка', postalCode: '30409' }
     ]
   },
@@ -648,7 +781,13 @@ export const regions = [
       { id: 10, name: 'Тальне', postalCode: '20401' },
       { id: 11, name: 'Умань', postalCode: '20300' },
       { id: 12, name: 'Христинівка', postalCode: '20000' },
-      { id: 13, name: 'Черкаси', postalCode: '18499' },
+      {
+        id: 13, name: 'Черкаси', postalCode: '18499',
+        district: [
+          { id: 1, district: 'Соснівський' },
+          { id: 2, district: 'Придніпровський' },
+        ]
+      },
       { id: 14, name: 'Чигирин', postalCode: '20906' },
       { id: 15, name: 'Шпола', postalCode: '20600' }
     ]
@@ -667,7 +806,15 @@ export const regions = [
       { id: 7, name: 'Сокиряни', postalCode: '60200' },
       { id: 8, name: 'Сторожинець', postalCode: '59000' },
       { id: 9, name: 'Хотин', postalCode: '60000' },
-      { id: 10, name: 'Чернівці', postalCode: '58000' }
+      {
+        id: 10, name: 'Чернівці', postalCode: '58000',
+        district: [
+          { id: 1, district: 'Першотравневий' },
+          { id: 2, district: 'Садгірський' },
+          { id: 3, district: 'Шевченківський' },
+        ]
+
+      }
     ]
   },
   {
@@ -689,7 +836,13 @@ export const regions = [
       { id: 12, name: 'Прилуки', postalCode: '17515' },
       { id: 13, name: 'Семенівка', postalCode: '15400' },
       { id: 14, name: 'Сновськ', postalCode: '15200' },
-      { id: 15, name: 'Чернігів', postalCode: '14000' }
+      {
+        id: 15, name: 'Чернігів', postalCode: '14000',
+        district: [
+          { id: 1, district: 'Деснянський' },
+          { id: 2, district: 'Новозаводський' },
+        ]
+      }
     ]
   },
 ];

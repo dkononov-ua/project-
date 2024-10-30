@@ -182,7 +182,7 @@ export interface HouseInfo {
   woman: any;
   metrocolor: string;
   metroname: string;
-
+  floorless: number;
 };
 
 export interface HouseInfoSearch {

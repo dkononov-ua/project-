@@ -42,110 +42,120 @@
   </div>
 </div>
 
-<div [@top1] class="info-card">
-  <div class="param-wrapper p-2 mt-4">
+<mat-label align="start" class="filter-label">Оселя</mat-label>
+<p class="t-med gray mb-2">Введіть параметри оселі.</p>
 
-    <div class="t-med bold">Тут можна вказати основні характеристики оселі</div>
+<div *ngIf="flatInfo">
 
-    <div class="mt-2 border-top w-100">
-      <mat-label class="label">Оберіть тип оселі*</mat-label>
-      <div class="t-min gray">Тип оселі це обов'язковий параметр</div>
+  <section class="section-chown">
+    <mat-label align="start" class="label-section"><i class="fa-solid fa-house-chimney-window"></i>
+      Тип оселі:</mat-label>
+    <mat-button-toggle-group name="option_flat" (ngModelChange)="onSubmitWithDelay()" [(ngModel)]="flatInfo.option_flat"
+      aria-label="Тип оселі">
+      <mat-button-toggle [value]="'1'">Будинок</mat-button-toggle>
+      <mat-button-toggle [value]="'2'">Квартира</mat-button-toggle>
+    </mat-button-toggle-group>
+  </section>
 
-      <div class="inputbox-group">
-        <div class="content">
-          <label class="checkBox">
-            <input id="looking_house" type="radio" [(ngModel)]="flatInfo.option_flat" name="housing" [value]=1>
-            <div class="transition"></div>
-          </label>
-          <span class="checkBox-span">Будинок <i class="fa-solid fa-house-chimney-window gray pr-2"></i></span>
-          <i></i>
-        </div>
-
-        <div class="content">
-          <label class="checkBox">
-            <input id="looking_flat" type="radio" [(ngModel)]="flatInfo.option_flat" name="flat" [value]=2>
-            <div class="transition"></div>
-          </label>
-          <span class="checkBox-span">Квартира <i class="fa-solid fa-building-circle-arrow-right gray pr-2"></i></span>
-          <i></i>
+  <section class="building-section al-c p-2">
+    <!-- Будинок з поверхами -->
+    <div class="building-wrapper">
+      <div class="building" [ngStyle]="{'height.px': floorCount * 20}">
+        <div *ngFor="let floor of floors" class="floor" [ngClass]="{'selected-floor': floor === selectedFloor}"
+          (click)="updateSelectFloor(floor)">
+          {{ floor }} <span class="t-min thin pl-1"> поверх</span>
         </div>
       </div>
     </div>
 
-    <div class="item-group">
-      <mat-form-field class="item-select" appearance="outline">
-        <mat-label>Площа м²</mat-label>
-        <input matInput type="number" [min]="minValue" [max]="maxValue" [(ngModel)]="flatInfo.area" name="area">
-        <mat-icon matSuffix><i class="fa-solid fa-s"></i></mat-icon>
-      </mat-form-field>
+    <!-- Повзунок для вибору поверховості -->
+    <section class="range-section">
+      <p class="t-lar-xx"><i class="fa-solid fa-stairs"></i> Поверховість <br>
+        <span class="bold accent"> {{ floorCount }}</span> пов.
+      </p>
+      <label for="floorCount" class="form-label dark">Встановіть поверховість</label>
+      <input type="range" min="1" max="47" [(ngModel)]="floorCount" (input)="updateFloors()" class="form-range"
+        id="floorCount">
+      <p class="t-lar-xx" *ngIf="!flatInfo.floor"> Оберіть поверх на будиночку</p>
+      <p class="t-lar-xx" *ngIf="flatInfo.floor"> Вибраний поверх: <br>
+        <span class="bold accent"> {{ flatInfo.floor }} </span> пов.
+      </p>
+    </section>
 
-      <mat-form-field class="item-select" appearance="outline">
-        <mat-label>Кухня м²</mat-label>
-        <input matInput type="number" [min]="minValueKitchen" [max]="maxValueKitchen"
-          [(ngModel)]="flatInfo.kitchen_area" name="kitchen_area">
-        <mat-icon matSuffix><i class="fa-solid fa-utensils"></i></mat-icon>
-      </mat-form-field>
+  </section>
 
-      <mat-form-field class="item-select" appearance="outline">
-        <mat-label>Поверх</mat-label>
-        <input matInput type="number" [min]="minValueFloor" [max]="maxValueFloor" [(ngModel)]="flatInfo.floor"
-          name="floor">
-        <mat-icon matSuffix><i class="fa-solid fa-stairs"></i></mat-icon>
-      </mat-form-field>
-    </div>
+  <button class="label action " (click)="openHelpRepair()">Оберіть стан оселі <i
+      class="fa-solid fa-circle-info"></i></button>
 
-    <mat-form-field class="item-select" appearance="outline">
-      <mat-select [(ngModel)]="flatInfo.rooms" name="rooms" placeholder="Вкажіть кількість кімнат">
-        <mat-option [value]="1">Однокімнатна</mat-option>
-        <mat-option [value]="2">Двокімнатна</mat-option>
-        <mat-option [value]="3">Трикімнатна</mat-option>
-        <mat-option [value]="4">Чотирьохкімнатна</mat-option>
-        <mat-option [value]="5">Більше чотирьох</mat-option>
-      </mat-select>
-      <mat-icon matSuffix><i class="fa-solid fa-draw-polygon"></i></mat-icon>
-      <mat-hint align="start" class="t-min gray">Кількість кімнат</mat-hint>
-    </mat-form-field>
+  <section class="range-section">
+    <p class="t-lar-xx">
+      <i class="fa-solid fa-paint-roller"></i> Стан оселі: {{ flatInfo.repair_status }}%
+    </p>
+    <input (ngModelChange)="updateRepairStatusName()" [(ngModel)]="flatInfo.repair_status" type="range"
+      class="form-range" min="0" max="100" step="10" id="repair_status">
+    <p class="form-label dark"> {{ repairStatusName }} </p>
+  </section>
 
-    <div class="item-box w-100 mt-2">
-      <mat-label class="label action " (click)="openHelpRepair()">Оберіть стан оселі <i
-          class="fa-solid fa-circle-info"></i></mat-label>
+  <section class="range-section">
+    <p class="t-lar-xx"><i class="fa-solid fa-compass-drafting"></i> Загальна S - {{ flatInfo.area }} м²
+    </p>
+    <label for="area" class="form-label dark">Встановіть площу оселі</label>
+    <input (ngModelChange)="onSubmitWithDelay()" [(ngModel)]="flatInfo.area" type="range" class="form-range" min="0"
+      max="100" step="5" id="area_of">
+  </section>
 
-      <mat-form-field class="item-select" appearance="outline">
-        <mat-select [(ngModel)]="flatInfo.repair_status" name="repair_status">
-          <mat-option value="">Приховати</mat-option>
-          <mat-option value="Добрий">Новий</mat-option>
-          <mat-option value="Добрий">Добрий</mat-option>
-          <mat-option value="Задовільний">Задовільний</mat-option>
-          <mat-option value="Поганий">Поганий</mat-option>
-        </mat-select>
-        <mat-icon matSuffix><i class="fa-solid fa-paint-roller"></i></mat-icon>
-        <mat-hint align="start" class="t-min gray">Стан оселі</mat-hint>
-      </mat-form-field>
-    </div>
+  <section class="range-section">
+    <p class="t-lar-xx"><i class="fa-solid fa-utensils"></i> Кухня S - {{ flatInfo.kitchen_area }} м²</p>
+    <label for="kitchen_area" class="form-label dark">Встановіть площу кухні</label>
+    <input (ngModelChange)="onSubmitWithDelay()" [(ngModel)]="flatInfo.kitchen_area" type="range" class="form-range"
+      min="0" max="50" step="5" id="kitchen_area">
+  </section>
 
+  <section class="section-chown">
+    <mat-label align="start" class="label-section"><i class="fa-solid fa-hotel"></i>
+      Кількість кімнат:</mat-label>
+    <mat-button-toggle-group (ngModelChange)="onSubmitWithDelay()" [(ngModel)]="flatInfo.rooms" name="rooms"
+      aria-label="Кількість кімнат">
+      <mat-button-toggle [value]="0">Неважливо</mat-button-toggle>
+      <mat-button-toggle [value]="1">1</mat-button-toggle>
+      <mat-button-toggle [value]="2">2</mat-button-toggle>
+      <mat-button-toggle [value]="3">3</mat-button-toggle>
+      <mat-button-toggle [value]="4">4</mat-button-toggle>
+      <mat-button-toggle [value]="5">5+</mat-button-toggle>
+    </mat-button-toggle-group>
+  </section>
 
-    <div class="item-box w-100 mt-2">
-      <mat-label class="label action " (click)="openHelpBalcony()">Оберіть тип балкону <i
-          class="fa-solid fa-circle-info"></i></mat-label>
+  <button class="label action " (click)="openHelpBalcony()">Оберіть тип балкону <i
+      class="fa-solid fa-circle-info"></i></button>
 
-      <mat-form-field class="item-select" appearance="outline">
-        <mat-select [(ngModel)]="flatInfo.balcony" name="balcony">
-          <mat-option value="">Приховати</mat-option>
-          <mat-option value="Класичний">Класичний</mat-option>
-          <mat-option value="Французький">Французький</mat-option>
-          <mat-option value="Лоджія">Лоджія</mat-option>
-          <mat-option value="Тераса">Тераса</mat-option>
-          <mat-option value="Веранда">Веранда</mat-option>
-        </mat-select>
-        <mat-icon matSuffix><i class="fa-regular fa-eye"></i></mat-icon>
-        <mat-hint align="start" class="t-min gray">Тип балкону</mat-hint>
-      </mat-form-field>
-    </div>
-  </div>
+  <mat-form-field class="item-select p-1" appearance="outline">
+    <mat-select placeholder="Балкон" (ngModelChange)="onSubmitWithDelay()" [(ngModel)]="flatInfo.balcony"
+      name="balcony">
+      <mat-option [disabled]=""><span class="item-disabled">Очистити</span></mat-option>
+      <mat-option value="Неважливо">Неважливо</mat-option>
+      <mat-option value="Класичний">Класичний</mat-option>
+      <mat-option value="Французький">Французький</mat-option>
+      <mat-option value="Лоджія">Лоджія</mat-option>
+      <mat-option value="Тераса">Тераса</mat-option>
+      <mat-option value="Веранда">Веранда</mat-option>
+    </mat-select>
+    <mat-icon matSuffix><i class="fa-regular fa-eye"></i></mat-icon>
+    <mat-hint align="start">Тип балкону</mat-hint>
+  </mat-form-field>
+</div>
 
-  <div class="btn-group mt-2">
-    <button class="btn flex-box" (click)="saveInfo()">ЗБЕРЕГТИ<i
-        class="icon fa-regular fa-circle-check ml-2"></i></button>
-  </div>
+<div [@appearance] class="btn-group">
+  <button class="b-primary mr-2" (click)="setToogleMenu()">
+    <i class="fa-regular fa-circle-xmark"></i>
+  </button>
 
+  <button [disabled]="activeFilter === 0" class="b-primary mr-2 custom-badge" (click)="clearFilter()"
+    matBadge="{{activeFilter}}" [matBadgeHidden]="activeFilter === 0">
+    <i class="fa-solid fa-broom"></i>
+  </button>
+
+  <button class="b-primary p-2" (click)="saveInfo()">
+    <div class="t-med bold white">ЗБЕРЕГТИ</div>
+    <i class="fa-regular fa-circle-check pl-2 white"></i>
+  </button>
 </div>

@@ -148,7 +148,7 @@ export class UserParametersComponent implements OnInit, OnDestroy {
     );
   }
 
-  // підписка на шлях до серверу
+  // підписка на статус меню
   async getToogleMenu() {
     this.subscriptions.push(
       this.menuService.toogleMenuEditUser$.subscribe(async (status: boolean) => {

@@ -187,7 +187,7 @@ export const HouseConfig = {
   woman: '',
   metrocolor: '',
   metroname: '',
-
+  floorless: 0,
 }
 
 export const StatusConfig = {

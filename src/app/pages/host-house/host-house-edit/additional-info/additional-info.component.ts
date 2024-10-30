@@ -5,6 +5,7 @@ import * as ServerConfig from 'src/app/config/path-config';
 import { animations } from '../../../../interface/animation';
 import { Router } from '@angular/router';
 import { SharedService } from 'src/app/services/shared.service';
+import { MenuService } from 'src/app/services/menu.service';
 
 interface FlatInfo {
   osbb_name: string | undefined;
@@ -23,6 +24,8 @@ interface FlatInfo {
     animations.left1,
     animations.left2,
     animations.top1,
+    animations.appearance,
+
   ],
 })
 
@@ -38,6 +41,8 @@ export class AdditionalInfoComponent implements OnInit, OnDestroy {
   @ViewChild('textArea', { static: false })
   textArea!: ElementRef;
   loading = false;
+  totalParam: number = 0;
+  activeFilter: number = 0;
   reloadPageWithLoader() {
     this.loading = true;
     setTimeout(() => {
@@ -96,11 +101,16 @@ export class AdditionalInfoComponent implements OnInit, OnDestroy {
   authorizationHouse: boolean = false;
   houseData: any;
 
+  async setToogleMenu() {
+    this.menuService.toogleMenuEditHouse(false)
+  }
+
   constructor(
     private http: HttpClient,
     private selectedFlatIdService: SelectedFlatService,
     private router: Router,
     private sharedService: SharedService,
+    private menuService: MenuService,
   ) { }
 
   async ngOnInit(): Promise<void> {
@@ -166,6 +176,7 @@ export class AdditionalInfoComponent implements OnInit, OnDestroy {
         // console.log(response)
         if (response) {
           this.flatInfo = response[0];
+          this.countActiveFilters();
         }
       } catch (error) {
         this.sharedService.setStatusMessage('Помилка на сервері, спробуйте ще раз');
@@ -176,6 +187,23 @@ export class AdditionalInfoComponent implements OnInit, OnDestroy {
       }
     }
   };
+
+  // Метод для підрахунку кількості задіяних фільтрів
+  countFilter(): number {
+    const totalFields = 5;
+    let count = 0;
+    if (this.flatInfo.info_about) count++;
+    if (this.flatInfo.osbb_name) count++;
+    if (this.flatInfo.osbb_phone) count++;
+    if (this.flatInfo.pay_card) count++;
+    if (this.flatInfo.wifi) count++;
+    this.totalParam = parseFloat(((count / totalFields) * 100).toFixed(2));
+    return count;
+  }
+
+  countActiveFilters() {
+    this.activeFilter = this.countFilter();
+  }
 
   async saveInfo(): Promise<void> {
     const userJson = localStorage.getItem('user');

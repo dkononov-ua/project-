@@ -8,6 +8,7 @@
   gap: 10px;
   @include s3-s6-max {
     gap: 20px;
+    padding: 10px 10px 100px 10px;
   }
 }
 

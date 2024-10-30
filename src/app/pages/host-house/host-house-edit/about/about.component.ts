@@ -10,6 +10,7 @@ import { MissingParamsService } from '../missing-params.service';
 import { DataService } from 'src/app/services/data.service';
 import { HouseInfo } from 'src/app/interface/info';
 import { HouseConfig } from 'src/app/interface/param-config';
+import { MenuService } from 'src/app/services/menu.service';
 
 @Component({
   selector: 'app-about',
@@ -20,6 +21,7 @@ import { HouseConfig } from 'src/app/interface/param-config';
     animations.left1,
     animations.left2,
     animations.top1,
+    animations.appearance,
   ],
 })
 
@@ -40,6 +42,10 @@ export class AboutComponent implements OnInit, OnDestroy {
 
   selectedFlatId!: string | null;
   descriptionVisibility: { [key: string]: boolean } = {};
+  searchTimer: any;
+  totalAbout: number = 0;
+  activeFilter: number = 0;
+  activeFilterAbout: number = 0;
   isDescriptionVisible(key: string): boolean {
     return this.descriptionVisibility[key] || false;
   }
@@ -72,6 +78,33 @@ export class AboutComponent implements OnInit, OnDestroy {
   authorizationHouse: boolean = false;
   houseData: any;
 
+
+  step: number = 1000;
+  searchReason: number = 0;
+
+  async setToogleMenu() {
+    this.menuService.toogleMenuEditHouse(false)
+  }
+
+  checkReason() {
+    if (this.searchReason === 1) {
+      this.flatInfo.option_pay = 3;
+      this.maxValue = 10000000;
+      this.minValue = 10000;
+      this.step = 10000;
+      this.flatInfo.animals = '';
+      this.flatInfo.students = undefined;
+      this.flatInfo.woman = undefined;
+      this.flatInfo.man = undefined;
+      this.flatInfo.family = undefined;
+    } else {
+      this.flatInfo.option_pay = 0;
+      this.maxValue = 100000;
+      this.minValue = 0;
+      this.step = 1000;
+    }
+  }
+
   constructor(
     private http: HttpClient,
     private selectedFlatIdService: SelectedFlatService,
@@ -80,6 +113,8 @@ export class AboutComponent implements OnInit, OnDestroy {
     private _dialog: LyDialog,
     private sharedService: SharedService,
     private missingParamsService: MissingParamsService,
+    private menuService: MenuService,
+
   ) { }
 
   async ngOnInit(): Promise<void> {
@@ -157,10 +192,10 @@ export class AboutComponent implements OnInit, OnDestroy {
         this.flatInfo.price_d = 1;
       }
       const data = {
-        students: this.flatInfo.students || undefined,
-        woman: this.flatInfo.woman || undefined,
-        man: this.flatInfo.man || undefined,
-        family: this.flatInfo.family || undefined,
+        students: this.flatInfo.students,
+        woman: this.flatInfo.woman,
+        man: this.flatInfo.man,
+        family: this.flatInfo.family,
         bunker: this.flatInfo.bunker || undefined,
         animals: this.flatInfo.animals || 'Неважливо',
         option_pay: this.flatInfo.option_pay || 0,
@@ -213,6 +248,7 @@ export class AboutComponent implements OnInit, OnDestroy {
         // console.log(response)
         if (response && response.about) {
           this.flatInfo = response.about;
+          this.countFilter();
         } else {
           console.log('about not found in response.');
         }
@@ -230,5 +266,51 @@ export class AboutComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.subscriptions.forEach(subscription => subscription.unsubscribe());
+  }
+
+  // Метод для підрахунку кількості задіяних фільтрів
+  countFilter(): number {
+    const totalFields = 10;
+    let count = 0;
+    if (this.flatInfo.animals !== '') count++;
+    if (this.flatInfo.option_pay !== undefined) count++;
+    if (this.flatInfo.bunker !== '') count++;
+    if (this.flatInfo.price_m !== 0) count++;
+    // if (this.flatInfo.price_d !== 0) count++;
+    // if (this.flatInfo.private !== 0) count++;
+    if (this.flatInfo.room !== '') count++;
+    if (this.flatInfo.students !== undefined && this.flatInfo.students !== null) count++;
+    if (this.flatInfo.woman !== undefined && this.flatInfo.woman !== null) count++;
+    if (this.flatInfo.man !== undefined && this.flatInfo.man !== null) count++;
+    if (this.flatInfo.family !== undefined && this.flatInfo.family !== null) count++;
+    if (this.flatInfo.about !== '') count++;
+    this.totalAbout = count;
+    return count;
+  }
+
+  clearFilter() {
+    this.flatInfo.option_pay = 0;
+    this.flatInfo.animals = '';
+    this.flatInfo.bunker = '';
+    this.flatInfo.price_m = 0;
+    this.flatInfo.room = 0;
+    this.flatInfo.students = undefined;
+    this.flatInfo.man = undefined;
+    this.flatInfo.woman = undefined;
+    this.flatInfo.family = undefined;
+    this.flatInfo.about = '';
+    this.searchReason = 0;
+    this.checkReason();
+    this.countFilter();
+  }
+
+  // додавання затримки на відправку запиту
+  onSubmitWithDelay() {
+    if (this.searchTimer) {
+      clearTimeout(this.searchTimer);
+    }
+    this.searchTimer = setTimeout(() => {
+      this.countFilter();
+    }, 1500);
   }
 }

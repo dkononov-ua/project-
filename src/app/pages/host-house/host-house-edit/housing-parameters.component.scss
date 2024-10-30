@@ -2,6 +2,15 @@
 @use "../../../style/mixins/" as *;
 @use "../../../style/shared.scss" as *;
 @use "../../../style/radio.scss" as *;
+@use "../../../style/input.scss";
+@use "../../../style/circle.scss";
+@use "../../../style/search/search.term.scss";
+
+.section {
+  @include s3-s6-max {
+    padding: 0 5rem 0 5rem;
+  }
+}
 
 .icon {
   color: $color-dark;
@@ -58,15 +67,9 @@ span {
   width: 100%;
   margin-top: 20px;
   padding: 10px;
+  position: sticky;
+  bottom: 0;
 
-  @include s3-s6-max {
-    position: sticky;
-    bottom: 0;
-  }
-  @include s1-s3 {
-    position: fixed !important;
-    bottom: 0;
-  }
   .btn {
     @include flex-box-center;
     height: 60px;
@@ -224,12 +227,6 @@ span {
   height: 85vh;
 }
 
-.content-group {
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-}
-
 .status-box {
   @include box-shadow;
   @include flex-box-column;
@@ -277,4 +274,99 @@ span {
   top: 0;
   right: 0;
   z-index: 30;
+}
+
+.content {
+  margin: 0;
+  justify-content: center;
+  min-height: 70vh;
+
+  @include s3-s6-max {
+    height: calc(100vh - 60px);
+    overflow: auto;
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+  @include s1-s3 {
+    height: auto;
+    padding-bottom: 20px;
+  }
+}
+
+.toggle-group-column {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+/* CSS для будинку, вертикального повзунка і виділення поверху */
+.building-section {
+  display: flex;
+  align-items: flex-start;
+  overflow: hidden;
+  border-radius: 20px;
+  margin: 20px 0 20px 0;
+}
+
+.building-wrapper {
+  display: flex;
+  width: 100%;
+  height: auto;
+  justify-content: center;
+}
+
+.building {
+  overflow: auto;
+  min-height: 300px;
+  max-height: 400px;
+  @include box-shadow;
+
+  width: 200px;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  background-color: #505050;
+  border: 2px solid #aaa;
+  padding: 10px 10px 20px 10px;
+  transition: height 0.3s ease;
+  position: relative;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+.floor {
+  height: auto;
+  min-height: 30px;
+  flex: auto;
+  background-color: #dfdfd0;
+  color: $color-text;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 3px;
+  font-size: 16px;
+  cursor: pointer; /* Вказівник на кнопку */
+  transition: background-color 0.3s;
+}
+
+.floor:hover {
+  background-color: #78909c; /* Зміна кольору при наведенні */
+}
+
+.selected-floor {
+  background-color: #4caf50; /* Кольорова індикація вибраного поверху */
+}
+
+.range-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.selected-floor-info {
+  margin-top: 5px;
+  font-weight: bold;
+  font-size: 14px;
 }

@@ -6,35 +6,35 @@
   </div>
 
   <div class="switch-btn-group" *ngIf="acces_admin === 1 && acces_flat_features === 1">
-    <button class="btn" [routerLinkActive]="'active'" [routerLink]="'/house/edit/address'">
+    <button class="btn" (click)="toogleFilter('Location')">
       <i class="fa-solid fa-location-dot"></i>
       <div class="t-min">Розт.</div>
     </button>
   </div>
 
   <div class="switch-btn-group" *ngIf="acces_admin === 1 && acces_flat_features === 1">
-    <button class="btn" [routerLinkActive]="'active'" [routerLink]="'/house/edit/param'">
+    <button class="btn" (click)="toogleFilter('Param')">
       <i class="fa-solid fa-trowel-bricks"></i>
       <div class="t-min">Парам.</div>
     </button>
   </div>
 
   <div class="switch-btn-group" *ngIf="acces_flat_features === 1">
-    <button class="btn" [routerLinkActive]="'active'" [routerLink]="'/house/edit/about'">
+    <button class="btn" (click)="toogleFilter('About')">
       <i class="fa-solid fa-users-gear"></i>
       <div class="t-min">Особл.</div>
     </button>
   </div>
 
   <div class="switch-btn-group" *ngIf="acces_admin === 1 && acces_flat_features === 1">
-    <button class="btn" [routerLinkActive]="'active'" [routerLink]="'/house/edit/photo'">
+    <button class="btn" (click)="toogleFilter('Photo')">
       <i class="fa-solid fa-images"></i>
       <div class="t-min">Фото</div>
     </button>
   </div>
 
   <div class="switch-btn-group" *ngIf="acces_flat_features === 1">
-    <button class="btn" [routerLinkActive]="'active'" [routerLink]="'/house/edit/additionally'">
+    <button class="btn" (click)="toogleFilter('Additional')">
       <i class="fa-regular fa-address-book"></i>
       <div class="t-min">Додат.</div>
     </button>
@@ -42,4 +42,171 @@
 
 </div>
 
-<router-outlet></router-outlet>
+<ng-container *ngIf="!awaitStatusBtn; else content">
+  <div class="t-c content container-loader-mini">
+    <mat-spinner color="warn"></mat-spinner>
+    <div class="t-med mt-2">Оновлення інформації</div>
+  </div>
+</ng-container>
+
+<ng-template #content>
+  <div class="t-c content jc-fs"
+    *ngIf="!collapseParam && !collapseLocation && !collapseAbout && !collapsePhoto && !collapseAdditional">
+    <div class="t-c" [ngClass]="{'close': collapseParamStatus}">
+
+      <p class="t-lar-x bold p-2">Керування профілем оселі</p>
+
+      <div class="profile-completion-container">
+
+        <div [@top] class="circle-container">
+          <div class="d-flex jc-sa al-c">
+
+            <div class="spinner-wrapper" [ngClass]="getSpinnerClass(totalFilling)">
+              <mat-progress-spinner class="custom-spinner" [value]="totalFilling" mode="determinate" diameter="140"
+                strokeWidth="12">
+              </mat-progress-spinner>
+              <div class="spinner-text"><i class="fa-solid fa-house"></i> <br> {{ totalFilling }}%</div>
+            </div>
+
+            <div class="w-50 pr-2">
+              <h3>Заповнення профілю оселі</h3>
+              <p class="t-min">
+                Статус заповнення профілю є критично важливим для підтвердження вашого аккаунту. Якщо відсоток
+                заповнення
+                профілю нижче 70%, ваш аккаунт не зможе отримати статус перевіреного. Заповнений профіль не тільки
+                підвищує вашу надійність, але й відкриває доступ до додаткових можливостей на платформі.
+              </p>
+            </div>
+
+          </div>
+        </div>
+
+        <button [@top1] class="circle-container circle-container--btn" (click)="toogleFilter('Location')">
+          <div class="d-flex jc-sa al-c">
+            <div class="w-50 pr-2">
+              <h3>Локація</h3>
+              <p class="t-min">
+                Контактна інформація, зокрема ваші соціальні мережі важливі для швидкого зв'язку з вами. Вони дозволяють
+                потенційним орендарям і орендодавцям ознайомитися з вашою особистістю, що допомагає створити довіру та
+                встановити позитивні відносини.
+              </p>
+            </div>
+
+
+            <div class="spinner-wrapper" [ngClass]="getSpinnerClass(totalLocation)">
+              <mat-progress-spinner class="custom-spinner" [value]="totalLocation" mode="determinate" diameter="120"
+                strokeWidth="10">
+              </mat-progress-spinner>
+              <div class="spinner-text"> <i class="fa-solid fa-location-dot"></i>
+                {{ totalLocation }}%</div>
+            </div>
+          </div>
+        </button>
+
+        <button [@top2] class="circle-container  circle-container--btn" (click)="toogleFilter('Param')">
+          <div class="d-flex jc-sa al-c">
+
+            <div class="w-50 pr-2">
+              <h3>Параметри</h3>
+              <p class="t-min"> З наданими даними, такими як ім'я, прізвище та фотографія, користувачі можуть легше вас
+                впізнати,
+                що сприяє встановленню тісних контактів. Ваша відкритість допомагає створити позитивний імідж
+                та безпечну атмосферу на платформі.</p>
+            </div>
+            <div class="spinner-wrapper" [ngClass]="getSpinnerClass(totalParam)">
+              <mat-progress-spinner class="custom-spinner" [value]="totalParam" mode="determinate" diameter="120"
+                strokeWidth="10">
+              </mat-progress-spinner>
+              <div class="spinner-text"><i class="fa-solid fa-trowel-bricks"></i>{{ totalParam }}%</div>
+            </div>
+          </div>
+        </button>
+
+        <button [@top3] class="circle-container gap-custom  circle-container--btn" (click)="toogleFilter('About')">
+          <div class="d-flex jc-sa al-c">
+
+            <div class="spinner-wrapper" [ngClass]="getSpinnerClass(totalAbout)">
+              <mat-progress-spinner class="custom-spinner" [value]="totalAbout" mode="determinate" diameter="120"
+                strokeWidth="10">
+              </mat-progress-spinner>
+              <div class="spinner-text"><i class="fa-solid fa-users-gear"></i>{{ totalAbout }}%</div>
+            </div>
+
+            <div class="w-50 pr-2">
+              <h3>Особливості</h3>
+              <p class="t-min">Тут ви можете відслідковувати статуси вашого аккаунту та надавати дозволи.</p>
+            </div>
+
+          </div>
+        </button>
+
+        <button [@top4] class="circle-container  circle-container--btn" (click)="toogleFilter('Photo')">
+          <div class="d-flex jc-sa al-c">
+            <div class="spinner-wrapper" [ngClass]="getSpinnerClass(totalPhoto)">
+              <mat-progress-spinner class="custom-spinner" [value]="totalPhoto" mode="determinate" diameter="120"
+                strokeWidth="10">
+              </mat-progress-spinner>
+              <div class="spinner-text"><i class="fa-solid fa-images"></i>{{ totalPhoto }}% </div>
+            </div>
+
+            <div class="w-50 pr-2">
+              <h3>Фото оселі {{downloadedPhoto}}/20</h3>
+              <p class="t-min">Тут ви можете додавати та видаляти фото вашої оселі.</p>
+            </div>
+          </div>
+        </button>
+
+        <button [@top3] class="circle-container  circle-container--btn" (click)="toogleFilter('Additional')">
+          <div class="d-flex jc-sa al-c">
+
+            <div class="w-50 pr-2">
+              <h3>Додаткова інформація</h3>
+              <p class="t-min"> З наданими даними, такими як ім'я, прізвище та фотографія, користувачі можуть легше вас
+                впізнати,
+                що сприяє встановленню тісних контактів. Ваша відкритість допомагає створити позитивний імідж
+                та безпечну атмосферу на платформі.</p>
+            </div>
+            <div class="spinner-wrapper" [ngClass]="getSpinnerClass(totalAdditional)">
+              <mat-progress-spinner class="custom-spinner" [value]="totalAdditional" mode="determinate" diameter="120"
+                strokeWidth="10">
+              </mat-progress-spinner>
+              <div class="spinner-text"><i class="fa-regular fa-address-book"></i>{{ totalAdditional }}%</div>
+            </div>
+          </div>
+        </button>
+
+      </div>
+
+    </div>
+  </div>
+</ng-template>
+
+<div [@top3] class="t-c filter-wrapper" *ngIf="collapseLocation">
+  <div class="t-c filter-window p-2" [ngClass]="{'close': collapseLocationStatus}">
+    <app-address></app-address>
+  </div>
+</div>
+
+<div [@top3] class="t-c filter-wrapper" *ngIf="collapseParam">
+  <div class="t-c filter-window" [ngClass]="{'close': collapseParamStatus}">
+    <app-param></app-param>
+  </div>
+</div>
+
+<div [@top3] class="t-c filter-wrapper" *ngIf="collapseAbout">
+  <div class="t-c filter-window" [ngClass]="{'close': collapseAboutStatus}">
+    <app-about></app-about>
+  </div>
+</div>
+
+<div [@top3] class="t-c filter-wrapper" *ngIf="collapsePhoto">
+  <div class="t-c filter-window p-2" [ngClass]="{'close': collapsePhotoStatus}">
+    <app-photo></app-photo>
+  </div>
+</div>
+
+<div [@top3] class="t-c filter-wrapper" *ngIf="collapseAdditional">
+  <div class="t-c filter-window p-2" [ngClass]="{'close': collapseAdditionalStatus}">
+    <app-additional-info></app-additional-info>
+  </div>
+</div>

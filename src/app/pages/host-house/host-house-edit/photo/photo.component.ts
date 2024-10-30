@@ -11,6 +11,7 @@ import { CropImgComponent } from 'src/app/components/crop-img/crop-img.component
 import { SharedService } from 'src/app/services/shared.service';
 import { DataService } from 'src/app/services/data.service';
 import { MissingParamsService } from '../missing-params.service';
+import { MenuService } from 'src/app/services/menu.service';
 @Component({
   selector: 'app-photo',
   templateUrl: './photo.component.html',
@@ -20,6 +21,8 @@ import { MissingParamsService } from '../missing-params.service';
     animations.left1,
     animations.left2,
     animations.top1,
+    animations.appearance,
+
   ],
 })
 
@@ -45,6 +48,8 @@ export class PhotoComponent implements OnInit, OnDestroy {
   statusMessage: string | undefined;
   selectedPhoto: boolean = false;
   reloadImg: boolean = false;
+  downloadedPhoto: any;
+  totalPhoto: number = 0;
 
   selectPhoto(photo: any): void {
     if (this.selectedPhoto === photo) {
@@ -53,6 +58,10 @@ export class PhotoComponent implements OnInit, OnDestroy {
       this.selectedPhoto = photo;
       this.scrollToSelectedPhoto(photo);
     }
+  }
+
+  async setToogleMenu() {
+    this.menuService.toogleMenuEditHouse(false)
   }
 
   scrollToSelectedPhoto(selectedPhoto: any) {
@@ -78,7 +87,7 @@ export class PhotoComponent implements OnInit, OnDestroy {
     private dataService: DataService,
     private sharedService: SharedService,
     private missingParamsService: MissingParamsService,
-
+    private menuService: MenuService,
   ) { }
 
   async ngOnInit(): Promise<void> {
@@ -162,20 +171,31 @@ export class PhotoComponent implements OnInit, OnDestroy {
               this.reloadImg = false;
             }, 1500);
           }
+          this.countFilterPhoto();
         } else {
           this.flatImg = [{ img: "housing_default.svg" }];
         }
       } catch (error) {
-        this.sharedService.setStatusMessage('Помилка на сервері, спробуйте ще раз');
-        setTimeout(() => {
-          this.sharedService.setStatusMessage('');
-          location.reload();
-        }, 1500);
+        // this.sharedService.setStatusMessage('Помилка на сервері, спробуйте ще раз');
+        // setTimeout(() => {
+        //   this.sharedService.setStatusMessage('');
+        //   location.reload();
+        // }, 1500);
       }
     } else {
       console.log('user not found');
     }
   };
+
+  // Метод для підрахунку кількості задіяних фільтрів
+  countFilterPhoto(): number {
+    const totalFields = 20;
+    if (this.flatImg) {
+      this.downloadedPhoto = this.flatImg.length;
+      this.totalPhoto = parseFloat(((this.downloadedPhoto / totalFields) * 100).toFixed(2));
+    }
+    return this.downloadedPhoto || 0;
+  }
 
   openCropperDialog(event: Event) {
     this._dialog.open<CropImgComponent, Event>(CropImgComponent, {

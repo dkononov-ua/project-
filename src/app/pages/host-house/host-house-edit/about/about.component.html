@@ -55,210 +55,152 @@
   </div>
 </div>
 
-<div [@top1] class="info-card">
+<mat-label align="start" class="filter-label">Особливості</mat-label>
 
-  <div class="param-wrapper">
-    <div class="t-med bold t-c mb-1">Тут можна вказати пріорітети, вартість та активувати оголошення</div>
+<p class="t-med gray mb-2">Задавайте способи оплати, особливості оселі, та опис.</p>
 
-    <div class="flex-column mt-2 border-top w-100">
+<section class="section-chown">
+  <mat-label align="start" class="label-section"><i class="fa-solid fa-sign-hanging"></i>
+    Виставляю оселю:</mat-label>
+  <mat-button-toggle-group name="searchReason" (ngModelChange)="onSubmitWithDelay()" [(ngModel)]="searchReason"
+    (ngModelChange)="checkReason()" aria-label="Оплата">
+    <mat-button-toggle [value]="0">На оренду</mat-button-toggle>
+    <mat-button-toggle [value]="1">Для продажу</mat-button-toggle>
+  </mat-button-toggle-group>
+</section>
 
-      <mat-label class="label">Оберіть варіант оплати*</mat-label>
+<section [@appearance] class="section-chown" *ngIf="searchReason === 0">
+  <mat-label align="start" class="label-section"><i class="fa-solid fa-calendar-day"></i>
+    Варіанти оплати:</mat-label>
+  <mat-button-toggle-group name="option_pay" (ngModelChange)="onSubmitWithDelay()" [(ngModel)]="flatInfo.option_pay"
+    aria-label="Оплата">
+    <mat-button-toggle [value]="0">Помісячно</mat-button-toggle>
+    <mat-button-toggle [value]="1">Подобово</mat-button-toggle>
+    <mat-button-toggle [value]="2">Безкоштовно</mat-button-toggle>
+  </mat-button-toggle-group>
+</section>
 
-      <div class="t-min gray">Формат оплати це обов'язковий параметр</div>
-      <div class="inputbox-group">
+<button class="label action mt-2" (click)="openHelpRoom()">Формат здачі оселі* <i
+    class="fa-solid fa-circle-info"></i></button>
 
-        <div class="content">
-          <label class="checkBox">
-            <input id="monthly" type="radio" [(ngModel)]="flatInfo.option_pay" name="monthly" [value]=0>
-            <div class="transition"></div>
-          </label>
-          <span class="checkBox-span">Щомісяця</span>
-          <i></i>
-        </div>
+<section [@appearance] class="section-chown" *ngIf="flatInfo.option_pay !== 3">
+  <mat-label align="start" class="label-section"><i class="fa-solid fa-dice-d6 pl-2 gray"></i>
+    В оренду здаю:</mat-label>
+  <mat-button-toggle-group name="option_pay" (ngModelChange)="onSubmitWithDelay()" [(ngModel)]="flatInfo.room"
+    aria-label="Оплата">
+    <mat-button-toggle [value]="0">Всю оселю</mat-button-toggle>
+    <mat-button-toggle [value]="1">Тільки кімнату</mat-button-toggle>
+  </mat-button-toggle-group>
+</section>
 
-        <div class="content">
-          <label class="checkBox">
-            <input id="daily" type="radio" [(ngModel)]="flatInfo.option_pay" name="daily" [value]=1>
-            <div class="transition"></div>
-          </label>
-          <span class="checkBox-span">Подобово</span>
-          <i></i>
-        </div>
+<section class="range-section" *ngIf="flatInfo.option_pay !== undefined && flatInfo.option_pay !== 2">
+  <p class="t-lar">Ціна: <span class="bold t-lar-xx">{{ flatInfo.price_m / 1000 | number }}k </span> ₴</p>
+  <label for="priceFrom" class="form-label dark" *ngIf="flatInfo.option_pay === 0">За місяць {{ flatInfo.price_m |
+    number:'1.0-0'
+    }} грн</label>
+  <label for="priceFrom" class="form-label dark" *ngIf="flatInfo.option_pay === 1">За добу {{ flatInfo.price_m |
+    number:'1.0-0'
+    }} грн</label>
+  <label for="priceFrom" class="form-label dark" *ngIf="flatInfo.option_pay === 3">Купівля {{ flatInfo.price_m |
+    number:'1.0-0'
+    }} грн</label>
 
-        <div class="content">
-          <label class="checkBox">
-            <input id="free" type="radio" [(ngModel)]="flatInfo.option_pay" name="monthly" [value]=2>
-            <div class="transition"></div>
-          </label>
-          <span class="checkBox-span">Безкоштовно</span>
-          <i></i>
-        </div>
+  <input (ngModelChange)="onSubmitWithDelay()" [(ngModel)]="flatInfo.price_m" type="range" class="form-range"
+    [min]="minValue" [max]="maxValue" [step]="step" id="priceFrom">
+</section>
 
-        <div class="content">
-          <label class="checkBox">
-            <input id="selling" type="radio" [(ngModel)]="flatInfo.option_pay" name="selling" [value]=3>
-            <div class="transition"></div>
-          </label>
-          <span class="checkBox-span">Продаж</span>
-          <i></i>
-        </div>
+<button class="label action mt-2" (click)="openHelpPriority()">Оберіть пріорітет орендарів* <i
+    class="fa-solid fa-circle-info"></i></button>
 
-      </div>
-    </div>
+<section class="section-chown" *ngIf="searchReason === 0">
+  <mat-label align="start" class="label-section">Здаєте оселю тільки конкретному типу орендарів?</mat-label>
 
-    <div class="inputbox-group mt-2">
-      <mat-form-field class="price" appearance="outline" *ngIf="flatInfo.option_pay === 1">
-        <input matInput class="right-align" type="number" [min]="minValue" [max]="maxValue" step="500"
-          [(ngModel)]="flatInfo.price_d" name="price_d" pattern="[0-9]*" id="inputPriceD">
-        <mat-hint align="start" class="bold">ОПЛАТА ЗА ДЕНЬ, ЦІНА В ГРН*</mat-hint>
-        <img matSuffix class="icon pr-2" src="../../../assets/icon-objects/hryvnia_icon.ico" alt="грн">
-      </mat-form-field>
-
-      <mat-form-field class="price" appearance="outline" *ngIf="flatInfo.option_pay === 0">
-        <input matInput class="right-align" type="number" [min]="minValue" [max]="maxValue" step="500"
-          [(ngModel)]="flatInfo.price_m" name="price_m" pattern="[0-9]*" id="inputPriceM">
-        <mat-hint align="start" class="bold">ОПЛАТА ЗА МІСЯЦЬ, ЦІНА В ГРН*</mat-hint>
-        <img matSuffix class="icon pr-2" src="../../../assets/icon-objects/hryvnia_icon.ico" alt="грн">
-      </mat-form-field>
-
-      <mat-form-field class="price" appearance="outline" *ngIf="flatInfo.option_pay === 2">
-        <input matInput class="right-align" type="number" [(ngModel)]="flatInfo.price_f" name="price_f" disabled
-          id="inputPriceF" placeholder="Безкоштовно">
-      </mat-form-field>
-
-      <mat-form-field class="price" appearance="outline" *ngIf="flatInfo.option_pay === 3">
-        <input matInput class="right-align" type="number" [(ngModel)]="flatInfo.price_s" name="price_s" id="inputPriceS"
-          placeholder="Продаж">
-        <mat-hint align="start" class="bold">ПРОДАЖ, ЦІНА В ГРН*</mat-hint>
-        <img matSuffix class="icon pr-2" src="../../../assets/icon-objects/hryvnia_icon.ico" alt="грн">
-      </mat-form-field>
-
-    </div>
-
-    <div class="mt-2 border-top" *ngIf="flatInfo.option_pay !== 3">
-      <mat-label class="label action" (click)="openHelpPriority()">Оберіть пріорітет орендарів* <i
-          class="fa-solid fa-circle-info"></i></mat-label>
-      <div class="t-min gray">Кого ви розглядаєте як своїх потенційних орендарів?</div>
-
-      <div class="inputbox-group pl-2">
-        <div class="content-group">
-          <label class="checkBox">
-            <input type="checkbox" id="students" name="students" [(ngModel)]="flatInfo.students">
-            <div class="transition"></div>
-          </label>
-          <div class="content-group ml-2">
-            <div class="status-static" [ngClass]="{ 'active': flatInfo.students}"><i
-                class="fa-solid fa-graduation-cap"></i></div>
-            <div class="ml-2">Студент <span class="gray checkBox-text" *ngIf="flatInfo.students">
-                (В пріорітеті студенти)</span></div>
-          </div>
-        </div>
-
-        <div class="content-group">
-          <label class="checkBox">
-            <input type="checkbox" id="woman" name="woman" [(ngModel)]="flatInfo.woman">
-            <div class="transition"></div>
-          </label>
-          <div class="content-group ml-2">
-            <div class="status-static" [ngClass]="{ 'active': flatInfo.woman}"><i class="fa-solid fa-person-dress"></i>
-            </div>
-            <div class="ml-2">Жінка <span class="gray checkBox-text" *ngIf="flatInfo.woman">
-                (В пріоритеті жінки)</span></div>
-          </div>
-        </div>
-
-        <div class="content-group">
-          <label class="checkBox">
-            <input type="checkbox" id="man" name="man" [(ngModel)]="flatInfo.man">
-            <div class="transition"></div>
-          </label>
-          <div class="content-group ml-2">
-            <div class="status-static" [ngClass]="{ 'active': flatInfo.man}"><i class="fa-solid fa-person"></i>
-            </div>
-            <div class="ml-2">Чоловік <span class="gray checkBox-text" *ngIf="flatInfo.man">(В пріоритеті
-                чоловіки)</span></div>
-          </div>
-        </div>
-
-        <div class="content-group">
-          <label class="checkBox">
-            <input type="checkbox" id="family" name="family" [(ngModel)]="flatInfo.family">
-            <div class="transition"></div>
-          </label>
-          <div class="content-group ml-2">
-            <div class="status-static" [ngClass]="{ 'active': flatInfo.family}"><i class="fa-solid fa-children"></i>
-            </div>
-            <div class="ml-2">Сім'я <span class="gray checkBox-text" *ngIf="flatInfo.family">(В пріоритеті
-                сім'ї)</span></div>
-          </div>
-        </div>
-
-      </div>
-    </div>
-
-    <div class="mt-2 border-top w-100">
-      <mat-label class="label">Оберіть особливості оселі</mat-label>
-
-      <mat-form-field class="item-select" appearance="outline">
-        <mat-select [(ngModel)]="flatInfo.bunker" name="bunker" placeholder="Наявність укриття">
-          <mat-option [value]="''">Приховати</mat-option>
-          <mat-option value="Паркінг">Підземний паркінг</mat-option>
-          <mat-option value="В будинку">Укриття в будинку</mat-option>
-          <mat-option value="Поряд з будинком">Поряд з будинком</mat-option>
-        </mat-select>
-        <mat-hint align="start" class="t-min gray">Наявність укриття</mat-hint>
-      </mat-form-field>
-      <mat-form-field class="item-select" appearance="outline" *ngIf="flatInfo.option_pay !== 3">
-        <mat-select [(ngModel)]="flatInfo.animals" name="animals" placeholder="Дозвіл на тварин">
-          <mat-option value='Неважливо'>Неважливо</mat-option>
-          <mat-option value="0">Без тварин</mat-option>
-          <mat-option value="1">Можна з тваринами</mat-option>
-          <mat-option value="2">Тільки котики</mat-option>
-          <mat-option value="3">Тільки песики</mat-option>
-        </mat-select>
-        <mat-hint align="start" class="t-min gray">Орендар може мати тварин?</mat-hint>
-      </mat-form-field>
-    </div>
-
-    <div class="flex-column w-100 mt-2 border-top" *ngIf="flatInfo.option_pay !== 3">
-
-      <mat-label class="label action" (click)="openHelpRoom()">Формат здачі оселі* <i
-          class="fa-solid fa-circle-info"></i></mat-label>
-
-      <div class="inputbox-group">
-        <div class="content m-2">
-          <label class="checkBox">
-            <input type="radio" name="flatInfo.room" [(ngModel)]="flatInfo.room" [value]="0">
-            <div class="transition"></div>
-          </label>
-          <span class="checkBox-span">Вся оселя <i class="fa-solid fa-dice-d6 pl-2 gray"></i></span>
-          <i></i>
-        </div>
-        <div class="content m-2">
-          <label class="checkBox">
-            <input type="radio" name="flatInfo.room" [(ngModel)]="flatInfo.room" [value]="1">
-            <div class="transition"></div>
-          </label>
-          <span class="checkBox-span">Тільки кімната <i class="fa-solid fa-cube pl-2 gray"></i></span>
-          <i></i>
-        </div>
-      </div>
-    </div>
-
-    <div class="mt-2 border-top w-100">
-      <mat-label class="label">Зробіть опис вашого оголошення</mat-label>
-
-      <mat-form-field class="mt-2">
-        <textarea appAutoResizeTextarea matInput id="textArea" [(ngModel)]="flatInfo.about"></textarea>
-        <label for="textArea" class="label-for">Опис вашого оголошення </label>
-      </mat-form-field>
-    </div>
-
+  <div class="flex-box-type p-2">
+    <p class="t-med">Студент <i class="fa-solid fa-graduation-cap pr-2"></i></p>
+    <mat-button-toggle-group (ngModelChange)="onSubmitWithDelay()" [(ngModel)]="flatInfo.students" name="students"
+      aria-label="students">
+      <mat-button-toggle [value]="undefined">Неважливо</mat-button-toggle>
+      <mat-button-toggle [value]="0">Ні</mat-button-toggle>
+      <mat-button-toggle [value]="1">Так</mat-button-toggle>
+    </mat-button-toggle-group>
   </div>
 
-  <div class="btn-group mt-2">
-    <button class="btn flex-box" (click)="saveInfo()">ЗБЕРЕГТИ<i
-        class="icon fa-regular fa-circle-check ml-2"></i></button>
+  <div class="flex-box-type p-2">
+    <p class="t-med">Жінка <i class="fa-solid fa-person-dress pr-2"></i></p>
+    <mat-button-toggle-group (ngModelChange)="onSubmitWithDelay()" [(ngModel)]="flatInfo.woman" name="woman"
+      aria-label="woman">
+      <mat-button-toggle [value]="undefined">Неважливо</mat-button-toggle>
+      <mat-button-toggle [value]="0">Ні</mat-button-toggle>
+      <mat-button-toggle [value]="1">Так</mat-button-toggle>
+    </mat-button-toggle-group>
   </div>
 
+  <div class="flex-box-type p-2">
+    <p class="t-med">Чоловік <i class="fa-solid fa-person pr-2"></i></p>
+    <mat-button-toggle-group (ngModelChange)="onSubmitWithDelay()" [(ngModel)]="flatInfo.man" name="man"
+      aria-label="man">
+      <mat-button-toggle [value]="undefined">Неважливо</mat-button-toggle>
+      <mat-button-toggle [value]="0">Ні</mat-button-toggle>
+      <mat-button-toggle [value]="1">Так</mat-button-toggle>
+    </mat-button-toggle-group>
+  </div>
+
+  <div class="flex-box-type p-2">
+    <p class="t-med">Сім'ї | З дітьми <i class="fa-solid fa-person-breastfeeding pr-2"></i></p>
+    <mat-button-toggle-group (ngModelChange)="onSubmitWithDelay()" [(ngModel)]="flatInfo.family" name="family"
+      aria-label="family">
+      <mat-button-toggle [value]="undefined">Неважливо</mat-button-toggle>
+      <mat-button-toggle [value]="0">Ні</mat-button-toggle>
+      <mat-button-toggle [value]="1">Так</mat-button-toggle>
+    </mat-button-toggle-group>
+  </div>
+</section>
+
+<section class="section-chown">
+  <mat-label align="start" class="label-section"><i class="fa-solid fa-shield-heart"></i> Оселя з
+    укриттям?</mat-label>
+  <mat-button-toggle-group name="bunker" (ngModelChange)="onSubmitWithDelay()" [(ngModel)]="flatInfo.bunker"
+    aria-label="Укриття">
+    <mat-button-toggle value="Неважливо">Ні</mat-button-toggle>
+    <mat-button-toggle value="Паркінг">В паркінгу</mat-button-toggle>
+    <mat-button-toggle value="В будинку">В будинку</mat-button-toggle>
+    <mat-button-toggle value="Поряд з будинком">Поряд</mat-button-toggle>
+  </mat-button-toggle-group>
+</section>
+
+<section class="section-chown" *ngIf="searchReason === 0">
+  <mat-label align="start" class="label-section">Орендарі можуть мати домашніх улюбленців? <i
+      class="fa-solid fa-paw"></i></mat-label>
+  <mat-button-toggle-group name="bunker" (ngModelChange)="onSubmitWithDelay()" [(ngModel)]="flatInfo.animals"
+    aria-label="Петс">
+    <mat-button-toggle value="0">Ні</mat-button-toggle>
+    <mat-button-toggle value="1">Так</mat-button-toggle>
+    <mat-button-toggle value="2">Тільки котика</mat-button-toggle>
+    <mat-button-toggle value="3">Тільки песика</mat-button-toggle>
+  </mat-button-toggle-group>
+</section>
+
+<section class="flex-box-center mt-2 p-2">
+  <mat-label align="start" class="label-section">Опис вашого оголошення або вкажіть те чого вам тут не вистачило <i
+      class="fa-solid fa-signature"></i></mat-label>
+  <mat-form-field class="mt-2 w-100">
+    <textarea appAutoResizeTextarea matInput id="textArea" (ngModelChange)="onSubmitWithDelay()"
+      [(ngModel)]="flatInfo.about"></textarea>
+  </mat-form-field>
+</section>
+
+<div [@appearance] class="btn-group">
+  <button class="b-primary mr-2" (click)="setToogleMenu()">
+    <i class="fa-regular fa-circle-xmark"></i>
+  </button>
+
+  <button [disabled]="totalAbout === 0" class="b-primary mr-2 custom-badge" (click)="clearFilter()"
+    matBadge="{{totalAbout}}" [matBadgeHidden]="totalAbout === 0">
+    <i class="fa-solid fa-broom"></i>
+  </button>
+
+  <button class="b-primary p-2" (click)="saveInfo()">
+    <div class="t-med bold white">ЗБЕРЕГТИ</div>
+    <i class="fa-regular fa-circle-check pl-2 white"></i>
+  </button>
 </div>

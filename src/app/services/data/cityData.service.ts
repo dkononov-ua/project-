@@ -106,7 +106,7 @@ export class CityDataService {
         this.debounceTimer = setTimeout(async () => {
           const filteredStreets = await this.fetchStreetData(street);
           resolve(filteredStreets);
-        }, 300);
+        }, 100);
       } else {
         resolve([]);
       }
@@ -160,6 +160,7 @@ export class CityDataService {
   ifSelectedStreet(streetData: any) {
     if (streetData) {
       this.streetData = streetData;
+      this.onHouseNumberInputChange('');
       // console.log(this.streetData)
     }
   }
@@ -168,16 +169,11 @@ export class CityDataService {
     if (this.debounceTimer) {
       clearTimeout(this.debounceTimer);
     }
-
     return new Promise((resolve) => {
-      if (houseNumber) {
-        this.debounceTimer = setTimeout(async () => {
-          const filteredHouses = await this.fetchHouseData(houseNumber);
-          resolve(filteredHouses);
-        }, 100);
-      } else {
-        resolve([]);
-      }
+      this.debounceTimer = setTimeout(async () => {
+        const filteredHouses = await this.fetchHouseData(houseNumber);
+        resolve(filteredHouses);
+      }, 100);
     });
   }
 
@@ -187,7 +183,6 @@ export class CityDataService {
       const response: any = await this.http.get(
         `https://index.ukrposhta.ua/endpoints-for-apps/index.php?method=get_addr_house_by_street_id&street_id=${this.streetData.streetId}&housenumber=${houseNumber}`
       ).toPromise();
-
       // Функція для перетворення даних про будинки
       const extractHouseData = (entry: any) => ({
         houseNumberUa: entry.HOUSENUMBER_UA,

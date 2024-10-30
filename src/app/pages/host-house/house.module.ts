@@ -90,6 +90,7 @@ import { SelectYearComponent } from './host-house-comun/select-year/select-year.
 import { MatTableModule } from '@angular/material/table';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatBadgeModule } from '@angular/material/badge';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
 
 @NgModule({
   declarations: [
@@ -201,6 +202,8 @@ import { MatBadgeModule } from '@angular/material/badge';
 
     MatTableModule,
     MatSlideToggleModule,
+    MatButtonToggleModule,
+
   ]
 })
 export class HouseModule { }
