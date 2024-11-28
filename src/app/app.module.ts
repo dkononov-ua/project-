@@ -60,6 +60,7 @@ import { AuthModule } from './pages/host-auth/auth.module';
 import { SearchModule } from './pages/host-search/search.module';
 import { ProjectContactsComponent } from './pages/host/project-contacts/project-contacts.component';
 import { UserModule } from './pages/host-user/user.module';
+import { CityModule } from './pages/host-city/city.module';
 
 @NgModule({
   declarations: [
@@ -126,6 +127,7 @@ import { UserModule } from './pages/host-user/user.module';
     HouseModule,
     AuthModule,
     SearchModule,
+    CityModule,
     // *********
 
   ],

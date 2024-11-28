@@ -90,6 +90,10 @@ import { FaqComponent } from '../pages/host/faq/faq.component';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatBottomSheet, MatBottomSheetModule, MatBottomSheetRef, } from '@angular/material/bottom-sheet';
+import { PickCityComponent } from '../components/pick-city/pick-city.component';
+import { SearchTenantComponent } from '../pages/host-search/host-search-tenant/search-tenant.component';
+import { ProfileComponent } from '../pages/host-search/host-search-tenant/profile/profile.component';
+import { TruncatePipe } from '../pipe/truncate.pipe';
 @NgModule({
   declarations: [
     FooterComponent,
@@ -144,6 +148,10 @@ import { MatBottomSheet, MatBottomSheetModule, MatBottomSheetRef, } from '@angul
     CarouselUserComponent,
     PostsLastComponent,
     FaqComponent,
+    PickCityComponent,
+    SearchTenantComponent,
+    ProfileComponent,
+    TruncatePipe,
   ],
   exports: [
     FooterComponent,
@@ -194,6 +202,9 @@ import { MatBottomSheet, MatBottomSheetModule, MatBottomSheetRef, } from '@angul
     CarouselUserComponent,
     PostsLastComponent,
     FaqComponent,
+    PickCityComponent,
+    SearchTenantComponent,
+    ProfileComponent,
 
   ],
   providers: [
@@ -224,7 +235,6 @@ import { MatBottomSheet, MatBottomSheetModule, MatBottomSheetRef, } from '@angul
     LyDialogModule,
     MatProgressSpinnerModule,
     MatSlideToggleModule,
-
     MatRadioModule,
     MatBadgeModule,
     MatSnackBarModule,
@@ -246,12 +256,10 @@ import { MatBottomSheet, MatBottomSheetModule, MatBottomSheetRef, } from '@angul
     HammerModule,
     BrowserModule,
     NgbTypeaheadModule,
-
     MatButtonToggleModule,
     MatDividerModule,
-
     MatBottomSheetModule,
     NgOptimizedImage,
-  ]
+]
 })
 export class SharedModule { }

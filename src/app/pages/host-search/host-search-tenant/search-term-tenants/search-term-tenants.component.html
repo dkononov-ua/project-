@@ -387,7 +387,8 @@
     <section [@top] class="section-chown" *ngIf="userInfo.room">
       <mat-label align="start" class="label-section"><i class="fa-solid fa-person-dress"></i>
         В оселі вже мешкає жінка?</mat-label>
-      <mat-button-toggle-group name="room" [(ngModel)]="userInfo.looking_woman" aria-label="Кімната" (ngModelChange)="onSubmitWithDelay()">
+      <mat-button-toggle-group name="room" [(ngModel)]="userInfo.looking_woman" aria-label="Кімната"
+        (ngModelChange)="onSubmitWithDelay()">
         <mat-button-toggle [value]="undefined">Неважливо</mat-button-toggle>
         <mat-button-toggle [value]="0">Ні</mat-button-toggle>
         <mat-button-toggle [value]="1">Так</mat-button-toggle>
@@ -397,7 +398,8 @@
     <section [@top] class="section-chown" *ngIf="userInfo.room">
       <mat-label align="start" class="label-section"><i class="fa-solid fa-person"></i>
         В оселі вже мешкає чоловік?</mat-label>
-      <mat-button-toggle-group name="room" [(ngModel)]="userInfo.looking_man" aria-label="Кімната" (ngModelChange)="onSubmitWithDelay()">
+      <mat-button-toggle-group name="room" [(ngModel)]="userInfo.looking_man" aria-label="Кімната"
+        (ngModelChange)="onSubmitWithDelay()">
         <mat-button-toggle [value]="undefined">Неважливо</mat-button-toggle>
         <mat-button-toggle [value]="0">Ні</mat-button-toggle>
         <mat-button-toggle [value]="1">Так</mat-button-toggle>
@@ -627,12 +629,18 @@
       <section class="section-chown">
         <mat-label align="start" class="label-section"><i class="fa-solid fa-code-branch"></i>
           Лінія метро:</mat-label>
+
         <mat-button-toggle-group name="metrocolor" [(ngModel)]="userInfo.metrocolor"
           (ngModelChange)="onLineSelect(userInfo.metrocolor)" aria-label="Метро"
           [hideSingleSelectionIndicator]="hideSingleSelectionIndicator()">
+
+          <!-- Доданий варіант "Неважливо" -->
+          <mat-button-toggle [value]="undefined">Неважливо</mat-button-toggle>
+
           <mat-button-toggle *ngFor="let line of lines" [value]="line.name">{{ line.name }}</mat-button-toggle>
         </mat-button-toggle-group>
       </section>
+
 
       <section class="section-chown">
         <mat-label align="start" class="label-section"><i class="fa-solid fa-arrows-left-right-to-line"></i>

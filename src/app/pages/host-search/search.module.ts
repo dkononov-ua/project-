@@ -22,7 +22,6 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatPaginatorIntl, MatPaginatorModule } from '@angular/material/paginator';
 import { MatRadioModule } from '@angular/material/radio';
 import { FilterUserService } from '../../services/search/filter-user.service';
-import { SearchTenantComponent } from './host-search-tenant/search-tenant.component';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { ProfileComponent } from './host-search-tenant/profile/profile.component';
 import { GestureService } from '../../services/gesture.service';
@@ -37,8 +36,6 @@ import { MatDividerModule } from '@angular/material/divider';
 import {MatButtonToggleModule} from '@angular/material/button-toggle';
 @NgModule({
   declarations: [
-    SearchTenantComponent,
-    ProfileComponent,
     SearchHousingComponent,
     HouseComponent,
   ],

@@ -44,6 +44,7 @@ export class SearchTermHouseComponent implements OnInit, OnDestroy {
   minValue: number = 0;
   maxValue: number = 100000;
   step: number = 1000;
+  currentLocation: string = '';
 
   validatePriceRange(type: 'from' | 'to') {
     if (type === 'from' && this.userInfo.price_of > this.userInfo.price_to) {
@@ -323,6 +324,7 @@ export class SearchTermHouseComponent implements OnInit, OnDestroy {
   async ngOnInit(): Promise<void> {
     this.getCheckDevice();
     this.getServerPath();
+    this.checkCurrentRoute();
     this.checkAuthorization();
     this.getSelectedFlat();
     this.getSortValue();
@@ -458,7 +460,16 @@ export class SearchTermHouseComponent implements OnInit, OnDestroy {
     this.userInfo.years = 0;
     this.userInfo.day_counts = undefined;
     this.userInfo.filterData = '';
-
+    if (this.currentLocation !== '/search/house/page') {
+      setTimeout(() => {
+        this.router.navigate(['/search/house/page']);
+      }, 300);
+    }
+    // Очищаємо URL
+    this.router.navigate([], {
+      queryParams: {}, // Передаємо порожній об'єкт параметрів
+      queryParamsHandling: '' // Видаляємо всі параметри
+    });
     setTimeout(() => {
       this.onSubmitWithDelay();
     }, 100);
@@ -543,6 +554,16 @@ export class SearchTermHouseComponent implements OnInit, OnDestroy {
     this.userInfo.metrocolor = '';
     this.userInfo.distance_metro = 0;
     this.chownCity = undefined;
+    if (this.currentLocation !== '/search/house/page') {
+      setTimeout(() => {
+        this.router.navigate(['/search/house/page']);
+      }, 300);
+    }
+    // Очищаємо URL
+    this.router.navigate([], {
+      queryParams: {}, // Передаємо порожній об'єкт параметрів
+      queryParamsHandling: '' // Видаляємо всі параметри
+    });
     setTimeout(() => {
       this.onSubmitWithDelay();
     }, 100);
@@ -880,8 +901,6 @@ export class SearchTermHouseComponent implements OnInit, OnDestroy {
       const existingCity = this.cities.find((c: { region: string; }) => c.region === this.userInfo.region);
       if (existingCity) {
         this.chownCity = existingCity;
-        console.log(this.chownCity)
-
         this.checkIfCityHasMetro();
         this.onDistrictInputChange();
       }
@@ -981,6 +1000,21 @@ export class SearchTermHouseComponent implements OnInit, OnDestroy {
     if (selectedLine) {
       this.stations = selectedLine.stations;
       this.onSubmitWithDelay();
+    }
+  }
+
+  checkCurrentRoute(): void {
+    this.currentLocation = this.router.url; // Отримуємо поточний шлях
+    const url = new URL(window.location.href); // Створюємо URL-об'єкт для обробки
+    const cityName = url.searchParams.get('city'); // Отримуємо значення параметра "city"
+    if (cityName) {
+      // Знаходимо місто в масиві cities за nameEn
+      const matchedCity = this.cities.find(city => city.nameEn.toLowerCase() === cityName.toLowerCase());
+      if (matchedCity) {
+        this.pickCity(matchedCity); // Передаємо знайдене місто у функцію
+      } else {
+        console.log('City not found in the cities array.');
+      }
     }
   }
 

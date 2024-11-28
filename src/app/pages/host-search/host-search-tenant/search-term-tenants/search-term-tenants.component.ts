@@ -16,6 +16,7 @@ import { subway } from '../../../../data/subway';
 import { distance } from '../../../../data/distance-confiq';
 import * as select_options from 'src/app/data/select-options';
 import { ChoseSubscribersService } from 'src/app/services/chose-subscribers.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-search-term-tenants',
@@ -45,6 +46,7 @@ export class SearchTermTenantsComponent implements OnInit, OnDestroy {
   activeFilterFeatures: number = 0;
   activeFilterTime: number = 0;
   totalActiveFilters: number = 0;
+  currentLocation: string = '';
 
 
   getRepairStatusName(value: number): string {
@@ -140,6 +142,7 @@ export class SearchTermTenantsComponent implements OnInit, OnDestroy {
   }
 
   pickCity(item: any) {
+    // console.log(cities)
     this.chownCity = item;
     this.userInfo.city = item.name;
     this.userInfo.region = item.region;
@@ -251,11 +254,13 @@ export class SearchTermTenantsComponent implements OnInit, OnDestroy {
     private sharedService: SharedService,
     private cityDataService: CityDataService,
     private choseSubscribersService: ChoseSubscribersService,
+    private route: ActivatedRoute,
   ) { }
 
   async ngOnInit(): Promise<void> {
     this.getCheckDevice();
     this.getServerPath();
+    this.checkCurrentRoute();
     this.checkAuthorization();
     this.getSelectedFlat();
     this.checkChownCityData();
@@ -373,7 +378,16 @@ export class SearchTermTenantsComponent implements OnInit, OnDestroy {
     this.userInfo.mounths = 0;
     this.userInfo.years = 0;
     this.userInfo.day_counts = undefined;
-
+    if (this.currentLocation !== '/search/tenant/page') {
+      setTimeout(() => {
+        this.router.navigate(['/search/tenant/page']);
+      }, 300);
+    }
+    // Очищаємо URL
+    this.router.navigate([], {
+      queryParams: {}, // Передаємо порожній об'єкт параметрів
+      queryParamsHandling: '' // Видаляємо всі параметри
+    });
     setTimeout(() => {
       this.onSubmitWithDelay();
     }, 100);
@@ -440,6 +454,7 @@ export class SearchTermTenantsComponent implements OnInit, OnDestroy {
   }
 
   clearFilterLocation() {
+    console.log('clearFilterLocation')
     this.loading = true;
     this.myData = false;
     setTimeout(() => {
@@ -458,6 +473,14 @@ export class SearchTermTenantsComponent implements OnInit, OnDestroy {
     this.userInfo.metrocolor = '';
     this.userInfo.distance_metro = 0;
     this.chownCity = undefined;
+    if (this.currentLocation !== '/search/tenant/page') {
+      this.router.navigate(['/search/tenant/page']);
+    } else { }
+    // Очищаємо URL
+    this.router.navigate([], {
+      queryParams: {}, // Передаємо порожній об'єкт параметрів
+      queryParamsHandling: '' // Видаляємо всі параметри
+    });
     setTimeout(() => {
       this.onSubmitWithDelay();
     }, 100);
@@ -466,15 +489,37 @@ export class SearchTermTenantsComponent implements OnInit, OnDestroy {
   // Метод для підрахунку кількості задіяних фільтрів
   countFilterLocation(): number {
     let count = 0;
-    if (this.userInfo.country) count++;
-    if (this.userInfo.region) count++;
-    if (this.userInfo.city) count++;
-    if (this.userInfo.district) count++;
-    if (this.userInfo.street) count++;
-    if (this.userInfo.micro_district) count++;
-    if (this.userInfo.metroname) count++;
-    if (this.userInfo.metrocolor) count++;
-    if (this.userInfo.distance_metro) count++;
+
+    // Створюємо новий об'єкт параметрів
+    const queryParams: any = {};
+
+    // Функція для перевірки та додавання параметрів
+    const addQueryParam = (param: string, value: any) => {
+      if (value) {
+        count++;
+        queryParams[param] = value;
+      } else {
+        queryParams[param] = null;
+      }
+    };
+
+    // Використовуємо функцію для кожного параметра
+    addQueryParam('country', this.userInfo.country);
+    addQueryParam('region', this.userInfo.region);
+    addQueryParam('city', this.userInfo.city);
+    addQueryParam('district', this.userInfo.district);
+    addQueryParam('street', this.userInfo.street);
+    addQueryParam('micro_district', this.userInfo.micro_district);
+    addQueryParam('metroname', this.userInfo.metroname);
+    addQueryParam('metrocolor', this.userInfo.metrocolor);
+    addQueryParam('distance_metro', this.userInfo.distance_metro);
+
+    // Оновлюємо URL-рядок без перезавантаження
+    this.router.navigate([], {
+      queryParams: queryParams,
+      queryParamsHandling: 'merge' // Об'єднуємо нові параметри з наявними
+    });
+
     return count;
   }
 
@@ -593,7 +638,6 @@ export class SearchTermTenantsComponent implements OnInit, OnDestroy {
   async searchFilter(): Promise<void> {
     this.countActiveFilters();
     try {
-      // console.log(this.userInfo)
       const response: any = await this.http.post(this.serverPath + '/search/user', { ...this.userInfo, flat_id: this.selectedFlatId }).toPromise();
       // console.log(response)
       // console.log(this.filteredUsers)
@@ -694,8 +738,6 @@ export class SearchTermTenantsComponent implements OnInit, OnDestroy {
       const existingCity = this.cities.find((c: { region: string; }) => c.region === this.userInfo.region);
       if (existingCity) {
         this.chownCity = existingCity;
-        console.log(this.chownCity)
-
         this.checkIfCityHasMetro();
         this.onDistrictInputChange();
       }
@@ -795,6 +837,19 @@ export class SearchTermTenantsComponent implements OnInit, OnDestroy {
     if (selectedLine) {
       this.stations = selectedLine.stations;
       this.onSubmitWithDelay();
+    }
+  }
+
+  checkCurrentRoute(): void {
+    this.currentLocation = this.router.url; // Отримуємо поточний шлях
+    const url = new URL(window.location.href); // Створюємо URL-об'єкт для обробки
+    const cityName = url.searchParams.get('city'); // Отримуємо значення параметра "city"
+    if (cityName) {
+      // Знаходимо місто в масиві cities за nameEn
+      const matchedCity = this.cities.find(city => city.nameEn.toLowerCase() === cityName.toLowerCase());
+      if (matchedCity) {
+        this.pickCity(matchedCity); // Передаємо знайдене місто у функцію
+      }
     }
   }
 

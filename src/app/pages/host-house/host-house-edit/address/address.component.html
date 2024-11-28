@@ -68,23 +68,27 @@
     <mat-form-field [@appearance] class="item-select p-1" appearance="outline"
       *ngIf="flatInfo.flat.city && filteredDistricts || flatInfo.flat.district">
       <mat-label for="district">Район міста</mat-label>
-      <input type="text" matInput [matAutocomplete]="auto" [(ngModel)]="flatInfo.flat.district"
+      <input *ngIf="!filteredDistricts" type="text" matInput [(ngModel)]="flatInfo.flat.district"
         (ngModelChange)="onDistrictInputChange()" placeholder="Виберіть або введіть район" name="flatInfo.flat.district"
         id="district">
-      <mat-icon matSuffix><i class="fa-solid fa-mountain-city gray"></i></mat-icon>
 
-      <mat-autocomplete #auto="matAutocomplete">
+      <mat-select *ngIf="filteredDistricts" [(ngModel)]="flatInfo.flat.district"
+        (selectionChange)="onDistrictInputChange()">
         <mat-option *ngFor="let district of filteredDistricts" [value]="district.district">
           {{ district.district }}
         </mat-option>
-      </mat-autocomplete>
+      </mat-select>
+
+      <mat-icon matSuffix><i class="fa-solid fa-mountain-city gray"></i></mat-icon>
+
     </mat-form-field>
 
     <mat-form-field [@appearance] class="item-select p-1" appearance="outline"
       *ngIf="flatInfo.flat.city && flatInfo.flat.district">
       <mat-label for="micro_district">Мікрорайон</mat-label>
-      <input name="flatInfo.flat.micro_district" id="micro_district" matInput (ngModelChange)="onSubmitWithDelay()"
-        [(ngModel)]="flatInfo.flat.micro_district" placeholder="Введіть мікрорайон">
+      <input type="text" name="flatInfo.flat.micro_district" id="micro_district" matInput
+        (ngModelChange)="onSubmitWithDelay()" [(ngModel)]="flatInfo.flat.micro_district"
+        placeholder="Введіть мікрорайон">
       <mat-icon matSuffix><i class="fa-solid fa-building-flag gray"></i></mat-icon>
     </mat-form-field>
   </section>
@@ -103,7 +107,7 @@
     <mat-form-field [@top1] class="item-select p-1" appearance="outline"
       *ngIf="cityData || flatInfo.flat.city ||  flatInfo.flat.street">
       <mat-label for="city">Вулиця</mat-label>
-      <input name="flatInfo.flat.street" id="street" matInput [(ngModel)]="flatInfo.flat.street"
+      <input type="text" name="flatInfo.flat.street" id="street" matInput [(ngModel)]="flatInfo.flat.street"
         placeholder="Введіть вулицю" (ngModelChange)="onStreetInputChange(flatInfo.flat.street)"
         [matAutocomplete]="autoStreet">
       <mat-autocomplete #autoStreet="matAutocomplete">
@@ -116,18 +120,23 @@
       <mat-hint align="end" class="t-min">Обов'язково для локації</mat-hint>
     </mat-form-field>
 
+    <button #targetButton style="display: none;">Клікни мене</button>
+
     <mat-form-field [@top1] class="item-select p-1" appearance="outline"
       *ngIf="streetData || flatInfo.flat.street || flatInfo.flat.houseNumber">
       <mat-label for="city">Номер будинку</mat-label>
-      <input name="flatInfo.flat.houseNumber" id="houseNumber" matInput [(ngModel)]="flatInfo.flat.houseNumber"
-        placeholder="Введіть номер будинку" (ngModelChange)="onHouseNumberInputChange(flatInfo.flat.houseNumber)"
-        [matAutocomplete]="autoHouseNumber">
-      <mat-autocomplete #autoHouseNumber="matAutocomplete">
+
+      <input *ngIf="!filteredHouses" name="flatInfo.flat.houseNumber" id="houseNumber" matInput
+        [(ngModel)]="flatInfo.flat.houseNumber" placeholder="Введіть номер будинку"
+        (ngModelChange)="onHouseNumberInputChange(flatInfo.flat.houseNumber)">
+
+      <mat-select *ngIf="filteredHouses" [(ngModel)]="flatInfo.flat.houseNumber">
         <mat-option *ngFor="let houseNumber of filteredHouses" [value]="houseNumber.houseNumberUa"
           (onSelectionChange)="ifSelectedHouseNumber(houseNumber)">
           {{ houseNumber.houseNumberUa }}
         </mat-option>
-      </mat-autocomplete>
+      </mat-select>
+
       <mat-icon matSuffix><i class="fa-solid fa-house-flag"></i></mat-icon>
       <mat-hint align="end" class="t-min">Обов'язково для локації</mat-hint>
     </mat-form-field>
@@ -135,8 +144,8 @@
     <mat-form-field [@top1] class="item-select p-1" appearance="outline"
       *ngIf="houseNumberData || flatInfo.flat.houseNumber || flatInfo.flat.flat_index">
       <mat-label for="flat_index">Індекс</mat-label>
-      <input name="flatInfo.flat.flat_index" id="flat_index" matInput [(ngModel)]="flatInfo.flat.flat_index"
-        placeholder="Введіть поштовий індекс">
+      <input type="number" name="flatInfo.flat.flat_index" id="flat_index" matInput
+        [(ngModel)]="flatInfo.flat.flat_index" placeholder="Введіть поштовий індекс">
       <mat-icon matSuffix><i class="fa-solid fa-envelopes-bulk"></i></mat-icon>
       <mat-hint align="end" class="t-min">Обов'язково для локації</mat-hint>
     </mat-form-field>
@@ -144,7 +153,7 @@
     <mat-form-field [@top1] class="item-select p-1" appearance="outline"
       *ngIf="houseNumberData || flatInfo.flat.houseNumber || flatInfo.flat.apartment">
       <mat-label for="apartment">Номер квартири</mat-label>
-      <input name="flatInfo.flat.apartment" id="apartment" matInput [(ngModel)]="flatInfo.flat.apartment"
+      <input type="number" name="flatInfo.flat.apartment" id="apartment" matInput [(ngModel)]="flatInfo.flat.apartment"
         placeholder="Введіть номер квартири">
       <mat-icon matSuffix><i class="fa-solid fa-door-closed"></i></mat-icon>
     </mat-form-field>

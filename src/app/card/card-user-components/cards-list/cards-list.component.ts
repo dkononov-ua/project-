@@ -126,11 +126,12 @@ export class CardsListComponent implements OnInit, OnDestroy {
 
   // Запит на сервіс про список карток так їх кількість
   private getSubInfoFromService(offs: number): void {
-    if (this.currentLocation !== '/search/house') {
+    if (this.currentLocation.includes('/search/house')) {
+      this.getCardsData();
+      this.getCounterCards();
+    } else {
       this.cardsDataService.getSubInfo(offs);
     }
-    this.getCardsData();
-    this.getCounterCards();
   }
 
   // Підписка на інформацію про картки

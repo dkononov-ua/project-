@@ -372,18 +372,18 @@ export class HousingParametersComponent implements OnInit, OnDestroy {
   countFilterAbout(): number {
     const totalFields = 10;
     let count = 0;
-    if (this.houseData.about.animals !== '') count++;
-    if (this.houseData.about.option_pay !== undefined) count++;
-    if (this.houseData.about.bunker !== '') count++;
-    if (this.houseData.about.price_m !== 0) count++;
+    if (this.houseData.about.animals) count++;
+    if (this.houseData.about.option_pay) count++;
+    if (this.houseData.about.bunker) count++;
+    if (this.houseData.about.price_m && this.houseData.about.price_m !== 0) count++;
     // if (this.houseData.about.price_d !== 0) count++;
     // if (this.houseData.about.private !== 0) count++;
-    if (this.houseData.about.room !== '') count++;
+    if (this.houseData.about.room) count++;
     if (this.houseData.about.students !== undefined && this.houseData.about.students !== null) count++;
     if (this.houseData.about.woman !== undefined && this.houseData.about.woman !== null) count++;
     if (this.houseData.about.man !== undefined && this.houseData.about.man !== null) count++;
     if (this.houseData.about.family !== undefined && this.houseData.about.family !== null) count++;
-    if (this.houseData.about.about !== '') count++;
+    if (this.houseData.about.about) count++;
     this.totalAbout = parseFloat(((count / totalFields) * 100).toFixed(2));
     return count;
   }
@@ -391,9 +391,11 @@ export class HousingParametersComponent implements OnInit, OnDestroy {
   // Метод для підрахунку кількості задіяних фільтрів
   countFilterPhoto(): number {
     const totalFields = 20;
-    if (this.houseData.imgs) {
+    if (this.houseData.imgs && this.houseData.imgs !== 'Картинок нема') {
       this.downloadedPhoto = this.houseData.imgs.length;
       this.totalPhoto = parseFloat(((this.downloadedPhoto / totalFields) * 100).toFixed(2));
+    } else {
+      this.downloadedPhoto = 0;
     }
     return this.downloadedPhoto || 0;
   }
@@ -402,7 +404,11 @@ export class HousingParametersComponent implements OnInit, OnDestroy {
     // Отримуємо кількість активних фільтрів для кожної групи параметрів
     this.activeFilterLocation = this.countFilterLocation();
     this.activeFilterParam = this.countFilterParam();
-    this.activeFilterAdditional = this.countFilterAdditional();
+    if (this.additionalHouseInfo) {
+      this.activeFilterAdditional = this.countFilterAdditional();
+    } else {
+      this.activeFilterAdditional = 0;
+    }
     this.activeFilterAbout = this.countFilterAbout();
     this.activeFilterPhoto = this.countFilterPhoto();
     // Підраховуємо загальну кількість активних фільтрів

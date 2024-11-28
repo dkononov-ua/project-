@@ -75,27 +75,26 @@
           </div>
         </a>
 
-         </div>
+      </div>
     </div>
 
     <div class="category-container">
       <div class="category">
-        <a class="link-item" [routerLinkActive]="'active'" [routerLink]="'/house/control/add'"
-          (click)="closeToogleMenu()">
+        <div class="link-item">
           <i class="fa-solid fa-timeline"></i>
           <div class="item-description">
             <p class="t-med bold">Керування</p>
             <p class="t-min">Оселею</p>
           </div>
-        </a>
-        <a *ngIf="!houseData" class="message" [routerLinkActive]="'active'" [routerLink]="'/house/control/add'"
-          (click)="closeToogleMenu()">
+        </div>
+        <button class="message" [routerLinkActive]="'active'" [routerLink]="'/house/control/add'"
+          (click)="goToControl()">
           <i class="fa-solid fa-arrow-right-from-bracket"></i>
-        </a>
-        <button *ngIf="houseData" class="message" [routerLinkActive]="'active'" [routerLink]="'/house/control/add'"
+        </button>
+        <!-- <button *ngIf="houseData" class="message" [routerLinkActive]="'active'" [routerLink]="'/house/control/add'"
           (click)="logoutHouse()">
           <i class="fa-solid fa-door-open"></i>
-        </button>
+        </button> -->
       </div>
 
       <div class="subcategory-container">
@@ -560,12 +559,12 @@
             <p class="t-min">Всі налаштування</p>
           </div>
         </a>
-        <button [@appearance] [ngClass]="{'active': section[6]}" class="link-btn" (click)="setSectionFromBtn(6)">
+        <!-- <button [@appearance] [ngClass]="{'active': section[6]}" class="link-btn" (click)="setSectionFromBtn(6)">
           <i [ngClass]="section[6] ? 'fa-solid fa-circle-chevron-up' : 'fa-solid fa-circle-chevron-down'"></i>
-        </button>
+        </button> -->
       </div>
 
-      <div class="subcategory-container" *ngIf="section[6]">
+      <!-- <div class="subcategory-container" *ngIf="section[6]">
 
         <a [@cardAnimation]="{value: '', params: { delay: animationDelay(1) }}" class="subcategory"
           [routerLinkActive]="'active'" [routerLink]="'/house/edit/address'">
@@ -607,7 +606,7 @@
           </div>
         </a>
 
-      </div>
+      </div> -->
     </div>
 
     <div class="category-container" [@cardAnimation]="{value: '', params: { delay: animationDelay(9) }}">

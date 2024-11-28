@@ -236,7 +236,6 @@ export class CardsDataHouseService {
           auth: JSON.parse(userJson),
           flat_id: this.selectedFlatId,
         }).toPromise();
-        // console.log(response)
         if (response && response.status !== 'Не співпало ID квартири з користувачем') {
           this.additionalHouseInfo = response[0];
           localStorage.setItem('additionalHouseInfo', JSON.stringify(response));

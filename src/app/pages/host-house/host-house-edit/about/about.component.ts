@@ -99,7 +99,7 @@ export class AboutComponent implements OnInit, OnDestroy {
       this.flatInfo.family = undefined;
     } else {
       this.flatInfo.option_pay = 0;
-      this.maxValue = 100000;
+      this.maxValue = 200000;
       this.minValue = 0;
       this.step = 1000;
     }
@@ -122,6 +122,7 @@ export class AboutComponent implements OnInit, OnDestroy {
     await this.getServerPath();
     await this.checkUserAuthorization();
     await this.getSelectedFlatId();
+    this.checkReason();
   }
 
   // перевірка на девайс

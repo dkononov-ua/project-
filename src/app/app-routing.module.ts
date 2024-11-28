@@ -15,6 +15,9 @@ import { HomeComponent } from './pages/host/home/home.component';
 import { NotFoundComponent } from './pages/host/not-found/not-found.component';
 import { ProjectContactsComponent } from './pages/host/project-contacts/project-contacts.component';
 import { FaqComponent } from './pages/host/faq/faq.component';
+import { PickCityComponent } from './components/pick-city/pick-city.component';
+import { KyivComponent } from './pages/host-city/kyiv/kyiv/kyiv.component';
+import { HostCityComponent } from './pages/host-city/host-city.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent, },
@@ -23,6 +26,34 @@ const routes: Routes = [
   { path: 'user', loadChildren: () => import('./pages/host-user/user-routing.module').then(m => m.UserRoutingModule), },
   { path: 'house', loadChildren: () => import('./pages/host-house/house-routing.module').then(m => m.HouseRoutingModule), },
   { path: 'search', loadChildren: () => import('./pages/host-search/search-routing.module').then(m => m.SearchRoutingModule), },
+
+  // { path: 'search/tenant/kharkiv', component: SearchTenantPageComponent },
+  // { path: 'search/tenant/odesa', component: SearchTenantPageComponent },
+  // { path: 'search/tenant/dnipro', component: SearchTenantPageComponent },
+  // { path: 'search/tenant/donetsk', component: SearchTenantPageComponent },
+  // { path: 'search/tenant/zaporizhzhia', component: SearchTenantPageComponent },
+  // { path: 'search/tenant/lviv', component: SearchTenantPageComponent },
+  // { path: 'search/tenant/kryvyi-rih', component: SearchTenantPageComponent },
+  // { path: 'search/tenant/mykolaiv', component: SearchTenantPageComponent },
+  // { path: 'search/tenant/simferopol', component: SearchTenantPageComponent },
+  // { path: 'search/tenant/kherson', component: SearchTenantPageComponent },
+  // { path: 'search/tenant/chernihiv', component: SearchTenantPageComponent },
+  // { path: 'search/tenant/cherkasy', component: SearchTenantPageComponent },
+  // { path: 'search/tenant/poltava', component: SearchTenantPageComponent },
+  // { path: 'search/tenant/chernivtsi', component: SearchTenantPageComponent },
+  // { path: 'search/tenant/zhytomyr', component: SearchTenantPageComponent },
+  // { path: 'search/tenant/sumy', component: SearchTenantPageComponent },
+  // { path: 'search/tenant/rivne', component: SearchTenantPageComponent },
+  // { path: 'search/tenant/kropyvnytskyi', component: SearchTenantPageComponent },
+  // { path: 'search/tenant/khmelnytskyi', component: SearchTenantPageComponent },
+  // { path: 'search/tenant/ivano-frankivsk', component: SearchTenantPageComponent },
+  // { path: 'search/tenant/vinnytsia', component: SearchTenantPageComponent },
+  // { path: 'search/tenant/luhansk', component: SearchTenantPageComponent },
+  // { path: 'search/tenant/lutsk', component: SearchTenantPageComponent },
+  // { path: 'search/tenant/uzhhorod', component: SearchTenantPageComponent },
+  // { path: 'search/tenant/ternopil', component: SearchTenantPageComponent },
+
+
   { path: 'feedback', component: FeedbackComponent, canActivate: [CanActivateGuard] },
   { path: 'rental-agree', component: RentalAgreementComponent, canActivate: [CanActivateGuard] },
   { path: 'act-transfer', component: ActTransferComponent, canActivate: [CanActivateGuard] },

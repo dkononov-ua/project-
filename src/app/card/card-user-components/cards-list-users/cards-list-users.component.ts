@@ -129,11 +129,12 @@ export class CardsListUsersComponent implements OnInit, OnDestroy {
 
   // Запит на сервіс про список карток так їх кількість
   private getSubInfoFromService(offs: number): void {
-    if (this.currentLocation !== '/search/tenant') {
+    if (this.currentLocation.includes('/search/tenant')) {
+      this.getCardsData();
+      this.getCounterCards();
+    } else {
       this.cardsDataHouseService.getUserInfo(offs);
     }
-    this.getCardsData();
-    this.getCounterCards();
   }
 
   // Підписка на отримання статусу коли інформація оновлюється
@@ -189,7 +190,7 @@ export class CardsListUsersComponent implements OnInit, OnDestroy {
           this.counterFound = Number(data);
         })
       );
-    } else if (this.currentLocation === '/search/tenant') {
+    } else if (this.currentLocation.includes('/search/tenant')) {
       this.subscriptions.push(
         this.filterUserService.counterFound$.subscribe(number => {
           this.counterFound = number;

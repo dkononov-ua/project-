@@ -1,0 +1,7 @@
+<app-navbar></app-navbar>
+<p>Пошук в <span *ngIf="country">{{ country }}</span> <span *ngIf="region" class="bold"> область: {{ region
+    }}</span>
+  <span *ngIf="city" class="bold"> місто: {{ city }}</span>
+</p>
+<app-pick-city></app-pick-city>
+<router-outlet></router-outlet>

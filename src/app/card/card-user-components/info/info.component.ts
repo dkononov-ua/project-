@@ -137,7 +137,7 @@ export class InfoComponent implements OnInit, OnDestroy {
 
   // Перевіряє, чи поточний шлях належить до пошуку орендарів
   private isTenantSearch(): boolean {
-    return this.currentLocation === '/search/tenant';
+    return this.currentLocation.includes('/search/tenant');
   }
 
   // Перевіряє, чи поточний шлях належить до сторінки власника

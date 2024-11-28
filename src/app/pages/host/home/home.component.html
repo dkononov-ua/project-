@@ -14,6 +14,7 @@
     </div>
   </header>
 
+  <app-pick-city></app-pick-city>
   <section [@appearance] class="discussio-platform">
     <div class="section-header section-conteiner">
       <section class="section-gif col-lg-6 col-md-6 col-sm-12 col-12">
@@ -76,12 +77,8 @@
           </ul>
 
           <div class="cta">
-            <a class="b-primary mi-wi-250 m-2" [routerLink]="'/search/house'">
-              Пошук житла
-              <i class="fa-solid fa-magnifying-glass white pl-2"></i>
-            </a>
             <a class="b-primary mi-wi-250 m-2" [routerLink]="'/user/tenant/profile'">
-              Шукаю оселю
+              Розмістити оголошення
               <i class="fa-solid fa-bullhorn white pl-2"></i>
             </a>
           </div>
@@ -127,12 +124,8 @@
 
           </ul>
           <div class="cta">
-            <a class="b-primary mi-wi-250 m-2" [routerLink]="'/search/tenant'">
-              Пошук Орендаря
-              <i class="fa-solid fa-magnifying-glass white pl-2"></i>
-            </a>
-            <a class="b-primary mi-wi-250 m-2" [routerLink]="'/house/control/about'">
-              Здаю оселю
+             <a class="b-primary mi-wi-250 m-2" [routerLink]="'/house/control/about'">
+              Розмістити оголошення
               <i class="fa-solid fa-bullhorn white pl-2"></i>
             </a>
           </div>

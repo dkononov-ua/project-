@@ -142,6 +142,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
 
   // Оновлюю метатеги в залежності від локації з конфігу data/page-config
   private updateMetaTagsInService(config: any): void {
+    const cityName = 'Київ'; // Наприклад, отримано з маршруту
     this.getUserData();
     if (this.userData && this.currentLocation === '/user/info') {
       const data = {
@@ -154,6 +155,14 @@ export class NavbarComponent implements OnInit, OnDestroy {
         canonical: config.metaCanonical,
         themeColor: config.metaThemeColor,
         url: 'https://discussio.site' + this.currentLocation,
+
+        jsonLd: {
+          "@context": "https://schema.org",
+          "@type": "WebPage",
+          "name": `Пошук орендаря у ${cityName} - Discussio`,
+          "description": `Знайдіть орендаря у ${cityName}. Discussio допоможе вам швидко та ефективно.`,
+          "url": `https://discussio.site/search-tenants/${cityName.toLowerCase()}`
+        }
       }
       this.updateMetaTagsService.updateMetaTags(data)
     } else {
@@ -167,6 +176,13 @@ export class NavbarComponent implements OnInit, OnDestroy {
         canonical: config.metaCanonical,
         themeColor: config.metaThemeColor,
         url: 'https://discussio.site' + this.currentLocation,
+        jsonLd: {
+          "@context": "https://schema.org",
+          "@type": "WebPage",
+          "name": `Пошук орендаря у ${cityName} - Discussio`,
+          "description": `Знайдіть орендаря у ${cityName}. Discussio допоможе вам швидко та ефективно.`,
+          "url": `https://discussio.site/search-tenants/${cityName.toLowerCase()}`
+        }
       }
       this.updateMetaTagsService.updateMetaTags(data)
     }

@@ -1,6 +1,6 @@
 import { animations } from '../../../../interface/animation';
 import { HttpClient } from '@angular/common/http';
-import { Component, OnDestroy, OnInit, signal } from '@angular/core';
+import { Component, ElementRef, OnDestroy, OnInit, signal, ViewChild } from '@angular/core';
 import { regions } from '../../../../data/data-city';
 import { cities } from '../../../../data/data-city';
 import { SelectedFlatService } from 'src/app/services/selected-flat.service';
@@ -34,6 +34,14 @@ import * as select_options from 'src/app/data/select-options';
 })
 
 export class AddressComponent implements OnInit, OnDestroy {
+
+  @ViewChild('targetButton', { static: false }) targetButton!: ElementRef<HTMLButtonElement>;
+  autoClick() {
+    if (this.targetButton) {
+      // console.log('autoClick')
+      this.targetButton.nativeElement.click();
+    }
+  }
 
   // імпорт шляхів до медіа
   pathPhotoUser = ServerConfig.pathPhotoUser;
@@ -202,7 +210,6 @@ export class AddressComponent implements OnInit, OnDestroy {
     if (userJson) {
       try {
         const response: any = await this.http.post(this.serverPath + '/flatinfo/localflat', { auth: JSON.parse(userJson), flat_id: this.selectedFlatId }).toPromise();
-        console.log(response)
         if (response) {
           this.flatInfo = response;
           this.countActiveFilters();
@@ -213,6 +220,7 @@ export class AddressComponent implements OnInit, OnDestroy {
           console.log('flat not found in response.');
         }
       } catch (error) {
+        console.log(error)
         this.sharedService.setStatusMessage('Помилка на сервері, спробуйте ще раз');
         setTimeout(() => {
           this.sharedService.setStatusMessage('');
@@ -243,7 +251,6 @@ export class AddressComponent implements OnInit, OnDestroy {
         distance_green: this.flatInfo.flat.distance_green || undefined,
         distance_shop: this.flatInfo.flat.distance_shop || undefined,
       }
-      // console.log(data)
       try {
         const response: any = await this.http.post(this.serverPath + '/flatinfo/add/addres', {
           auth: JSON.parse(userJson),
@@ -271,15 +278,16 @@ export class AddressComponent implements OnInit, OnDestroy {
     const userJson = localStorage.getItem('user');
     if (userJson && this.selectedFlatId) {
       const data = {
-        rooms: this.flatInfo.param.rooms || null,
-        repair_status: this.flatInfo.param.repair_status || '',
-        area: this.flatInfo.param.area || null,
-        kitchen_area: this.flatInfo.param.kitchen_area || null,
-        balcony: this.flatInfo.param.balcony || '',
-        floor: this.flatInfo.param.floor || null,
-        option_flat: this.flatInfo.param.option_flat || 2,
-        metrocolor: this.flatInfo.param.metrocolor || '',
-        metroname: this.flatInfo.param.metroname || '',
+        rooms: this.flatInfo.param.rooms,
+        repair_status: this.flatInfo.param.repair_status,
+        area: this.flatInfo.param.area,
+        kitchen_area: this.flatInfo.param.kitchen_area,
+        balcony: this.flatInfo.param.balcony,
+        floor: this.flatInfo.param.floor,
+        option_flat: this.flatInfo.param.option_flat,
+        metrocolor: this.flatInfo.param.metrocolor,
+        metroname: this.flatInfo.param.metroname,
+        floorless: this.flatInfo.param.floorless,
       }
       try {
         const response: any = await this.http.post(this.serverPath + '/flatinfo/add/parametrs', {
@@ -310,30 +318,26 @@ export class AddressComponent implements OnInit, OnDestroy {
 
   ifSelectedHouseNumber(houseNumberData: any) {
     this.cityDataService.ifSelectedHouseNumber(houseNumberData);
-    this.houseNumberData = houseNumberData;
-    // console.log(this.houseNumberData)
-    if (this.houseNumberData) {
-      this.flatInfo.flat.houseNumber = houseNumberData.houseNumber;
+    if (houseNumberData) {
+      this.flatInfo.flat.houseNumber = houseNumberData.houseNumberUa;
       this.flatInfo.flat.flat_index = houseNumberData.postcode;
+      this.autoClick()
     }
   }
+
   // завантаження бази номерів будинків та індексів
   async onHouseNumberInputChange(houseNumber: string) {
-    // const existingHouse = this.filteredHouses?.find((h: { houseNumberUa: string; }) => h.houseNumberUa === houseNumber);
-    // if (existingHouse) {
-    //   return; // Виходимо, щоб уникнути повторного запиту
-    // }
-
     if (!this.cityData) {
       this.clearFilterLocation();
       return
     } else {
       this.filteredHouses = await this.cityDataService.onHouseNumberInputChange(houseNumber);
     }
-    // console.log(this.filteredHouses);
   }
 
   async ifSelectedCity(cityData: any) {
+    this.autoClick()
+
     if (cityData.cityUa !== this.flatInfo.flat.city) {
       this.filteredDistricts = [];
       this.filteredRegions = [];
@@ -345,7 +349,6 @@ export class AddressComponent implements OnInit, OnDestroy {
     }
     this.cityDataService.ifSelectedCity(cityData);
     this.cityData = cityData;
-    console.log(this.cityData)
     if (this.cityData) {
       this.flatInfo.flat.region = cityData.regionUa;
       this.flatInfo.flat.city = cityData.cityUa;
@@ -380,6 +383,7 @@ export class AddressComponent implements OnInit, OnDestroy {
   }
 
   ifSelectedStreet(streetData: any) {
+    this.autoClick()
     this.cityDataService.ifSelectedStreet(streetData);
     this.streetData = streetData;
     // console.log(this.streetData)
@@ -399,8 +403,7 @@ export class AddressComponent implements OnInit, OnDestroy {
 
   // завантаження бази міст областей районів
   async onCityInputChange(city: string): Promise<void> {
-    console.log('onCityInputChange', city)
-
+    // console.log('onCityInputChange', city)
     return new Promise((resolve) => {
       if (this.debounceTimer) {
         clearTimeout(this.debounceTimer);
@@ -453,10 +456,8 @@ export class AddressComponent implements OnInit, OnDestroy {
   // Логіка для обробки змін в полі вибору району
   async onDistrictInputChange() {
     if (this.flatInfo.flat.city) {
-      console.log(this.flatInfo.flat.city)
       this.filteredDistricts = [];
       this.filteredDistricts = await this.cityDataService.loadDistrictFromOwnDB(this.flatInfo.flat.city);
-      console.log(this.filteredDistricts)
       this.onSubmitWithDelay();
     }
   }
@@ -472,6 +473,8 @@ export class AddressComponent implements OnInit, OnDestroy {
 
   // Обробка вибору міста для отримання ліній метро
   onCitySelect(selected: string) {
+    this.autoClick()
+
     if (this.flatInfo.flat.city !== selected) {
       this.stations = []; // Скидаємо список станцій
       this.flatInfo.param.metrocolor = ''; // Очищуємо вибрану лінію метро

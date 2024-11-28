@@ -148,7 +148,10 @@ export class PhotoComponent implements OnInit, OnDestroy {
           localStorage.setItem('houseData', JSON.stringify(response));
           this.sharedService.setStatusMessage('Оновлюємо інформацію...');
           setTimeout(() => {
-            location.reload();
+            this.getInfo();
+            this.sharedService.setStatusMessage('');
+            this.reloadImg = false;
+            // location.reload();
           }, 1500);
         } else {
           console.log('Немає оселі')

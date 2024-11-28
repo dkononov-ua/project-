@@ -6,6 +6,9 @@ import { animations } from '../../../../interface/animation';
 import { Router } from '@angular/router';
 import { SharedService } from 'src/app/services/shared.service';
 import { MenuService } from 'src/app/services/menu.service';
+import { DataService } from 'src/app/services/data.service';
+import { StatusMessageService } from 'src/app/services/status-message.service';
+import { LoaderService } from 'src/app/services/loader.service';
 
 interface FlatInfo {
   osbb_name: string | undefined;
@@ -111,6 +114,10 @@ export class AdditionalInfoComponent implements OnInit, OnDestroy {
     private router: Router,
     private sharedService: SharedService,
     private menuService: MenuService,
+    private dataService: DataService,
+    private statusMessageService: StatusMessageService,
+    private loaderService: LoaderService,
+
   ) { }
 
   async ngOnInit(): Promise<void> {
@@ -217,8 +224,8 @@ export class AdditionalInfoComponent implements OnInit, OnDestroy {
         if (response.status) {
           this.sharedService.setStatusMessage("Допоміжна інформація збережена");
           setTimeout(() => {
-            this.sharedService.setStatusMessage('');
-          }, 2000);
+            this.updateFlatInfo();
+          }, 1500);
         } else {
           this.sharedService.setStatusMessage("Помилка збереження");
           this.reloadPageWithLoader()
@@ -226,6 +233,25 @@ export class AdditionalInfoComponent implements OnInit, OnDestroy {
       } catch (error) {
         console.error(error);
       }
+    }
+  }
+
+  // Оновлюю дані по оселі
+  updateFlatInfo() {
+    const userJson = localStorage.getItem('user');
+    if (userJson && this.selectedFlatId) {
+      this.dataService.getInfoFlat().subscribe((response: any) => {
+        if (response) {
+          this.loaderService.setLoading(true);
+          this.statusMessageService.setStatusMessage('Оновлення інформації...');
+          localStorage.removeItem('additionalHouseInfo');
+          setTimeout(() => {
+            location.reload();
+          }, 1500);
+        } else {
+          console.log('Немає оселі')
+        }
+      });
     }
   }
 

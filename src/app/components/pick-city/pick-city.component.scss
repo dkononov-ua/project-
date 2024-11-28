@@ -1,0 +1,65 @@
+@use "../../style/presets/" as *;
+@use "../../style/mixins/" as *;
+@use "../../style/shared.scss";
+
+.btn-city {
+  padding: 5px;
+  background-color: transparent;
+  transition: 0.2s;
+  &:hover {
+    transform: scale(1.05);
+    @include box-shadow;
+    border-radius: 20px;
+    background-color: $color-accent;
+  }
+}
+
+.btn-group {
+  border-radius: 0;
+  @include s1-s3 {
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+.b-primary {
+  background-color: transparent;
+  color: $color-text;
+  font-weight: bold;
+  .fa-regular,
+  .fa-solid {
+    color: $color-gray;
+  }
+  &:hover {
+    background-color: $color-accent;
+    color: $color-white;
+    .fa-regular,
+    .fa-solid {
+      color: $color-white;
+    }
+  }
+  &.active {
+    background-color: $color-accent;
+    color: $color-white;
+    .fa-regular,
+    .fa-solid {
+      color: $color-white;
+    }
+  }
+}
+
+.city-box {
+  &::-webkit-scrollbar {
+    display: none;
+  }
+  @include s1-s3 {
+    display: flex;
+    justify-content: flex-start;
+    overflow-x: scroll;
+  }
+}
+
+.card-img {
+  border-radius: 50%;
+  height: 50px;
+}

@@ -58,15 +58,15 @@ const routes: Routes = [
       { path: 'chat', component: ChatHostHouseComponent, canActivate: [CanActivateGuard] },
       {
         path: 'edit', component: HousingParametersComponent, canActivate: [CanActivateGuard],
-        children: [
-          { path: '', redirectTo: 'address', pathMatch: 'full' },
-          { path: 'address', component: AddressComponent, canActivate: [CanActivateGuard] },
-          { path: 'param', component: ParamComponent, canActivate: [CanActivateGuard] },
-          { path: 'photo', component: PhotoComponent, canActivate: [CanActivateGuard] },
-          { path: 'about', component: AboutComponent, canActivate: [CanActivateGuard] },
-          { path: 'additionally', component: AdditionalInfoComponent, canActivate: [CanActivateGuard] },
-          { path: 'instruction', component: InstructionComponent, canActivate: [CanActivateGuard] },
-        ]
+        // children: [
+        //   { path: '', redirectTo: 'address', pathMatch: 'full' },
+        //   { path: 'address', component: AddressComponent, canActivate: [CanActivateGuard] },
+        //   { path: 'param', component: ParamComponent, canActivate: [CanActivateGuard] },
+        //   { path: 'photo', component: PhotoComponent, canActivate: [CanActivateGuard] },
+        //   { path: 'about', component: AboutComponent, canActivate: [CanActivateGuard] },
+        //   { path: 'additionally', component: AdditionalInfoComponent, canActivate: [CanActivateGuard] },
+        //   { path: 'instruction', component: InstructionComponent, canActivate: [CanActivateGuard] },
+        // ]
       },
       {
         path: 'discus', component: HostHouseDiscusComponent,
@@ -113,6 +113,8 @@ const routes: Routes = [
           { path: 'neighbor', component: SearchNeighborPageComponent },
         ],
       },
+
+
       {
         path: 'agree', component: AgreeHostComponent,
         children: [

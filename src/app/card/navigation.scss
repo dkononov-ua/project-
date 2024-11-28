@@ -2,6 +2,10 @@
 @use "../style/mixins/" as *;
 @use "../style/shared.scss";
 
+.no-bg {
+  background-color: transparent;
+}
+
 .menu-home {
   display: flex;
   flex-wrap: wrap;

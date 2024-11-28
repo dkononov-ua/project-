@@ -37,118 +37,115 @@
 </ng-container>
 
 <ng-template #content>
-  <div class="t-c content" *ngIf="!collapsePerson && !collapseContacts && !collapseStatus && !collapseDelete">
-    <div class="t-c" [ngClass]="{'close': collapseParamStatus}">
+  <div class="t-c" *ngIf="!collapsePerson && !collapseContacts && !collapseStatus && !collapseDelete"
+    [ngClass]="{'close': collapseParamStatus}">
 
-      <p class="t-lar-x bold p-2">Керування профілем</p>
+    <div class="profile-completion-container p-2">
 
-      <div class="profile-completion-container p-2">
+      <div [@top1] class="circle-container">
+        <div class="d-flex jc-sa al-c">
 
-        <div [@top1] class="circle-container">
-          <div class="d-flex jc-sa al-c">
+          <div class="spinner-wrapper" [ngClass]="getSpinnerClass(totalFilling)">
+            <mat-progress-spinner class="custom-spinner" [value]="totalFilling" mode="determinate" diameter="140"
+              strokeWidth="12">
+            </mat-progress-spinner>
+            <div class="spinner-text"><i class="fa-regular fa-circle-user"></i> <br> {{ totalFilling }}%</div>
+          </div>
 
-            <div class="spinner-wrapper" [ngClass]="getSpinnerClass(totalFilling)">
-              <mat-progress-spinner class="custom-spinner" [value]="totalFilling" mode="determinate" diameter="140"
-                strokeWidth="12">
-              </mat-progress-spinner>
-              <div class="spinner-text"><i class="fa-regular fa-circle-user"></i> <br> {{ totalFilling }}%</div>
-            </div>
+          <div class="w-50 pr-2">
+            <h3>Заповнення профілю</h3>
+            <p class="t-min">
+              Статус заповнення профілю є критично важливим для підтвердження вашого аккаунту. Якщо відсоток
+              заповнення
+              профілю нижче 70%, ваш аккаунт не зможе отримати статус перевіреного. Заповнений профіль не тільки
+              підвищує вашу надійність, але й відкриває доступ до додаткових можливостей на платформі.
+            </p>
+          </div>
 
-            <div class="w-50 pr-2">
-              <h3>Заповнення профілю</h3>
-              <p class="t-min">
-                Статус заповнення профілю є критично важливим для підтвердження вашого аккаунту. Якщо відсоток
-                заповнення
-                профілю нижче 70%, ваш аккаунт не зможе отримати статус перевіреного. Заповнений профіль не тільки
-                підвищує вашу надійність, але й відкриває доступ до додаткових можливостей на платформі.
-              </p>
-            </div>
+        </div>
+      </div>
 
+      <button [@top2] class="circle-container circle-container--btn" (click)="toogleFilter('Contacts')">
+        <div class="d-flex jc-sa al-c">
+          <div class="w-50 pr-2">
+            <h3>Контактна інформація</h3>
+            <p class="t-min">
+              Посилання на ваші соціальні мережі важливі для швидкого зв'язку з вами. Вони дозволяють
+              потенційним орендарям і орендодавцям ознайомитися з вашою особистістю, що допомагає створити довіру та
+              встановити позитивні відносини.
+            </p>
+          </div>
+
+
+          <div class="spinner-wrapper" [ngClass]="getSpinnerClass(totalFillingCont)">
+            <mat-progress-spinner class="custom-spinner" [value]="totalFillingCont" mode="determinate" diameter="120"
+              strokeWidth="10">
+            </mat-progress-spinner>
+            <div class="spinner-text"> <i class="fa-solid fa-share-nodes"></i>
+              {{ totalFillingCont }}%</div>
           </div>
         </div>
+      </button>
 
-        <button [@top2] class="circle-container circle-container--btn" (click)="toogleFilter('Contacts')">
+      <button [@top3] class="circle-container  circle-container--btn" (click)="toogleFilter('Person')">
+        <div class="d-flex jc-sa al-c">
+
+          <div class="w-50 pr-2">
+            <h3>Персональна інформація</h3>
+            <p class="t-min"> З наданими даними, такими як ім'я, прізвище та фотографія, користувачі можуть легше вас
+              впізнати,
+              що сприяє встановленню тісних контактів. Ваша відкритість допомагає створити позитивний імідж
+              та безпечну атмосферу на платформі.</p>
+          </div>
+          <div class="spinner-wrapper" [ngClass]="getSpinnerClass(totalFillingInf)">
+            <mat-progress-spinner class="custom-spinner" [value]="totalFillingInf" mode="determinate" diameter="120"
+              strokeWidth="10">
+            </mat-progress-spinner>
+            <div class="spinner-text"><i class="fa-regular fa-address-card"></i>{{ totalFillingInf }}%</div>
+          </div>
+        </div>
+      </button>
+
+      <div [@top4] class="circle-group ">
+        <button class="circle-container gap-custom  circle-container--btn" (click)="toogleFilter('Status')">
           <div class="d-flex jc-sa al-c">
+
             <div class="w-50 pr-2">
-              <h3>Контакти</h3>
-              <p class="t-min">
-                Контактна інформація, зокрема ваші соціальні мережі важливі для швидкого зв'язку з вами. Вони дозволяють
-                потенційним орендарям і орендодавцям ознайомитися з вашою особистістю, що допомагає створити довіру та
-                встановити позитивні відносини.
-              </p>
+              <h3>Статуси & Доступи</h3>
+              <p class="t-min">Тут ви можете відслідковувати статуси вашого аккаунту та надавати дозволи.</p>
             </div>
-
-
-            <div class="spinner-wrapper" [ngClass]="getSpinnerClass(totalFillingCont)">
-              <mat-progress-spinner class="custom-spinner" [value]="totalFillingCont" mode="determinate" diameter="120"
-                strokeWidth="10">
+            <div class="spinner-wrapper" [ngClass]="getSpinnerClass(0)">
+              <mat-progress-spinner class="custom-spinner" [value]="100" mode="determinate" diameter="80"
+                strokeWidth="5">
               </mat-progress-spinner>
-              <div class="spinner-text"> <i class="fa-solid fa-share-nodes"></i>
-                {{ totalFillingCont }}%</div>
+              <div class="spinner-text">
+                <i class="fa-solid fa-user-check"></i>
+              </div>
             </div>
+
           </div>
         </button>
 
-        <button [@top3] class="circle-container  circle-container--btn" (click)="toogleFilter('Person')">
+        <button class="circle-container  circle-container--btn" (click)="toogleFilter('Delete')">
           <div class="d-flex jc-sa al-c">
-
             <div class="w-50 pr-2">
-              <h3>Персональна</h3>
-              <p class="t-min"> З наданими даними, такими як ім'я, прізвище та фотографія, користувачі можуть легше вас
-                впізнати,
-                що сприяє встановленню тісних контактів. Ваша відкритість допомагає створити позитивний імідж
-                та безпечну атмосферу на платформі.</p>
+              <h3>Видалення аккаунту</h3>
+              <p class="t-min">Тут ви можете видалити свій аккаунт.</p>
             </div>
-            <div class="spinner-wrapper" [ngClass]="getSpinnerClass(totalFillingInf)">
-              <mat-progress-spinner class="custom-spinner" [value]="totalFillingInf" mode="determinate" diameter="120"
-                strokeWidth="10">
+            <div class="spinner-wrapper" [ngClass]="'spinner-red'">
+              <mat-progress-spinner class="custom-spinner" [value]="100" mode="determinate" diameter="80"
+                strokeWidth="5">
               </mat-progress-spinner>
-              <div class="spinner-text"><i class="fa-regular fa-address-card"></i>{{ totalFillingInf }}%</div>
+              <div class="spinner-text">
+                <i class="fa-solid fa-user-xmark pl-2"></i>
+              </div>
             </div>
           </div>
         </button>
-
-        <div [@top4] class="circle-group ">
-          <button class="circle-container gap-custom  circle-container--btn" (click)="toogleFilter('Status')">
-            <div class="d-flex jc-sa al-c">
-
-              <div class="w-50 pr-2">
-                <h3>Статуси</h3>
-                <p class="t-min">Тут ви можете відслідковувати статуси вашого аккаунту та надавати дозволи.</p>
-              </div>
-              <div class="spinner-wrapper" [ngClass]="getSpinnerClass(0)">
-                <mat-progress-spinner class="custom-spinner" [value]="100" mode="determinate" diameter="80"
-                  strokeWidth="5">
-                </mat-progress-spinner>
-                <div class="spinner-text">
-                  <i class="fa-solid fa-user-check"></i>
-                </div>
-              </div>
-
-            </div>
-          </button>
-
-          <button class="circle-container  circle-container--btn" (click)="toogleFilter('Delete')">
-            <div class="d-flex jc-sa al-c">
-              <div class="w-50 pr-2">
-                <h3>Видалення</h3>
-                <p class="t-min">Тут ви можете видалити свій аккаунт.</p>
-              </div>
-              <div class="spinner-wrapper" [ngClass]="'spinner-red'">
-                <mat-progress-spinner class="custom-spinner" [value]="100" mode="determinate" diameter="80"
-                  strokeWidth="5">
-                </mat-progress-spinner>
-                <div class="spinner-text">
-                  <i class="fa-solid fa-user-xmark pl-2"></i>
-                </div>
-              </div>
-            </div>
-          </button>
-        </div>
-
       </div>
 
     </div>
+
   </div>
 </ng-template>
 

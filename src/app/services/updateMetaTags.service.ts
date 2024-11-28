@@ -63,6 +63,11 @@ export class UpdateMetaTagsService {
 
     // Оновлення кольору теми
     this.updateMetaTag('name', 'theme-color', themeColor);
+
+    // Оновлення JSON-LD, якщо передано
+    if (data.jsonLd) {
+      this.updateJsonLd(data.jsonLd);
+    }
   }
 
   private updateMetaTag(attribute: string, name: string, content: string): void {
@@ -90,6 +95,26 @@ export class UpdateMetaTagsService {
       document.head.appendChild(link);
     }
   }
+
+  updateJsonLd(structuredData: any): void {
+    const scriptId = 'structured-data';
+    let scriptTag = document.getElementById(scriptId) as HTMLScriptElement;
+
+    if (scriptTag) {
+      // console.log('Оновлення існуючого тега JSON-LD');
+      scriptTag.textContent = JSON.stringify(structuredData);
+    } else {
+      // console.log('Створення нового тега JSON-LD');
+      scriptTag = document.createElement('script');
+      scriptTag.type = 'application/ld+json';
+      scriptTag.id = scriptId;
+      scriptTag.textContent = JSON.stringify(structuredData);
+      document.head.appendChild(scriptTag);
+    }
+    // console.log('JSON-LD контент:', scriptTag.textContent);
+  }
+
+
 
 
 

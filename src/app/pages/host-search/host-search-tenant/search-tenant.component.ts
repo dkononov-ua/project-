@@ -169,6 +169,13 @@ export class SearchTenantComponent implements OnInit, OnDestroy {
     )
   }
 
+  // Очищаємо URL
+  clearQueryParams(): void {
+    const urlWithoutParams = window.location.pathname; // Шлях без параметрів
+    window.history.replaceState({}, '', urlWithoutParams); // Заміщує URL
+  }
+
+
   ngOnDestroy() {
     // видаляю обраний айді користувача
     this.choseSubscribersService.removeChosenUserId();
@@ -178,6 +185,7 @@ export class SearchTenantComponent implements OnInit, OnDestroy {
     // скидую в компоненті profile індекс сторінки щоб показувати всі картки при оновленні сторінки
     this.choseSubscribersService.setIndexPage(2);
     this.subscriptions.forEach(subscription => subscription.unsubscribe());
+    this.clearQueryParams();
   }
 
 }

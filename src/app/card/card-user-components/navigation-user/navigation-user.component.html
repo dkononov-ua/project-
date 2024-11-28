@@ -97,16 +97,14 @@
 
     <div class="category-container">
       <div class="category">
-        <a class="link-item" [routerLink]="'/user/tenant/profile'" (click)="closeToogleMenu()">
-
+        <button class="link-item no-bg" (click)="setSection(3)">
           <i class="fa-solid fa-person-hiking "></i>
           <div class="item-description custom-badge" matBadge="a"
             [matBadgeHidden]="!userFeaturesData || userFeaturesData.agree_search !== 1">
             <p class="t-med bold">Профіль</p>
             <p class="t-min">Орендаря</p>
           </div>
-
-        </a>
+        </button>
         <a class="message custom-badge" [routerLinkActive]="'active'" [routerLink]="'/user/discus/subscribers'"
           (click)="closeToogleMenu()" matBadge="{{counterUserSubscribers}}">
           <i class="fa-solid fa-house-fire "></i>

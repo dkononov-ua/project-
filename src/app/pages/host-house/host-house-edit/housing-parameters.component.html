@@ -54,8 +54,6 @@
     *ngIf="!collapseParam && !collapseLocation && !collapseAbout && !collapsePhoto && !collapseAdditional">
     <div class="t-c" [ngClass]="{'close': collapseParamStatus}">
 
-      <p class="t-lar-x bold p-2">Керування профілем оселі</p>
-
       <div class="profile-completion-container">
 
         <div [@top] class="circle-container">
@@ -71,9 +69,9 @@
             <div class="w-50 pr-2">
               <h3>Заповнення профілю оселі</h3>
               <p class="t-min">
-                Статус заповнення профілю є критично важливим для підтвердження вашого аккаунту. Якщо відсоток
+                Статус заповнення профілю є критично важливим для підтвердження вашого профілю оселі. Якщо відсоток
                 заповнення
-                профілю нижче 70%, ваш аккаунт не зможе отримати статус перевіреного. Заповнений профіль не тільки
+                профілю нижче 50%, ваш аккаунт не зможе отримати статус перевіреного. Заповнений профіль не тільки
                 підвищує вашу надійність, але й відкриває доступ до додаткових можливостей на платформі.
               </p>
             </div>
@@ -84,11 +82,10 @@
         <button [@top1] class="circle-container circle-container--btn" (click)="toogleFilter('Location')">
           <div class="d-flex jc-sa al-c">
             <div class="w-50 pr-2">
-              <h3>Локація</h3>
+              <h3>Локація {{activeFilterLocation}}<span class="t-min thin">/15</span> </h3>
               <p class="t-min">
-                Контактна інформація, зокрема ваші соціальні мережі важливі для швидкого зв'язку з вами. Вони дозволяють
-                потенційним орендарям і орендодавцям ознайомитися з вашою особистістю, що допомагає створити довіру та
-                встановити позитивні відносини.
+                Вкажіть місцезнаходження оселі та її адресу. Додайте відстані доступності інфраструктури біля вашого
+                житла.
               </p>
             </div>
 
@@ -97,7 +94,7 @@
               <mat-progress-spinner class="custom-spinner" [value]="totalLocation" mode="determinate" diameter="120"
                 strokeWidth="10">
               </mat-progress-spinner>
-              <div class="spinner-text"> <i class="fa-solid fa-location-dot"></i>
+              <div class="spinner-text"> <i class="fa-solid fa-location-dot"></i> <br>
                 {{ totalLocation }}%</div>
             </div>
           </div>
@@ -105,19 +102,18 @@
 
         <button [@top2] class="circle-container  circle-container--btn" (click)="toogleFilter('Param')">
           <div class="d-flex jc-sa al-c">
-
-            <div class="w-50 pr-2">
-              <h3>Параметри</h3>
-              <p class="t-min"> З наданими даними, такими як ім'я, прізвище та фотографія, користувачі можуть легше вас
-                впізнати,
-                що сприяє встановленню тісних контактів. Ваша відкритість допомагає створити позитивний імідж
-                та безпечну атмосферу на платформі.</p>
-            </div>
             <div class="spinner-wrapper" [ngClass]="getSpinnerClass(totalParam)">
               <mat-progress-spinner class="custom-spinner" [value]="totalParam" mode="determinate" diameter="120"
                 strokeWidth="10">
               </mat-progress-spinner>
-              <div class="spinner-text"><i class="fa-solid fa-trowel-bricks"></i>{{ totalParam }}%</div>
+              <div class="spinner-text"><i class="fa-solid fa-trowel-bricks"></i> <br> {{ totalParam }}%</div>
+            </div>
+
+            <div class="w-50 pr-2">
+              <h3>Параметри {{activeFilterParam}}<span class="t-min thin">/8</span> </h3>
+              <p class="t-min">Внесіть характеристики вашої оселі. Бдинок чи квартира, площа житла, поверх та
+                поверховість,
+                стан оселі та кількість кімнат.</p>
             </div>
           </div>
         </button>
@@ -125,16 +121,19 @@
         <button [@top3] class="circle-container gap-custom  circle-container--btn" (click)="toogleFilter('About')">
           <div class="d-flex jc-sa al-c">
 
+            <div class="w-50 pr-2">
+              <h3>Особливості {{activeFilterAbout}}<span class="t-min thin">/10</span> </h3>
+              <p class="t-min">Оберіть тип оголошення: оренда чи продаж. Встановіть формат оренди — короткострокова чи
+                довгострокова. Уточніть, здається вся оселя чи окрема кімната. Вкажіть вартість та особливості житла:
+                бажаний тип орендарів, можливість проживання з тваринами, а також наявність укриття.
+              </p>
+            </div>
+
             <div class="spinner-wrapper" [ngClass]="getSpinnerClass(totalAbout)">
               <mat-progress-spinner class="custom-spinner" [value]="totalAbout" mode="determinate" diameter="120"
                 strokeWidth="10">
               </mat-progress-spinner>
-              <div class="spinner-text"><i class="fa-solid fa-users-gear"></i>{{ totalAbout }}%</div>
-            </div>
-
-            <div class="w-50 pr-2">
-              <h3>Особливості</h3>
-              <p class="t-min">Тут ви можете відслідковувати статуси вашого аккаунту та надавати дозволи.</p>
+              <div class="spinner-text"><i class="fa-solid fa-users-gear"></i> <br> {{ totalAbout }}%</div>
             </div>
 
           </div>
@@ -146,11 +145,11 @@
               <mat-progress-spinner class="custom-spinner" [value]="totalPhoto" mode="determinate" diameter="120"
                 strokeWidth="10">
               </mat-progress-spinner>
-              <div class="spinner-text"><i class="fa-solid fa-images"></i>{{ totalPhoto }}% </div>
+              <div class="spinner-text"><i class="fa-solid fa-images"></i> <br> {{ totalPhoto }}% </div>
             </div>
 
             <div class="w-50 pr-2">
-              <h3>Фото оселі {{downloadedPhoto}}/20</h3>
+              <h3>Фото оселі {{downloadedPhoto}}<span class="t-min thin">/20</span></h3>
               <p class="t-min">Тут ви можете додавати та видаляти фото вашої оселі.</p>
             </div>
           </div>
@@ -160,17 +159,15 @@
           <div class="d-flex jc-sa al-c">
 
             <div class="w-50 pr-2">
-              <h3>Додаткова інформація</h3>
-              <p class="t-min"> З наданими даними, такими як ім'я, прізвище та фотографія, користувачі можуть легше вас
-                впізнати,
-                що сприяє встановленню тісних контактів. Ваша відкритість допомагає створити позитивний імідж
-                та безпечну атмосферу на платформі.</p>
+              <h3>Додаткова інформація {{activeFilterAdditional}}<span class="t-min thin">/5</span> </h3>
+              <p class="t-min">Додавайте інформацію для загального користування. Контакти управляючого будинком, доступ
+                до вайваю або реквізити для оплати оренди.</p>
             </div>
             <div class="spinner-wrapper" [ngClass]="getSpinnerClass(totalAdditional)">
               <mat-progress-spinner class="custom-spinner" [value]="totalAdditional" mode="determinate" diameter="120"
                 strokeWidth="10">
               </mat-progress-spinner>
-              <div class="spinner-text"><i class="fa-regular fa-address-book"></i>{{ totalAdditional }}%</div>
+              <div class="spinner-text"><i class="fa-regular fa-address-book"></i> <br> {{ totalAdditional }}%</div>
             </div>
           </div>
         </button>

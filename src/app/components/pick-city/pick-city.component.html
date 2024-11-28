@@ -1,0 +1,39 @@
+<div [@appearance] class="btn-group border-top ">
+  <button class="b-primary mi-wi-250 m-2" [ngClass]="{ 'active': tenant }" (click)="pickSearching('tenant')">
+    Шукаю орендаря
+    <i class="fa-solid fa-magnifying-glass  pl-2"></i>
+  </button>
+  <button class="b-primary mi-wi-250 m-2" [ngClass]="{ 'active': house }" (click)="pickSearching('house')">
+    Шукаю оселю
+    <i class="fa-solid fa-magnifying-glass  pl-2"></i>
+  </button>
+</div>
+
+<div [@bot] class="city-box p-2 border-bottom" *ngIf="tenant || house">
+
+  <div class="d-flex jc-c flex-column">
+    <p class="t-lar-xx t-c">Де шукаємо {{pickSearch}}?</p>
+    <mat-form-field [@top1] class="item-select p-1" appearance="outline">
+      <mat-label for="city">Місто</mat-label>
+      <input #cityInput name="userInfo.city" id="city" matInput [(ngModel)]="userInfo.city"
+        placeholder="Виберіть або введіть місто" (ngModelChange)="onCityInputChange(userInfo.city)"
+        [matAutocomplete]="autoCity">
+      <mat-autocomplete #autoCity="matAutocomplete">
+        <mat-option *ngFor="let city of filteredCities" [value]="city.cityUa" (onSelectionChange)="pickCity(city)">
+          {{ city.shortCityTypeUa }} {{ city.cityUa }}, <span *ngIf="city.districtUa"> р-н {{ city.districtUa
+            }},</span>
+          обл.{{ city.regionUa }}
+        </mat-option>
+      </mat-autocomplete>
+      <mat-icon matSuffix><i class="fa-solid fa-city"></i></mat-icon>
+    </mat-form-field>
+  </div>
+
+  <button *ngFor="let item of cities" (click)="pickCity(item)" class="btn-city m-1">
+    <div class="flex-column t-s">
+      <img class="card-img" [src]="item.icon" alt="region image">
+      <p class="t-med bold">{{ item.name | truncate:8 }}</p>
+      <p class="t-min">{{item.population | number:'1.0-0'}}</p>
+    </div>
+  </button>
+</div>

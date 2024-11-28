@@ -87,7 +87,6 @@ export class ParamComponent implements OnInit, OnDestroy {
   }
 
   getRepairStatusName(value: number): string {
-    console.log(value)
     const status = select_options.repair.find(r => r.value === Number(value));
     return status ? status.name : 'Не визначено';
   }
@@ -96,9 +95,8 @@ export class ParamComponent implements OnInit, OnDestroy {
     this.repairStatusName = this.getRepairStatusName(this.flatInfo.repair_status);
   }
 
-
   // component.ts
-  floorCount: number = 0; // Початкова кількість поверхів
+  floorCount: number = 1; // Початкова кількість поверхів
   floors: number[] = [];
   selectedFloor: number | null = null; // Вибраний поверх
   updateFloors() {
@@ -106,8 +104,8 @@ export class ParamComponent implements OnInit, OnDestroy {
       this.floorCount = this.flatInfo.floorless;
       this.floors = Array.from({ length: this.floorCount }, (_, i) => i + 1).reverse();
     } else if (this.floorCount !== this.flatInfo.floorless) {
-      this.floors = Array.from({ length: this.floorCount }, (_, i) => i + 1).reverse();
       this.flatInfo.floorless = this.floorCount;
+      this.floors = Array.from({ length: this.floorCount }, (_, i) => i + 1).reverse();
     }
 
   }
@@ -200,7 +198,6 @@ export class ParamComponent implements OnInit, OnDestroy {
     if (userJson) {
       try {
         const response: any = await this.http.post(this.serverPath + '/flatinfo/localflat', { auth: JSON.parse(userJson), flat_id: this.selectedFlatId }).toPromise();
-        console.log(response)
         if (response && response.param) {
           this.flatInfo = response.param;
           this.countActiveFilters();
@@ -211,11 +208,11 @@ export class ParamComponent implements OnInit, OnDestroy {
           console.log('Param not found in response.');
         }
       } catch (error) {
-        // this.sharedService.setStatusMessage('Помилка на сервері, спробуйте ще раз');
-        // setTimeout(() => {
-        //   this.sharedService.setStatusMessage('');
-        //   location.reload();
-        // }, 1500);
+        this.sharedService.setStatusMessage('Помилка на сервері, спробуйте ще раз');
+        setTimeout(() => {
+          this.sharedService.setStatusMessage('');
+          location.reload();
+        }, 1500);
       }
     } else {
       console.log('user not found');
@@ -238,15 +235,12 @@ export class ParamComponent implements OnInit, OnDestroy {
         metrocolor: this.flatInfo.metrocolor || '',
         metroname: this.flatInfo.metroname || '',
       }
-      console.log(data)
       try {
         const response: any = await this.http.post(this.serverPath + '/flatinfo/add/parametrs', {
           auth: JSON.parse(userJson),
           new: data,
           flat_id: this.selectedFlatId,
         }).toPromise();
-        console.log(response)
-
         if (response && response.status === 'Параметри успішно додані') {
           this.sharedService.setStatusMessage('Параметри успішно збережено');
           setTimeout(() => {

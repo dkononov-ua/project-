@@ -89,6 +89,8 @@ export class MissingParamsService {
     };
 
     if (response && response.rent && Array.isArray(response.rent)) {
+      this.loaderService.setLoading(true);
+
       const rentParams: string[] = response.rent;
       const message = translateParameters(rentParams);
       // Виводимо повідомлення
@@ -107,20 +109,25 @@ export class MissingParamsService {
 
         if (hasRegion || hasCity || hasStreet || hasHouseNumber) {
           this.statusMessageService.setStatusMessage('');
-          this.router.navigate(['house/edit/address']);
+          this.updateFlatInfo();
+          // this.router.navigate(['house/edit/address']);
         } else if (hasArea || hasFloor || hasOptionFlat || hasOptionPay) {
           this.statusMessageService.setStatusMessage('');
-          this.router.navigate(['house/edit/param']);
+          // this.router.navigate(['house/edit/param']);
+          this.updateFlatInfo();
         } else if (response.rent.length === 0 || hasRoom) {
-          this.router.navigate(['house/edit/about']);
+          // this.router.navigate(['house/edit/about']);
           this.statusMessageService.setStatusMessage('');
+          this.updateFlatInfo();
         }
       }, 2000);
     } else if (response.rent === 'Додайте фото') {
+      this.loaderService.setLoading(true);
       this.statusMessageService.setStatusMessage('Для активації оголошення додайте мінімум 2 фото');
       setTimeout(() => {
-        this.router.navigate(['house/edit/photo']);
+        // this.router.navigate(['house/edit/photo']);
         this.statusMessageService.setStatusMessage('');
+        this.updateFlatInfo();
       }, 2000);
     }
 

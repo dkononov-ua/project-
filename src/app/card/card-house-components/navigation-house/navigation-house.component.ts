@@ -50,6 +50,13 @@ export class NavigationHouseComponent implements OnInit, OnDestroy {
     this.indexPage = indexPage;
   }
 
+  goToControl() {
+    this.router.navigate(['/house/control/add']);
+    setTimeout(() => {
+      this.closeToogleMenu();
+    }, 100);
+  }
+
   disabledBtn: boolean = false;
   animationDelay(index: number): string {
     return (600 + 100 * index).toString();
