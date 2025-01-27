@@ -1,7 +1,7 @@
 <nav class="navigation-container">
   <div class="navigation-wrapper">
 
-    <div class="item-group">
+    <div class="item-group" *ngIf="!homePage">
       <button class="nav-link" (click)="goBack()">
         <i class="fa-solid fa-arrow-left"></i>
       </button>
@@ -60,14 +60,14 @@
       <i class="fa-solid fa-house"></i>
       <div class="t-min">Оселя</div>
     </a>
-  </div>
-
-  <div class="item-group" *ngIf="!isMobile">
-    <a class="nav-link" [routerLinkActive]="'active'" [routerLink]="'/blog'">
-      <i class="fa-solid fa-blog"></i>
-      <div class="t-min">Блог</div>
-    </a>
   </div> -->
+
+    <div class="item-group" *ngIf="!isMobile">
+      <a class="nav-link" [routerLinkActive]="'active'" [routerLink]="'/blog'">
+        <i class="fa-solid fa-blog"></i>
+        <div class="t-min">Блог</div>
+      </a>
+    </div>
 
     <div class="search-btn-container" *ngIf="!isMobile">
       <div class="search-btn-wrapper">

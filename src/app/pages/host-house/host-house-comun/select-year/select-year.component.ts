@@ -44,6 +44,9 @@ export class SelectYearComponent implements OnInit {
         this.selectedYear = new Date().getFullYear();
       }
     });
+    if (this.selectedYear === undefined || this.selectedYear === null || this.selectedYear === 0 || this.selectedYear === '0') {
+      this.selectedYear = new Date().getFullYear();
+    }
   }
 
   toogleYear() {

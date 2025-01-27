@@ -105,6 +105,7 @@ export class UserStatusComponent implements OnInit, OnDestroy {
     if (userJson !== null) {
       this.http.post(this.serverPath + '/userinfo', JSON.parse(userJson))
         .subscribe((response: any) => {
+          console.log(response)
           this.userParam = response.parametrs;
           this.userInfo = response.inf;
         }, (error: any) => {

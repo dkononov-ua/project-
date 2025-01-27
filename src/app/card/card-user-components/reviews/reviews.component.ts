@@ -115,7 +115,7 @@ export class ReviewsComponent implements OnInit, OnDestroy {
       this.subscriptions.push(
         this.cardsDataHouseService.cardData$.subscribe(async (data: any) => {
           this.user = data;
-          console.log(data)
+          // console.log(data)
           // console.log(this.user)
           if (this.user) {
             // Запитую рейтинг власника

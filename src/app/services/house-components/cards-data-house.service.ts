@@ -69,6 +69,7 @@ export class CardsDataHouseService {
   // Отримання даних всіх користувачів
   async getUserInfo(offs: number): Promise<void> {
     const currentLocation = this.location.path();
+    // console.log(currentLocation)
     if (currentLocation === '/house/discus/discussion') {
       this.linkPath = '/acceptsubs/get/subs';
       this.getResponseUserInfo(this.linkPath, offs);

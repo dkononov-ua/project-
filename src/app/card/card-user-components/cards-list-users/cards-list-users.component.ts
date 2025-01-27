@@ -129,8 +129,8 @@ export class CardsListUsersComponent implements OnInit, OnDestroy {
 
   // Запит на сервіс про список карток так їх кількість
   private getSubInfoFromService(offs: number): void {
+    this.getCardsData();
     if (this.currentLocation.includes('/search/tenant')) {
-      this.getCardsData();
       this.getCounterCards();
     } else {
       this.cardsDataHouseService.getUserInfo(offs);
