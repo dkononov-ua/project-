@@ -198,7 +198,7 @@
   <ng-container *ngIf="!isMobile">
 
     <div [routerLinkActive]="'active'" [@cardAnimation]="{value: '', params: { delay: animationDelay(1) }}"
-      class="wrapper-img mb-2">
+      class="wrapper-img mb-2" *ngIf="houseData">
 
       <picture>
         <img *ngIf="imgFlat" [ngSrc]="imgFlat" alt="img mini house" class="img-fluid" [routerLink]="'/house/info'"
@@ -223,7 +223,7 @@
       </a>
     </div>
 
-    <div class="category-container" [@cardAnimation]="{value: '', params: { delay: animationDelay(2) }}">
+    <div class="category-container" [@cardAnimation]="{value: '', params: { delay: animationDelay(2) }}" *ngIf="houseData">
       <div class="category">
         <a class="link-item" [routerLinkActive]="'active'" [routerLink]="'/house/info'">
           <i class="fa-solid fa-house-user custom-badge"></i>
@@ -241,7 +241,7 @@
       </div>
       <div class="subcategory-container" *ngIf="section[1]">
         <a [@cardAnimation]="{value: '', params: { delay: animationDelay(1) }}" class="subcategory"
-          [routerLinkActive]="'active'" [routerLink]="'/house/info'">
+          [routerLinkActive]="'active'" [routerLink]="'/house/info'" *ngIf="houseData">
           <i class="fa-solid fa-id-badge"></i>
           <div class="item-description">
             <p class="t-min">Профіль</p>
@@ -259,7 +259,7 @@
         </a>
 
         <a [@cardAnimation]="{value: '', params: { delay: animationDelay(2) }}" class="subcategory"
-          [routerLinkActive]="'active'" [routerLink]="'/house/edit'">
+          [routerLinkActive]="'active'" [routerLink]="'/house/edit'" *ngIf="houseData">
           <i class="fa-solid fa-gears"></i>
           <div class="item-description">
             <p class="t-min">Редагув.</p>
@@ -268,7 +268,7 @@
         </a>
 
         <button [@cardAnimation]="{value: '', params: { delay: animationDelay(5) }}" class="subcategory"
-          (click)="logoutHouse()">
+          (click)="logoutHouse()" *ngIf="houseData">
           <i class="fa-solid fa-door-open"></i>
           <div class="item-description">
             <p class="t-min">Вийти</p>
@@ -368,7 +368,7 @@
         </a>
 
         <a [@cardAnimation]="{value: '', params: { delay: animationDelay(2) }}" class="subcategory"
-          [routerLinkActive]="'active'" [routerLink]="'/house/discus/subscriptions'">
+          [routerLinkActive]="'active'" [routerLink]="'/house/discus/subscriptions'" *ngIf="houseData">
           <i class="fa-solid fa-people-pulling custom-badge" matBadge="{{counterHouseSubscriptions}}"></i>
           <div class="item-description">
             <p class="t-min">Підписки</p>
@@ -377,7 +377,7 @@
         </a>
 
         <a [@cardAnimation]="{value: '', params: { delay: animationDelay(3) }}" class="subcategory"
-          [routerLinkActive]="'active'" [routerLink]="'/house/discus/subscribers'">
+          [routerLinkActive]="'active'" [routerLink]="'/house/discus/subscribers'" *ngIf="houseData">
           <i class="fa-solid fa-child-reaching custom-badge" matBadge="{{counterHouseSubscribers}}"></i>
           <div class="item-description">
             <p class="t-min">Підписники</p>
@@ -386,7 +386,7 @@
         </a>
 
         <a [@cardAnimation]="{value: '', params: { delay: animationDelay(4) }}" class="subcategory"
-          [routerLinkActive]="'active'" [routerLink]="'/house/discus/discussion'">
+          [routerLinkActive]="'active'" [routerLink]="'/house/discus/discussion'" *ngIf="houseData">
           <i class="fa-solid fa-person-walking-luggage custom-badge" matBadge="{{counterHouseDiscussio}}"></i>
           <div class="item-description">
             <p class="t-min">Дискусії</p>
@@ -429,7 +429,7 @@
         </a>
 
         <a [@cardAnimation]="{value: '', params: { delay: animationDelay(2) }}" class="subcategory"
-          [routerLinkActive]="'active'" [routerLink]="'/house/agree/create'">
+          [routerLinkActive]="'active'" [routerLink]="'/house/agree/create'" *ngIf="houseData">
           <i class="fa-solid fa-feather-pointed"></i>
           <div class="item-description">
             <p class="t-min">Створити</p>
@@ -438,7 +438,7 @@
         </a>
 
         <a [@cardAnimation]="{value: '', params: { delay: animationDelay(3) }}" class="subcategory"
-          [routerLinkActive]="'active'" [routerLink]="'/house/agree/review'">
+          [routerLinkActive]="'active'" [routerLink]="'/house/agree/review'" *ngIf="houseData">
           <i class="fa-solid fa-hourglass-half"></i>
           <div class="item-description">
             <p class="t-min">Запроп.</p>
@@ -447,7 +447,7 @@
         </a>
 
         <a [@cardAnimation]="{value: '', params: { delay: animationDelay(4) }}" class="subcategory"
-          [routerLinkActive]="'active'" [routerLink]="'/house/agree/concluded'">
+          [routerLinkActive]="'active'" [routerLink]="'/house/agree/concluded'" *ngIf="houseData">
           <i class="fa-solid fa-file-circle-check"></i>
           <div class="item-description">
             <p class="t-min">Ухвалені</p>
@@ -529,7 +529,7 @@
         </a>
 
         <a [@cardAnimation]="{value: '', params: { delay: animationDelay(5) }}" class="subcategory"
-          [routerLinkActive]="'active'" [routerLink]="'/house/objects/add'">
+          [routerLinkActive]="'active'" [routerLink]="'/house/objects/add'" *ngIf="houseData">
           <i class="fa-solid fa-boxes-stacked"></i>
           <div class="item-description">
             <p class="t-min">Додати</p>
@@ -538,7 +538,7 @@
         </a>
 
         <a [@cardAnimation]="{value: '', params: { delay: animationDelay(5) }}" class="subcategory"
-          [routerLinkActive]="'active'" [routerLink]="'/house/objects/control'">
+          [routerLinkActive]="'active'" [routerLink]="'/house/objects/control'" *ngIf="houseData">
           <i class="fa-solid fa-dolly"></i>
           <div class="item-description">
             <p class="t-min">Керування</p>
@@ -550,7 +550,7 @@
       </div>
     </div>
 
-    <div class="category-container" [@cardAnimation]="{value: '', params: { delay: animationDelay(8) }}">
+    <!-- <div class="category-container" [@cardAnimation]="{value: '', params: { delay: animationDelay(8) }}" *ngIf="houseData">
       <div class="category">
         <a class="link-item" [routerLinkActive]="'active'" [routerLink]="'/house/edit'">
           <i class="fa-solid fa-gears"></i>
@@ -559,12 +559,12 @@
             <p class="t-min">Всі налаштування</p>
           </div>
         </a>
-        <!-- <button [@appearance] [ngClass]="{'active': section[6]}" class="link-btn" (click)="setSectionFromBtn(6)">
+        <button [@appearance] [ngClass]="{'active': section[6]}" class="link-btn" (click)="setSectionFromBtn(6)">
           <i [ngClass]="section[6] ? 'fa-solid fa-circle-chevron-up' : 'fa-solid fa-circle-chevron-down'"></i>
-        </button> -->
+        </button>
       </div>
 
-      <!-- <div class="subcategory-container" *ngIf="section[6]">
+      <div class="subcategory-container" *ngIf="section[6]">
 
         <a [@cardAnimation]="{value: '', params: { delay: animationDelay(1) }}" class="subcategory"
           [routerLinkActive]="'active'" [routerLink]="'/house/edit/address'">
@@ -606,8 +606,8 @@
           </div>
         </a>
 
-      </div> -->
-    </div>
+      </div>
+    </div> -->
 
     <div class="category-container" [@cardAnimation]="{value: '', params: { delay: animationDelay(9) }}">
       <div class="category">
@@ -633,7 +633,7 @@
         </a>
 
         <a [@cardAnimation]="{value: '', params: { delay: animationDelay(5) }}" class="subcategory"
-          [routerLinkActive]="'active'" [routerLink]="'/house/communal/add'">
+          [routerLinkActive]="'active'" [routerLink]="'/house/communal/add'" *ngIf="houseData">
           <i class="fa-solid fa-sliders"></i>
           <div class="item-description">
             <p class="t-min">Керув.</p>
@@ -641,7 +641,7 @@
         </a>
 
         <a [@cardAnimation]="{value: '', params: { delay: animationDelay(5) }}" class="subcategory"
-          [routerLinkActive]="'active'" [routerLink]="'/house/communal/stat-month'">
+          [routerLinkActive]="'active'" [routerLink]="'/house/communal/stat-month'" *ngIf="houseData">
           <i class="fa-solid fa-calendar-day"></i>
           <div class="item-description">
             <p class="t-min">Місяць</p>
@@ -649,7 +649,7 @@
         </a>
 
         <a [@cardAnimation]="{value: '', params: { delay: animationDelay(5) }}" class="subcategory"
-          [routerLinkActive]="'active'" [routerLink]="'/house/communal/stat-year'">
+          [routerLinkActive]="'active'" [routerLink]="'/house/communal/stat-year'" *ngIf="houseData">
           <i class="fa-solid fa-chart-pie"></i>
           <div class="item-description">
             <p class="t-min">Рік</p>
@@ -684,7 +684,7 @@
         </a>
 
         <a [@cardAnimation]="{value: '', params: { delay: animationDelay(1) }}" class="subcategory"
-          [routerLinkActive]="'active'" [routerLink]="'/house/residents/resident'">
+          [routerLinkActive]="'active'" [routerLink]="'/house/residents/resident'" *ngIf="houseData">
           <i class="fa-solid fa-person-shelter"></i>
           <div class="item-description">
             <p class="t-min">Мешканці</p>
@@ -692,7 +692,7 @@
         </a>
 
         <a [@cardAnimation]="{value: '', params: { delay: animationDelay(5) }}" class="subcategory"
-          [routerLinkActive]="'active'" [routerLink]="'/house/residents/add'">
+          [routerLinkActive]="'active'" [routerLink]="'/house/residents/add'" *ngIf="houseData">
           <i class="fa-solid fa-user-plus"></i>
           <div class="item-description">
             <p class="t-min">Додати</p>
@@ -700,7 +700,7 @@
         </a>
 
         <a [@cardAnimation]="{value: '', params: { delay: animationDelay(5) }}" class="subcategory"
-          [routerLinkActive]="'active'" [routerLink]="'/house/residents/owner'">
+          [routerLinkActive]="'active'" [routerLink]="'/house/residents/owner'" *ngIf="houseData">
           <i class="fa-solid fa-id-card-clip"></i>
           <div class="item-description">
             <p class="t-min">Власник</p>

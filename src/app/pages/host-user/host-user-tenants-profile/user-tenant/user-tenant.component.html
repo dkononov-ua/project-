@@ -22,13 +22,20 @@
         </a>
         <p class="t-med t-c"> Ви детально можете описати всі ваші побажання стосовно нової оселі. Вказати свої
           особливості. Та розмістити оголошення!</p>
-        <a class="b-primary mi-wi-250 m-2 b-shadow jc-se" [routerLinkActive]="'active'" [routerLink]="'/user/tenant/about'">
+        <a class="b-primary mi-wi-250 m-2 b-shadow jc-se" [routerLinkActive]="'active'"
+          [routerLink]="authorization ? '/user/tenant/profile' : '/auth/login'"
+          [ngClass]="{ 'disabled-link': !authorization }">
           <i class="fa-solid fa-circle-arrow-right"></i>
           <div class="flex-column pl-2">
-            <p class="t-med white bold">Розмістити </p>
+            <p class="t-med white bold">Розмістити</p>
             <p class="t-med white bold">Оголошення</p>
           </div>
         </a>
+
+        <p class="t-med t-c accent" *ngIf="!authorization">Для цього потрібно бути авторизованим на сайті. Якщо у вас ще немає профілю, ви можете
+          зареєструватись.
+        </p>
+
         <p class="t-med t-c">Після налаштування та активації профілю ваше оголошення буде доступне в пошуку орендарів.
           Користувачі у який є профіль оселі зможуть на вас підписуватись.
         </p>

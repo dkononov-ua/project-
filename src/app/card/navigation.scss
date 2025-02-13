@@ -26,6 +26,7 @@
   border-radius: 20px;
   background-color: rgba(255, 255, 255, 0.8);
   @include box-shadow;
+  transition: all 0.3s ease-in-out;
 
   @include s3-s6-max {
     &:hover {
@@ -33,7 +34,7 @@
 
       .fa-solid,
       .fa-regular {
-        color: $color-accent;
+        color: $color-white;
       }
     }
   }

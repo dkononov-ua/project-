@@ -19,6 +19,7 @@ export class UserTenantComponent implements OnInit, OnDestroy {
 
   subscriptions: any[] = [];
   isMobile: boolean = false;
+  authorization: boolean = false;
 
   constructor(
     private sharedService: SharedService,
@@ -26,6 +27,7 @@ export class UserTenantComponent implements OnInit, OnDestroy {
 
   async ngOnInit(): Promise<void> {
     await this.getCheckDevice();
+    this.checkUserAuthorization();
   }
 
   // підписка на шлях до серверу
@@ -36,6 +38,16 @@ export class UserTenantComponent implements OnInit, OnDestroy {
       })
     );
   }
+
+    // Перевірка на авторизацію користувача
+    async checkUserAuthorization() {
+      const userJson = localStorage.getItem('user');
+      if (userJson) {
+        this.authorization = true;
+      } else {
+        this.authorization = false;
+      }
+    }
 
   ngOnDestroy() {
     this.subscriptions.forEach(subscription => subscription.unsubscribe());

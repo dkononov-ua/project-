@@ -214,7 +214,7 @@
   <ng-container *ngIf="!isMobile">
 
     <div [@cardAnimation]="{value: '', params: { delay: animationDelay(0) }}" class="wrapper-img mb-2"
-      (click)="closeToogleMenu()">
+      (click)="closeToogleMenu()" *ngIf="userData">
 
       <picture>
         <img [ngSrc]="userData?.img && userData.img[0].img !== 'user_default.svg'
@@ -273,7 +273,7 @@
         </a>
 
         <button [@cardAnimation]="{value: '', params: { delay: animationDelay(3) }}" class="subcategory"
-          [routerLink]="'/auth/change-password'" (click)="closeToogleMenu()">
+          [routerLink]="'/auth/change-password'" (click)="closeToogleMenu()" >
           <i class="fa-solid fa-key"></i>
           <div class="item-description">
             <p class="t-min">Змінити</p>
@@ -295,7 +295,7 @@
 
     <div class="category-container" [@cardAnimation]="{value: '', params: { delay: animationDelay(2) }}">
       <div class="category">
-        <a class="link-item" [routerLinkActive]="'active'" [routerLink]="'/user/tenant/profile'"
+        <a class="link-item" [routerLinkActive]="'active'" [routerLink]="userData ? '/user/tenant/profile' : '/user/tenant/about'"
           (click)="closeToogleMenu()">
 
           <i class="fa-solid fa-person-hiking custom-badge"></i>
@@ -309,6 +309,7 @@
           </i>
 
         </a>
+
 
         <button [@appearance] [ngClass]="{'active': section[3]}" class="link-btn" (click)="setSectionFromBtn(3)">
           <i [ngClass]="section[3] ? 'fa-solid fa-circle-chevron-up' : 'fa-solid fa-circle-chevron-down'"></i>
@@ -389,8 +390,8 @@
         </a>
 
         <a [@cardAnimation]="{value: '', params: { delay: animationDelay(2) }}" class="subcategory"
-          [routerLinkActive]="'active'" [routerLink]="'/user/discus/subscriptions'" (click)="closeToogleMenu()">
-          <i class="fa-regular fa-heart custom-badge" matBadge="{{counterUserSubscriptions}}"></i>
+          [routerLinkActive]="'active'" [routerLink]="'/user/discus/subscriptions'" (click)="closeToogleMenu()" *ngIf="userData">
+          <i class="fa-regular fa-heart custom-badge" matBadge="{{counterUserSubscriptions}}" ></i>
 
           <div class="item-description">
             <p class="t-min">Вподобані</p>
@@ -400,7 +401,7 @@
         </a>
 
         <a [@cardAnimation]="{value: '', params: { delay: animationDelay(3) }}" class="subcategory"
-          [routerLinkActive]="'active'" [routerLink]="'/user/discus/subscribers'" (click)="closeToogleMenu()">
+          [routerLinkActive]="'active'" [routerLink]="'/user/discus/subscribers'" (click)="closeToogleMenu()" *ngIf="userData">
           <i class="fa-solid fa-house-fire custom-badge" matBadge="{{counterUserSubscribers}}"></i>
           <div class="item-description">
             <p class="t-min">Запроп.</p>
@@ -409,7 +410,7 @@
         </a>
 
         <a [@cardAnimation]="{value: '', params: { delay: animationDelay(4) }}" class="subcategory"
-          [routerLinkActive]="'active'" [routerLink]="'/user/discus/discussion'" (click)="closeToogleMenu()">
+          [routerLinkActive]="'active'" [routerLink]="'/user/discus/discussion'" (click)="closeToogleMenu()" *ngIf="userData">
           <i class="fa-solid fa-person-walking-luggage custom-badge" matBadge="{{counterUserDiscussio}}"></i>
           <div class="item-description">
             <p class="t-min">Дискусії</p>
@@ -460,7 +461,7 @@
         </a>
 
         <a [@cardAnimation]="{value: '', params: { delay: animationDelay(3) }}" class="subcategory"
-          [routerLinkActive]="'active'" [routerLink]="'/user/agree/review'" (click)="closeToogleMenu()">
+          [routerLinkActive]="'active'" [routerLink]="'/user/agree/review'" (click)="closeToogleMenu()" *ngIf="userData">
 
 
           <i *ngIf="!authorization" class="fa-solid fa-hourglass-half fa-envelope-open-text "></i>
@@ -474,7 +475,7 @@
         </a>
 
         <a [@cardAnimation]="{value: '', params: { delay: animationDelay(4) }}" class="subcategory"
-          [routerLinkActive]="'active'" [routerLink]="'/user/agree/concluded'" (click)="closeToogleMenu()">
+          [routerLinkActive]="'active'" [routerLink]="'/user/agree/concluded'" (click)="closeToogleMenu()" *ngIf="userData">
           <i class="fa-solid fa-file-circle-check"></i>
           <div class="item-description">
             <p class="t-min">Ухвалені</p>

@@ -78,7 +78,15 @@
           <i class="fa-regular fa-circle-user pl-2"></i>
         </a>
 
-        <a class="search-btn mr-2" [routerLinkActive]="'active'" [routerLink]="'/house/info'">
+        <a class="search-btn mr-2" [routerLinkActive]="'active'" [routerLink]="'/house/info'" *ngIf="authorizationHouse">
+          <div class="d-flex flex-column">
+            <p class="t-min">Моя</p>
+            <p class="t-min">Оселя</p>
+          </div>
+          <i class="fa-solid fa-house pl-2"></i>
+        </a>
+
+        <a class="search-btn mr-2" [routerLinkActive]="'active'" [routerLink]="'/house/control/add'" *ngIf="!authorizationHouse">
           <div class="d-flex flex-column">
             <p class="t-min">Моя</p>
             <p class="t-min">Оселя</p>

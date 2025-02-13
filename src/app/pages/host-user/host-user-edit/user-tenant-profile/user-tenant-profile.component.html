@@ -42,8 +42,8 @@
     <div class="t-med mt-2">Оновлення інформації</div>
   </div>
 </ng-container>
-<ng-template #content>
-  <div class="t-c content" *ngIf="!collapseTime && !collapseFeatures && !collapseHouseParam && !collapseLocation">
+<ng-template #content >
+  <div class="t-c content" *ngIf="!collapseTime && !collapseFeatures && !collapseHouseParam && !collapseLocation && authorization">
     <div class="t-c" [ngClass]="{'close': collapseParamStatus}">
 
       <div class="profile-completion-container p-2">
@@ -388,7 +388,7 @@
         лише з вказаним містом, областю та варіантом оплати.
       </p>
 
-      <div class="btn-group">
+      <div class="btn-group" *ngIf="authorization">
         <button [disabled]="totalActiveFilters === 0" class="b-primary mr-2 custom-badge" (click)="clearFilterAll()"
           matBadge="{{totalActiveFilters}}" [matBadgeHidden]="totalActiveFilters === 0">
           <i class="fa-solid fa-broom"></i>

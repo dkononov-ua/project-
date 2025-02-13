@@ -17,10 +17,22 @@ import { animations } from '../../../../interface/animation';
   ],
 })
 export class UserTenantStepComponent implements OnInit {
+  authorization: boolean = false;
 
   constructor() { }
 
   ngOnInit() {
+    this.checkUserAuthorization();
+
   }
 
+  // Перевірка на авторизацію користувача
+  async checkUserAuthorization() {
+    const userJson = localStorage.getItem('user');
+    if (userJson) {
+      this.authorization = true;
+    } else {
+      this.authorization = false;
+    }
+  }
 }
