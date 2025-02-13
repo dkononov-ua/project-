@@ -6,10 +6,11 @@ const { Readable } = require('stream');
 console.log('Запуск генерації карти сайту');
 
 // Вказати базовий URL вашого сайту
-const baseUrl = 'https://discussio.site';
+const baseUrl = 'https://discussio.com.ua';
 
 // Вказати маршрути вашого Angular додатка з пріоритетами
 const routes = [
+  { url: '', priority: 1.0 },
   { url: '/', priority: 1.0 },
   { url: '/home', priority: 1.0 },
   { url: '/about-project', priority: 0.5 },

@@ -41,14 +41,11 @@ export class AuthGoogleService {
   }
 
   async singAuthGoogle(param: string) {
-    this.loaderService.setLoading(true);
-
     const provider = new GoogleAuthProvider();
     const user: any = await signInWithPopup(auth, provider);
-    // console.log(user);
     if (user && '_tokenResponse' in user) {
+      this.loaderService.setLoading(true);
       this.userData = user._tokenResponse
-      // console.log(this.userData);
       if (this.userData) {
         const data = {
           idToken: this.userData.idToken,
@@ -57,7 +54,7 @@ export class AuthGoogleService {
         // console.log(data)
         try {
           const response = await this.http.post(this.serverPath + '/registration/googleLogin', data).toPromise() as any;
-          // console.log(response)
+          console.log(response)
           if (response.status === true && param === 'registration') {
             // зберігаю інформацію для профілю
             const registrationGoogleInfo = {
@@ -112,7 +109,9 @@ export class AuthGoogleService {
           console.log(error);
           this.loaderService.setLoading(false);
         }
-      } else { }
+      } else {
+        this.loaderService.setLoading(false);
+      }
     } else {
       console.log('Властивість `_tokenResponse` не знайдена у користувача');
       this.loaderService.setLoading(false);

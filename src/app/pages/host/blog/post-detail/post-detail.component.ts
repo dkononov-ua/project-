@@ -76,8 +76,8 @@ export class PostDetailComponent implements OnInit {
       description: this.truncateText(cleanedContent, 170), // Використовуємо очищений контент
       keywords: this.post.keywords || this.post.title,
       image: this.post.image,
-      canonical: 'https://discussio.site/' + this.post.slug,
-      url: 'https://discussio.site/' + this.post.slug,
+      canonical: 'https://discussio.com.ua/' + this.post.slug,
+      url: 'https://discussio.com.ua/' + this.post.slug,
     }
     this.updateMetaTagsService.updateMetaTags(data);
   }

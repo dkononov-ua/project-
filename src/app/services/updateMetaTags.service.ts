@@ -14,8 +14,8 @@ export class UpdateMetaTagsService {
   updateMetaTags(data: any): void {
     const defaultTitle = 'Discussio соціальна платформа для нерухомості';
     const defaultDescription = 'Діскусіо - платформа для пошуку та оренди перевірених осель. Розміщення оголошень про здачу в оренду осель та оголошень про пошук житла. Керування нерухомістю, створення автоматичних угод оренди. Ми створюємо спільноту орендодавців та орендарів, приєднуйтесь!.';
-    const defaultImage = 'https://discussio.site/assets/logo/discussio.png';
-    const defaultUrl = 'https://discussio.site/';
+    const defaultImage = 'https://discussio.com.ua/assets/logo/discussio.png';
+    const defaultUrl = 'https://discussio.com.ua/';
     const defaultOgType = 'website';
     const defaultTwitterCard = 'summary_large_image';
     const defaultAuthor = 'Discussio Team';

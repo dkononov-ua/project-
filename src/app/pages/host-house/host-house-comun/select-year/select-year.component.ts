@@ -23,9 +23,8 @@ import { animations } from '../../../../interface/animation';
 export class SelectYearComponent implements OnInit {
 
   loading = false;
-  // years = ['2024', '2023', '2022', '2021', '2020', '2019', '2018'];
   selectedMonth: any;
-  selectedYear!: any;
+  selectedYear!: number; // Чітке оголошення як число
   serviceYear: any;
 
   year1: boolean = true;
@@ -34,17 +33,21 @@ export class SelectYearComponent implements OnInit {
   constructor(
     private changeYearService: ChangeYearService,
     private sharedService: SharedService,
-  ) {  }
+  ) { }
 
   ngOnInit(): void {
+    // Підписка на зміну року через сервіс
     this.changeYearService.selectedYear$.subscribe(year => {
-      if (year) {
-        this.selectedYear = year;
+      const parsedYear = Number(year);
+      if (parsedYear && parsedYear >= 1900 && parsedYear <= 2100) {
+        this.selectedYear = parsedYear;
       } else {
-        this.selectedYear = new Date().getFullYear();
+        this.selectedYear = new Date().getFullYear(); // Резервне значення
       }
     });
-    if (this.selectedYear === undefined || this.selectedYear === null || this.selectedYear === 0 || this.selectedYear === '0') {
+
+    // Перевірка при першому завантаженні
+    if (!this.selectedYear || this.selectedYear < 1900 || this.selectedYear > 2100) {
       this.selectedYear = new Date().getFullYear();
     }
   }
@@ -55,20 +58,37 @@ export class SelectYearComponent implements OnInit {
   }
 
   prevYear() {
-    this.selectedYear--;
+    this.selectedYear = this.ensureYearValidity(this.selectedYear - 1); // Перевірка валідності
     this.onSelectionChangeYear(this.selectedYear.toString());
-    this.toogleYear()
+    this.toogleYear();
   }
 
   nextYear() {
-    this.selectedYear++;
+    this.selectedYear = this.ensureYearValidity(this.selectedYear + 1); // Перевірка валідності
     this.onSelectionChangeYear(this.selectedYear.toString());
-    this.toogleYear()
+    this.toogleYear();
   }
 
   onSelectionChangeYear(selectedYear: string): void {
-    localStorage.removeItem('comunal_inf');
-    this.changeYearService.setSelectedYear(selectedYear);
+    const parsedYear = Number(selectedYear);
+    if (parsedYear && parsedYear >= 1900 && parsedYear <= 2100) {
+      localStorage.removeItem('comunal_inf');
+      this.changeYearService.setSelectedYear(parsedYear.toString());
+    } else {
+      console.error('Некоректний рік:', selectedYear);
+    }
+  }
+
+  // Додаткова функція для перевірки валідності року
+  private ensureYearValidity(year: number): number {
+    if (year < 1900) {
+      console.warn('Рік не може бути меншим за 1900. Встановлено 1900.');
+      return 1900;
+    }
+    if (year > 2100) {
+      console.warn('Рік не може бути більшим за 2100. Встановлено 2100.');
+      return 2100;
+    }
+    return year;
   }
 }
-

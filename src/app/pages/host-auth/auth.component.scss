@@ -2,6 +2,13 @@
 @use "../../style/mixins/" as *;
 @use "../../style/shared.scss";
 
+.google-auth-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 10px;
+}
+
+
 .googleForm {
   display: flex;
   justify-content: center;

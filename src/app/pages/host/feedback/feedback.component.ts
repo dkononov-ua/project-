@@ -67,6 +67,7 @@ export class FeedbackComponent implements OnInit {
     { label: 'Профіль орендаря', icon: 'fa-solid fa-person-hiking' },
     { label: 'Керування оселею', icon: 'fa-solid fa-house-circle-check' },
     { label: 'Пропоную', icon: 'fa-solid fa-puzzle-piece' },
+    { label: 'Комунальні', icon: 'fa-solid fa-fire-flame-simple' },
   ]
   category: any;
   isMobile: boolean = false;

@@ -1,102 +1,92 @@
- <div class="menu-home">
-    <div class="category_home">
-      <a class="item-home"
-        [routerLinkActive]="'active'" [routerLink]="'/home'" (click)="closeToogleMenu()">
-        <picture>
-          <img [ngSrc]="path_logo" alt="logo" class="logo-img" width="50" height="50" priority>
-        </picture>
-        <div class="item-description">
-          <p class="t-min">Головна</p>
-        </div>
-      </a>
-    </div>
-
-
-    <div class="category_home">
-      <a class="item-home"
-        [routerLinkActive]="'active'" [routerLink]="'/about-project'" (click)="closeToogleMenu()">
-        <i class="fa-solid fa-barcode"></i>
-        <div class="item-description">
-          <p class="t-min">Проект</p>
-        </div>
-      </a>
-    </div>
-
-
-    <div class="category_home">
-      <a  class="item-home"
-        [routerLinkActive]="'active'" [routerLink]="'/user-licence'" (click)="closeToogleMenu()">
-        <i class="fa-solid fa-book-open-reader"></i>
-        <div class="item-description">
-          <p class="t-min">Оферта</p>
-        </div>
-      </a>
-    </div>
-
-
-    <div class="category_home">
-      <a class="item-home"
-        [routerLinkActive]="'active'" [routerLink]="'/support-us'" (click)="closeToogleMenu()">
-        <i class="fa-solid fa-hands-holding-child"></i>
-        <div class="item-description">
-          <p class="t-min">Підтрим.</p>
-        </div>
-      </a>
-    </div>
-
-
-    <div class="category_home">
-      <a class="item-home"
-        [routerLinkActive]="'active'" [routerLink]="'/our-team'" (click)="closeToogleMenu()">
-        <i class="fa-solid fa-hand-fist"></i>
-        <div class="item-description">
-          <p class="t-min">Команда</p>
-        </div>
-      </a>
-    </div>
-
-
-    <div class="category_home">
-      <a class="item-home"
-        [routerLinkActive]="'active'" [routerLink]="'/blog'" (click)="closeToogleMenu()">
-        <i class="fa-solid fa-blog"></i>
-        <div class="item-description">
-          <p class="t-min">Блог</p>
-        </div>
-      </a>
-    </div>
-
-
-    <div class="category_home">
-      <a class="item-home"
-        [routerLinkActive]="'active'" [routerLink]="'/auth/registration'" (click)="closeToogleMenu()">
-        <i class="fa-solid fa-person-walking-dashed-line-arrow-right"></i>
-        <div class="item-description">
-          <p class="t-min">Реєстр.</p>
-        </div>
-      </a>
-    </div>
-
-
-    <div class="category_home">
-      <a class="item-home"
-        [routerLinkActive]="'active'" [routerLink]="'/contacts'" (click)="closeToogleMenu()">
-        <i class="fa-solid fa-briefcase"></i>
-        <div class="item-description">
-          <p class="t-min">Співпраця</p>
-        </div>
-      </a>
-    </div>
-
-    <div class="category_home">
-      <a class="item-home"
-        [routerLinkActive]="'active'" [routerLink]="'/faq'" (click)="closeToogleMenu()">
-        <i class="fa-regular fa-circle-question"></i>
-        <div class="item-description">
-          <p class="t-min">F.A.Q</p>
-        </div>
-      </a>
-    </div>
-
+<div class="menu-home">
+  <div class="category_home">
+    <a class="item-home" href="https://discussio.com.ua" (click)="closeToogleMenu()">
+      <picture>
+        <img [ngSrc]="path_logo" alt="logo" class="logo-img" width="50" height="50" priority>
+      </picture>
+      <div class="item-description">
+        <p class="t-min">Головна</p>
+      </div>
+    </a>
   </div>
 
+
+  <div class="category_home">
+    <a class="item-home" [routerLinkActive]="'active'" [routerLink]="'/about-project'" (click)="closeToogleMenu()">
+      <i class="fa-solid fa-barcode"></i>
+      <div class="item-description">
+        <p class="t-min">Проект</p>
+      </div>
+    </a>
+  </div>
+
+
+  <div class="category_home">
+    <a class="item-home" [routerLinkActive]="'active'" [routerLink]="'/user-licence'" (click)="closeToogleMenu()">
+      <i class="fa-solid fa-book-open-reader"></i>
+      <div class="item-description">
+        <p class="t-min">Оферта</p>
+      </div>
+    </a>
+  </div>
+
+
+  <div class="category_home">
+    <a class="item-home" [routerLinkActive]="'active'" [routerLink]="'/support-us'" (click)="closeToogleMenu()">
+      <i class="fa-solid fa-hands-holding-child"></i>
+      <div class="item-description">
+        <p class="t-min">Підтрим.</p>
+      </div>
+    </a>
+  </div>
+
+
+  <div class="category_home">
+    <a class="item-home" [routerLinkActive]="'active'" [routerLink]="'/our-team'" (click)="closeToogleMenu()">
+      <i class="fa-solid fa-hand-fist"></i>
+      <div class="item-description">
+        <p class="t-min">Команда</p>
+      </div>
+    </a>
+  </div>
+
+
+  <div class="category_home">
+    <a class="item-home" [routerLinkActive]="'active'" [routerLink]="'/blog'" (click)="closeToogleMenu()">
+      <i class="fa-solid fa-blog"></i>
+      <div class="item-description">
+        <p class="t-min">Блог</p>
+      </div>
+    </a>
+  </div>
+
+
+  <div class="category_home">
+    <a class="item-home" [routerLinkActive]="'active'" [routerLink]="'/auth/registration'" (click)="closeToogleMenu()">
+      <i class="fa-solid fa-person-walking-dashed-line-arrow-right"></i>
+      <div class="item-description">
+        <p class="t-min">Реєстр.</p>
+      </div>
+    </a>
+  </div>
+
+
+  <div class="category_home">
+    <a class="item-home" [routerLinkActive]="'active'" [routerLink]="'/contacts'" (click)="closeToogleMenu()">
+      <i class="fa-solid fa-briefcase"></i>
+      <div class="item-description">
+        <p class="t-min">Співпраця</p>
+      </div>
+    </a>
+  </div>
+
+  <div class="category_home">
+    <a class="item-home" [routerLinkActive]="'active'" [routerLink]="'/faq'" (click)="closeToogleMenu()">
+      <i class="fa-regular fa-circle-question"></i>
+      <div class="item-description">
+        <p class="t-min">F.A.Q</p>
+      </div>
+    </a>
+  </div>
+
+</div>

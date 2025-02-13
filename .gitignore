@@ -6,6 +6,8 @@
 /out-tsc
 /bazel-out
 /assets
+/src/app/config/api.ts
+/src/app/config/firebase.ts
 
 # Node
 /node_modules

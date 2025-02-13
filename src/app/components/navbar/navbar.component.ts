@@ -154,14 +154,14 @@ export class NavbarComponent implements OnInit, OnDestroy {
         author: config.metaAuthor,
         canonical: config.metaCanonical,
         themeColor: config.metaThemeColor,
-        url: 'https://discussio.site' + this.currentLocation,
+        url: 'https://discussio.com.ua' + this.currentLocation,
 
         jsonLd: {
           "@context": "https://schema.org",
           "@type": "WebPage",
           "name": `Пошук орендаря у ${cityName} - Discussio`,
           "description": `Знайдіть орендаря у ${cityName}. Discussio допоможе вам швидко та ефективно.`,
-          "url": `https://discussio.site/search-tenants/${cityName.toLowerCase()}`
+          "url": `https://discussio.com.ua/search-tenants/${cityName.toLowerCase()}`
         }
       }
       this.updateMetaTagsService.updateMetaTags(data)
@@ -175,13 +175,13 @@ export class NavbarComponent implements OnInit, OnDestroy {
         author: config.metaAuthor,
         canonical: config.metaCanonical,
         themeColor: config.metaThemeColor,
-        url: 'https://discussio.site' + this.currentLocation,
+        url: 'https://discussio.com.ua' + this.currentLocation,
         jsonLd: {
           "@context": "https://schema.org",
           "@type": "WebPage",
           "name": `Пошук орендаря у ${cityName} - Discussio`,
           "description": `Знайдіть орендаря у ${cityName}. Discussio допоможе вам швидко та ефективно.`,
-          "url": `https://discussio.site/search-tenants/${cityName.toLowerCase()}`
+          "url": `https://discussio.com.ua/search-tenants/${cityName.toLowerCase()}`
         }
       }
       this.updateMetaTagsService.updateMetaTags(data)

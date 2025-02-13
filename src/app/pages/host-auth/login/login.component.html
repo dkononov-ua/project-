@@ -6,22 +6,26 @@
 <h2 [@appearance] class="bold t-c m-2">Вхід в аккаунт</h2>
 
 <div [@appearance] class="form" *ngIf="!logForm">
-
-  <div class="t-med t-c mt-3">Якщо у вас є Google аккаунт увійдіть за допомогою його
+  <div class="t-med t-c mt-3">
+    Якщо у вас є Google аккаунт, увійдіть за допомогою нього
   </div>
 
   <button class="b-primary mi-wi-250 mt-2" (click)="openGoogleAuth()">
-    Увійти з гугл <i class="fa-brands fa-google pl-2"></i>
+    Увійти з Google <i class="fa-brands fa-google pl-2"></i>
   </button>
 
+  <!-- Контейнер для Google One Tap -->
+  <!-- <div id="google-one-tap-container" class="google-auth-container mt-3"></div> -->
+
   <div class="t-med t-c mt-3">
-    Якщо немає то увійдіть через форму
+    Якщо немає, то увійдіть через форму
   </div>
 
   <button class="b-primary mi-wi-250 mt-2" (click)="toogleForm()">
     Вхід через форму <i class="fa-solid fa-right-to-bracket pl-2"></i>
   </button>
 </div>
+
 
 <form [@appearance] class="form" [formGroup]="loginForm" *ngIf="logForm">
 

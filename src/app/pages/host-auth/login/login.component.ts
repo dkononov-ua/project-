@@ -13,6 +13,8 @@ import { DataService } from 'src/app/services/data.service';
 import { StatusDataService } from 'src/app/services/status-data.service';
 import { LoaderService } from 'src/app/services/loader.service';
 import { AuthGoogleService } from '../auth-google.service';
+import { getAuth, getRedirectResult, GoogleAuthProvider, signInWithRedirect } from 'firebase/auth';
+import { GoogleAuthService } from './googleAuth.service';
 
 @Component({
   selector: 'app-login',
@@ -81,7 +83,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   authorization: boolean = false;
 
   logForm: boolean = false;
-
+  googleUser: any;
   toogleForm() {
     this.logForm = !this.logForm;
   }
@@ -100,6 +102,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     private dataService: DataService,
     private statusDataService: StatusDataService,
     private loaderService: LoaderService,
+    private googleAuthService: GoogleAuthService
   ) { }
 
   ngOnDestroy() {
@@ -111,6 +114,16 @@ export class LoginComponent implements OnInit, OnDestroy {
     this.getServerPath();
     this.checkUserAuthorization();
     this.initializeForm();
+  }
+
+  openGoogleAuth2() {
+    this.googleAuthService.initOneTapLogin('google-one-tap-container', (userData) => {
+      this.googleUser = userData;
+    });
+  }
+
+  openGoogleAuth() {
+    this.authGoogleService.singAuthGoogle('login');
   }
 
   // Перевірка на авторизацію користувача
@@ -141,9 +154,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     );
   }
 
-  openGoogleAuth() {
-    this.authGoogleService.singAuthGoogle('login');
-  }
+
 
   async login(): Promise<void> {
     this.loaderService.setLoading(true);

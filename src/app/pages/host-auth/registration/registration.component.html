@@ -5,8 +5,12 @@
 
 <div [@appearance] *ngIf="indexBtn === 1">
   <h2 class="bold t-c m-2">Реєстрація</h2>
-  <p class="t-med p-2 t-c">Реєструючись ви погоджуєтесь з <a class="bold" [routerLinkActive]="'active'"
-      [routerLink]="'/user-licence'">угодою користувача</a></p>
+  <p class="t-med p-2 t-c">Реєструючись ви погоджуєтесь з 
+
+      <a class="bold " target="_blank" href="https://discussio.site/user-licence">
+        <div class="t-min pl-2 accent">угодою користувача</div>
+      </a>
+    </p>
 
 </div>
 

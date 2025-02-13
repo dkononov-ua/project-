@@ -33,5 +33,5 @@ Allow: /house/communal/about
 Allow: /search/tenant
 Allow: /search/house
 
-Sitemap: https://discussio.site/sitemap.xml
+Sitemap: https://discussio.com.ua/sitemap.xml
 
